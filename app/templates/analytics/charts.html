@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="fw-bold mb-4">
+
+        Analytics Charts
+
+    </h2>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <canvas id="scoreChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const labels = {{ charts.labels|tojson }};
+
+const scores = {{ charts.scores|tojson }};
+
+new Chart(
+
+document.getElementById("scoreChart"),
+
+{
+
+type:"line",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+label:"Security Score",
+
+data:scores,
+
+fill:false,
+
+borderWidth:3
+
+}]
+
+}
+
+}
+
+);
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+<div class="card shadow mb-4">
+
+    <div class="card-header bg-danger text-white">
+
+        <h5>💡 Security Recommendations</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if result.recommendations %}
+
+        {% for item in result.recommendations %}
+
+        <div class="alert alert-warning">
+
+            <h5>
+
+                {{ item.title }}
+
+            </h5>
+
+            <hr>
+
+            <strong>Severity:</strong>
+
+            {{ item.severity }}
+
+            <br><br>
+
+            <strong>Problem:</strong>
+
+            {{ item.problem }}
+
+            <br><br>
+
+            <strong>Impact:</strong>
+
+            {{ item.impact }}
+
+            <br><br>
+
+            <strong>Recommendation:</strong>
+
+            {{ item.recommendation }}
+
+        </div>
+
+        {% endfor %}
+
+        {% else %}
+
+        <div class="alert alert-success">
+
+            🎉 No security recommendations.
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>

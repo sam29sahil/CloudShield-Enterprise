@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Findings
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                Security Findings
+
+            </h2>
+
+            <p class="text-muted">
+
+                Review vulnerabilities discovered during security scans.
+
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('scanner.home') }}"
+           class="btn btn-primary">
+
+            <i class="bi bi-search"></i>
+
+            New Scan
+
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <input
+                        type="text"
+                        id="findingSearch"
+                        class="form-control"
+                        placeholder="Search findings...">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Tool</th>
+
+                            <th>Category</th>
+
+                            <th>Target</th>
+
+                            <th>Severity</th>
+
+                            <th>Findings</th>
+
+                            <th>Score</th>
+
+                            <th>Status</th>
+
+                            <th>Report</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% if scans %}
+
+                        {% for scan in scans %}
+
+                        <tr>
+
+                            <td>
+
+                                #{{ scan.id }}
+
+                            </td>
+
+                            <td>
+
+                                {{ scan.tool }}
+
+                            </td>
+
+                            <td>
+
+                                {{ scan.category }}
+
+                            </td>
+
+                            <td>
+
+                                {{ scan.target }}
+
+                            </td>
+
+                            <td>
+
+                                {% if scan.risk=="Critical" %}
+
+                                    <span class="badge bg-dark">
+
+                                        Critical
+
+                                    </span>
+
+                                {% elif scan.risk=="High" %}
+
+                                    <span class="badge bg-danger">
+
+                                        High
+
+                                    </span>
+
+                                {% elif scan.risk=="Medium" %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        Medium
+
+                                    </span>
+
+                                {% elif scan.risk=="Low" %}
+
+                                    <span class="badge bg-success">
+
+                                        Low
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+
+                                        Unknown
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+<small>
+
+{% set data = scan.parsed_output | from_json %}
+
+{{ data.findings|replace('\n','<br>')|safe }}
+
+</small>
+
+</td>
+
+<td>
+
+<strong>
+
+{{ scan.score }}
+
+</strong>
+
+</td>
+
+                            <td>
+
+                                {% if scan.status=="Completed" %}
+
+                                    <span class="badge bg-success">
+
+                                        Completed
+
+                                    </span>
+
+                                {% elif scan.status=="Running" %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        Running
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-danger">
+
+                                        Failed
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <a href="{{ url_for('reports.view', scan_id=scan.id) }}"
+                                   class="btn btn-primary btn-sm">
+
+                                    <i class="bi bi-eye"></i>
+
+                                    View
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="8"
+                                class="text-center py-5">
+
+                                <i class="bi bi-shield-exclamation display-3 text-secondary"></i>
+
+                                <h4 class="mt-3">
+
+                                    No Findings Available
+
+                                </h4>
+
+                                <p class="text-muted">
+
+                                    Run a security scan to generate findings.
+
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("findingSearch").addEventListener(
+
+"keyup",
+
+function(){
+
+let value=this.value.toLowerCase();
+
+document.querySelectorAll("tbody tr").forEach(function(row){
+
+row.style.display=row.innerText.toLowerCase().includes(value)
+
+? ""
+
+: "none";
+
+});
+
+});
+
+</script>
+
+{% endblock %}

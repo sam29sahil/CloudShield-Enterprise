@@ -1,0 +1,89 @@
+<div class="card shadow mb-4">
+
+    <div class="card-header bg-warning">
+
+        <h5>📄 WHOIS Information</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if result.whois.success %}
+
+        <table class="table table-bordered">
+
+            <tr>
+
+                <th>Registrar</th>
+
+                <td>{{ result.whois.registrar }}</td>
+
+            </tr>
+
+            <tr>
+
+                <th>Creation Date</th>
+
+                <td>{{ result.whois.creation_date }}</td>
+
+            </tr>
+
+            <tr>
+
+                <th>Expiration Date</th>
+
+                <td>{{ result.whois.expiration_date }}</td>
+
+            </tr>
+
+            <tr>
+
+                <th>Updated Date</th>
+
+                <td>{{ result.whois.updated_date }}</td>
+
+            </tr>
+
+            <tr>
+
+                <th>Name Servers</th>
+
+                <td>
+
+                    {% if result.whois.name_servers %}
+
+                        {% for ns in result.whois.name_servers %}
+
+                            {{ ns }}<br>
+
+                        {% endfor %}
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>Status</th>
+
+                <td>{{ result.whois.status }}</td>
+
+            </tr>
+
+        </table>
+
+        {% else %}
+
+        <div class="alert alert-danger">
+
+            {{ result.whois.error }}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
