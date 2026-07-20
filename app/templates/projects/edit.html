@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                Edit Project
+
+            </h2>
+
+            <p class="text-muted">
+
+                Update project information.
+
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('projects.home') }}"
+           class="btn btn-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back
+
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+
+                    {{ form.name.label(class="form-label") }}
+
+                    {{ form.name(class="form-control") }}
+
+                </div>
+
+                <div class="mb-3">
+
+                    {{ form.description.label(class="form-label") }}
+
+                    {{ form.description(class="form-control", rows="4") }}
+
+                </div>
+
+                <div class="mb-4">
+
+                    {{ form.owner.label(class="form-label") }}
+
+                    {{ form.owner(class="form-control") }}
+
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a href="{{ url_for('projects.home') }}"
+                       class="btn btn-outline-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        Update Project
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

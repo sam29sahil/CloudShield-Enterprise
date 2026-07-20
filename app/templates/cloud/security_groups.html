@@ -1,0 +1,231 @@
+{% extends "cloud/base.html" %}
+
+{% block cloud_title %}
+
+<i class="bi bi-shield-lock-fill text-danger"></i>
+
+Security Groups
+
+{% endblock %}
+
+{% block cloud_subtitle %}
+
+Monitor AWS Security Groups and firewall rules.
+
+{% endblock %}
+
+{% block breadcrumb %}
+
+Security Groups
+
+{% endblock %}
+
+{% block cloud_content %}
+
+<div class="row g-4 mb-4">
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+
+                    Security Groups
+
+                </small>
+
+                <h2 class="fw-bold text-white">
+
+                    {{ data.total_groups if data.success else 0 }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+
+                    High Risk
+
+                </small>
+
+                <h2 class="fw-bold text-danger">
+
+                    {{ data.high }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+
+                    Medium Risk
+
+                </small>
+
+                <h2 class="fw-bold text-warning">
+
+                    {{ data.medium }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+
+                    Low Risk
+
+                </small>
+
+                <h2 class="fw-bold text-success">
+
+                    {{ data.low }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card dashboard-card border-0 shadow">
+
+    <div class="card-header">
+
+        <h5 class="mb-0 text-white">
+
+            Security Groups
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Group ID</th>
+
+                        <th>Description</th>
+
+                        <th>VPC</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% if data.success %}
+
+                    {% for group in data.groups %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ group.GroupName }}
+
+                        </td>
+
+                        <td>
+
+                            {{ group.GroupId }}
+
+                        </td>
+
+                        <td>
+
+                            {{ group.Description }}
+
+                        </td>
+
+                        <td>
+
+                            {{ group.VpcId }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center py-5">
+
+                            <i class="bi bi-shield-lock display-4 text-secondary"></i>
+
+                            <h5 class="mt-3">
+
+                                {{ data.error }}
+
+                            </h5>
+
+                            <p class="text-secondary">
+
+                                Configure AWS credentials to display Security Groups.
+
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

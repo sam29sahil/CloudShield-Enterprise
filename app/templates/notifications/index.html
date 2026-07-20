@@ -1,0 +1,656 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% block styles %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/notifications.css') }}">
+{% endblock %}
+
+<div class="container-fluid py-4">
+
+    <!-- ============================== -->
+    <!-- Header -->
+    <!-- ============================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-bell-fill text-warning"></i>
+
+                Notification Center
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Monitor security alerts, scan updates and system events.
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <a href="{{ url_for('notifications.read_all') }}"
+               class="btn btn-success">
+
+                <i class="bi bi-check2-all"></i>
+
+                Mark All Read
+
+            </a>
+
+            <a href="{{ url_for('notifications.delete_all') }}"
+               class="btn btn-danger">
+
+                <i class="bi bi-trash3"></i>
+
+                Delete All
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ============================== -->
+    <!-- Statistics -->
+    <!-- ============================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <small class="text-muted">
+
+                                Total Notifications
+
+                            </small>
+
+                            <h2 class="fw-bold mt-2">
+
+                                {{ notifications|length }}
+
+                            </h2>
+
+                        </div>
+
+                        <i class="bi bi-bell-fill display-5 text-primary"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <small class="text-muted">
+
+                                Unread
+
+                            </small>
+
+                            <h2 class="fw-bold mt-2 text-danger">
+
+                                {{ unread }}
+
+                            </h2>
+
+                        </div>
+
+                        <i class="bi bi-envelope-fill display-5 text-danger"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <small class="text-muted">
+
+                                Critical
+
+                            </small>
+
+                            <h2 class="fw-bold mt-2 text-dark">
+
+                                {{ critical }}
+
+                            </h2>
+
+                        </div>
+
+                        <i class="bi bi-exclamation-octagon-fill display-5 text-dark"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <small class="text-muted">
+
+                                Today
+
+                            </small>
+
+                            <h2 class="fw-bold mt-2 text-success">
+
+                                {{ today }}
+
+                            </h2>
+
+                        </div>
+
+                        <i class="bi bi-calendar-check-fill display-5 text-success"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row mb-3">
+
+    <div class="col-md-4">
+
+        <input
+            id="notificationSearch"
+            class="form-control"
+            placeholder="Search notifications...">
+
+    </div>
+
+</div>
+
+    <!-- ============================== -->
+    <!-- Filter -->
+    <!-- ============================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <div class="btn-group">
+
+                <button class="btn btn-primary">
+
+                    All
+
+                </button>
+
+                <button class="btn btn-outline-primary">
+
+                    Unread
+
+                </button>
+
+                <button class="btn btn-outline-danger">
+
+                    Critical
+
+                </button>
+
+                <button class="btn btn-outline-warning">
+
+                    High
+
+                </button>
+
+                <button class="btn btn-outline-success">
+
+                    Read
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+        <!-- ===================================== -->
+    <!-- Notification Timeline -->
+    <!-- ===================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                <i class="bi bi-list-ul text-primary"></i>
+
+                Recent Notifications
+
+            </h5>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            {% if notifications %}
+
+            {% for notification in notifications %}
+
+            <div class="border-bottom p-4 notification-item {% if not notification.is_read %}notification-unread{% endif %}">
+
+                <div class="row align-items-center">
+
+                    <!-- Icon -->
+
+                    <div class="col-auto">
+
+                        {% if notification.severity=="Critical" %}
+
+                        <div class="notification-icon bg-dark">
+
+                            <i class="bi bi-exclamation-octagon-fill text-white"></i>
+
+                        </div>
+
+                        {% elif notification.severity=="High" %}
+
+                        <div class="notification-icon bg-danger">
+
+                            <i class="bi bi-exclamation-triangle-fill text-white"></i>
+
+                        </div>
+
+                        {% elif notification.severity=="Medium" %}
+
+                        <div class="notification-icon bg-warning">
+
+                            <i class="bi bi-info-circle-fill text-dark"></i>
+
+                        </div>
+
+                        {% elif notification.severity=="Low" %}
+
+                        <div class="notification-icon bg-primary">
+
+                            <i class="bi bi-bell-fill text-white"></i>
+
+                        </div>
+
+                        {% else %}
+
+                        <div class="notification-icon bg-success">
+
+                            <i class="bi bi-check-circle-fill text-white"></i>
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+                    <!-- Content -->
+
+                    <div class="col">
+
+                        <div class="d-flex justify-content-between">
+
+                            <h5 class="mb-1">
+
+                                {{ notification.title }}
+
+                            </h5>
+
+                            <small class="text-muted">
+
+                                {{ notification.created_at.strftime("%d %b %Y %H:%M") }}
+
+                            </small>
+
+                        </div>
+
+                        <p class="mb-2 text-muted">
+
+                            {{ notification.message }}
+
+                        </p>
+
+                        <div>
+
+                            {% if notification.severity=="Critical" %}
+
+                            <span class="badge bg-dark">
+
+                                Critical
+
+                            </span>
+
+                            {% elif notification.severity=="High" %}
+
+                            <span class="badge bg-danger">
+
+                                High
+
+                            </span>
+
+                            {% elif notification.severity=="Medium" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                Medium
+
+                            </span>
+
+                            {% elif notification.severity=="Low" %}
+
+                            <span class="badge bg-primary">
+
+                                Low
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-success">
+
+                                Info
+
+                            </span>
+
+                            {% endif %}
+
+                            {% if notification.is_read %}
+
+                            <span class="badge bg-success">
+
+                                Read
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-secondary">
+
+                                Unread
+
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                    <!-- Actions -->
+
+                    <div class="col-auto">
+
+                        {% if not notification.is_read %}
+
+                        <a href="{{ url_for('notifications.read', id=notification.id) }}"
+                           class="btn btn-sm btn-success">
+
+                            <i class="bi bi-check2"></i>
+
+                        </a>
+
+                        {% endif %}
+
+                        <a href="{{ url_for('notifications.delete',id=notification.id) }}"
+                           class="btn btn-sm btn-outline-danger">
+
+                            <i class="bi bi-trash"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+            {% else %}
+
+            <div class="text-center py-5">
+
+                <i class="bi bi-bell-slash display-1 text-secondary"></i>
+
+                <h4 class="mt-4">
+
+                    No Notifications
+
+                </h4>
+
+                <p class="text-muted">
+
+                    Your notification center is currently empty.
+
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+        <!-- ===================================== -->
+    <!-- Bottom Dashboard -->
+    <!-- ===================================== -->
+
+    <div class="row mt-4">
+
+        <!-- Security Summary -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="bi bi-shield-check text-success"></i>
+
+                        Notification Summary
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-borderless mb-0">
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>Total Notifications</td>
+
+                                <td class="text-end fw-bold">
+
+                                    {{ notifications|length }}
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Unread</td>
+
+                                <td class="text-end text-danger fw-bold">
+
+                                    {{ unread }}
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Critical Alerts</td>
+
+                                <td class="text-end text-dark fw-bold">
+
+                                    {{ critical }}
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Today's Notifications</td>
+
+                                <td class="text-end text-success fw-bold">
+
+                                    {{ today }}
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Quick Actions -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="bi bi-lightning-charge-fill text-warning"></i>
+
+                        Quick Actions
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="d-grid gap-2">
+
+                        <a href="{{ url_for('scanner.home') }}"
+                           class="btn btn-outline-primary">
+
+                            <i class="bi bi-search"></i>
+
+                            Start New Scan
+
+                        </a>
+
+                        <a href="{{ url_for('reports.index') }}"
+                           class="btn btn-outline-success">
+
+                            <i class="bi bi-file-earmark-pdf"></i>
+
+                            View Reports
+
+                        </a>
+
+                        <a href="{{ url_for('analytics.index') }}"
+                           class="btn btn-outline-info">
+
+                            <i class="bi bi-graph-up"></i>
+
+                            Analytics Dashboard
+
+                        </a>
+
+                        <a href="{{ url_for('settings.index') }}"
+                           class="btn btn-outline-secondary">
+
+                            <i class="bi bi-gear"></i>
+
+                            Settings
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+
+    <div class="text-center text-muted mt-5 mb-3">
+
+        <small>
+
+            CloudShield Enterprise v1.0 • Notification Center
+
+        </small>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
+
+{% endblock %}

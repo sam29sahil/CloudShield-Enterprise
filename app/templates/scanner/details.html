@@ -1,0 +1,1101 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/scanner.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="scanner-page">
+
+<div class="container-fluid">
+
+<!-- ========================================= -->
+<!-- HERO -->
+<!-- ========================================= -->
+
+<div class="report-hero">
+
+    <div class="d-flex justify-content-between align-items-start flex-wrap">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-shield-check text-primary"></i>
+                CloudShield Enterprise
+            </h2>
+
+            <h4 class="text-muted mb-3">
+                Security Assessment Report
+            </h4>
+
+            <div class="mb-2">
+
+                <span class="badge bg-dark fs-6">
+
+                    {{ scan.target }}
+
+                </span>
+
+            </div>
+
+            <div class="mt-3">
+
+                {% if scan.status=="Completed" %}
+
+                    <span class="badge bg-success">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        Completed
+
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-warning">
+
+                        {{ scan.status }}
+
+                    </span>
+
+                {% endif %}
+
+                {% if scan.risk=="Critical" %}
+
+                    <span class="badge bg-danger">
+
+                        Critical Risk
+
+                    </span>
+
+                {% elif scan.risk=="High" %}
+
+                    <span class="badge bg-warning text-dark">
+
+                        High Risk
+
+                    </span>
+
+                {% elif scan.risk=="Medium" %}
+
+                    <span class="badge bg-info text-dark">
+
+                        Medium Risk
+
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-success">
+
+                        Low Risk
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap">
+
+            <a href="{{ url_for('scanner.history') }}"
+               class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left"></i>
+
+                History
+
+            </a>
+
+            <a href="{{ url_for('reports.pdf',scan_id=scan.id) }}"
+               class="btn btn-danger">
+
+                <i class="bi bi-file-earmark-pdf"></i>
+
+                PDF
+
+            </a>
+
+            <a href="{{ url_for('reports.csv',scan_id=scan.id) }}"
+               class="btn btn-success">
+
+                <i class="bi bi-file-earmark-spreadsheet"></i>
+
+                CSV
+
+            </a>
+
+            <a href="{{ url_for('reports.json_report',scan_id=scan.id) }}"
+               class="btn btn-primary">
+
+                <i class="bi bi-filetype-json"></i>
+
+                JSON
+
+            </a>
+
+            <button
+                onclick="window.print()"
+                class="btn btn-dark">
+
+                <i class="bi bi-printer"></i>
+
+                Print
+
+            </button>
+
+            <a href="{{ url_for('scanner.delete_scan',scan_id=scan.id) }}"
+               class="btn btn-outline-danger"
+               onclick="return confirm('Delete this scan?')">
+
+                <i class="bi bi-trash"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="row mt-4 g-4">
+
+    <div class="col-lg-3">
+
+        <div class="metric-card">
+
+            <div class="metric-title">
+
+                Security Score
+
+            </div>
+
+            <h2>{{ scan.score }}/100</h2>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3">
+
+        <div class="metric-card">
+
+            <div class="metric-title">
+
+                Risk Level
+
+            </div>
+
+            <h2>{{ scan.risk }}</h2>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3">
+
+        <div class="metric-card">
+
+            <div class="metric-title">
+
+                Findings
+
+            </div>
+
+            <h2>{{ findings|length }}</h2>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3">
+
+        <div class="metric-card">
+
+            <div class="metric-title">
+
+                Duration
+
+            </div>
+
+            <h2>{{ "%.2f"|format(scan.duration) }} s</h2>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="card shadow-sm border-0 mt-4">
+
+    <div class="card-header bg-primary text-white">
+
+        <h5 class="mb-0">
+
+            <i class="bi bi-globe2"></i>
+
+            Website Analysis
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+
+                <strong>Target URL</strong>
+
+                <p>{{ report.website.url or scan.target }}</p>
+
+            </div>
+
+            <div class="col-md-3 mb-3">
+
+                <strong>HTTP Status</strong>
+
+                <p>
+
+                    <span class="badge bg-success">
+
+                        {{ report.website.status_code }}
+
+                    </span>
+
+                </p>
+
+            </div>
+
+            <div class="col-md-3 mb-3">
+
+                <strong>HTTPS</strong>
+
+                <p>
+
+                {% if report.website.https %}
+
+                    <span class="badge bg-success">
+
+                        Enabled
+
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-danger">
+
+                        Disabled
+
+                    </span>
+
+                {% endif %}
+
+                </p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <strong>Response Time</strong>
+
+                <p>{{ report.website.response_time }} sec</p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <strong>Redirects</strong>
+
+                <p>{{ report.website.redirects }}</p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <strong>Server</strong>
+
+                <p>{{ report.website.server or "Unknown" }}</p>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <strong>Powered By</strong>
+
+                <p>{{ report.website.powered_by or "Not Detected" }}</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="card shadow-sm border-0 mt-4">
+
+<div class="card-header bg-dark text-white">
+
+<h5 class="mb-0">
+
+<i class="bi bi-shield-lock"></i>
+
+Security Headers
+
+</h5>
+
+</div>
+
+<div class="card-body">
+
+<table class="table table-hover align-middle">
+
+<thead>
+
+<tr>
+
+<th>Header</th>
+
+<th>Status</th>
+
+<th>Severity</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for header in report.headers %}
+
+<tr>
+
+<td>{{ header.name }}</td>
+
+<td>
+
+{% if header.present %}
+
+<span class="badge bg-success">
+
+Present
+
+</span>
+
+{% else %}
+
+<span class="badge bg-danger">
+
+Missing
+
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if header.risk=="High" %}
+
+<span class="badge bg-danger">
+
+High
+
+</span>
+
+{% elif header.risk=="Medium" %}
+
+<span class="badge bg-warning text-dark">
+
+Medium
+
+</span>
+
+{% else %}
+
+<span class="badge bg-success">
+
+Low
+
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+<div class="card shadow-sm border-0 mt-4">
+
+<div class="card-header bg-success text-white">
+
+<h5 class="mb-0">
+
+<i class="bi bi-lock-fill"></i>
+
+SSL / TLS Information
+
+</h5>
+
+</div>
+
+<div class="card-body">
+
+<div class="row">
+
+<div class="col-md-4 mb-3">
+
+<strong>Issuer</strong>
+
+<p>{{ report.ssl.issuer or "Unknown" }}</p>
+
+</div>
+
+<div class="col-md-4 mb-3">
+
+<strong>Subject</strong>
+
+<p>{{ report.ssl.subject or "Unknown" }}</p>
+
+</div>
+
+<div class="col-md-4 mb-3">
+
+<strong>Status</strong>
+
+<p>
+
+{% if report.ssl.valid %}
+
+<span class="badge bg-success">
+
+Valid
+
+</span>
+
+{% else %}
+
+<span class="badge bg-danger">
+
+Invalid
+
+</span>
+
+{% endif %}
+
+</p>
+
+</div>
+
+<div class="col-md-4">
+
+<strong>TLS Version</strong>
+
+<p>{{ report.ssl.version or "Unavailable" }}</p>
+
+</div>
+
+<div class="col-md-4">
+
+<strong>Cipher</strong>
+
+<p>{{ report.ssl.cipher or "Unavailable" }}</p>
+
+</div>
+
+<div class="col-md-4">
+
+<strong>Expiry</strong>
+
+<p>{{ report.ssl.valid_until or "Unavailable" }}</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="card shadow-sm border-0 mt-4">
+
+    <div class="card-header bg-info text-white">
+
+        <h5>
+
+            <i class="bi bi-diagram-3"></i>
+
+            DNS Records
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if report.dns %}
+
+            {% for record,value in report.dns.items() %}
+
+                <div class="mb-4">
+
+                    <h6 class="fw-bold">
+
+                        {{ record }}
+
+                    </h6>
+
+                    {% if value %}
+
+                        <ul class="list-group">
+
+                        {% if value is iterable and value is not string %}
+
+                            {% for item in value %}
+
+                                <li class="list-group-item">
+
+                                    {{ item }}
+
+                                </li>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                            <li class="list-group-item">
+
+                                {{ value }}
+
+                            </li>
+
+                        {% endif %}
+
+                        </ul>
+
+                    {% else %}
+
+                        <p class="text-muted">
+
+                            No Records
+
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="text-muted">
+
+                DNS information unavailable.
+
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+<div class="card shadow-sm border-0 mt-4">
+
+<div class="card-header bg-secondary text-white">
+
+<h5>
+
+<i class="bi bi-person-vcard"></i>
+
+WHOIS Information
+
+</h5>
+
+</div>
+
+<div class="card-body">
+
+<div class="row">
+
+{% for key,value in report.whois.items() %}
+
+<div class="col-md-4 mb-3">
+
+<strong>
+
+{{ key.replace("_"," ").title() }}
+
+</strong>
+
+<p>
+
+{% if value %}
+
+{{ value }}
+
+{% else %}
+
+Not Available
+
+{% endif %}
+
+</p>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+<div class="card shadow-sm border-0 mt-4">
+
+<div class="card-header bg-warning">
+
+<h5>
+
+<i class="bi bi-cpu"></i>
+
+Technology Detection
+
+</h5>
+
+</div>
+
+<div class="card-body">
+
+{% if report.technology %}
+
+<div class="d-flex flex-wrap gap-2">
+
+{% for tech in report.technology %}
+
+<span class="badge bg-dark">
+
+{{ tech }}
+
+</span>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="alert alert-light border">
+
+No technologies detected.
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+<div class="card shadow-sm border-0 mt-4">
+
+<div class="card-header bg-danger text-white">
+
+<h5>
+
+<i class="bi bi-hdd-network"></i>
+
+Open Ports
+
+</h5>
+
+</div>
+
+<div class="card-body">
+
+{% if report.ports %}
+
+<table class="table table-hover">
+
+<thead>
+
+<tr>
+
+<th>Port</th>
+
+<th>Protocol</th>
+
+<th>Service</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for port in report.ports %}
+
+<tr>
+
+<td>
+
+{{ port.port }}
+
+</td>
+
+<td>
+
+{{ port.protocol }}
+
+</td>
+
+<td>
+
+{{ port.service }}
+
+</td>
+
+<td>
+
+<span class="badge bg-success">
+
+{{ port.status }}
+
+</span>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% else %}
+
+<div class="alert alert-light border">
+
+No open ports detected.
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+<div class="card shadow-sm border-0 mt-4">
+
+    <div class="card-header bg-danger text-white">
+
+        <h5 class="mb-0">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            Security Findings
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if findings %}
+
+            <div class="accordion" id="findingAccordion">
+
+            {% for finding in findings %}
+
+                <div class="accordion-item mb-3 border-0 shadow-sm">
+
+                    <h2 class="accordion-header">
+
+                        <button
+                            class="accordion-button collapsed"
+
+                            type="button"
+
+                            data-bs-toggle="collapse"
+
+                            data-bs-target="#finding{{ finding.id }}">
+
+                            {% if finding.severity=="Critical" %}
+
+                                <span class="badge bg-danger me-3">
+
+                                    Critical
+
+                                </span>
+
+                            {% elif finding.severity=="High" %}
+
+                                <span class="badge bg-warning text-dark me-3">
+
+                                    High
+
+                                </span>
+
+                            {% elif finding.severity=="Medium" %}
+
+                                <span class="badge bg-info text-dark me-3">
+
+                                    Medium
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-success me-3">
+
+                                    Low
+
+                                </span>
+
+                            {% endif %}
+
+                            {{ finding.title }}
+
+                        </button>
+
+                    </h2>
+
+                    <div
+                        id="finding{{ finding.id }}"
+                        class="accordion-collapse collapse">
+
+                        <div class="accordion-body">
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <strong>Severity</strong>
+
+                                    <p>{{ finding.severity }}</p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <strong>Status</strong>
+
+                                    <p>{{ finding.status }}</p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <strong>CVSS</strong>
+
+                                    <p>{{ finding.cvss or "N/A" }}</p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <strong>CWE</strong>
+
+                                    <p>{{ finding.cwe or "N/A" }}</p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <strong>OWASP</strong>
+
+                                    <p>{{ finding.owasp or "N/A" }}</p>
+
+                                </div>
+
+                            </div>
+
+                            <hr>
+
+                            <h6>Description</h6>
+
+                            <p>
+
+                                {{ finding.description or "No description available." }}
+
+                            </p>
+
+                            <hr>
+
+                            <h6>Evidence</h6>
+
+                            <pre class="bg-light p-3 rounded">
+
+{{ finding.evidence or "No evidence available." }}
+
+                            </pre>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-success">
+
+                No security findings detected.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+<div class="card shadow-sm border-0 mt-4">
+
+<div class="card-header bg-success text-white">
+
+<h5>
+
+<i class="bi bi-lightbulb"></i>
+
+Recommendations
+
+</h5>
+
+</div>
+
+<div class="card-body">
+
+{% if findings %}
+
+{% for finding in findings %}
+
+<div class="card mb-3 border-start border-4 border-primary">
+
+<div class="card-body">
+
+<h5>
+
+{{ finding.title }}
+
+</h5>
+
+<p>
+
+{{ finding.recommendation or "No recommendation available." }}
+
+</p>
+
+{% if finding.reference %}
+
+<a
+
+href="{{ finding.reference }}"
+
+target="_blank"
+
+class="btn btn-outline-primary btn-sm">
+
+View Reference
+
+</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<div class="alert alert-success">
+
+No recommendations.
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+<div class="card shadow-sm border-0 mt-4">
+
+    <div class="card-header bg-dark text-white">
+
+        <h5 class="mb-0">
+
+            <i class="bi bi-code-slash"></i>
+
+            Raw Scan Output
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <button
+            class="btn btn-outline-dark mb-3"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#rawOutput">
+
+            Show / Hide Raw JSON
+
+        </button>
+
+        <div class="collapse" id="rawOutput">
+
+            <pre class="raw-json">
+
+{{ report.raw | tojson(indent=4) }}
+
+            </pre>
+
+        </div>
+
+    </div>
+
+</div>
+<hr>
+
+<div class="text-center text-muted py-4">
+
+    <small>
+
+        CloudShield Enterprise v1.0
+
+        <br>
+
+        Generated on
+
+        {{ scan.completed_at.strftime("%d %B %Y %H:%M") }}
+
+        <br>
+
+        Confidential Security Assessment
+
+    </small>
+
+</div>
+{% endblock %}

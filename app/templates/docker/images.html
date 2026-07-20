@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Docker Images
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-image text-success"></i>
+
+                Docker Images
+
+            </h2>
+
+            <p class="text-muted">
+
+                View and manage Docker images.
+
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('docker.index') }}"
+
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+
+                Images
+
+            </h5>
+
+        </div>
+
+        <div class="card-body p-0">
+            {% if images %}
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle mb-0">
+
+<thead class="table-light">
+
+<tr>
+
+<th>Repository</th>
+
+<th>Tag</th>
+
+<th>Image ID</th>
+
+<th>Size</th>
+
+<th width="120">
+
+Actions
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+    {% for image in images %}
+
+<tr>
+
+<td>
+
+{{ image.tags[0].split(":")[0]
+if image.tags
+else "<none>" }}
+
+</td>
+
+<td>
+
+{{ image.tags[0].split(":")[1]
+if image.tags
+else "-" }}
+
+</td>
+
+<td>
+
+<code>
+
+{{ image.short_id }}
+
+</code>
+
+</td>
+
+<td>
+
+{{ "%.2f"|format(image.attrs.Size / 1024 / 1024) }}
+
+MB
+
+</td>
+
+<td>
+
+<a href="#"
+
+class="btn btn-danger btn-sm">
+
+<i class="bi bi-trash-fill"></i>
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+<div class="text-center py-5">
+
+    <i class="bi bi-image display-1 text-secondary"></i>
+
+    <h4>
+
+        No Docker Images
+
+    </h4>
+
+</div>
+
+{% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet"
+
+href="{{ url_for('static', filename='css/docker.css') }}">
+
+<script src="{{ url_for('static', filename='js/docker.js') }}"></script>
+
+{% endblock %}

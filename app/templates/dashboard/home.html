@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row mb-4">
+
+        <div class="col-md-8">
+
+            <h2 class="fw-bold">
+                Dashboard
+            </h2>
+
+            <p class="text-muted">
+                Welcome back,
+                <strong>{{ current_user.username }}</strong>
+            </p>
+
+        </div>
+
+        <div class="col-md-4 text-end">
+
+            <a href="{{ url_for('scanner.home') }}"
+               class="btn btn-primary">
+
+                <i class="bi bi-search"></i>
+
+                New Website Scan
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Total Scans
+
+                    </h6>
+
+                    <h2 >
+
+                       {{ total_scans }} 
+
+                    </h2>
+
+                    <small class="text-success">
+
+                        +3 Today
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Threats Found
+
+                    </h6>
+
+                    <h2 class="text-danger">
+
+                        {{ average_score }}%
+
+                    </h2>
+
+                    <small>
+
+                        Medium Risk
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Reports
+
+                    </h6>
+
+                    <h2>
+
+                        {{ high_risk }}
+
+                    </h2>
+
+                    <small>
+
+                        Generated
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Security Score
+
+                    </h6>
+
+                    <h2 class="text-success">
+
+                        {{ latest_scan.website }}
+
+                    </h2>
+
+                    <small>
+
+                        Excellent
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Quick Actions -->
+
+    <div class="card mt-3">
+
+        <div class="card-header">
+
+            Quick Actions
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-3 mb-3">
+
+                    <a href="{{ url_for('scanner.home') }}"
+                       class="btn btn-primary w-100">
+
+                        🌐 Website Scanner
+
+                    </a>
+
+                </div>
+
+                <div class="col-md-3 mb-3">
+
+                    <button class="btn btn-success w-100" disabled>
+
+                        🔒 SSL Scanner
+
+                    </button>
+
+                </div>
+
+                <div class="col-md-3 mb-3">
+
+                    <button class="btn btn-warning w-100" disabled>
+
+                        🌍 DNS Lookup
+
+                    </button>
+
+                </div>
+
+                <div class="col-md-3 mb-3">
+
+                    <button class="btn btn-dark w-100" disabled>
+
+                        🔍 Port Scanner
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Recent Activity -->
+
+    <div class="card mt-4">
+
+        <div class="card-header">
+
+            Recent Activity
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Activity</th>
+
+                        <th>Status</th>
+
+                        <th>Time</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Website Scan</td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                Completed
+
+                            </span>
+
+                        </td>
+
+                        <td>2 mins ago</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>SSL Scan</td>
+
+                        <td>
+
+                            <span class="badge bg-warning">
+
+                                Pending
+
+                            </span>
+
+                        </td>
+
+                        <td>10 mins ago</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Login</td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                Success
+
+                            </span>
+
+                        </td>
+
+                        <td>Today</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

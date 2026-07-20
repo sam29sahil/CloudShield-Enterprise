@@ -1,0 +1,447 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+<link rel="stylesheet"
+
+href="{{ url_for('static', filename='css/docker.css') }}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-boxes text-primary"></i>
+
+                Docker Dashboard
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Monitor and manage Docker Engine resources.
+
+            </p>
+
+        </div>
+
+        {% if summary.connected %}
+
+        <span class="badge bg-success fs-6">
+
+            Docker Running
+
+        </span>
+
+        {% else %}
+
+        <span class="badge bg-danger fs-6">
+
+            Docker Offline
+
+        </span>
+
+        {% endif %}
+
+    </div>
+
+    <!-- ===================================== -->
+
+    <!-- Summary Cards -->
+
+    <!-- ===================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-2">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Running
+
+                    </h6>
+
+                    <h2 class="text-success">
+
+                        {{ summary.running }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Stopped
+
+                    </h6>
+
+                    <h2 class="text-danger">
+
+                        {{ summary.stopped }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Images
+
+                    </h6>
+
+                    <h2>
+
+                        {{ summary.images }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Networks
+
+                    </h6>
+
+                    <h2>
+
+                        {{ summary.networks }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Volumes
+
+                    </h6>
+
+                    <h2>
+
+                        {{ summary.volumes }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+
+    <!-- Docker Host -->
+
+    <!-- ===================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+
+                Docker Host Information
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-striped">
+
+                <tbody>
+
+                    <tr>
+
+                        <th width="250">
+
+                            Docker Engine
+
+                        </th>
+
+                        <td>
+
+                            {{ info.engine }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            API Version
+
+                        </th>
+
+                        <td>
+
+                            {{ info.api }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Operating System
+
+                        </th>
+
+                        <td>
+
+                            {{ info.os }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Kernel
+
+                        </th>
+
+                        <td>
+
+                            {{ info.kernel }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Architecture
+
+                        </th>
+
+                        <td>
+
+                            {{ info.architecture }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            CPUs
+
+                        </th>
+
+                        <td>
+
+                            {{ info.cpus }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Memory
+
+                        </th>
+
+                        <td>
+
+                            {{ info.memory }} GB
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Containers
+
+                        </th>
+
+                        <td>
+
+                            {{ info.containers }}
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+
+    <!-- Quick Actions -->
+
+    <!-- ===================================== -->
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+
+            <a href="{{ url_for('docker.containers') }}"
+
+               class="card text-decoration-none shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-box fs-1 text-primary"></i>
+
+                    <h5 class="mt-3">
+
+                        Containers
+
+                    </h5>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <a href="{{ url_for('docker.images') }}"
+
+               class="card text-decoration-none shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-image fs-1 text-success"></i>
+
+                    <h5 class="mt-3">
+
+                        Images
+
+                    </h5>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <a href="{{ url_for('docker.networks') }}"
+
+               class="card text-decoration-none shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-diagram-3 fs-1 text-warning"></i>
+
+                    <h5 class="mt-3">
+
+                        Networks
+
+                    </h5>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <a href="{{ url_for('docker.volumes') }}"
+
+               class="card text-decoration-none shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-hdd fs-1 text-danger"></i>
+
+                    <h5 class="mt-3">
+
+                        Volumes
+
+                    </h5>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/docker.js') }}"></script>
+
+{% endblock %}

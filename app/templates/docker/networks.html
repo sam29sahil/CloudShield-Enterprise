@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Docker Networks
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+<div>
+
+<h2 class="fw-bold">
+
+<i class="bi bi-diagram-3 text-warning"></i>
+
+Docker Networks
+
+</h2>
+
+<p class="text-muted">
+
+Available Docker Networks
+
+</p>
+
+</div>
+
+<a href="{{ url_for('docker.index') }}"
+
+class="btn btn-outline-primary">
+
+<i class="bi bi-arrow-left"></i>
+
+Dashboard
+
+</a>
+
+</div>
+
+<div class="card shadow-sm">
+
+<div class="card-header">
+
+<h5 class="mb-0">
+
+Networks
+
+</h5>
+
+</div>
+
+<div class="card-body p-0">
+
+{% if networks %}
+
+<div class="table-responsive">
+
+<table class="table table-hover mb-0">
+
+<thead class="table-light">
+
+<tr>
+
+<th>Name</th>
+
+<th>ID</th>
+
+<th>Driver</th>
+
+<th>Scope</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+    {% for network in networks %}
+
+<tr>
+
+<td>
+
+{{ network.name }}
+
+</td>
+
+<td>
+
+<code>
+
+{{ network.id[:12] }}
+
+</code>
+
+</td>
+
+<td>
+
+{{ network.attrs.Driver }}
+
+</td>
+
+<td>
+
+{{ network.attrs.Scope }}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% else %}
+
+<div class="text-center py-5">
+
+<i class="bi bi-diagram-3 display-3 text-secondary"></i>
+
+<h4>
+
+No Networks Found
+
+</h4>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+<link rel="stylesheet"
+
+href="{{ url_for('static', filename='css/docker.css') }}">
+
+<script src="{{ url_for('static', filename='js/docker.js') }}"></script>
+
+{% endblock %}
