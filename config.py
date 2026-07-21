@@ -15,7 +15,10 @@ class Config:
     # Flask
     # ==========================================
 
-    SECRET_KEY = e371ed3e8da2b5c0c6e953762e1e1f7c90f812d602c020cf2f6e5656da697611
+    SECRET_KEY = os.getenv(
+    "SECRET_KEY",
+    "dev-secret-key-change-me"
+)
 
     # ==========================================
     # Database
