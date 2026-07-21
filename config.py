@@ -15,13 +15,16 @@ class Config:
     # Flask
     # ==========================================
 
-    SECRET_KEY = "cloudshield-secret-key"
+    SECRET_KEY = e371ed3e8da2b5c0c6e953762e1e1f7c90f812d602c020cf2f6e5656da697611
 
     # ==========================================
     # Database
     # ==========================================
 
-    SQLALCHEMY_DATABASE_URI = "sqlite:///cloudshield.db"
+    SQLALCHEMY_DATABASE_URI =  os.getenv(
+    "DATABASE_URL",
+    "sqlite:///cloudshield.db"
+)
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
