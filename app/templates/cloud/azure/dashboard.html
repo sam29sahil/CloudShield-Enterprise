@@ -1,0 +1,1388 @@
+{% extends "cloud/base.html" %}
+
+{% block azure_title %}
+
+<i class="bi bi-microsoft text-primary"></i>
+
+Azure Dashboard
+
+{% endblock %}
+
+{% block azure_subtitle %}
+
+Monitor your Microsoft Azure environment and connected resources.
+
+{% endblock %}
+
+{% block breadcrumb %}
+
+Dashboard
+
+{% endblock %}
+
+{% block cloud_content %}
+
+<!-- ================================================= -->
+<!-- AZURE HERO -->
+<!-- ================================================= -->
+
+<section class="azure-hero">
+
+    <div class="row align-items-center">
+
+        <div class="col-lg-8">
+
+            <span class="hero-badge">
+
+                <i class="bi bi-microsoft"></i>
+
+                Microsoft Azure
+
+            </span>
+
+            <h1>
+
+                Azure Security Center
+
+            </h1>
+
+            <p>
+
+                Monitor Microsoft Azure resources, cloud posture,
+                security findings, compliance and enterprise
+                infrastructure from one dashboard.
+
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="{{ url_for('scanner.home') }}"
+                   class="btn btn-primary">
+
+                    <i class="bi bi-play-fill"></i>
+
+                    Run Scan
+
+                </a>
+
+                <a href="{{ url_for('reports.index') }}"
+                   class="btn btn-success">
+
+                    <i class="bi bi-file-earmark-pdf"></i>
+
+                    Reports
+
+                </a>
+
+                <a href="#"
+                   class="btn btn-outline-light">
+
+                    <i class="bi bi-box-arrow-up-right"></i>
+
+                    Azure Portal
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="secure-score-card">
+
+                <div class="score-circle">
+
+                    <h2>
+
+                        {{ data.virtual_machines }}
+
+                    </h2>
+
+                </div>
+
+                <h5>
+
+                    Azure Secure Score
+
+                </h5>
+
+                <small>
+
+                    Last Scan: Today
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ================================================= -->
+<!-- AZURE SERVICES -->
+<!-- ================================================= -->
+
+<section class="azure-services mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h3>
+
+                <i class="bi bi-grid-3x3-gap-fill text-primary"></i>
+
+                Azure Services
+
+            </h3>
+
+            <p class="text-muted mb-0">
+
+                Monitor every connected Azure service from one place.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Virtual Machines -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <a href="{{ url_for('cloud.azure_virtual_machines')}}"
+               class="service-card">
+
+                <div class="service-icon bg-primary">
+
+                    <i class="bi bi-pc-display"></i>
+
+                </div>
+
+                <div class="service-content">
+
+                    <h5>
+
+                        Virtual Machines
+
+                    </h5>
+
+                    <h2>
+
+                        {{ data.virtual_machines }}
+
+                    </h2>
+
+                    <small>
+
+                        Running Azure VMs
+
+                    </small>
+
+                </div>
+
+                <i class="bi bi-arrow-right-circle-fill service-arrow"></i>
+
+            </a>
+
+        </div>
+
+        <!-- Storage -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <a href="{{ url_for('cloud.azure_storage') }}"
+               class="service-card">
+
+                <div class="service-icon bg-info">
+
+                    <i class="bi bi-hdd-stack"></i>
+
+                </div>
+
+                <div class="service-content">
+
+                    <h5>
+
+                        Storage Accounts
+
+                    </h5>
+
+                    <h2>
+
+                        {{ data.storage_accounts }}
+
+                    </h2>
+
+                    <small>
+
+                        Secure Storage
+
+                    </small>
+
+                </div>
+
+                <i class="bi bi-arrow-right-circle-fill service-arrow"></i>
+
+            </a>
+
+        </div>
+
+        <!-- Resource Groups -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <a href="{{ url_for('cloud.azure_resource_groups') }}"
+               class="service-card">
+
+                <div class="service-icon bg-warning">
+
+                    <i class="bi bi-folder2-open"></i>
+
+                </div>
+
+                <div class="service-content">
+
+                    <h5>
+
+                        Resource Groups
+
+                    </h5>
+
+                    <h2>
+
+                        {{ data.resource_groups }}
+
+                    </h2>
+
+                    <small>
+
+                        Azure Resource Groups
+
+                    </small>
+
+                </div>
+
+                <i class="bi bi-arrow-right-circle-fill service-arrow"></i>
+
+            </a>
+
+        </div>
+
+        <!-- Key Vault -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <a href="{{ url_for('cloud.azure_keyvault') }}"
+               class="service-card">
+
+                <div class="service-icon bg-success">
+
+                    <i class="bi bi-shield-lock"></i>
+
+                </div>
+
+                <div class="service-content">
+
+                    <h5>
+
+                        Key Vault
+
+                    </h5>
+
+                    <h2>
+
+                        {{ data.keyvaults }}
+
+                    </h2>
+
+                    <small>
+
+                        Secrets & Certificates
+
+                    </small>
+
+                </div>
+
+                <i class="bi bi-arrow-right-circle-fill service-arrow"></i>
+
+            </a>
+
+        </div>
+
+        <!-- Azure Monitor -->
+
+        <div class="col-xl-4">
+
+            <a href="{{ url_for('cloud.azure_monitor') }}"
+               class="service-card large">
+
+                <div class="service-icon bg-dark">
+
+                    <i class="bi bi-activity"></i>
+
+                </div>
+
+                <div class="service-content">
+
+                    <h4>
+
+                        Azure Monitor
+
+                    </h4>
+
+                    <p>
+
+                        View metrics, alerts and infrastructure health.
+
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <!-- Defender -->
+
+        <div class="col-xl-4">
+
+            <a href="{{ url_for('cloud.azure_defender') }}"
+               class="service-card large">
+
+                <div class="service-icon bg-danger">
+
+                    <i class="bi bi-shield-fill-check"></i>
+
+                </div>
+
+                <div class="service-content">
+
+                    <h4>
+
+                        Microsoft Defender
+
+                    </h4>
+
+                    <p>
+
+                        Security recommendations and threat protection.
+
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <!-- Identity -->
+
+        <div class="col-xl-4">
+
+            <a href="{{ url_for('cloud.azure_identity') }}"
+               class="service-card large">
+
+                <div class="service-icon bg-secondary">
+
+                    <i class="bi bi-person-badge"></i>
+
+                </div>
+
+                <div class="service-content">
+
+                    <h4>
+
+                        Identity
+
+                    </h4>
+
+                    <p>
+
+                        Microsoft Entra ID users, groups and permissions.
+
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- RECENT FINDINGS -->
+<!-- ================================================= -->
+
+<section class="mt-5">
+
+    <div class="dashboard-panel">
+
+        <div class="panel-header">
+
+            <h3>
+
+                <i class="bi bi-shield-exclamation text-danger"></i>
+
+                Recent Findings
+
+            </h3>
+
+        </div>
+
+        <table class="table table-dark align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>Severity</th>
+
+                    <th>Resource</th>
+
+                    <th>Issue</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+
+                        <span class="badge bg-danger">
+
+                            Critical
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        Storage Account
+
+                    </td>
+
+                    <td>
+
+                        Public Access Enabled
+
+                    </td>
+
+                    <td>
+
+                        Open
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+
+                        <span class="badge bg-warning">
+
+                            High
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        Virtual Machine
+
+                    </td>
+
+                    <td>
+
+                        Monitoring Disabled
+
+                    </td>
+
+                    <td>
+
+                        Investigating
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+
+                        <span class="badge bg-info">
+
+                            Medium
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        Key Vault
+
+                    </td>
+
+                    <td>
+
+                        Soft Delete Not Enabled
+
+                    </td>
+
+                    <td>
+
+                        Pending
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+<!-- ================================================= -->
+<!-- SECURITY OVERVIEW -->
+<!-- ================================================= -->
+
+<section class="security-overview mt-5">
+
+    <div class="row g-4">
+
+        <!-- Defender -->
+
+        <div class="col-xl-6">
+
+            <div class="enterprise-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h4>
+
+                            <i class="bi bi-shield-fill-check text-success"></i>
+
+                            Microsoft Defender
+
+                        </h4>
+
+                        <small>
+
+                            Cloud workload protection
+
+                        </small>
+
+                    </div>
+
+                    <span class="badge bg-success">
+
+                        Protected
+
+                    </span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="status-item">
+
+                        <span>Security Recommendations</span>
+
+                        <strong>{{ data.storage_accounts }}</strong>
+
+                    </div>
+
+                    <div class="status-item">
+
+                        <span>Threat Alerts</span>
+
+                        <strong>3</strong>
+
+                    </div>
+
+                    <div class="status-item">
+
+                        <span>Secure Score</span>
+
+                        <strong>92%</strong>
+
+                    </div>
+
+                    <div class="progress mt-4">
+
+                        <div class="progress-bar bg-success"
+
+                             style="width:92%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Azure Monitor -->
+
+        <div class="col-xl-6">
+
+            <div class="enterprise-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h4>
+
+                            <i class="bi bi-activity text-info"></i>
+
+                            Azure Monitor
+
+                        </h4>
+
+                        <small>
+
+                            Health & Monitoring
+
+                        </small>
+
+                    </div>
+
+                    <span class="badge bg-info">
+
+                        Healthy
+
+                    </span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="status-item">
+
+                        <span>Availability</span>
+
+                        <strong>99.98%</strong>
+
+                    </div>
+
+                    <div class="status-item">
+
+                        <span>Active Alerts</span>
+
+                        <strong>5</strong>
+
+                    </div>
+
+                    <div class="status-item">
+
+                        <span>Connected Resources</span>
+
+                        <strong>
+
+                            {{ data.virtual_machines }}
+
+                        </strong>
+
+                    </div>
+
+                    <div class="progress mt-4">
+
+                        <div class="progress-bar bg-info"
+
+                             style="width:98%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- COMPLIANCE -->
+<!-- ================================================= -->
+
+<section class="mt-5">
+
+    <div class="enterprise-card">
+
+        <div class="card-header">
+
+            <h4>
+
+                <i class="bi bi-patch-check-fill text-primary"></i>
+
+                Compliance Dashboard
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-lg-6">
+
+                    <label>
+
+                        Microsoft Azure Security Benchmark
+
+                    </label>
+
+                    <div class="progress mb-4">
+
+                        <div class="progress-bar bg-primary"
+
+                             style="width:89%">
+
+                            89%
+
+                        </div>
+
+                    </div>
+
+                    <label>
+
+                        CIS Microsoft Azure Foundations
+
+                    </label>
+
+                    <div class="progress mb-4">
+
+                        <div class="progress-bar bg-success"
+
+                             style="width:82%">
+
+                            82%
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <label>
+
+                        NIST Cybersecurity Framework
+
+                    </label>
+
+                    <div class="progress mb-4">
+
+                        <div class="progress-bar bg-warning"
+
+                             style="width:76%">
+
+                            76%
+
+                        </div>
+
+                    </div>
+
+                    <label>
+
+                        ISO 27001
+
+                    </label>
+
+                    <div class="progress">
+
+                        <div class="progress-bar bg-info"
+
+                             style="width:84%">
+
+                            84%
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ================================================= -->
+<!-- QUICK ACTIONS -->
+<!-- ================================================= -->
+
+<section class="mt-5">
+
+    <div class="enterprise-card">
+
+        <div class="card-header">
+
+            <h4>
+
+                <i class="bi bi-lightning-charge-fill text-warning"></i>
+
+                Enterprise Quick Actions
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row g-4">
+
+                <div class="col-xl-2 col-md-4 col-6">
+
+                    <a href="{{ url_for('scanner.home') }}" class="quick-action">
+
+                        <i class="bi bi-play-circle-fill"></i>
+
+                        <span>Run Scan</span>
+
+                    </a>
+
+                </div>
+
+                <div class="col-xl-2 col-md-4 col-6">
+
+                    <a href="{{ url_for('reports.index') }}" class="quick-action">
+
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+
+                        <span>Reports</span>
+
+                    </a>
+
+                </div>
+
+                <div class="col-xl-2 col-md-4 col-6">
+
+                    <a href="{{ url_for('cloud.azure_virtual_machines') }}" class="quick-action">
+
+                        <i class="bi bi-pc-display"></i>
+
+                        <span>Virtual Machines</span>
+
+                    </a>
+
+                </div>
+
+                <div class="col-xl-2 col-md-4 col-6">
+
+                    <a href="{{ url_for('cloud.azure_storage') }}" class="quick-action">
+
+                        <i class="bi bi-hdd-stack"></i>
+
+                        <span>Storage</span>
+
+                    </a>
+
+                </div>
+
+                <div class="col-xl-2 col-md-4 col-6">
+
+                    <a href="{{ url_for('cloud.azure_monitor') }}" class="quick-action">
+
+                        <i class="bi bi-activity"></i>
+
+                        <span>Monitor</span>
+
+                    </a>
+
+                </div>
+
+                <div class="col-xl-2 col-md-4 col-6">
+
+                    <a href="{{ url_for('settings.index') }}" class="quick-action">
+
+                        <i class="bi bi-gear-fill"></i>
+
+                        <span>Settings</span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- RECENT ACTIVITY -->
+<!-- ================================================= -->
+
+<section class="mt-5">
+
+    <div class="enterprise-card">
+
+        <div class="card-header">
+
+            <h4>
+
+                <i class="bi bi-clock-history text-info"></i>
+
+                Recent Azure Activity
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="activity-timeline">
+
+                <div class="activity-item">
+
+                    <div class="activity-icon bg-success">
+
+                        <i class="bi bi-check-lg"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h6>
+
+                            Azure Subscription Connected
+
+                        </h6>
+
+                        <small>
+
+                            Just now
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="activity-item">
+
+                    <div class="activity-icon bg-primary">
+
+                        <i class="bi bi-pc-display"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h6>
+
+                            Virtual Machines synchronized
+
+                        </h6>
+
+                        <small>
+
+                            10 minutes ago
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="activity-item">
+
+                    <div class="activity-icon bg-warning">
+
+                        <i class="bi bi-shield-exclamation"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h6>
+
+                            Public Storage Account detected
+
+                        </h6>
+
+                        <small>
+
+                            25 minutes ago
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="activity-item">
+
+                    <div class="activity-icon bg-danger">
+
+                        <i class="bi bi-shield-fill-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h6>
+
+                            Microsoft Defender recommendation updated
+
+                        </h6>
+
+                        <small>
+
+                            1 hour ago
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ================================================= -->
+<!-- EXECUTIVE SUMMARY -->
+<!-- ================================================= -->
+
+<section class="mt-5">
+
+    <div class="row g-4">
+
+        <div class="col-lg-4">
+
+            <div class="enterprise-card summary-card">
+
+                <h5>
+
+                    <i class="bi bi-cloud-fill text-primary"></i>
+
+                    Azure Subscription
+
+                </h5>
+
+                <h2>
+
+                    {{ data.subscription_name if data.subscription_name else "Default Subscription" }}
+
+                </h2>
+
+                <small>
+
+                    Connected Azure Environment
+
+                </small>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="enterprise-card summary-card">
+
+                <h5>
+
+                    <i class="bi bi-geo-alt-fill text-success"></i>
+
+                    Primary Region
+
+                </h5>
+
+                <h2>
+
+                    {{ data.region if data.region else "Central India" }}
+
+                </h2>
+
+                <small>
+
+                    Azure Region
+
+                </small>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="enterprise-card summary-card">
+
+                <h5>
+
+                    <i class="bi bi-check-circle-fill text-info"></i>
+
+                    Connected Services
+
+                </h5>
+
+                <h2>
+
+                    7
+
+                </h2>
+
+                <small>
+
+                    Active Azure Modules
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- RESOURCE INVENTORY -->
+<!-- ================================================= -->
+
+<section class="mt-5">
+
+    <div class="enterprise-card">
+
+        <div class="card-header d-flex justify-content-between">
+
+            <h4>
+
+                <i class="bi bi-server text-primary"></i>
+
+                Azure Resource Inventory
+
+            </h4>
+
+            <button class="btn btn-primary">
+
+                Export
+
+            </button>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Resource</th>
+
+                        <th>Type</th>
+
+                        <th>Region</th>
+
+                        <th>Status</th>
+
+                        <th>Risk</th>
+
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>vm-production-01</td>
+
+                        <td>Virtual Machine</td>
+
+                        <td>Central India</td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                Running
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-warning">
+
+                                Medium
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button class="btn btn-sm btn-outline-primary">
+
+                                View
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>storage-prod</td>
+
+                        <td>Storage Account</td>
+
+                        <td>Central India</td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                Healthy
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-danger">
+
+                                High
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button class="btn btn-sm btn-outline-primary">
+
+                                View
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>keyvault-prod</td>
+
+                        <td>Key Vault</td>
+
+                        <td>Central India</td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                Protected
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                Low
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button class="btn btn-sm btn-outline-primary">
+
+                                View
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- DASHBOARD FOOTER -->
+<!-- ================================================= -->
+
+<section class="mt-5 mb-5">
+
+    <div class="enterprise-card text-center">
+
+        <h5>
+
+            CloudShield Enterprise
+
+        </h5>
+
+        <p class="mb-1">
+
+            Azure Cloud Security Platform
+
+        </p>
+
+        <small>
+
+            Microsoft Azure • Microsoft Defender • Azure Monitor • Key Vault • Enterprise Security
+
+        </small>
+
+    </div>
+
+</section>
+{% endblock %}

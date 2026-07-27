@@ -4,7 +4,7 @@ Universal Scanner Form
 """
 
 from flask_wtf import FlaskForm
-from wtforms import SelectField, StringField, SubmitField
+from wtforms import SelectField, StringField, SubmitField,HiddenField
 from wtforms.validators import DataRequired
 
 
@@ -79,3 +79,5 @@ class ScanForm(FlaskForm):
         "Run Scan"
 
     )
+
+    asset_id = HiddenField()

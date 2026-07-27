@@ -23,7 +23,9 @@ class Report(db.Model):
 
         db.Integer,
 
-        db.ForeignKey("scans.id")
+        db.ForeignKey("security_scans.id"),
+
+        nullable=False
 
     )
 
@@ -44,5 +46,15 @@ class Report(db.Model):
         db.DateTime,
 
         default=datetime.utcnow
+
+    )
+
+    scan = db.relationship(
+
+        "SecurityScan",
+
+        backref="reports",
+
+        lazy=True
 
     )

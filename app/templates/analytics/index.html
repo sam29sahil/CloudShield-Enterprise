@@ -1,6 +1,10 @@
 {% extends "base.html" %}
-
 {% block content %}
+
+{% block styles %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/analytics.css') }}">
+{% endblock %}
 
 <div class="container-fluid">
 

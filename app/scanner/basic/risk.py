@@ -36,7 +36,7 @@ def calculate_risk(report):
 
     headers = report.get("headers", {})
 
-    missing = headers.get("missing_headers", [])
+    missing = headers.get("missing", [])
 
     score -= len(missing) * 5
 

@@ -2,10 +2,10 @@ from app import create_app
 
 app = create_app()
 
-print("\n===== REGISTERED ROUTES =====")
+print("\n========== ROUTES ==========")
 for rule in app.url_map.iter_rules():
-    print(rule)
-print("=============================\n")
+    print(f"{rule.endpoint:35} -> {rule}")
+print("============================\n")
 
 if __name__ == "__main__":
     app.run(debug=True)

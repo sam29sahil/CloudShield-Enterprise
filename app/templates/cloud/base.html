@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Cloud Platform
+
+{% endblock %}
+
+{% block styles %}
+
+{{ super() }}
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/cloud.css') }}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ====================================== -->
+    <!-- Cloud Header -->
+    <!-- ====================================== -->
+
+    <div class="cloud-header mb-4">
+
+        <div>
+
+            <h1 class="cloud-title">
+
+                <i class="bi bi-cloud-fill text-primary"></i>
+
+                CloudShield Enterprise
+
+            </h1>
+
+            <p class="text-muted mb-0">
+
+                Multi-Cloud Security Operations Center
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <a href="{{ url_for('cloud.dashboard') }}"
+               class="btn btn-outline-primary">
+
+                <i class="bi bi-house-fill"></i>
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ====================================== -->
+    <!-- Cloud Navigation -->
+    <!-- ====================================== -->
+
+    <div class="cloud-nav mb-4">
+
+        <div class="btn-group flex-wrap">
+
+            <a href="{{ url_for('cloud.dashboard') }}"
+               class="btn btn-light">
+
+                <i class="bi bi-speedometer2"></i>
+
+                Overview
+
+            </a>
+
+            <a href="{{ url_for('cloud.aws') }}"
+               class="btn btn-light">
+
+                <i class="bi bi-cloud-fill"></i>
+
+                AWS
+
+            </a>
+
+            <a href="{{ url_for('cloud.azure') }}"
+               class="btn btn-light">
+
+                <i class="bi bi-microsoft"></i>
+
+                Azure
+
+            </a>
+
+            <a href="{{ url_for('scanner.home') }}"
+               class="btn btn-light">
+
+                <i class="bi bi-shield-check"></i>
+
+                Scanner
+
+            </a>
+
+            <a href="{{ url_for('findings_ui.index') }}"
+               class="btn btn-light">
+
+                <i class="bi bi-bug"></i>
+
+                Findings
+
+            </a>
+
+            <a href="{{ url_for('reports.index') }}"
+               class="btn btn-light">
+
+                <i class="bi bi-file-earmark-text"></i>
+
+                Reports
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ====================================== -->
+    <!-- Page Content -->
+    <!-- ====================================== -->
+
+    {% block cloud_content %}
+
+    {% endblock %}
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+{{ super() }}
+
+<script src="{{ url_for('static', filename='js/cloud.js') }}"></script>
+
+{% endblock %}

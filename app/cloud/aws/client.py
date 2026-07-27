@@ -21,7 +21,7 @@ class AWSClient:
                 "max_attempts": 5,
 
                 "mode": "standard"
-r
+
             }
 
         )

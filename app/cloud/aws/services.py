@@ -3,89 +3,139 @@ CloudShield Enterprise
 AWS Security Service
 """
 
-from app.cloud.aws.iam import IAMScanner
-from app.cloud.aws.s3 import S3Scanner
 from app.cloud.aws.ec2 import EC2Scanner
-from app.cloud.aws.inspector import InspectorScanner
-from app.cloud.aws.guardduty import GuardDutyScanner
+from app.cloud.aws.s3 import S3Scanner
+from app.cloud.aws.iam import IAMScanner
 from app.cloud.aws.security_groups import SecurityGroupScanner
 from app.cloud.aws.cloudtrail import CloudTrailScanner
+from app.cloud.aws.guardduty import GuardDutyScanner
+from app.cloud.aws.inspector import InspectorScanner
 from app.cloud.aws.config import ConfigScanner
 
 
 class AWSScanner:
+    """
+    Central AWS Security Scanner
+    """
 
     def __init__(self):
 
-        self.iam = IAMScanner()
+        self.scanners = {
 
-        self.s3 = S3Scanner()
+            "ec2": EC2Scanner(),
 
-        self.ec2 = EC2Scanner()
+            "s3": S3Scanner(),
 
-        self.inspector = InspectorScanner()
+            "iam": IAMScanner(),
 
-        self.guardduty = GuardDutyScanner()
+            "security_groups": SecurityGroupScanner(),
 
-        self.security_groups = SecurityGroupScanner()
+            "cloudtrail": CloudTrailScanner(),
 
-        self.cloudtrail = CloudTrailScanner()
+            "guardduty": GuardDutyScanner(),
 
-        self.config = ConfigScanner()
+            "inspector": InspectorScanner(),
 
-    def scan(self):
-        """
-        Run all AWS security scans.
-        """
-
-        return {
-
-            "iam": self.iam.scan(),
-
-            "s3": self.s3.scan(),
-
-            "ec2": self.ec2.scan(),
-
-            "inspector": self.inspector.scan(),
-
-            "guardduty": self.guardduty.scan(),
-
-            "security_groups": self.security_groups.scan(),
-
-            "cloudtrail": self.cloudtrail.scan(),
-
-            "config": self.config.scan()
+            "config": ConfigScanner()
 
         }
 
-    def scan_iam(self):
+    # --------------------------------------------------
+    # Run Every Scanner
+    # --------------------------------------------------
 
-        return self.iam.scan()
+    def scan(self):
 
-    def scan_s3(self):
+        results = {}
 
-        return self.s3.scan()
+        for name, scanner in self.scanners.items():
+
+            try:
+
+                results[name] = scanner.scan()
+
+            except Exception as e:
+
+                results[name] = {
+
+                    "success": False,
+
+                    "service": name,
+
+                    "error": str(e)
+
+                }
+
+        return results
+
+    # --------------------------------------------------
+    # Generic Scanner
+    # --------------------------------------------------
+
+    def scan_service(self, service):
+
+        scanner = self.scanners.get(service)
+
+        if scanner is None:
+
+            return {
+
+                "success": False,
+
+                "service": service,
+
+                "error": "Unknown AWS service."
+
+            }
+
+        try:
+
+            return scanner.scan()
+
+        except Exception as e:
+
+            return {
+
+                "success": False,
+
+                "service": service,
+
+                "error": str(e)
+
+            }
+
+    # --------------------------------------------------
+    # Individual Services
+    # --------------------------------------------------
 
     def scan_ec2(self):
 
-        return self.ec2.scan()
+        return self.scan_service("ec2")
 
-    def scan_inspector(self):
+    def scan_s3(self):
 
-        return self.inspector.scan()
+        return self.scan_service("s3")
 
-    def scan_guardduty(self):
+    def scan_iam(self):
 
-        return self.guardduty.scan()
+        return self.scan_service("iam")
 
     def scan_security_groups(self):
 
-        return self.security_groups.scan()
+        return self.scan_service("security_groups")
 
     def scan_cloudtrail(self):
 
-        return self.cloudtrail.scan()
+        return self.scan_service("cloudtrail")
+
+    def scan_guardduty(self):
+
+        return self.scan_service("guardduty")
+
+    def scan_inspector(self):
+
+        return self.scan_service("inspector")
 
     def scan_config(self):
 
-        return self.config.scan()
+        return self.scan_service("config")

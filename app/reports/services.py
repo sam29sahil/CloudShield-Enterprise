@@ -16,9 +16,6 @@ class ReportService:
         return SecurityScan.query.get_or_404(scan_id)
 
     def report_data(self, scan_id):
-        """
-        Build report data.
-        """
 
         scan = self.get_scan(scan_id)
 
@@ -26,13 +23,17 @@ class ReportService:
 
             "id": scan.id,
 
-            "website": scan.website,
+            "target": scan.target,
+
+            "category": scan.category,
+
+            "tool": scan.tool,
+
+            "status": scan.status,
 
             "score": scan.score,
 
             "risk": scan.risk,
-
-            "scan_type": scan.scan_type,
 
             "started_at": scan.started_at,
 

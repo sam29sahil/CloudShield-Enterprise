@@ -2,12 +2,12 @@
 CloudShield Enterprise
 Quick Scan Service
 """
-
+import traceback
 from datetime import datetime
 import json
 
 from app.extensions import db
-from app.models import SecurityScan, report
+from app.models import SecurityScan, Report
 from app.assets.services import AssetManager
 
 from app.scanner.basic.website import website_scan
@@ -180,10 +180,41 @@ class BasicScanService:
         db.session.commit()
 
         # --------------------------
-        # Update Asset
+        # Generate Finding
         # --------------------------
 
+        from app.findings.generator import FindingGenerator
+
+        try:
+
+            findings = FindingGenerator.generate(
+
+                scan,
+
+                report
+            )
+
+            print("=" * 60)
+            print("FINDINGS CREATED:", findings)
+            print("=" * 60)
+          
+        except Exception as e:
+
+            print("=" * 60)
+            print("FINDING GENERATOR ERROR")
+            traceback.print_exc()
+            print("=" * 60)
+
+        # --------------------------
+        # Update Asset
+        # --------------------------
         if asset_id:
+
+            from app.models.finding import Finding
+
+            count = Finding.query.filter_by(
+                asset_id=asset_id
+            ).count()
 
             AssetManager().update_scan(
 
@@ -193,7 +224,7 @@ class BasicScanService:
 
                 risk=report["risk"],
 
-                findings=len(risk["findings"])
+                findings=count
 
             )
 

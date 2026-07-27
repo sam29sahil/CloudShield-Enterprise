@@ -1,0 +1,80 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-hdd-stack text-info"></i>
+Storage Accounts
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure Storage Accounts.
+{% endblock %}
+
+{% block breadcrumb %}
+Storage
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="card shadow-sm">
+
+<div class="card-header">
+
+<strong>Storage Accounts</strong>
+
+</div>
+
+<div class="card-body">
+
+{% if data %}
+
+<table class="table table-striped">
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>Location</th>
+
+<th>SKU</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for storage in data %}
+
+<tr>
+
+<td>{{ storage.name }}</td>
+
+<td>{{ storage.location }}</td>
+
+<td>{{ storage.sku }}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% else %}
+
+<div class="alert alert-warning">
+
+No Storage Accounts Found.
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+{% endblock %}

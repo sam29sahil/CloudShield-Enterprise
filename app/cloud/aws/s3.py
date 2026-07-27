@@ -29,7 +29,10 @@ class S3Scanner:
                 data.append({
 
                     "name": bucket["Name"],
-
+                    "region": "...",
+                    "versioning": "Enabled",
+                    "encryption": "Enabled",
+                    "public": False,
                     "created": str(bucket["CreationDate"])
 
                 })

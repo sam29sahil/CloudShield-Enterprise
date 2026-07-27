@@ -48,8 +48,8 @@ def index():
 def pdf(scan_id):
 
     scan = SecurityScan.query.get_or_404(scan_id)
-
-    pdf_buffer = PDFReport.generate(scan)
+    
+    pdf_buffer = PDFReport().generate(scan)
 
     
     return send_file(
@@ -126,15 +126,32 @@ def view(scan_id):
 @login_required
 def delete(scan_id):
 
+    from app.models import SecurityScan
+    from app.models.finding import Finding
+    from app.models.report import Report
+
     scan = SecurityScan.query.get_or_404(scan_id)
+
+    Finding.query.filter_by(
+        scan_id=scan.id
+    ).delete()
+
+    Report.query.filter_by(
+        scan_id=scan.id
+    ).delete()
 
     db.session.delete(scan)
 
     db.session.commit()
 
-    flash("Report deleted successfully.", "success")
+    flash(
+        "Report deleted successfully.",
+        "success"
+    )
 
-    return redirect(url_for("reports.index"))
+    return redirect(
+        url_for("reports.index")
+    )
 
 @reports.route("/download/<int:scan_id>")
 @login_required

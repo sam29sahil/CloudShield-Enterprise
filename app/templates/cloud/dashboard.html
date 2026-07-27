@@ -1,13 +1,488 @@
-{% extends "base.html" %}
+{% extends "cloud/base.html" %}
 
-{% block content %}
+{% block title %}
 
-<div class="container-fluid">
+Cloud Dashboard
 
-<h2>Cloud Dashboard</h2>
+{% endblock %}
 
-<p>CloudShield Cloud Security Module</p>
+{% block cloud_content %}
+
+<div class="cloud-dashboard">
+
+    <!-- ===================================== -->
+    <!-- Hero -->
+    <!-- ===================================== -->
+
+    <section class="cloud-hero">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-8">
+
+                <h1>
+
+                    <i class="bi bi-cloud-fill"></i>
+
+                    Cloud Operations Center
+
+                </h1>
+
+                <p>
+
+                    Unified security visibility across AWS and Microsoft Azure.
+
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="{{ url_for('scanner.home') }}"
+                       class="btn btn-primary">
+
+                        <i class="bi bi-play-fill"></i>
+
+                        Start Scan
+
+                    </a>
+
+                    <a href="{{ url_for('findings_ui.index') }}"
+                       class="btn btn-outline-light">
+
+                        <i class="bi bi-shield-check"></i>
+
+                        Findings
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="security-score">
+
+                    <svg width="180"
+                         height="180">
+
+                        <circle
+
+                            cx="90"
+
+                            cy="90"
+
+                            r="70"
+
+                            class="score-bg">
+
+                        </circle>
+
+                        <circle
+
+                            cx="90"
+
+                            cy="90"
+
+                            r="70"
+
+                            class="score-progress">
+
+                        </circle>
+
+                    </svg>
+
+                    <div class="score-text">
+
+                        <span id="securityScore">
+
+                            {{ cloud.score }}
+
+                        </span>
+
+                        %
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================== -->
+    <!-- Statistics -->
+    <!-- ===================================== -->
+
+    <div class="row mt-5">
+
+        <div class="col-md-3">
+
+            <div class="cloud-card stat-card">
+
+                <i class="bi bi-hdd-network"></i>
+
+                <h2 class="counter">
+
+                    {{ cloud.resources }}
+
+                </h2>
+
+                <p>
+
+                    Cloud Resources
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="cloud-card stat-card">
+
+                <i class="bi bi-bug"></i>
+
+                <h2 class="counter">
+
+                    {{ cloud.findings }}
+
+                </h2>
+
+                <p>
+
+                    Findings
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="cloud-card stat-card">
+
+                <i class="bi bi-cloud-check"></i>
+
+                <h2>
+
+                    2
+
+                </h2>
+
+                <p>
+
+                    Providers
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="cloud-card stat-card">
+
+                <i class="bi bi-shield-lock"></i>
+
+                <h2>
+
+                    {{ cloud.score }}
+
+                </h2>
+
+                <p>
+
+                    Security Score
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- ===================================== -->
+<!-- Cloud Providers -->
+<!-- ===================================== -->
+
+<div class="row mt-5">
+
+    <!-- AWS -->
+
+    <div class="col-lg-6 mb-4">
+
+        <div class="provider-card aws-provider">
+
+            <div class="provider-header">
+
+                <div>
+
+                    <h3>
+
+                        <i class="bi bi-cloud-fill"></i>
+
+                        Amazon Web Services
+
+                    </h3>
+
+                    {% if cloud.azure.connected %}
+
+                    <span class="status online">
+
+                        <i class="bi bi-circle-fill"></i>
+
+                        Connected
+
+                    </span>
+
+                    {% else %}
+
+                    <span class="status warning">
+
+                        <i class="bi bi-circle-fill"></i>
+
+                        Not Connected
+
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+                <i class="bi bi-arrow-right-circle-fill provider-arrow"></i>
+
+            </div>
+
+            <div class="provider-body">
+
+                <div class="service-grid">
+
+                    <div>
+
+                        <strong>{{ cloud.ec2 }}</strong>
+
+                        <small>EC2</small>
+
+                    </div>
+
+                    <div>
+
+                        <strong>{{ cloud.s3 }}</strong>
+
+                        <small>S3</small>
+
+                    </div>
+
+                    <div>
+
+                        <strong>{{ cloud.iam }}</strong>
+
+                        <small>IAM</small>
+
+                    </div>
+
+                    <div>
+
+                        <strong>{{ cloud.security_groups }}</strong>
+
+                        <small>Security Groups</small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="provider-footer">
+
+                <a href="{{ url_for('cloud.aws') }}"
+
+                   class="btn btn-primary">
+
+                    Open AWS Dashboard
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Azure -->
+
+    <div class="col-lg-6 mb-4">
+
+        <div class="provider-card azure-provider">
+
+            <div class="provider-header">
+
+                <div>
+
+                    <h3>
+
+                        <i class="bi bi-microsoft"></i>
+
+                        Microsoft Azure
+
+                    </h3>
+
+                    {% if cloud.azure.connected %}
+
+                    <span class="status online">
+
+                        <i class="bi bi-circle-fill"></i>
+
+                        Connected
+
+                    </span>
+
+                    {% else %}
+
+                    <span class="status warning">
+
+                        <i class="bi bi-circle-fill"></i>
+
+                        Not Connected
+
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+                <i class="bi bi-arrow-right-circle-fill provider-arrow"></i>
+
+            </div>
+
+            <div class="provider-body">
+
+                <div class="service-grid">
+
+                    <div>
+
+                        <strong>{{ cloud.azure.virtual_machines }}</strong>
+
+                        <small>VMs</small>
+
+                    </div>
+
+                    <div>
+
+                        <strong>{{ cloud.azure.storage_accounts }}</strong>
+
+                        <small>Storage</small>
+
+                    </div>
+
+                    <div>
+
+                        <strong>{{ cloud.azure.resource_groups }}</strong>
+
+                        <small>Groups</small>
+
+                    </div>
+
+                    <div>
+
+                        <strong>{{ cloud.azure.keyvaults }}</strong>
+
+                        <small>Key Vault</small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="provider-footer">
+
+                <a href="{{ url_for('cloud.azure') }}"
+
+                   class="btn btn-outline-primary">
+
+                    Open Azure Dashboard
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ===================================== -->
+<!-- Quick Actions -->
+<!-- ===================================== -->
+
+<div class="row mt-5">
+
+    <div class="col-lg-12">
+
+        <div class="cloud-card quick-actions">
+
+    <div class="card-body">
+
+        <div class="section-header">
+
+            <h4>
+
+                <i class="bi bi-lightning-charge-fill text-warning"></i>
+
+                Quick Actions
+
+            </h4>
+
+            <p class="text-muted">
+
+                Frequently used cloud operations
+
+            </p>
+
+        </div>
+
+        <div class="quick-grid">
+
+           
+
+            <a href="{{ url_for('reports.index') }}" class="quick-btn success">
+                <i class="bi bi-file-earmark-text"></i>
+                <span>Report</span>
+            </a>
+
+            <a href="{{ url_for('findings_ui.index') }}" class="quick-btn warning">
+                <i class="bi bi-shield-exclamation"></i>
+                <span>Findings</span>
+            </a>
+
+            <a href="{{ url_for('cloud.aws') }}" class="quick-btn dark">
+                <i class="bi bi-cloud-fill"></i>
+                <span>AWS</span>
+            </a>
+
+            <a href="{{ url_for('cloud.azure') }}" class="quick-btn azure">
+                <i class="bi bi-microsoft"></i>
+                <span>Azure</span>
+            </a>
+
+            <a href="{{ url_for('docker.index') }}" class="quick-btn docker">
+                <i class="bi bi-box"></i>
+                <span>Docker</span>
+            </a>
+
+        </div>
+
+    </div>
 
 </div>
 
+    </div>
+
+</div>
 {% endblock %}

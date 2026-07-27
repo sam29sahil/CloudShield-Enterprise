@@ -8,7 +8,7 @@ from datetime import datetime
 from app.extensions import db
 
 
-class Notification(db.Model):
+class Notification(db.Model):    
 
     __tablename__ = "notifications"
 
@@ -46,6 +46,20 @@ class Notification(db.Model):
     created_at = db.Column(
         db.DateTime,
         default=datetime.utcnow
+    )
+
+    source = db.Column(
+        db.String(50),
+        default="System"
+    )
+
+    icon = db.Column(    
+        db.String(50),
+        default="bi-bell-fill"
+    )
+
+    url = db.Column(
+        db.String(255)
     )
 
     def __repr__(self):

@@ -39,7 +39,7 @@ class Statistics:
         scans = (
             SecurityScan.query
             .order_by(
-                Scan.started_at.desc()
+                SecurityScan.started_at.desc()
             )
             .limit(limit)
             .all()

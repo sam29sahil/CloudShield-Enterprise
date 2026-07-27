@@ -1,0 +1,1702 @@
+{% extends "base.html" %}
+
+{% block title %}
+Finding Details
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ============================================== -->
+    <!-- Header -->
+    <!-- ============================================== -->
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+
+        <div>
+
+            <nav aria-label="breadcrumb">
+
+                <ol class="breadcrumb mb-2">
+
+                    <li class="breadcrumb-item">
+
+                        <a href="{{ url_for('dashboard.home') }}">
+
+                            Dashboard
+
+                        </a>
+
+                    </li>
+
+                    <li class="breadcrumb-item">
+
+                        <a href="#findings-table">
+
+                            Findings
+
+                        </a>
+
+                    </li>
+
+                    <li class="breadcrumb-item active">
+
+                        Details
+
+                    </li>
+
+                </ol>
+
+            </nav>
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-bug-fill text-danger me-2"></i>
+
+                {{ finding.title }}
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Security Finding Investigation
+
+            </p>
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <a href="{{ url_for('findings_ui.index') }}"
+
+               class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left"></i>
+
+                Back
+
+            </a>
+
+            <a href="{{ url_for('findings_ui.edit',
+                                finding_id=finding.id) }}"
+
+               class="btn btn-primary">
+
+                <i class="bi bi-pencil-square"></i>
+
+                Edit
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ============================================== -->
+    <!-- Hero -->
+    <!-- ============================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body p-4">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-8">
+
+                    <span class="badge bg-primary mb-3">
+
+                        CloudShield Enterprise
+
+                    </span>
+
+                    <h3 class="fw-bold">
+
+                        {{ finding.title }}
+
+                    </h3>
+
+                    <p class="text-muted">
+
+                        Complete investigation, remediation and tracking
+                        of this security finding.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-4 text-center">
+
+                    <i class="bi bi-shield-exclamation"
+
+                       style="font-size:120px;
+                              color:#dc3545;
+                              opacity:.15;">
+
+                    </i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ============================================== -->
+    <!-- Severity Cards -->
+    <!-- Part 2 Starts Here -->
+    <!-- ============================================== -->
+     <div class="row g-4 mb-4">
+
+    <!-- ========================================== -->
+    <!-- Severity -->
+    <!-- ========================================== -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card border-start border-5 border-danger shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted">
+
+                    Severity
+
+                </small>
+
+                <h3 class="mt-3">
+
+                    {% if finding.severity == "Critical" %}
+
+                        <span class="badge bg-danger">
+
+                            Critical
+
+                        </span>
+
+                    {% elif finding.severity == "High" %}
+
+                        <span class="badge bg-warning text-dark">
+
+                            High
+
+                        </span>
+
+                    {% elif finding.severity == "Medium" %}
+
+                        <span class="badge bg-primary">
+
+                            Medium
+
+                        </span>
+
+                    {% elif finding.severity == "Low" %}
+
+                        <span class="badge bg-success">
+
+                            Low
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-secondary">
+
+                            Info
+
+                        </span>
+
+                    {% endif %}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CVSS -->
+    <!-- ========================================== -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted">
+
+                    CVSS Score
+
+                </small>
+
+                <h2 class="fw-bold mt-3">
+
+                    {{ "%.1f"|format(finding.cvss or 0) }}
+
+                </h2>
+
+                <small class="text-muted">
+
+                    Common Vulnerability Scoring System
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- Status -->
+    <!-- ========================================== -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted">
+
+                    Status
+
+                </small>
+
+                <h3 class="mt-3">
+
+                    {% if finding.status == "Resolved" %}
+
+                        <span class="badge bg-success">
+
+                            Resolved
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-danger">
+
+                            Open
+
+                        </span>
+
+                    {% endif %}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- Category -->
+    <!-- ========================================== -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted">
+
+                    Category
+
+                </small>
+
+                <h4 class="fw-bold mt-3">
+
+                    {{ finding.category }}
+
+                </h4>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ============================================== -->
+<!-- Enterprise Overview -->
+<!-- ============================================== -->
+
+<div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-header bg-white">
+
+        <h5 class="mb-0">
+
+            <i class="bi bi-speedometer2 text-primary me-2"></i>
+
+            Security Overview
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row">
+
+            <div class="col-lg-3 text-center">
+
+                <h6 class="text-muted">
+
+                    Risk Score
+
+                </h6>
+
+                <h2 class="fw-bold text-danger">
+
+                    {{ finding.cvss or 0 }}
+
+                </h2>
+
+            </div>
+
+            <div class="col-lg-3 text-center">
+
+                <h6 class="text-muted">
+
+                    False Positive
+
+                </h6>
+
+                <h4>
+
+                    {% if finding.false_positive %}
+
+                        <span class="badge bg-warning text-dark">
+
+                            Yes
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-success">
+
+                            No
+
+                        </span>
+
+                    {% endif %}
+
+                </h4>
+
+            </div>
+
+            <div class="col-lg-3 text-center">
+
+                <h6 class="text-muted">
+
+                    Created
+
+                </h6>
+
+                <strong>
+
+                    {% if finding.created_at %}
+
+                        {{ finding.created_at.strftime("%d %b %Y") }}
+
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+            <div class="col-lg-3 text-center">
+
+                <h6 class="text-muted">
+
+                    Last Updated
+
+                </h6>
+
+                <strong>
+
+                    {% if finding.updated_at %}
+
+                        {{ finding.updated_at.strftime("%d %b %Y") }}
+
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ============================================== -->
+<!-- Description -->
+<!-- Part 3 Starts Here -->
+<!-- ============================================== -->
+ <div class="row g-4 mb-4">
+
+    <!-- ========================================== -->
+    <!-- Description -->
+    <!-- ========================================== -->
+
+    <div class="col-lg-12">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-file-text-fill text-primary me-2"></i>
+
+                    Description
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                {% if finding.description %}
+
+                    <p class="mb-0">
+
+                        {{ finding.description }}
+
+                    </p>
+
+                {% else %}
+
+                    <p class="text-muted mb-0">
+
+                        No description available.
+
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- Evidence -->
+    <!-- ========================================== -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-search text-danger me-2"></i>
+
+                    Evidence
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                {% if finding.evidence %}
+
+<pre class="bg-light rounded p-3 border small mb-0"
+style="max-height:350px;overflow:auto;">{{ finding.evidence }}</pre>
+
+                {% else %}
+
+                    <div class="text-center py-5">
+
+                        <i class="bi bi-search display-5 text-muted"></i>
+
+                        <p class="text-muted mt-3">
+
+                            No evidence collected.
+
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- Recommendation -->
+    <!-- ========================================== -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-lightbulb-fill text-warning me-2"></i>
+
+                    Recommendation
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                {% if finding.recommendation %}
+
+                    <p>
+
+                        {{ finding.recommendation }}
+
+                    </p>
+
+                {% else %}
+
+                    <p class="text-muted">
+
+                        No recommendation available.
+
+                    </p>
+
+                {% endif %}
+
+                <hr>
+
+                <div class="alert alert-info mb-0">
+
+                    <strong>
+
+                        Best Practice
+
+                    </strong>
+
+                    <br>
+
+                    Validate the finding before remediation,
+                    implement the recommended fix in a staging
+                    environment, then verify with a follow-up scan.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ============================================== -->
+<!-- Technical Information -->
+<!-- Part 4 Starts Here -->
+<!-- ============================================== -->
+ <div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-header bg-white">
+
+        <h5 class="mb-0">
+
+            <i class="bi bi-cpu-fill text-primary me-2"></i>
+
+            Technical Information
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row gy-4">
+
+            <!-- Finding ID -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <small class="text-muted">
+
+                    Finding ID
+
+                </small>
+
+                <h6 class="fw-bold mt-2">
+
+                    #{{ finding.id }}
+
+                </h6>
+
+            </div>
+
+            <!-- Category -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <small class="text-muted">
+
+                    Category
+
+                </small>
+
+                <h6 class="fw-bold mt-2">
+
+                    {{ finding.category }}
+
+                </h6>
+
+            </div>
+
+            <!-- CVSS -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <small class="text-muted">
+
+                    CVSS Score
+
+                </small>
+
+                <h6 class="fw-bold mt-2">
+
+                    {{ "%.1f"|format(finding.cvss or 0) }}
+
+                </h6>
+
+            </div>
+
+            <!-- Status -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <small class="text-muted">
+
+                    Current Status
+
+                </small>
+
+                <h6 class="fw-bold mt-2">
+
+                    {{ finding.status }}
+
+                </h6>
+
+            </div>
+
+            <hr>
+
+            <!-- Project -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <small class="text-muted">
+
+                    Project
+
+                </small>
+
+                <h6 class="fw-bold mt-2">
+
+                    {% if finding.project %}
+
+                        {{ finding.project.name }}
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </h6>
+
+            </div>
+
+            <!-- Asset -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <small class="text-muted">
+
+                    Asset
+
+                </small>
+
+                <h6 class="fw-bold mt-2">
+
+                    {% if finding.asset %}
+
+                        {{ finding.asset.name }}
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </h6>
+
+            </div>
+
+            <!-- Target -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <small class="text-muted">
+
+                    Target
+
+                </small>
+
+                <h6 class="fw-bold mt-2">
+
+                    {% if finding.asset %}
+
+                        {{ finding.asset.target }}
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </h6>
+
+            </div>
+
+            <hr>
+
+            <!-- Scan -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <small class="text-muted">
+
+                    Scan ID
+
+                </small>
+
+                <h6 class="fw-bold mt-2">
+
+                    {% if finding.scan %}
+
+                        #{{ finding.scan.id }}
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </h6>
+
+            </div>
+
+            <!-- Tool -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <small class="text-muted">
+
+                    Scanner Tool
+
+                </small>
+
+                <h6 class="fw-bold mt-2">
+
+                    {% if finding.scan %}
+
+                        {{ finding.scan.tool }}
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </h6>
+
+            </div>
+
+            <!-- Duration -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <small class="text-muted">
+
+                    Scan Duration
+
+                </small>
+
+                <h6 class="fw-bold mt-2">
+
+                    {% if finding.scan %}
+
+                        {{ finding.scan.duration }} sec
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </h6>
+
+            </div>
+
+            <!-- Scan Date -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <small class="text-muted">
+
+                    Scan Date
+
+                </small>
+
+                <h6 class="fw-bold mt-2">
+
+                    {% if finding.scan and finding.scan.completed_at %}
+
+                        {{ finding.scan.completed_at.strftime("%d %b %Y %H:%M") }}
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </h6>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ============================================== -->
+<!-- Timeline -->
+<!-- Part 5 Starts Here -->
+<!-- ============================================== -->
+ <div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-header bg-white">
+
+        <h5 class="mb-0">
+
+            <i class="bi bi-clock-history text-primary me-2"></i>
+
+            Finding Timeline
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="timeline">
+
+            <!-- Created -->
+
+            <div class="d-flex mb-4">
+
+                <div class="me-3">
+
+                    <span class="badge bg-primary rounded-circle p-3">
+
+                        <i class="bi bi-plus-lg"></i>
+
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h6 class="mb-1">
+
+                        Finding Created
+
+                    </h6>
+
+                    <small class="text-muted">
+
+                        {% if finding.created_at %}
+
+                            {{ finding.created_at.strftime("%d %b %Y %H:%M") }}
+
+                        {% else %}
+
+                            Unknown
+
+                        {% endif %}
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <!-- Updated -->
+
+            {% if finding.updated_at %}
+
+            <div class="d-flex mb-4">
+
+                <div class="me-3">
+
+                    <span class="badge bg-warning rounded-circle p-3">
+
+                        <i class="bi bi-pencil"></i>
+
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h6 class="mb-1">
+
+                        Last Updated
+
+                    </h6>
+
+                    <small class="text-muted">
+
+                        {{ finding.updated_at.strftime("%d %b %Y %H:%M") }}
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+            <!-- Resolved -->
+
+            {% if finding.resolved_at %}
+
+            <div class="d-flex mb-4">
+
+                <div class="me-3">
+
+                    <span class="badge bg-success rounded-circle p-3">
+
+                        <i class="bi bi-check2-circle"></i>
+
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h6 class="mb-1">
+
+                        Finding Resolved
+
+                    </h6>
+
+                    <small class="text-muted">
+
+                        {{ finding.resolved_at.strftime("%d %b %Y %H:%M") }}
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+            <!-- False Positive -->
+
+            {% if finding.false_positive %}
+
+            <div class="d-flex">
+
+                <div class="me-3">
+
+                    <span class="badge bg-secondary rounded-circle p-3">
+
+                        <i class="bi bi-flag"></i>
+
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h6 class="mb-1">
+
+                        Marked as False Positive
+
+                    </h6>
+
+                    <small class="text-muted">
+
+                        This finding has been excluded from remediation.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ============================================== -->
+<!-- Action Center -->
+<!-- Part 6 Starts Here -->
+<!-- ============================================== -->
+ <div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-header bg-white">
+
+        <h5 class="mb-0">
+
+            <i class="bi bi-lightning-charge-fill text-warning me-2"></i>
+
+            Action Center
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row g-3">
+
+            <!-- Resolve -->
+
+            {% if finding.status != "Resolved" %}
+
+            <div class="col-lg-3 col-md-6">
+
+                <form method="POST"
+                      action="{{ url_for('findings_ui.resolve',
+                                         finding_id=finding.id) }}">
+
+                    <button class="btn btn-success w-100">
+
+                        <i class="bi bi-check-circle me-2"></i>
+
+                        Resolve
+
+                    </button>
+
+                </form>
+
+            </div>
+
+            {% else %}
+
+            <div class="col-lg-3 col-md-6">
+
+                <form method="POST"
+                      action="{{ url_for('findings_ui.reopen',
+                                         finding_id=finding.id) }}">
+
+                    <button class="btn btn-warning w-100">
+
+                        <i class="bi bi-arrow-clockwise me-2"></i>
+
+                        Reopen
+
+                    </button>
+
+                </form>
+
+            </div>
+
+            {% endif %}
+
+            <!-- False Positive -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <form method="POST"
+                      action="{{ url_for('findings_ui.false_positive',
+                                         finding_id=finding.id) }}">
+
+                    <button class="btn btn-outline-secondary w-100">
+
+                        <i class="bi bi-flag me-2"></i>
+
+                        False Positive
+
+                    </button>
+
+                </form>
+
+            </div>
+
+            <!-- Edit -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <a href="{{ url_for('findings_ui.edit',
+                                    finding_id=finding.id) }}"
+
+                   class="btn btn-primary w-100">
+
+                    <i class="bi bi-pencil-square me-2"></i>
+
+                    Edit
+
+                </a>
+
+            </div>
+
+            <!-- Delete -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <form method="POST"
+                      action="{{ url_for('findings_ui.delete',
+                                         finding_id=finding.id) }}"
+
+                      onsubmit="return confirm(
+                      'Delete this finding?');">
+
+                    <button class="btn btn-danger w-100">
+
+                        <i class="bi bi-trash me-2"></i>
+
+                        Delete
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <hr class="my-4">
+
+        <h6 class="mb-3">
+
+            Export
+
+        </h6>
+
+        <div class="row g-3">
+
+            <div class="col-lg-4">
+
+                <a href="{{ url_for('findings_ui.export_csv') }}"
+
+                   class="btn btn-outline-success w-100">
+
+                    <i class="bi bi-file-earmark-spreadsheet me-2"></i>
+
+                    CSV
+
+                </a>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <a href="{{ url_for('findings_ui.export_json') }}"
+
+                   class="btn btn-outline-primary w-100">
+
+                    <i class="bi bi-filetype-json me-2"></i>
+
+                    JSON
+
+                </a>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <a href="{{ url_for('findings_ui.pdf_report') }}"
+
+                   class="btn btn-outline-danger w-100">
+
+                    <i class="bi bi-file-earmark-pdf me-2"></i>
+
+                    PDF Report
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ============================================== -->
+<!-- Related Findings -->
+<!-- Part 7 Starts Here -->
+<!-- ============================================== -->
+ <div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+        <h5 class="mb-0">
+
+            <i class="bi bi-diagram-3-fill text-primary me-2"></i>
+
+            Related Findings
+
+        </h5>
+
+        <span class="badge bg-primary">
+
+            {{ related_findings|length if related_findings else 0 }}
+
+        </span>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        {% if related_findings %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Title</th>
+
+                        <th>Severity</th>
+
+                        <th>Category</th>
+
+                        <th>Status</th>
+
+                        <th>CVSS</th>
+
+                        <th width="90">
+
+                            Action
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in related_findings %}
+
+                    {% if item.id != finding.id %}
+
+                    <tr>
+
+                        <td>
+
+                            #{{ item.id }}
+
+                        </td>
+
+                        <td>
+
+                            {{ item.title }}
+
+                        </td>
+
+                        <td>
+
+                            {% if item.severity == "Critical" %}
+
+                                <span class="badge bg-danger">
+
+                                    Critical
+
+                                </span>
+
+                            {% elif item.severity == "High" %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    High
+
+                                </span>
+
+                            {% elif item.severity == "Medium" %}
+
+                                <span class="badge bg-primary">
+
+                                    Medium
+
+                                </span>
+
+                            {% elif item.severity == "Low" %}
+
+                                <span class="badge bg-success">
+
+                                    Low
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    Info
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ item.category }}
+
+                        </td>
+
+                        <td>
+
+                            {{ item.status }}
+
+                        </td>
+
+                        <td>
+
+                            {{ "%.1f"|format(item.cvss or 0) }}
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('findings.details',
+
+                                finding_id=item.id) }}"
+
+                               class="btn btn-sm btn-outline-primary">
+
+                                <i class="bi bi-eye"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endif %}
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="text-center py-5">
+
+            <i class="bi bi-search display-4 text-muted"></i>
+
+            <p class="text-muted mt-3">
+
+                No related findings found.
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- Evidence -->
+<!-- ========================================= -->
+
+<div class="card mt-4">
+
+    <div class="card-header">
+
+        <h5 class="mb-0">
+
+            <i class="bi bi-paperclip me-2"></i>
+
+            Evidence
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <form
+            method="POST"
+            action="{{ url_for('findings_ui.upload_evidence', finding_id=finding.id) }}"
+            enctype="multipart/form-data">
+
+            <div class="row">
+
+                <div class="col-md-9">
+
+                    <input
+                        type="file"
+                        name="evidence"
+                        class="form-control"
+                        required>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <button
+                        class="btn btn-primary w-100">
+
+                        Upload
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+        <hr>
+
+        {% if finding.evidence_files %}
+
+            <ul class="list-group">
+
+                {% for file in finding.evidence_files %}
+
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <i class="bi bi-file-earmark"></i>
+
+                        {{ file.filename }}
+
+                    </div>
+
+                    <div class="btn-group">
+
+    <!-- View -->
+
+    <a
+        href="{{ url_for('static', filename=file.filepath.replace('app/static/', '').replace('\\', '/')) }}"
+        target="_blank"
+        class="btn btn-sm btn-outline-success">
+
+        <i class="bi bi-eye"></i>
+
+    </a>
+
+    <!-- Download -->
+
+    <a
+        href="{{ url_for('findings_ui.download_evidence',
+                         evidence_id=file.id) }}"
+        class="btn btn-sm btn-outline-primary">
+
+        <i class="bi bi-download"></i>
+
+    </a>
+
+    <!-- Delete -->
+
+    <form
+        method="POST"
+        action="{{ url_for('findings_ui.delete_evidence',
+                           evidence_id=file.id) }}"
+        class="d-inline">
+
+        <button
+            class="btn btn-sm btn-outline-danger"
+            onclick="return confirm('Delete this evidence?')">
+
+            <i class="bi bi-trash"></i>
+
+        </button>
+
+    </form>
+
+</div>
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% else %}
+
+            <p class="text-muted mb-0">
+
+                No evidence uploaded.
+
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<!-- ============================================== -->
+<!-- JavaScript -->
+<!-- Part 8 Starts Here -->
+<!-- ============================================== -->
+ <!-- ============================================== -->
+<!-- JavaScript -->
+<!-- ============================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ==========================================
+    // Copy Evidence
+    // ==========================================
+
+    const evidence = document.querySelector("pre");
+
+    if (evidence) {
+
+        evidence.style.cursor = "pointer";
+
+        evidence.title = "Click to copy evidence";
+
+        evidence.addEventListener("click", function () {
+
+            navigator.clipboard.writeText(
+
+                evidence.innerText
+
+            );
+
+            alert("Evidence copied to clipboard.");
+
+        });
+
+    }
+
+    // ==========================================
+    // Print Report
+    // ==========================================
+
+    const printButton = document.getElementById(
+
+        "printFinding"
+
+    );
+
+    if (printButton) {
+
+        printButton.addEventListener("click", function () {
+
+            window.print();
+
+        });
+
+    }
+
+    // ==========================================
+    // Highlight Critical
+    // ==========================================
+
+    const badge = document.querySelector(
+
+        ".badge.bg-danger"
+
+    );
+
+    if (badge) {
+
+        badge.classList.add(
+
+            "shadow"
+
+        );
+
+    }
+
+    // ==========================================
+    // Smooth Scroll
+    // ==========================================
+
+    document.querySelectorAll(
+
+        'a[href^="#"]'
+
+    ).forEach(anchor => {
+
+        anchor.addEventListener(
+
+            "click",
+
+            function(e){
+
+                e.preventDefault();
+
+                const target = document.querySelector(
+
+                    this.getAttribute("href")
+
+                );
+
+                if(target){
+
+                    target.scrollIntoView({
+
+                        behavior:"smooth"
+
+                    });
+
+                }
+
+            }
+
+        );
+
+    });
+
+});
+</script>
+
+{% endblock %}

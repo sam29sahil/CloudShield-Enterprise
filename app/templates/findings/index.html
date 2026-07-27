@@ -2,56 +2,212 @@
 
 {% block title %}
 
-Findings
+Findings Dashboard
 
 {% endblock %}
 
 {% block content %}
 
-<div class="container-fluid">
+<div class="container-fluid py-4">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- ===================================================== -->
+    <!-- Page Header -->
+    <!-- ===================================================== -->
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
 
         <div>
 
-            <h2 class="fw-bold">
+            <nav aria-label="breadcrumb">
+
+                <ol class="breadcrumb mb-2">
+
+                    <li class="breadcrumb-item">
+
+                        <a href="{{ url_for('dashboard.home') }}">
+
+                            Dashboard
+
+                        </a>
+
+                    </li>
+
+                    <li class="breadcrumb-item active">
+
+                        Findings
+
+                    </li>
+
+                </ol>
+
+            </nav>
+
+            <h2 class="fw-bold mb-1">
+
+                <i class="bi bi-shield-check text-primary me-2"></i>
 
                 Security Findings
 
             </h2>
 
-            <p class="text-muted">
+            <p class="text-muted mb-0">
 
-                Review vulnerabilities discovered during security scans.
+                Centralized vulnerability, compliance and risk management dashboard.
 
             </p>
 
         </div>
 
-        <a href="{{ url_for('scanner.home') }}"
-           class="btn btn-primary">
+        <div class="d-flex gap-2 mt-3 mt-lg-0">
 
-            <i class="bi bi-search"></i>
+            <a href="{{ url_for('scanner.home') }}"
 
-            New Scan
+               class="btn btn-primary">
 
-        </a>
+                <i class="bi bi-play-circle me-2"></i>
+
+                Run Scan
+
+            </a>
+
+            <a href="{{ url_for('findings_ui.create') }}"
+
+               class="btn btn-success">
+
+                <i class="bi bi-plus-circle me-2"></i>
+
+                New Finding
+
+            </a>
+
+            <div class="dropdown">
+
+                <button
+
+                    class="btn btn-outline-secondary dropdown-toggle"
+
+                    data-bs-toggle="dropdown">
+
+                    <i class="bi bi-download me-2"></i>
+
+                    Export
+
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+
+                    <li>
+
+                        <a class="dropdown-item"
+
+                           href="{{ url_for('findings_ui.export_csv') }}">
+
+                            CSV
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a class="dropdown-item"
+
+                           href="{{ url_for('findings_ui.export_json') }}">
+
+                            JSON
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a class="dropdown-item"
+
+                           href="{{ url_for('findings_ui.pdf_report') }}">
+
+                            PDF Report
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
 
     </div>
 
-    <div class="card shadow-sm">
+    <!-- ===================================================== -->
+    <!-- Hero Banner -->
+    <!-- ===================================================== -->
 
-        <div class="card-header">
+    <div class="card border-0 shadow-sm mb-4">
 
-            <div class="row">
+        <div class="card-body p-4">
 
-                <div class="col-md-6">
+            <div class="row align-items-center">
 
-                    <input
-                        type="text"
-                        id="findingSearch"
-                        class="form-control"
-                        placeholder="Search findings...">
+                <div class="col-lg-8">
+
+                    <span class="badge bg-primary mb-3">
+
+                        CloudShield Enterprise
+
+                    </span>
+
+                    <h3 class="fw-bold mb-3">
+
+                        Enterprise Security Findings Center
+
+                    </h3>
+
+                    <p class="text-muted mb-4">
+
+                        Monitor vulnerabilities, prioritize remediation,
+                        analyze trends, generate executive reports,
+                        and track the security posture of all assets
+                        from a single dashboard.
+
+                    </p>
+
+                    <div class="d-flex flex-wrap gap-2">
+
+                        <a href="{{ url_for('scanner.home') }}"
+
+                           class="btn btn-primary">
+
+                            <i class="bi bi-search me-2"></i>
+
+                            Start Scan
+
+                        </a>
+
+                        <a href="{{ url_for('findings_ui.index') }}"
+
+                           class="btn btn-outline-primary">
+
+                            <i class="bi bi-table me-2"></i>
+
+                            View All Findings
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-4 text-center">
+
+                    <i class="bi bi-shield-lock"
+
+                       style="font-size:140px;
+                              color:#0d6efd;
+                              opacity:.15;">
+
+                    </i>
 
                 </div>
 
@@ -59,215 +215,225 @@ Findings
 
         </div>
 
-        <div class="card-body p-0">
+    </div>
 
-            <div class="table-responsive">
+    <!-- ===================================================== -->
+    <!-- Summary Cards -->
+    <!-- Part 2 Starts Here -->
+    <!-- ===================================================== -->
+     <!-- ===================================================== -->
+<!-- Summary Cards -->
+<!-- ===================================================== -->
 
-                <table class="table table-hover align-middle mb-0">
+<div class="row g-4 mb-4">
 
-                    <thead class="table-dark">
+    <!-- Total Findings -->
+    <div class="col-xl-3 col-lg-4 col-md-6">
 
-                        <tr>
+        <div class="card border-0 shadow-sm h-100">
 
-                            <th>ID</th>
+            <div class="card-body">
 
-                            <th>Tool</th>
+                <div class="d-flex justify-content-between">
 
-                            <th>Category</th>
+                    <div>
 
-                            <th>Target</th>
+                        <small class="text-muted">
 
-                            <th>Severity</th>
+                            Total Findings
 
-                            <th>Findings</th>
+                        </small>
 
-                            <th>Score</th>
+                        <h2 class="fw-bold mt-2">
 
-                            <th>Status</th>
+                            {{ dashboard.summary.total }}
 
-                            <th>Report</th>
+                        </h2>
 
-                        </tr>
+                    </div>
 
-                    </thead>
+                    <div>
 
-                    <tbody>
+                        <i class="bi bi-shield-check text-primary fs-1"></i>
 
-                    {% if scans %}
+                    </div>
 
-                        {% for scan in scans %}
+                </div>
 
-                        <tr>
+            </div>
 
-                            <td>
+        </div>
 
-                                #{{ scan.id }}
+    </div>
 
-                            </td>
+    <!-- Critical -->
+    <div class="col-xl-3 col-lg-4 col-md-6">
 
-                            <td>
+        <div class="card border-start border-danger border-4 shadow-sm h-100">
 
-                                {{ scan.tool }}
+            <div class="card-body">
 
-                            </td>
+                <small class="text-muted">
 
-                            <td>
+                    Critical
 
-                                {{ scan.category }}
+                </small>
 
-                            </td>
+                <h2 class="fw-bold text-danger mt-2">
 
-                            <td>
+                    {{ dashboard.summary.critical }}
 
-                                {{ scan.target }}
+                </h2>
 
-                            </td>
+            </div>
 
-                            <td>
+        </div>
 
-                                {% if scan.risk=="Critical" %}
+    </div>
 
-                                    <span class="badge bg-dark">
+    <!-- High -->
+    <div class="col-xl-3 col-lg-4 col-md-6">
 
-                                        Critical
+        <div class="card border-start border-warning border-4 shadow-sm h-100">
 
-                                    </span>
+            <div class="card-body">
 
-                                {% elif scan.risk=="High" %}
+                <small class="text-muted">
 
-                                    <span class="badge bg-danger">
+                    High
 
-                                        High
+                </small>
 
-                                    </span>
+                <h2 class="fw-bold text-warning mt-2">
 
-                                {% elif scan.risk=="Medium" %}
+                    {{ dashboard.summary.high }}
 
-                                    <span class="badge bg-warning text-dark">
+                </h2>
 
-                                        Medium
+            </div>
 
-                                    </span>
+        </div>
 
-                                {% elif scan.risk=="Low" %}
+    </div>
 
-                                    <span class="badge bg-success">
+    <!-- Medium -->
+    <div class="col-xl-3 col-lg-4 col-md-6">
 
-                                        Low
+        <div class="card border-start border-primary border-4 shadow-sm h-100">
 
-                                    </span>
+            <div class="card-body">
 
-                                {% else %}
+                <small class="text-muted">
 
-                                    <span class="badge bg-secondary">
+                    Medium
 
-                                        Unknown
+                </small>
 
-                                    </span>
+                <h2 class="fw-bold text-primary mt-2">
 
-                                {% endif %}
+                    {{ dashboard.summary.medium }}
 
-                            </td>
+                </h2>
 
-                            <td>
+            </div>
 
-<small>
+        </div>
 
-{% set data = scan.parsed_output | from_json %}
+    </div>
 
-{{ data.findings|replace('\n','<br>')|safe }}
+    <!-- Low -->
+    <div class="col-xl-3 col-lg-4 col-md-6">
 
-</small>
+        <div class="card border-start border-success border-4 shadow-sm h-100">
 
-</td>
+            <div class="card-body">
 
-<td>
+                <small class="text-muted">
 
-<strong>
+                    Low
 
-{{ scan.score }}
+                </small>
 
-</strong>
+                <h2 class="fw-bold text-success mt-2">
 
-</td>
+                    {{ dashboard.summary.low }}
 
-                            <td>
+                </h2>
 
-                                {% if scan.status=="Completed" %}
+            </div>
 
-                                    <span class="badge bg-success">
+        </div>
 
-                                        Completed
+    </div>
 
-                                    </span>
+    <!-- Open -->
+    <div class="col-xl-3 col-lg-4 col-md-6">
 
-                                {% elif scan.status=="Running" %}
+        <div class="card shadow-sm h-100">
 
-                                    <span class="badge bg-warning text-dark">
+            <div class="card-body">
 
-                                        Running
+                <small class="text-muted">
 
-                                    </span>
+                    Open Findings
 
-                                {% else %}
+                </small>
 
-                                    <span class="badge bg-danger">
+                <h2 class="fw-bold mt-2">
 
-                                        Failed
+                    {{ dashboard.summary.open }}
 
-                                    </span>
+                </h2>
 
-                                {% endif %}
+            </div>
 
-                            </td>
+        </div>
 
-                            <td>
+    </div>
 
-                                <a href="{{ url_for('reports.view', scan_id=scan.id) }}"
-                                   class="btn btn-primary btn-sm">
+    <!-- Resolved -->
+    <div class="col-xl-3 col-lg-4 col-md-6">
 
-                                    <i class="bi bi-eye"></i>
+        <div class="card shadow-sm h-100">
 
-                                    View
+            <div class="card-body">
 
-                                </a>
+                <small class="text-muted">
 
-                            </td>
+                    Resolved
 
-                        </tr>
+                </small>
 
-                        {% endfor %}
+                <h2 class="fw-bold text-success mt-2">
 
-                    {% else %}
+                    {{ dashboard.summary.resolved }}
 
-                        <tr>
+                </h2>
 
-                            <td colspan="8"
-                                class="text-center py-5">
+            </div>
 
-                                <i class="bi bi-shield-exclamation display-3 text-secondary"></i>
+        </div>
 
-                                <h4 class="mt-3">
+    </div>
 
-                                    No Findings Available
+    <!-- Risk Score -->
+    <div class="col-xl-3 col-lg-4 col-md-6">
 
-                                </h4>
+        <div class="card bg-dark text-white shadow-sm h-100">
 
-                                <p class="text-muted">
+            <div class="card-body">
 
-                                    Run a security scan to generate findings.
+                <small>
 
-                                </p>
+                    Overall Risk Score
 
-                            </td>
+                </small>
 
-                        </tr>
+                <h2 class="fw-bold mt-2">
 
-                    {% endif %}
+                    {{ dashboard.risk_score }}
 
-                    </tbody>
-
-                </table>
+                </h2>
 
             </div>
 
@@ -277,28 +443,1212 @@ Findings
 
 </div>
 
+<!-- ===================================================== -->
+<!-- Charts -->
+<!-- Part 3 Starts Here -->
+<!-- ===================================================== -->
+ <!-- ===================================================== -->
+<!-- Analytics Charts -->
+<!-- ===================================================== -->
+
+<div class="row g-4 mb-4">
+
+    <!-- Severity Distribution -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-pie-chart-fill text-danger me-2"></i>
+
+                    Severity Distribution
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <canvas
+
+                    id="severityChart"
+
+                    height="280">
+
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Category Distribution -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-bar-chart-fill text-primary me-2"></i>
+
+                    Category Distribution
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <canvas
+
+                    id="categoryChart"
+
+                    height="280">
+
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- Trend Charts -->
+<!-- ===================================================== -->
+
+<div class="row g-4 mb-4">
+
+    <!-- Monthly Trend -->
+
+    <div class="col-lg-8">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-graph-up-arrow text-success me-2"></i>
+
+                    Monthly Findings Trend
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <canvas
+
+                    id="monthlyChart"
+
+                    height="130">
+
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Risk Score -->
+
+    <div class="col-lg-4">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-speedometer2 text-warning me-2"></i>
+
+                    Risk Score
+
+                </h5>
+
+            </div>
+
+            <div class="card-body text-center">
+
+                <div
+
+                    class="display-2 fw-bold text-danger"
+
+                    id="riskScoreValue">
+
+                    {{ dashboard.risk_score }}
+
+                </div>
+
+                <p class="text-muted mt-3">
+
+                    Overall Enterprise Security Risk
+
+                </p>
+
+                <div class="progress mt-4">
+
+                    <div
+
+                        class="progress-bar bg-danger"
+
+                        role="progressbar"
+
+                        style="width: {{ dashboard.risk_score }}%;">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- Assets / Projects -->
+<!-- Part 4 Starts Here -->
+<!-- ===================================================== -->
+ <!-- ===================================================== -->
+<!-- Top Assets / Projects -->
+<!-- ===================================================== -->
+
+<div class="row g-4 mb-4">
+
+    <!-- ================================================= -->
+    <!-- Top Vulnerable Assets -->
+    <!-- ================================================= -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-hdd-network-fill text-primary me-2"></i>
+
+                    Top Vulnerable Assets
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                {% if dashboard.top_assets %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Asset ID</th>
+
+                                <th class="text-center">
+
+                                    Findings
+
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for asset in dashboard.top_assets %}
+
+                            <tr>
+
+                                <td>
+
+                                    <span class="fw-semibold">
+
+                                        Asset #{{ asset[0] }}
+
+                                    </span>
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <span class="badge bg-danger">
+
+                                        {{ asset[1] }}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                {% else %}
+
+                <div class="text-center py-5 text-muted">
+
+                    <i class="bi bi-inbox display-5"></i>
+
+                    <p class="mt-3">
+
+                        No asset statistics available.
+
+                    </p>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- Top Vulnerable Projects -->
+    <!-- ================================================= -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-folder-fill text-warning me-2"></i>
+
+                    Top Vulnerable Projects
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                {% if dashboard.top_projects %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Project ID</th>
+
+                                <th class="text-center">
+
+                                    Findings
+
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for project in dashboard.top_projects %}
+
+                            <tr>
+
+                                <td>
+
+                                    <span class="fw-semibold">
+
+                                        Project #{{ project[0] }}
+
+                                    </span>
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        {{ project[1] }}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                {% else %}
+
+                <div class="text-center py-5 text-muted">
+
+                    <i class="bi bi-inbox display-5"></i>
+
+                    <p class="mt-3">
+
+                        No project statistics available.
+
+                    </p>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- Recent Findings -->
+<!-- Part 5 Starts Here -->
+<!-- ===================================================== -->
+ <!-- ===================================================== -->
+<!-- Recent Findings -->
+<!-- ===================================================== -->
+
+<div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+        <h5 class="mb-0">
+
+            <i class="bi bi-list-check me-2 text-danger"></i>
+
+            Recent Security Findings
+
+        </h5>
+
+        <a href="{{ url_for('findings_ui.index') }}"
+
+           class="btn btn-sm btn-outline-primary">
+
+            View All
+
+        </a>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Title</th>
+
+                        <th>Severity</th>
+
+                        <th>CVSS</th>
+
+                        <th>Category</th>
+
+                        <th>Status</th>
+
+                        <th>Created</th>
+
+                        <th class="text-center">
+
+                            Actions
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for finding in recent %}
+
+                    <tr>
+
+                        <td>
+
+                            #{{ finding.id }}
+
+                        </td>
+
+                        <td>
+
+                            <strong>
+
+                                {{ finding.title }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {% if finding.severity == "Critical" %}
+
+                            <span class="badge bg-danger">
+
+                                Critical
+
+                            </span>
+
+                            {% elif finding.severity == "High" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                High
+
+                            </span>
+
+                            {% elif finding.severity == "Medium" %}
+
+                            <span class="badge bg-primary">
+
+                                Medium
+
+                            </span>
+
+                            {% elif finding.severity == "Low" %}
+
+                            <span class="badge bg-success">
+
+                                Low
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-secondary">
+
+                                Info
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ "%.1f"|format(finding.cvss or 0) }}
+
+                        </td>
+
+                        <td>
+
+                            {{ finding.category }}
+
+                        </td>
+
+                        <td>
+
+                            {% if finding.status == "Resolved" %}
+
+                            <span class="badge bg-success">
+
+                                Resolved
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-danger">
+
+                                Open
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if finding.created_at %}
+
+                                {{ finding.created_at.strftime("%d %b %Y") }}
+
+                            {% endif %}
+
+                        </td>
+
+                        <td class="text-center">
+
+                            <a href="{{ url_for('findings_ui.view',
+
+                                finding_id=finding.id) }}"
+
+                               class="btn btn-sm btn-outline-primary">
+
+                                <i class="bi bi-eye"></i>
+
+                            </a>
+
+                            {% if finding.status != "Resolved" %}
+
+                            <form
+
+                                method="POST"
+
+                                action="{{ url_for('findings_ui.resolve',
+
+                                finding_id=finding.id) }}"
+
+                                class="d-inline">
+
+                                <button
+
+                                    class="btn btn-sm btn-success">
+
+                                    <i class="bi bi-check2-circle"></i>
+
+                                </button>
+
+                            </form>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="8"
+
+                            class="text-center py-5 text-muted">
+
+                            <i class="bi bi-inbox display-6 d-block mb-3"></i>
+
+                            No findings available.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- Quick Actions -->
+<!-- Part 6 Starts Here -->
+<!-- ===================================================== -->
+ <!-- ===================================================== -->
+<!-- Quick Actions -->
+<!-- ===================================================== -->
+
+<div class="row g-4 mb-4">
+
+    <!-- ================================================= -->
+    <!-- Quick Actions -->
+    <!-- ================================================= -->
+
+    <div class="col-lg-8">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-lightning-charge-fill text-warning me-2"></i>
+
+                    Quick Actions
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+
+                        <a href="{{ url_for('scanner.home') }}"
+                           class="btn btn-primary w-100 py-3">
+
+                            <i class="bi bi-search fs-3 d-block mb-2"></i>
+
+                            Run Security Scan
+
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <a href="{{ url_for('findings_ui.create') }}"
+                           class="btn btn-success w-100 py-3">
+
+                            <i class="bi bi-plus-circle fs-3 d-block mb-2"></i>
+
+                            Create Finding
+
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <a href="{{ url_for('findings_ui.list_findings') }}"
+   class="btn btn-dark w-100 py-3">
+
+    <i class="bi bi-list-check fs-3 d-block mb-2"></i>
+
+    View Findings
+
+</a>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <a href="{{ url_for('findings_ui.export_csv') }}"
+                           class="btn btn-outline-success w-100 py-3">
+
+                            <i class="bi bi-file-earmark-spreadsheet fs-3 d-block mb-2"></i>
+
+                            Export CSV
+
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <a href="{{ url_for('findings_ui.export_json') }}"
+                           class="btn btn-outline-primary w-100 py-3">
+
+                            <i class="bi bi-filetype-json fs-3 d-block mb-2"></i>
+
+                            Export JSON
+
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <a href="{{ url_for('findings_ui.pdf_report') }}"
+                           class="btn btn-outline-danger w-100 py-3">
+
+                            <i class="bi bi-file-earmark-pdf fs-3 d-block mb-2"></i>
+
+                            Generate PDF
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- Enterprise Health -->
+    <!-- ================================================= -->
+
+    <div class="col-lg-4">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-speedometer2 text-success me-2"></i>
+
+                    Security Overview
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="mb-4">
+
+                    <small class="text-muted">
+
+                        Enterprise Risk Score
+
+                    </small>
+
+                    <h1 class="fw-bold text-danger">
+
+                        {{ dashboard.risk_score }}
+
+                    </h1>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <small class="text-muted">
+
+                        Average CVSS
+
+                    </small>
+
+                    <h4>
+
+                        {{ dashboard.cvss.average }}
+
+                    </h4>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <small class="text-muted">
+
+                        Maximum CVSS
+
+                    </small>
+
+                    <h4>
+
+                        {{ dashboard.cvss.maximum }}
+
+                    </h4>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <small class="text-muted">
+
+                        Total Assets at Risk
+
+                    </small>
+
+                    <h4>
+
+                        {{ dashboard.top_assets|length }}
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- Chart.js -->
+<!-- Part 7 Starts Here -->
+<!-- ===================================================== -->
+ <!-- ===================================================== -->
+<!-- Chart.js -->
+<!-- ===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
 
-document.getElementById("findingSearch").addEventListener(
+document.addEventListener("DOMContentLoaded", async () => {
 
-"keyup",
+    // ==========================================
+    // Severity Chart
+    // ==========================================
 
-function(){
+    const severityData = await fetch(
 
-let value=this.value.toLowerCase();
+        "/findings/api/severity"
 
-document.querySelectorAll("tbody tr").forEach(function(row){
+    ).then(r => r.json());
 
-row.style.display=row.innerText.toLowerCase().includes(value)
+    new Chart(
 
-? ""
+        document.getElementById("severityChart"),
 
-: "none";
+        {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: Object.keys(
+
+                    severityData
+
+                ),
+
+                datasets: [{
+
+                    data: Object.values(
+
+                        severityData
+
+                    ),
+
+                    backgroundColor: [
+
+                        "#dc3545",
+
+                        "#fd7e14",
+
+                        "#0d6efd",
+
+                        "#198754",
+
+                        "#6c757d"
+
+                    ],
+
+                    borderWidth: 0
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom"
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    );
+
+    // ==========================================
+    // Category Chart
+    // ==========================================
+
+    const categoryData = await fetch(
+
+        "/findings/api/categories"
+
+    ).then(r => r.json());
+
+    new Chart(
+
+        document.getElementById("categoryChart"),
+
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels: Object.keys(
+
+                    categoryData
+
+                ),
+
+                datasets: [{
+
+                    label: "Findings",
+
+                    data: Object.values(
+
+                        categoryData
+
+                    ),
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+
+                        display: false
+
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    );
+
+    // ==========================================
+    // Monthly Trend
+    // ==========================================
+
+    const monthlyData = await fetch(
+
+        "/findings/api/monthly"
+
+    ).then(r => r.json());
+
+    new Chart(
+
+        document.getElementById("monthlyChart"),
+
+        {
+
+            type: "line",
+
+            data: {
+
+                labels: Object.keys(
+
+                    monthlyData
+
+                ),
+
+                datasets: [{
+
+                    label: "Findings",
+
+                    data: Object.values(
+
+                        monthlyData
+
+                    ),
+
+                    tension: .35,
+
+                    fill: true
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+
+                        display: false
+
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    );
 
 });
 
-});
+</script>
+<!-- ===================================================== -->
+<!-- Live Dashboard -->
+<!-- ===================================================== -->
 
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    // ==========================================
+    // Animated Counters
+    // ==========================================
+
+    document.querySelectorAll("h2, .display-2").forEach(counter => {
+
+        const target = parseInt(counter.innerText);
+
+        if (isNaN(target)) return;
+
+        let current = 0;
+
+        const step = Math.max(
+
+            1,
+
+            Math.ceil(target / 40)
+
+        );
+
+        const timer = setInterval(() => {
+
+            current += step;
+
+            if (current >= target) {
+
+                counter.innerText = target;
+
+                clearInterval(timer);
+
+            }
+
+            else {
+
+                counter.innerText = current;
+
+            }
+
+        }, 20);
+
+    });
+
+    // ==========================================
+    // Auto Refresh Dashboard
+    // ==========================================
+
+    setInterval(async () => {
+
+        try {
+
+            const response = await fetch(
+
+                "/findings/api/dashboard"
+
+            );
+
+            const data = await response.json();
+
+            console.log(
+
+                "Dashboard refreshed",
+
+                data
+
+            );
+
+            // Future:
+            // Update cards and charts here
+            // without reloading the page.
+
+        }
+
+        catch(err){
+
+            console.error(err);
+
+        }
+
+    }, 60000);
+
+    // ==========================================
+    // Auto Hide Alerts
+    // ==========================================
+
+    setTimeout(() => {
+
+        document.querySelectorAll(
+
+            ".alert"
+
+        ).forEach(alert => {
+
+            alert.classList.add(
+
+                "fade"
+
+            );
+
+            setTimeout(() => {
+
+                alert.remove();
+
+            },500);
+
+        });
+
+    },4000);
+
+});
 </script>
 
 {% endblock %}

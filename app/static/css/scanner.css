@@ -1,0 +1,1117 @@
+/*=====================================================
+ CloudShield Enterprise
+ Scanner Module
+ Version 1.0
+======================================================*/
+
+:root{
+
+    --scanner-primary:#2563eb;
+    --scanner-primary-dark:#1d4ed8;
+
+    --scanner-success:#22c55e;
+    --scanner-warning:#f59e0b;
+    --scanner-danger:#ef4444;
+    --scanner-info:#06b6d4;
+
+    --scanner-bg:#0f172a;
+    --scanner-card:#1e293b;
+    --scanner-card-light:#243447;
+
+    --scanner-border:#334155;
+
+    --scanner-text:#f8fafc;
+    --scanner-muted:#94a3b8;
+
+    --radius:18px;
+
+}
+
+
+
+/*=====================================================
+General
+======================================================*/
+
+.scanner-page{
+
+    color:var(--scanner-text);
+
+}
+
+.scanner-page h1,
+.scanner-page h2,
+.scanner-page h3,
+.scanner-page h4,
+.scanner-page h5{
+
+    color:white;
+
+}
+
+.scanner-page p{
+
+    color:var(--scanner-muted);
+
+}
+
+
+
+/*=====================================================
+Hero
+======================================================*/
+
+.scanner-hero{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:22px;
+
+    padding:45px;
+
+    margin-bottom:30px;
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8,
+    #1e3a8a);
+
+    color:white;
+
+}
+
+
+
+.scanner-hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:420px;
+
+    height:420px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+
+    right:-150px;
+
+    top:-180px;
+
+}
+
+
+
+.scanner-hero h1{
+
+    font-size:38px;
+
+    font-weight:700;
+
+}
+
+
+
+.scanner-hero p{
+
+    color:rgba(255,255,255,.82);
+
+    font-size:17px;
+
+}
+
+
+
+.hero-buttons{
+
+    margin-top:30px;
+
+}
+
+
+
+.hero-buttons .btn{
+
+    margin-right:12px;
+
+    border-radius:12px;
+
+    padding:11px 24px;
+
+    font-weight:600;
+
+}
+
+
+
+/*=====================================================
+Cards
+======================================================*/
+
+.scanner-card{
+
+    background:var(--scanner-card);
+
+    border:1px solid var(--scanner-border);
+
+    border-radius:20px;
+
+    box-shadow:
+
+    0 15px 35px rgba(0,0,0,.22);
+
+    padding:28px;
+
+    margin-bottom:28px;
+
+}
+
+
+
+.scanner-card-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-size:21px;
+
+    font-weight:600;
+
+    margin-bottom:25px;
+
+}
+
+
+
+/*=====================================================
+Form
+======================================================*/
+
+.scanner-card label{
+
+    font-weight:600;
+
+    color:#cbd5e1;
+
+    margin-bottom:8px;
+
+}
+
+
+
+.scanner-card .form-control,
+.scanner-card .form-select{
+
+    background:#111827;
+
+    color:white;
+
+    border:1px solid #475569;
+
+    border-radius:14px;
+
+    min-height:48px;
+
+}
+
+
+
+.scanner-card .form-control:focus,
+.scanner-card .form-select:focus{
+
+    border-color:var(--scanner-primary);
+
+    box-shadow:
+
+    0 0 0 .25rem rgba(37,99,235,.22);
+
+}
+
+
+
+/*=====================================================
+Buttons
+======================================================*/
+
+.btn-start{
+
+    width:100%;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:14px;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    color:white;
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #3b82f6,
+    #2563eb);
+
+    transition:.3s;
+
+}
+
+
+
+.btn-start:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+    0 12px 25px rgba(37,99,235,.35);
+
+}
+
+
+
+/*=====================================================
+Status Box
+======================================================*/
+
+.status-box{
+
+    background:#111827;
+
+    border-radius:16px;
+
+    padding:20px;
+
+    margin-bottom:18px;
+
+}
+
+
+
+.status-title{
+
+    font-size:15px;
+
+    color:#94a3b8;
+
+}
+
+
+
+.status-value{
+
+    color:white;
+
+    font-size:20px;
+
+    font-weight:600;
+
+}
+
+
+
+/*=====================================================
+Progress
+======================================================*/
+
+.progress{
+
+    height:10px;
+
+    background:#1f2937;
+
+    border-radius:100px;
+
+}
+
+
+
+.progress-bar{
+
+    background:
+
+    linear-gradient(
+    90deg,
+    #22c55e,
+    #3b82f6);
+
+}
+
+
+
+/*=====================================================
+Scanner Steps
+======================================================*/
+
+.scan-step{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:13px 0;
+
+    border-bottom:1px solid #334155;
+
+}
+
+
+
+.scan-step:last-child{
+
+    border:none;
+
+}
+
+
+
+.step-title{
+
+    color:white;
+
+}
+
+
+
+.step-status{
+
+    font-size:13px;
+
+}
+
+
+
+/*=====================================================
+Badges
+======================================================*/
+
+.badge-running{
+
+    background:#3b82f6;
+
+}
+
+
+
+.badge-success{
+
+    background:#22c55e;
+
+}
+
+
+
+.badge-warning{
+
+    background:#f59e0b;
+
+}
+
+
+
+.badge-danger{
+
+    background:#ef4444;
+
+}
+
+
+
+/*=====================================================
+Module Grid
+======================================================*/
+
+.module-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:14px;
+
+}
+
+
+
+.module-item{
+
+    background:#111827;
+
+    border:1px solid #334155;
+
+    border-radius:14px;
+
+    padding:14px;
+
+    transition:.25s;
+
+}
+
+
+
+.module-item:hover{
+
+    border-color:#3b82f6;
+
+    transform:translateY(-2px);
+
+}
+
+
+
+/*=====================================================
+Statistics
+======================================================*/
+
+.stat-card{
+
+    background:#111827;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    text-align:center;
+
+}
+
+
+
+.stat-value{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    color:#3b82f6;
+
+}
+
+
+
+.stat-title{
+
+    color:#94a3b8;
+
+}
+
+
+
+/*=====================================================
+Responsive
+======================================================*/
+
+@media(max-width:992px){
+
+.module-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.scanner-hero{
+
+padding:30px;
+
+}
+
+.scanner-hero h1{
+
+font-size:30px;
+
+}
+
+}
+/*=====================================================
+ Result Cards
+======================================================*/
+
+.result-card{
+
+    background:#111827;
+
+    border:1px solid #334155;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    text-align:center;
+
+    transition:.3s;
+
+    height:100%;
+
+}
+
+.result-card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#3b82f6;
+
+    box-shadow:0 15px 30px rgba(0,0,0,.25);
+
+}
+
+.result-icon{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:0 auto 15px;
+
+    font-size:26px;
+
+    color:white;
+
+}
+
+.result-icon.primary{
+
+    background:#2563eb;
+
+}
+
+.result-icon.success{
+
+    background:#22c55e;
+
+}
+
+.result-icon.warning{
+
+    background:#f59e0b;
+
+}
+
+.result-icon.danger{
+
+    background:#ef4444;
+
+}
+
+.result-number{
+
+    font-size:32px;
+
+    font-weight:700;
+
+    color:white;
+
+}
+
+.result-label{
+
+    color:#94a3b8;
+
+    margin-top:6px;
+
+}
+
+/*=====================================================
+ Recommendation Card
+======================================================*/
+
+.recommendation-card{
+
+    background:#111827;
+
+    border:1px solid #334155;
+
+    border-left:5px solid #22c55e;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    margin-bottom:18px;
+
+}
+
+.recommendation-card h6{
+
+    color:white;
+
+    margin-bottom:15px;
+
+}
+
+.recommendation-item{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-bottom:12px;
+
+    color:#cbd5e1;
+
+}
+
+.recommendation-item i{
+
+    color:#22c55e;
+
+    margin-top:2px;
+
+}
+
+/*=====================================================
+ Tables
+======================================================*/
+
+.scanner-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.scanner-table thead{
+
+    background:#111827;
+
+}
+
+.scanner-table th{
+
+    color:white;
+
+    padding:14px;
+
+    border-bottom:1px solid #334155;
+
+}
+
+.scanner-table td{
+
+    padding:14px;
+
+    color:#cbd5e1;
+
+    border-bottom:1px solid #334155;
+
+}
+
+.scanner-table tbody tr:hover{
+
+    background:#1f2937;
+
+}
+
+/*=====================================================
+ Scan Timeline
+======================================================*/
+
+.timeline{
+
+    position:relative;
+
+    padding-left:30px;
+
+}
+
+.timeline::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:10px;
+
+    top:0;
+
+    bottom:0;
+
+    width:2px;
+
+    background:#334155;
+
+}
+
+.timeline-item{
+
+    position:relative;
+
+    margin-bottom:22px;
+
+}
+
+.timeline-item::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-25px;
+
+    top:5px;
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:#3b82f6;
+
+}
+
+.timeline-title{
+
+    color:white;
+
+    font-weight:600;
+
+}
+
+.timeline-time{
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+}
+
+/*=====================================================
+ Loading Spinner
+======================================================*/
+
+.scanner-loading{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:50px;
+
+}
+
+.scanner-spinner{
+
+    width:55px;
+
+    height:55px;
+
+    border:5px solid rgba(255,255,255,.15);
+
+    border-top-color:#3b82f6;
+
+    border-radius:50%;
+
+    animation:scanner-spin 1s linear infinite;
+
+}
+
+@keyframes scanner-spin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/*=====================================================
+ Empty State
+======================================================*/
+
+.empty-state{
+
+    text-align:center;
+
+    padding:60px 20px;
+
+}
+
+.empty-state i{
+
+    font-size:70px;
+
+    color:#3b82f6;
+
+    margin-bottom:20px;
+
+}
+
+.empty-state h4{
+
+    color:white;
+
+}
+
+.empty-state p{
+
+    color:#94a3b8;
+
+}
+
+/*=====================================================
+ Animation
+======================================================*/
+
+.fade-up{
+
+    animation:fadeUp .6s ease;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/*=====================================================
+ Scrollbar
+======================================================*/
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#334155;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#475569;
+
+}
+
+/*=====================================================
+ Utilities
+======================================================*/
+
+.shadow-soft{
+
+    box-shadow:0 10px 25px rgba(0,0,0,.20);
+
+}
+
+.border-soft{
+
+    border:1px solid #334155;
+
+}
+
+.text-muted-light{
+
+    color:#6a7f9c !important;
+
+}
+
+.text-success-custom{
+
+    color:#22c55e !important;
+
+}
+
+.text-danger-custom{
+
+    color:#ef4444 !important;
+
+}
+
+.text-warning-custom{
+
+    color:#f59e0b !important;
+
+}
+
+.bg-soft{
+
+    background:#111827;
+
+}
+
+.rounded-soft{
+
+    border-radius:18px;
+
+}
+.report-hero{
+    background:linear-gradient(135deg,#0f172a,#1e3a8a);
+    color:#1e1c1c;
+    border-radius:18px;
+    padding:35px;
+    box-shadow:0 20px 40px rgba(0,0,0,.18);
+}
+
+.metric-card{
+    background:#0f167c;
+    border-radius:16px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    height:100%;
+    transition:.3s;
+}
+
+.metric-card:hover{
+    transform:translateY(-4px);
+}
+
+.metric-title{
+    font-size:.9rem;
+    color:#6b7280;
+    margin-bottom:10px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+}
+
+.metric-card h2{
+    margin:0;
+    font-weight:700;
+}
+.card-header h5{
+
+    font-weight:600;
+
+    margin:0;
+
+}
+
+.table td{
+
+    vertical-align:middle;
+
+}
+
+.table-hover tbody tr:hover{
+
+    background:#2b455f;
+
+}
+.list-group-item{
+
+    border:none;
+
+    border-left:4px solid #0d6efd;
+
+    margin-bottom:6px;
+
+    border-radius:10px;
+
+}
+
+.badge{
+
+    font-size:.9rem;
+
+}
+.accordion-button{
+
+    font-weight:600;
+
+}
+
+pre{
+
+    white-space:pre-wrap;
+
+    word-break:break-word;
+
+}
+
+.border-start{
+
+    border-left-width:5px !important;
+
+}
+@media print{
+
+.sidebar,
+.navbar,
+.btn,
+.card-header{
+
+display:none !important;
+
+}
+
+body{
+
+background:rgb(102, 27, 27);
+
+}
+
+.card{
+
+box-shadow:none;
+
+border:1px solid #ddd;
+
+}
+
+}
+.raw-json{
+
+background:#0f172a;
+
+color:#22c55e;
+
+padding:20px;
+
+border-radius:12px;
+
+font-family:"JetBrains Mono", monospace;
+
+font-size:13px;
+
+overflow:auto;
+
+max-height:600px;
+
+}

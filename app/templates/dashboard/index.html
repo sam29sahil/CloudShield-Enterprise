@@ -38,7 +38,7 @@
 
                 href="{{ url_for('scanner.home') }}"
 
-                class="btn btn-primary">
+                class=" btn btn-primary shadow-sm">
 
                 <i class="bi bi-search"></i>
 
@@ -56,7 +56,7 @@
 
         <div class="col-xl-3 col-md-6 mb-4">
 
-            <div class="card shadow-sm h-100">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
 
                 <div class="card-body">
 
@@ -70,7 +70,7 @@
 
                             </h6>
 
-                            <h2 class="fw-bold">
+                            <h2 class="fw-bold text-primary">
 
                                 {{ total_scans }}
 
@@ -94,7 +94,7 @@
 
         <div class="col-xl-3 col-md-6 mb-4">
 
-            <div class="card shadow-sm h-100">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
 
                 <div class="card-body">
 
@@ -132,7 +132,7 @@
 
         <div class="col-xl-3 col-md-6 mb-4">
 
-            <div class="card shadow-sm h-100">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
 
                 <div class="card-body">
 
@@ -170,7 +170,7 @@
 
         <div class="col-xl-3 col-md-6 mb-4">
 
-            <div class="card shadow-sm h-100">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
 
                 <div class="card-body">
 
@@ -214,7 +214,7 @@
 
         <div class="col-lg-8 mb-4">
 
-            <div class="card shadow-sm">
+            <div class="card border-0 shadow dashboard-card h-100">
 
                 <div class="card-header bg-dark text-white">
 
@@ -300,7 +300,7 @@
 
         <div class="col-lg-4 mb-4">
 
-            <div class="card shadow-sm">
+            <div class="card border-0 shadow dashboard-card h-100">
 
                 <div class="card-header bg-primary text-white">
 
@@ -318,7 +318,7 @@
 
                     <h1 class="display-2 fw-bold text-primary">
 
-                        {{ score }}
+                      {{ "%.0f"|format(score) }}%
 
                     </h1>
 
@@ -336,103 +336,131 @@
 
     </div>
 
-    <!-- Quick Actions -->
+   <!-- Quick Actions -->
 
-    <div class="card shadow-sm mb-4">
+<div class="card border-0 shadow-sm rounded-4 mb-4">
 
-        <div class="card-header">
+    <div class="card-header">
 
-            <h5 class="mb-0">
+        <h5 class="mb-0">
 
-                Quick Actions
+            Quick Actions
 
-            </h5>
+        </h5>
 
-        </div>
+    </div>
 
-        <div class="card-body">
+    <div class="card-body">
 
-            <div class="row text-center">
+        <div class="row g-3">
 
-                <div class="col-md-3 mb-3">
+            <div class="col-lg-2 col-md-4 col-6">
 
-                    <a
+                <a href="{{ url_for('scanner.home') }}"
+                   class="btn btn-primary shadow-sm w-100 py-3">
 
-                        href="{{ url_for('scanner.home') }}"
+                    <i class="bi bi-search fs-2"></i>
 
-                        class="btn btn-primary w-100">
-
-                        <i class="bi bi-search fs-3"></i>
-
-                        <br>
+                    <div class="mt-2">
 
                         New Scan
 
-                    </a>
+                    </div>
 
-                </div>
+                </a>
 
-                <div class="col-md-3 mb-3">
+            </div>
 
-                    <a href="{{ url_for('reports.index') }}"class="btn btn-success w-100">
+            <div class="col-lg-2 col-md-4 col-6">
 
-    <i class="bi bi-file-earmark-pdf fs-3"></i><br>
-    Reports
+                <a href="{{ url_for('findings_ui.index') }}"
+                   class="btn btn-danger w-100 py-3">
 
-</a>
+                    <i class="bi bi-bug fs-2"></i>
 
-                        <i class="bi bi-file-earmark-pdf fs-3"></i>
+                    <div class="mt-2">
 
-                        <br>
+                        Findings
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <a href="{{ url_for('reports.index') }}"
+                   class="btn btn-success w-100 py-3">
+
+                    <i class="bi bi-file-earmark-pdf fs-2"></i>
+
+                    <div class="mt-2">
 
                         Reports
 
-                </div>
+                    </div>
 
-                <div class="col-md-3 mb-3">
+                </a>
 
-                    <a href="{{ url_for('analytics.index') }}"
-   class="btn btn-warning w-100">
+            </div>
 
-    <i class="bi bi-bar-chart fs-3"></i><br>
-    Analytics
+            <div class="col-lg-2 col-md-4 col-6">
 
-</a>
+                <a href="{{ url_for('analytics.index') }}"
+                   class="btn btn-warning w-100 py-3">
 
-                        <i class="bi bi-bar-chart fs-3"></i>
+                    <i class="bi bi-bar-chart fs-2"></i>
 
-                        <br>
+                    <div class="mt-2">
 
                         Analytics
 
-                    </a>
+                    </div>
 
-                </div>
+                </a>
 
-                <div class="col-md-3 mb-3">
+            </div>
 
-                    <a href="{{ url_for('settings.index') }}"
-   class="btn btn-dark w-100">
+            <div class="col-lg-2 col-md-4 col-6">
 
-    <i class="bi bi-gear fs-3"></i><br>
-    Settings
+                <a href="{{ url_for('executive.dashboard') }}"
+                   class="btn btn-info w-100 py-3 text-white">
 
-</a>
-                        <i class="bi bi-gear fs-3"></i>
+                    <i class="bi bi-briefcase-fill fs-2"></i>
 
-                        <br>
+                    <div class="mt-2">
+
+                        Executive
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <a href="{{ url_for('settings.index') }}"
+                   class="btn btn-dark w-100 py-3">
+
+                    <i class="bi bi-gear fs-2"></i>
+
+                    <div class="mt-2">
 
                         Settings
 
-                    </a>
+                    </div>
 
-                </div>
+                </a>
 
             </div>
 
         </div>
 
     </div>
+
+</div>
         <!-- Recent Scans & Scanner Status -->
 
     <div class="row">
@@ -441,7 +469,7 @@
 
         <div class="col-lg-8 mb-4">
 
-            <div class="card shadow-sm">
+            <div class="card border-0 shadow dashboard-card h-100">
 
                 <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
 
@@ -466,7 +494,7 @@
 
                     <div class="table-responsive">
 
-                        <table class="table table-hover mb-0">
+                        <table class="table table-hover align-middle mb-0">
 
                             <thead class="table-light">
 
@@ -590,24 +618,32 @@
 
                     {% else %}
 
-                    <div class="text-center p-5">
+                    <div class="text-center py-5">
 
-                        <i class="bi bi-clock-history fs-1 text-muted"></i>
+                        <div class="text-center py-5">
 
-                        <h5 class="mt-3">
+    <i class="bi bi-search display-4 text-secondary"></i>
 
-                            No scans available
+    <h5 class="mt-3">
 
-                        </h5>
+        Run your first security scan
 
-                        <p class="text-muted">
+    </h5>
 
-                            Run your first security scan.
+    <p class="text-muted">
 
-                        </p>
+        No scans are available yet.
 
-                    </div>
+    </p>
 
+    <a href="{{ url_for('scanner.home') }}"
+       class="btn btn-primary mt-3">
+
+        Start Scan
+
+    </a>
+
+</div>
                     {% endif %}
 
                 </div>
@@ -620,7 +656,7 @@
 
         <div class="col-lg-4 mb-4">
 
-            <div class="card shadow-sm">
+            <div class="card border-0 shadow dashboard-card h-100">
 
                 <div class="card-header bg-primary text-white">
 
@@ -696,7 +732,7 @@
 
         <div class="col-lg-4 mb-4">
 
-            <div class="card shadow-sm">
+            <div class="card border-0 shadow dashboard-card h-100">
 
                 <div class="card-body text-center">
 
@@ -708,7 +744,8 @@
 
                     </h4>
 
-                    <h2>
+                    <h2 
+                     class="text-success">
 
                         {{ successful }}
 
@@ -722,7 +759,7 @@
 
         <div class="col-lg-4 mb-4">
 
-            <div class="card shadow-sm">
+           <div class="card border-0 shadow dashboard-card h-100">
 
                 <div class="card-body text-center">
 
@@ -734,7 +771,7 @@
 
                     </h4>
 
-                    <h2>
+                    <h2  class="text-warning">
 
                         {{ high}}
 
@@ -748,7 +785,7 @@
 
         <div class="col-lg-4 mb-4">
 
-            <div class="card shadow-sm">
+            <div class="card border-0 shadow dashboard-card h-100">
 
                 <div class="card-body text-center">
 
@@ -760,8 +797,7 @@
 
                     </h4>
 
-                    <h2>
-
+                    <h2  class="text-danger">
                         {{ failed }}
 
                     </h2>
@@ -781,7 +817,7 @@
 
         <div class="col-lg-6 mb-4">
 
-            <div class="card shadow-sm">
+            <div class="card border-0 shadow dashboard-card h-100">
 
                 <div class="card-header bg-success text-white">
 
@@ -797,7 +833,7 @@
 
                     <div class="d-flex justify-content-between mb-3">
 
-                        <span>
+                        <span  class="text-white">
 
                             Database
 
@@ -813,7 +849,7 @@
 
                     <div class="d-flex justify-content-between mb-3">
 
-                        <span>
+                        <span class="text-white">
 
                             Scanner Engine
 
@@ -829,7 +865,7 @@
 
                     <div class="d-flex justify-content-between mb-3">
 
-                        <span>
+                        <span class="text-white">
 
                             API Service
 
@@ -845,7 +881,7 @@
 
                     <div class="d-flex justify-content-between mb-3">
 
-                        <span>
+                        <span class="text-white">
 
                             Authentication
 
@@ -861,7 +897,7 @@
 
                     <div class="d-flex justify-content-between">
 
-                        <span>
+                        <span class="text-white">
 
                             CloudShield
 
@@ -885,7 +921,7 @@
 
         <div class="col-lg-6 mb-4">
 
-            <div class="card shadow-sm">
+            <div class="card border-0 shadow dashboard-card h-100">
 
                 <div class="card-header bg-danger text-white">
 
@@ -901,7 +937,7 @@
 
                     <div class="mb-4">
 
-                        <label>
+                        <label class="text-white">
 
                             High Risk
 
@@ -911,7 +947,7 @@
 
                             <div class="progress-bar bg-danger"
 
-                                 style="width:{{ high*10 }}%">
+                                 style="width:{{ [high*10,100]|min }}%">
 
                             </div>
 
@@ -921,7 +957,7 @@
 
                     <div class="mb-4">
 
-                        <label>
+                        <label class="text-white">
 
                             Successful Scans
 
@@ -941,7 +977,7 @@
 
                     <div>
 
-                        <label>
+                        <label class="text-white">
                             
 
                             Failed Scans
@@ -971,7 +1007,7 @@
 
     <!-- Enterprise Information -->
 
-    <div class="card shadow-sm mb-4">
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
 
         <div class="card-header bg-dark text-primary">
 
@@ -991,7 +1027,7 @@
 
                     <i class="bi bi-search display-5 text-primary"></i>
 
-                    <h6 class="mt-3">
+                    <h6 class="mt-3 text-primary">
 
                         Scanner
 
@@ -1009,7 +1045,7 @@
 
                     <i class="bi bi-file-earmark-text display-5 text-success"></i>
 
-                    <h6 class="mt-3">
+                    <h6 class="mt-3 text-success">
 
                         Reports
 
@@ -1027,7 +1063,7 @@
 
                     <i class="bi bi-bar-chart display-5 text-warning"></i>
 
-                    <h6 class="mt-3">
+                    <h6 class="mt-3 text-warning">
 
                         Analytics
 
@@ -1045,7 +1081,7 @@
 
                     <i class="bi bi-shield-lock display-5 text-danger"></i>
 
-                    <h6 class="mt-3">
+                    <h6 class="mt-3 text-danger">
 
                         Security
 

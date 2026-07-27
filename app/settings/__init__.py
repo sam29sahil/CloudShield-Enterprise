@@ -1,6 +1,6 @@
 """
 CloudShield Enterprise
-Settings Module
+Settings Blueprint
 """
 
 from flask import Blueprint
@@ -11,7 +11,9 @@ settings = Blueprint(
 
     __name__,
 
-    url_prefix="/settings"
+    url_prefix="/settings",
+
+    template_folder="../templates/settings"
 
 )
 

@@ -1,0 +1,545 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Container Details
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-box text-primary"></i>
+
+                Container Details
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                View detailed information about the selected Docker container.
+
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('docker.containers') }}"
+
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Containers
+
+        </a>
+
+    </div>
+    <div class="card shadow-sm mb-4">
+
+    <div class="card-header">
+
+        <h5 class="mb-0">
+
+            General Information
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-bordered">
+
+            <tbody>
+
+                <tr>
+
+                    <th width="220">
+
+                        Name
+
+                    </th>
+
+                    <td>
+
+                        {{ data.container.name }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Container ID
+
+                    </th>
+
+                    <td>
+
+                        <code>
+
+                            {{ data.container.id }}
+
+                        </code>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Image
+
+                    </th>
+
+                    <td>
+
+                        {{ data.container.image.tags[0]
+                        if data.container.image.tags
+                        else "Unknown" }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Status
+
+                    </th>
+
+                    <td>
+
+                        {{ data.container.status|title }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Created
+
+                    </th>
+
+                    <td>
+
+                        {{ data.container.attrs.Created }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Command
+
+                    </th>
+
+                    <td>
+
+                        {{ data.container.attrs.Config.Cmd }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Restart Policy
+
+                    </th>
+
+                    <td>
+
+                        {{ data.container.attrs.HostConfig.RestartPolicy.Name }}
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header">
+
+        <h5 class="mb-0">
+
+            Live Statistics
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if data.stats %}
+
+        <table class="table table-striped">
+
+            <tbody>
+
+                <tr>
+
+                    <th width="220">
+
+                        CPU Usage
+
+                    </th>
+
+                    <td>
+
+                        {{ data.stats.cpu_stats.cpu_usage.total_usage }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Memory Usage
+
+                    </th>
+
+                    <td>
+
+                        {{ data.stats.memory_stats.usage }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Memory Limit
+
+                    </th>
+
+                    <td>
+
+                        {{ data.stats.memory_stats.limit }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Network RX
+
+                    </th>
+
+                    <td>
+
+                        {% if data.stats.networks %}
+
+                        {% for name, net in data.stats.networks.items() %}
+
+                            {{ net.rx_bytes }} Bytes
+
+                        {% endfor %}
+
+                        {% else %}
+
+                        -
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Network TX
+
+                    </th>
+
+                    <td>
+
+                        {% if data.stats.networks %}
+
+                        {% for name, net in data.stats.networks.items() %}
+
+                            {{ net.tx_bytes }} Bytes
+
+                        {% endfor %}
+
+                        {% else %}
+
+                        -
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Processes
+
+                    </th>
+
+                    <td>
+
+                        {{ data.stats.pids_stats.current }}
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="alert alert-warning">
+
+            Statistics unavailable.
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+<div class="row">
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header">
+
+                <h5 class="mb-0">
+
+                    Networks
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <ul class="list-group">
+
+                    {% for network in data.container.attrs.NetworkSettings.Networks %}
+
+                    <li class="list-group-item">
+
+                        {{ network }}
+
+                    </li>
+
+                    {% else %}
+
+                    <li class="list-group-item">
+
+                        No Networks
+
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header">
+
+                <h5 class="mb-0">
+
+                    Mounted Volumes
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <ul class="list-group">
+
+                    {% for volume in data.container.attrs.Mounts %}
+
+                    <li class="list-group-item">
+
+                        {{ volume.Source }}
+
+                        →
+
+                        {{ volume.Destination }}
+
+                    </li>
+
+                    {% else %}
+
+                    <li class="list-group-item">
+
+                        No Mounted Volumes
+
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header">
+
+        <h5 class="mb-0">
+
+            Container Logs
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if data.logs %}
+
+        <pre class="docker-terminal">
+
+{{ data.logs }}
+
+        </pre>
+
+        {% else %}
+
+        <div class="alert alert-secondary">
+
+            No logs available.
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header">
+
+        <h5 class="mb-0">
+
+            Container Actions
+
+        </h5>
+
+    </div>
+
+    <div class="card-body text-center">
+
+        {% if data.container.status == "running" %}
+
+        <a href="{{ url_for('docker.stop',
+            container_id=data.container.id) }}"
+           class="btn btn-warning me-2">
+
+            <i class="bi bi-stop-fill"></i>
+
+            Stop
+
+        </a>
+
+        {% else %}
+
+        <a href="{{ url_for('docker.start',
+            container_id=data.container.id) }}"
+           class="btn btn-success me-2">
+
+            <i class="bi bi-play-fill"></i>
+
+            Start
+
+        </a>
+
+        {% endif %}
+
+        <a href="{{ url_for('docker.restart',
+            container_id=data.container.id) }}"
+           class="btn btn-primary me-2">
+
+            <i class="bi bi-arrow-clockwise"></i>
+
+            Restart
+
+        </a>
+
+        <a href="{{ url_for('docker.remove',
+            container_id=data.container.id) }}"
+           class="btn btn-danger"
+           onclick="return confirm('Remove this container?')">
+
+            <i class="bi bi-trash-fill"></i>
+
+            Remove
+
+        </a>
+
+    </div>
+
+</div>
+</div>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/docker.css') }}">
+
+<script src="{{ url_for('static', filename='js/docker.js') }}"></script>
+
+{% endblock %}

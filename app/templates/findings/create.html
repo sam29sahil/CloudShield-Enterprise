@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                Create Finding
+
+            </h2>
+
+            <p class="text-muted">
+
+                Add a manual security finding.
+
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('findings_ui.index') }}"
+           class="btn btn-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back
+
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+
+                            Project
+
+                        </label>
+
+                        <select
+                            name="project_id"
+                            class="form-select"
+                            required>
+
+                            {% for project in projects %}
+
+                            <option value="{{ project.id }}">
+
+                                {{ project.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+
+                            Asset
+
+                        </label>
+
+                        <select
+                            name="asset_id"
+                            class="form-select"
+                            required>
+
+                            {% for asset in assets %}
+
+                            <option value="{{ asset.id }}">
+
+                                {{ asset.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+
+                            Related Scan (Optional)
+
+                        </label>
+
+                        <select
+                            name="scan_id"
+                            class="form-select">
+
+                            <option value="">
+
+                                None
+
+                            </option>
+
+                            {% for scan in scans %}
+
+                            <option value="{{ scan.id }}">
+
+                                {{ scan.tool }}
+                                -
+                                {{ scan.target }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Finding Title
+
+                    </label>
+
+                    <input
+                        type="text"
+                        name="title"
+                        class="form-control"
+                        required>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+
+                            Severity
+
+                        </label>
+
+                        <select
+                            name="severity"
+                            class="form-select">
+
+                            <option>Critical</option>
+                            <option>High</option>
+                            <option selected>Medium</option>
+                            <option>Low</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+
+                            CVSS
+
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.1"
+                            min="0"
+                            max="10"
+                            value="0"
+                            name="cvss"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+
+                            Category
+
+                        </label>
+
+                        <input
+                            type="text"
+                            name="category"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+
+                            Status
+
+                        </label>
+
+                        <select
+                            name="status"
+                            class="form-select">
+
+                            <option selected>Open</option>
+                            <option>In Progress</option>
+                            <option>Resolved</option>
+                            <option>False Positive</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Description
+
+                    </label>
+
+                    <textarea
+                        name="description"
+                        rows="5"
+                        class="form-control"></textarea>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Evidence
+
+                    </label>
+
+                    <textarea
+                        name="evidence"
+                        rows="4"
+                        class="form-control"></textarea>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Recommendation
+
+                    </label>
+
+                    <textarea
+                        name="recommendation"
+                        rows="4"
+                        class="form-control"></textarea>
+
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a href="{{ url_for('findings_ui.index') }}"
+                       class="btn btn-outline-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        <i class="bi bi-plus-circle"></i>
+
+                        Create Finding
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

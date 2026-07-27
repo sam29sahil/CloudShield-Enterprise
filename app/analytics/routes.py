@@ -17,15 +17,33 @@ service = AnalyticsService()
 @login_required
 def index():
     """
-    Analytics Dashboard
+    Enterprise Analytics Dashboard
     """
 
-    statistics = service.statistics()
-
-    charts = service.chart_data()
+    data = service.dashboard_data()
 
     return render_template(
-        "analytics/index.html",
-        statistics=statistics,
-        charts=charts
+
+        "analytics/dashboard.html",
+
+        summary=data["summary"],
+
+        statistics=data["statistics"],
+
+        severity=data["severity"],
+
+        charts=data["charts"],
+
+        trend=data["trend"],
+
+        recent=data["recent_scans"],
+
+        assets=data["top_assets"],
+
+        scanner_usage=data["scanner_usage"],
+
+        vulnerabilities=data["top_vulnerabilities"],
+
+        performance=data["performance"]
+
     )

@@ -29,6 +29,19 @@
         </li>
          <li class="nav-item">
 
+            <li class="nav-item">
+
+    <a class="nav-link {% if request.blueprint == 'docker' %}active{% endif %}"
+       href="{{ url_for('docker.index') }}">
+
+        <i class="bi bi-boxes"></i>
+
+        <span>Docker</span>
+
+    </a>
+
+</li>
+
     <a class="nav-link {% if request.endpoint and request.endpoint.startswith('projects.') %}active{% endif %}"
        href="{{ url_for('projects.home') }}">
 
@@ -55,6 +68,51 @@
         <span>Assets</span>
 
     </a>
+    
+</li>
+<li class="nav-item">
+
+    <a class="nav-link {% if request.endpoint and request.endpoint.startswith('findings_ui.') %}active{% endif %}"
+       href="{{ url_for('findings_ui.index') }}">
+
+        <i class="bi bi-bug-fill"></i>
+
+        <span>Findings</span>
+
+    </a>
+
+</li>
+<li class="nav-item">
+
+    <a class="nav-link"
+       href="{{ url_for('cloud.dashboard') }}">
+
+        <i class="bi bi-cloud-fill"></i>
+
+        <span>
+
+            Cloud
+
+        </span>
+
+    </a>
+
+</li>
+<li class="nav-item">
+
+    <a class="nav-link {% if request.endpoint and request.endpoint.startswith('threat.') %}active{% endif %}"
+       href="{{ url_for('threat.dashboard') }}">
+
+        <i class="bi bi-shield-lock-fill"></i>
+
+        <span>
+
+            Threat Intelligence
+
+        </span>
+
+    </a>
+
 </li>
 
     </ul>

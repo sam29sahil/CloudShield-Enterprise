@@ -69,6 +69,9 @@ def create_app():
     from app.cloud import cloud
     app.register_blueprint(cloud)
 
+    from app.threat import threat
+    app.register_blueprint(threat)
+    
     from app.findings_ui import findings_ui
     app.register_blueprint(findings_ui)
 
@@ -81,8 +84,14 @@ def create_app():
     from app.projects import projects
     app.register_blueprint(projects)
 
+    from app.executive import executive
+    app.register_blueprint(executive)
+    
     from app.api import api
     app.register_blueprint(api)
+
+    from app.docker import docker
+    app.register_blueprint(docker)
 
     # -------------------------------
     # Jinja Filter

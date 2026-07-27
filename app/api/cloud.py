@@ -7,7 +7,7 @@ from flask_login import login_required
 
 from app.api import api
 from app.api.responses import success_response
-from app.cloud.aws.services import AWSScanner
+from app.cloud.services import AWSScanner
 
 
 @api.route("/cloud", methods=["GET"])

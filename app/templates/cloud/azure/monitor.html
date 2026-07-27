@@ -1,0 +1,54 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-graph-up-arrow text-success"></i>
+Azure Monitor
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure resources and health.
+{% endblock %}
+
+{% block breadcrumb %}
+Monitor
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="card shadow-sm">
+
+<div class="card-body text-center">
+
+<h5>Alerts</h5>
+
+<h2>{{ data.alerts }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card shadow-sm">
+
+<div class="card-body text-center">
+
+<h5>Diagnostic Settings</h5>
+
+<h2>{{ data.diagnostic_settings }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

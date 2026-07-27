@@ -1,0 +1,304 @@
+/*
+=========================================
+CloudShield Enterprise
+Notification Center
+=========================================
+*/
+
+:root{
+
+    --primary:#2563eb;
+    --success:#16a34a;
+    --warning:#f59e0b;
+    --danger:#dc2626;
+    --dark:#111827;
+    --light:#f8fafc;
+    --border:#e5e7eb;
+
+}
+
+/* ==========================
+Page
+========================== */
+
+body{
+
+    background:#f5f7fb;
+
+}
+
+/* ==========================
+Cards
+========================== */
+
+.card{
+
+    border:none;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    transition:.25s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 20px 45px rgba(0,0,0,.08);
+
+}
+
+.card-header{
+
+    background:white;
+
+    border-bottom:1px solid var(--border);
+
+    font-weight:600;
+
+}
+
+.card-body{
+
+    padding:22px;
+
+}
+
+/* ==========================
+Statistics
+========================== */
+
+.display-5{
+
+    font-size:2.5rem;
+
+    opacity:.18;
+
+}
+
+.card h2{
+
+    font-size:2rem;
+
+    font-weight:700;
+
+}
+
+/* ==========================
+Timeline
+========================== */
+
+.notification-item{
+
+    transition:.25s;
+
+}
+
+.notification-item:hover{
+
+    background:#f8fafc;
+
+}
+
+.notification-unread{
+
+    border-left:5px solid var(--primary);
+
+    background:#eef4ff;
+
+}
+
+/* ==========================
+Notification Icon
+========================== */
+
+.notification-icon{
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:22px;
+
+}
+
+/* ==========================
+Badges
+========================== */
+
+.badge{
+
+    border-radius:25px;
+
+    padding:.45rem .8rem;
+
+    font-size:.8rem;
+
+}
+
+/* ==========================
+Buttons
+========================== */
+
+.btn{
+
+    border-radius:10px;
+
+}
+
+.btn-success{
+
+    background:var(--success);
+
+}
+
+.btn-primary{
+
+    background:var(--primary);
+
+}
+
+.btn-danger{
+
+    background:var(--danger);
+
+}
+
+/* ==========================
+Quick Action Buttons
+========================== */
+
+.d-grid .btn{
+
+    text-align:left;
+
+    padding:12px 18px;
+
+}
+
+.d-grid i{
+
+    margin-right:8px;
+
+}
+
+/* ==========================
+Tables
+========================== */
+
+.table td{
+
+    padding:.8rem;
+
+}
+
+.table tr:hover{
+
+    background:#f8fafc;
+
+}
+
+/* ==========================
+Animations
+========================== */
+
+.notification-item{
+
+    animation:fadeIn .35s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(12px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ==========================
+Scrollbar
+========================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#cbd5e1;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#f8fafc;
+
+}
+
+/* ==========================
+Responsive
+========================== */
+
+@media(max-width:992px){
+
+    .notification-icon{
+
+        width:48px;
+
+        height:48px;
+
+        font-size:18px;
+
+    }
+
+    .display-5{
+
+        font-size:2rem;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .card-body{
+
+        padding:16px;
+
+    }
+
+    .notification-item{
+
+        padding:18px;
+
+    }
+
+}

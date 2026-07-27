@@ -1,0 +1,281 @@
+{% extends "cloud/base.html" %}
+
+{% block cloud_title %}
+
+<i class="bi bi-search text-primary"></i>
+
+Inspector Dashboard
+
+{% endblock %}
+
+{% block cloud_subtitle %}
+
+Monitor AWS Inspector vulnerability findings.
+
+{% endblock %}
+
+{% block breadcrumb %}
+
+Inspector
+
+{% endblock %}
+
+{% block cloud_content %}
+
+<!-- KPI Cards -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-xl-3">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+
+                    Total Findings
+
+                </small>
+
+                <h2 class="fw-bold text-white">
+
+                    {{ data.total_findings if data.success else 0 }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+
+                    Critical
+
+                </small>
+
+                <h2 class="fw-bold text-danger">
+
+                    {{ data.critical }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+
+                    High
+
+                </small>
+
+                <h2 class="fw-bold text-warning">
+
+                    {{ data.high }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+
+                    Status
+
+                </small>
+
+                {% if data.success %}
+
+                    <h2 class="fw-bold text-success">
+
+                        Active
+
+                    </h2>
+
+                {% else %}
+
+                    <h2 class="fw-bold text-danger">
+
+                        Offline
+
+                    </h2>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Findings -->
+
+<div class="card dashboard-card border-0 shadow">
+
+    <div class="card-header">
+
+        <h5 class="mb-0 text-white">
+
+            Inspector Findings
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Title</th>
+
+                        <th>Severity</th>
+
+                        <th>Resource</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% if data.success %}
+
+                    {% if data.findings %}
+
+                        {% for finding in data.findings %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ finding.title }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-danger">
+
+                                    {{ finding.severity }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {% if finding.resources %}
+
+                                    {{ finding.resources[0].id }}
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ finding.status }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="4" class="text-center py-5">
+
+                                <i class="bi bi-search display-4 text-secondary"></i>
+
+                                <h5 class="mt-3">
+
+                                    No Findings
+
+                                </h5>
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center py-5">
+
+                            <i class="bi bi-search display-4 text-secondary"></i>
+
+                            <h5 class="mt-3">
+
+                                {{ data.error }}
+
+                            </h5>
+
+                            <p class="text-secondary">
+
+                                Configure AWS credentials to display Inspector findings.
+
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

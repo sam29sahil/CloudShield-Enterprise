@@ -1,0 +1,558 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-shield-check text-success"></i>
+
+                Executive Security Dashboard
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                High-level overview of your organization's security posture.
+
+            </p>
+
+        </div>
+
+        <a href="#"
+           class="btn btn-primary">
+
+            <i class="bi bi-download"></i>
+
+            Export Executive Report
+
+        </a>
+
+    </div>
+
+    <!-- KPI Cards -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Security Score
+
+                    </small>
+
+                    <h1 class="display-5 fw-bold text-success">
+
+                        {{ summary.score }}%
+
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total Assets
+
+                    </small>
+
+                    <h1 class="display-5 fw-bold text-primary">
+
+                        {{ summary.assets }}
+
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total Scans
+
+                    </small>
+
+                    <h1 class="display-5 fw-bold text-info">
+
+                        {{ summary.scans }}
+
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Findings
+
+                    </small>
+
+                    <h1 class="display-5 fw-bold text-danger">
+
+                        {{ summary.findings }}
+
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Security Status -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-dark">
+
+                    <h5 class="mb-0 text-light">
+
+                        Overall Security Status
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body text-center">
+
+                    {% if summary.score >= 90 %}
+
+                        <span class="badge bg-success fs-5">
+
+                            Excellent
+
+                        </span>
+
+                    {% elif summary.score >= 75 %}
+
+                        <span class="badge bg-primary fs-5">
+
+                            Good
+
+                        </span>
+
+                    {% elif summary.score >= 50 %}
+
+                        <span class="badge bg-warning text-dark fs-5">
+
+                            Moderate
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-danger fs-5">
+
+                            Critical
+
+                        </span>
+
+                    {% endif %}
+
+                    <h2 class="mt-4 text-primary">
+
+                        {{ summary.score }}%
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        Overall Organizational Security Score
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-dark">
+
+                    <h5 class="mb-0 text-light">
+
+                        Compliance Overview
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+
+                        <strong
+                        class="text-light">OWASP</strong>
+
+                        <div class="progress">
+
+                            <div class="progress-bar bg-success"
+
+                                 style="width: {{ compliance.OWASP }}%;">
+
+                                {{ compliance.OWASP }}%
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <strong class="text-light">CIS</strong>
+
+                        <div class="progress">
+
+                            <div class="progress-bar bg-primary"
+
+                                 style="width: {{ compliance.CIS }}%;">
+
+                                {{ compliance.CIS }}%
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <strong class="text-light">NIST</strong>
+
+                        <div class="progress">
+
+                            <div class="progress-bar bg-warning"
+
+                                 style="width: {{ compliance.NIST }}%;">
+
+                                {{ compliance.NIST }}%
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+        <!-- ===================================== -->
+    <!-- Top Risks & Recommendations -->
+    <!-- ===================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- Top Risks -->
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-header bg-dark">
+
+                    <h5 class="mb-0">
+
+                        <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+
+                        Top Business Risks
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% for finding in risks %}
+
+                    <div class="border rounded p-3 mb-3">
+
+                        <div class="d-flex justify-content-between">
+
+                            <strong class="text-light">
+
+                                {{ finding.title }}
+
+                            </strong>
+
+                            {% if finding.severity=="Critical" %}
+
+                            <span class="badge bg-dark">
+
+                                Critical
+
+                            </span>
+
+                            {% elif finding.severity=="High" %}
+
+                            <span class="badge bg-danger">
+
+                                High
+
+                            </span>
+
+                            {% elif finding.severity=="Medium" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                Medium
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-primary">
+
+                                Low
+
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+                        <small class="text-muted">
+
+                            {{ finding.description[:120] if finding.description else "No description available." }}
+
+                        </small>
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="text-center py-5">
+
+                        <i class="bi bi-check-circle-fill display-4 text-success"></i>
+
+                        <h5 class="mt-3">
+
+                            No Critical Risks
+
+                        </h5>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Recommendations -->
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-header bg-dark">
+
+                    <h5 class="mb-0">
+
+                        <i class="bi bi-lightbulb-fill text-warning"></i>
+
+                        Executive Recommendations
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <ul class="list-group list-group-flush">
+
+                        {% for item in recommendations %}
+
+                        <li class="list-group-item">
+
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                            {{ item }}
+
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Executive Summary -->
+    <!-- ===================================== -->
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-dark">
+
+            <h5 class="mb-0">
+
+                <i class="bi bi-file-earmark-text-fill text-primary"></i>
+
+                Executive Summary
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-lg-3 text-center">
+
+                    <h1 class="display-6 text-success">
+
+                        {{ summary.score }}%
+
+                    </h1>
+
+                    <small class="text-muted">
+
+                        Security Score
+
+                    </small>
+
+                </div>
+
+                <div class="col-lg-3 text-center">
+
+                    <h1 class="display-6 text-primary">
+
+                        {{ summary.assets }}
+
+                    </h1>
+
+                    <small class="text-muted">
+
+                        Assets
+
+                    </small>
+
+                </div>
+
+                <div class="col-lg-3 text-center">
+
+                    <h1 class="display-6 text-info">
+
+                        {{ summary.scans }}
+
+                    </h1>
+
+                    <small class="text-muted">
+
+                        Scans
+
+                    </small>
+
+                </div>
+
+                <div class="col-lg-3 text-center">
+
+                    <h1 class="display-6 text-danger">
+
+                        {{ summary.findings }}
+
+                    </h1>
+
+                    <small class="text-muted">
+
+                        Findings
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <p class="mb-0">
+
+                CloudShield Enterprise analyzed
+
+                <strong>{{ summary.assets }}</strong>
+
+                assets across
+
+                <strong>{{ summary.scans }}</strong>
+
+                security scans.
+
+                A total of
+
+                <strong>{{ summary.findings }}</strong>
+
+                findings were identified.
+
+                Current compliance levels indicate a generally secure environment, though remediation of high-risk findings is recommended to improve the overall security posture.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
