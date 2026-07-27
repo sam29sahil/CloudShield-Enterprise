@@ -1,13 +1,34 @@
 {% extends "cloud/base.html" %}
 
+<<<<<<< HEAD
 {% block title %}
 
 Cloud Dashboard
+=======
+{% block cloud_title %}
+
+<i class="bi bi-cloud-fill text-info"></i>
+
+Cloud Security Center
+
+{% endblock %}
+
+{% block cloud_subtitle %}
+
+Enterprise Cloud Security Management Platform
+
+{% endblock %}
+
+{% block breadcrumb %}
+
+Dashboard
+>>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 
 {% endblock %}
 
 {% block cloud_content %}
 
+<<<<<<< HEAD
 <div class="cloud-dashboard">
 
     <!-- ===================================== -->
@@ -15,11 +36,21 @@ Cloud Dashboard
     <!-- ===================================== -->
 
     <section class="cloud-hero">
+=======
+<!-- =========================================== -->
+<!-- HERO -->
+<!-- =========================================== -->
+
+<div class="card dashboard-card border-0 shadow-lg mb-4">
+
+    <div class="card-body p-5">
+>>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 
         <div class="row align-items-center">
 
             <div class="col-lg-8">
 
+<<<<<<< HEAD
                 <h1>
 
                     <i class="bi bi-cloud-fill"></i>
@@ -51,6 +82,48 @@ Cloud Dashboard
                         <i class="bi bi-shield-check"></i>
 
                         Findings
+=======
+                <h1 class="fw-bold text-white mb-3">
+
+                    Cloud Security Center
+
+                </h1>
+
+                <p class="text-light fs-5 mb-4">
+
+                    Monitor AWS infrastructure, cloud assets,
+                    vulnerabilities, compliance and enterprise
+                    cloud security from a single dashboard.
+
+                </p>
+
+                <div class="d-flex flex-wrap gap-3">
+
+                    <a href="{{ url_for('cloud.aws') }}"
+                       class="btn btn-primary">
+
+                        <i class="bi bi-amazon me-2"></i>
+
+                        AWS Console
+
+                    </a>
+
+                    <a href="{{ url_for('analytics.index') }}"
+                       class="btn btn-outline-info">
+
+                        <i class="bi bi-bar-chart-fill me-2"></i>
+
+                        Analytics
+
+                    </a>
+
+                    <a href="{{ url_for('reports.index') }}"
+                       class="btn btn-outline-success">
+
+                        <i class="bi bi-file-earmark-pdf me-2"></i>
+
+                        Reports
+>>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 
                     </a>
 
@@ -58,6 +131,7 @@ Cloud Dashboard
 
             </div>
 
+<<<<<<< HEAD
             <div class="col-lg-4">
 
                 <div class="security-score">
@@ -104,11 +178,21 @@ Cloud Dashboard
                     </div>
 
                 </div>
+=======
+            <div class="col-lg-4 text-center">
+
+                <i class="bi bi-cloud-check-fill"
+
+                   style="font-size:140px;color:#4dabf7;">
+
+                </i>
+>>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 
             </div>
 
         </div>
 
+<<<<<<< HEAD
     </section>
 
     <!-- ===================================== -->
@@ -196,11 +280,41 @@ Cloud Dashboard
                 </h2>
 
                 <p>
+=======
+    </div>
+
+</div>
+
+<!-- =========================================== -->
+<!-- KPI CARDS -->
+<!-- =========================================== -->
+
+<div class="row g-4 mb-4">
+
+    <!-- Security Score -->
+
+    <div class="col-xl-2 col-md-4">
+
+        <div class="card dashboard-card shadow border-0 h-100">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-shield-check
+
+                          text-success
+
+                          display-5">
+
+                </i>
+
+                <p class="text-secondary mt-3 mb-1">
+>>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 
                     Security Score
 
                 </p>
 
+<<<<<<< HEAD
             </div>
 
         </div>
@@ -307,6 +421,13 @@ Cloud Dashboard
                     Open AWS Dashboard
 
                 </a>
+=======
+                <h2 class="fw-bold text-white">
+
+                    {{ cloud.score }}%
+
+                </h2>
+>>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 
             </div>
 
@@ -314,6 +435,7 @@ Cloud Dashboard
 
     </div>
 
+<<<<<<< HEAD
     <!-- Azure -->
 
     <div class="col-lg-6 mb-4">
@@ -409,6 +531,172 @@ Cloud Dashboard
                     Open Azure Dashboard
 
                 </a>
+=======
+    <!-- Providers -->
+
+    <div class="col-xl-2 col-md-4">
+
+        <div class="card dashboard-card shadow border-0 h-100">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-clouds
+
+                          text-info
+
+                          display-5">
+
+                </i>
+
+                <p class="text-secondary mt-3 mb-1">
+
+                    Providers
+
+                </p>
+
+                <h2 class="fw-bold text-white">
+
+                    1
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Assets -->
+
+    <div class="col-xl-2 col-md-4">
+
+        <div class="card dashboard-card shadow border-0 h-100">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-hdd-network
+
+                          text-warning
+
+                          display-5">
+
+                </i>
+
+                <p class="text-secondary mt-3 mb-1">
+
+                    Assets
+
+                </p>
+
+                <h2 class="fw-bold text-white">
+
+                    {{ cloud.assets }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Findings -->
+
+    <div class="col-xl-2 col-md-4">
+
+        <div class="card dashboard-card shadow border-0 h-100">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-bug-fill
+
+                          text-danger
+
+                          display-5">
+
+                </i>
+
+                <p class="text-secondary mt-3 mb-1">
+
+                    Findings
+
+                </p>
+
+                <h2 class="fw-bold text-white">
+
+                    {{ cloud.findings }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Scans -->
+
+    <div class="col-xl-2 col-md-4">
+
+        <div class="card dashboard-card shadow border-0 h-100">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-search
+
+                          text-primary
+
+                          display-5">
+
+                </i>
+
+                <p class="text-secondary mt-3 mb-1">
+
+                    Scans
+
+                </p>
+
+                <h2 class="fw-bold text-white">
+
+                    {{ cloud.scans }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Compliance -->
+
+    <div class="col-xl-2 col-md-4">
+
+        <div class="card dashboard-card shadow border-0 h-100">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-patch-check-fill
+
+                          text-success
+
+                          display-5">
+
+                </i>
+
+                <p class="text-secondary mt-3 mb-1">
+
+                    Compliance
+
+                </p>
+
+        <small class=" text-white">
+
+                    Coming
+                    Soon
+
+        </small>
+>>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 
             </div>
 
@@ -417,6 +705,7 @@ Cloud Dashboard
     </div>
 
 </div>
+<<<<<<< HEAD
 <!-- ===================================== -->
 <!-- Quick Actions -->
 <!-- ===================================== -->
@@ -475,6 +764,254 @@ Cloud Dashboard
                 <i class="bi bi-box"></i>
                 <span>Docker</span>
             </a>
+=======
+<!-- =========================================== -->
+<!-- CLOUD SERVICES -->
+<!-- =========================================== -->
+
+<div class="card dashboard-card border-0 shadow mb-4">
+
+    <div class="card-header">
+
+        <h4 class="mb-0 text-white">
+
+            <i class="bi bi-cloud-fill text-info me-2"></i>
+
+            Cloud Services
+
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row g-4">
+
+            <!-- AWS -->
+
+            <div class="col-xl-4 col-md-6">
+
+                <a href="{{ url_for('cloud.aws') }}"
+                   class="text-decoration-none">
+
+                    <div class="card dashboard-card border-0 h-100 service-card">
+
+                        <div class="card-body text-center">
+
+                            <i class="bi bi-amazon display-4 text-warning"></i>
+
+                            <h4 class="mt-3 text-white">
+
+                                Amazon Web Services
+
+                            </h4>
+
+                            <p class="text-secondary">
+
+                                EC2, S3, IAM, CloudTrail,
+                                GuardDuty, Inspector and
+                                enterprise cloud security.
+
+                            </p>
+
+                            <span class="badge bg-success">
+
+                                Available
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            <!-- Azure -->
+
+            <div class="col-xl-4 col-md-6">
+
+                <div class="card dashboard-card border-0 h-100">
+
+                    <div class="card-body text-center">
+
+                        <i class="bi bi-microsoft display-4 text-primary"></i>
+
+                        <h4 class="mt-3 text-white">
+
+                            Microsoft Azure
+
+                        </h4>
+
+                        <p class="text-secondary">
+
+                            Azure Defender, Azure Security Center,
+                            Virtual Machines and identity security.
+
+                        </p>
+
+                        <span class="badge bg-secondary">
+
+                            Coming Soon
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Google Cloud -->
+
+            <div class="col-xl-4 col-md-6">
+
+                <div class="card dashboard-card border-0 h-100">
+
+                    <div class="card-body text-center">
+
+                        <i class="bi bi-google display-4 text-danger"></i>
+
+                        <h4 class="mt-3 text-white">
+
+                            Google Cloud
+
+                        </h4>
+
+                        <p class="text-secondary">
+
+                            Compute Engine,
+                            Cloud Storage,
+                            IAM and Security Command Center.
+
+                        </p>
+
+                        <span class="badge bg-secondary">
+
+                            Coming Soon
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Kubernetes -->
+
+            <div class="col-xl-4 col-md-6">
+
+                <div class="card dashboard-card border-0 h-100">
+
+                    <div class="card-body text-center">
+
+                        <i class="bi bi-diagram-3 display-4 text-info"></i>
+
+                        <h4 class="mt-3 text-white">
+
+                            Kubernetes
+
+                        </h4>
+
+                        <p class="text-secondary">
+
+                            Cluster security,
+                            workloads,
+                            RBAC,
+                            admission control
+                            and runtime monitoring.
+
+                        </p>
+
+                        <span class="badge bg-secondary">
+
+                            Coming Soon
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Docker -->
+
+            <div class="col-xl-4 col-md-6">
+
+                <div class="card dashboard-card border-0 h-100">
+
+                    <div class="card-body text-center">
+
+                        <i class="bi bi-box-seam display-4 text-primary"></i>
+
+                        <h4 class="mt-3 text-white">
+
+                            Docker
+
+                        </h4>
+
+                        <p class="text-secondary">
+
+                            Container inventory,
+                            image security,
+                            runtime monitoring
+                            and vulnerability scanning.
+
+                        </p>
+
+                        <span class="badge bg-secondary">
+
+                            Coming Soon
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- VMware -->
+
+            <div class="col-xl-4 col-md-6">
+
+                <div class="card dashboard-card border-0 h-100">
+
+                    <div class="card-body text-center">
+
+                        <i class="bi bi-pc-display display-4 text-success"></i>
+
+                        <h4 class="mt-3 text-white">
+
+                            VMware
+
+                        </h4>
+
+                        <p class="text-secondary">
+
+                            ESXi,
+                            virtual machines,
+                            snapshots,
+                            networking
+                            and infrastructure security.
+
+                        </p>
+
+                        <span class="badge bg-secondary">
+
+                            Coming Soon
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+>>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 
         </div>
 
@@ -482,7 +1019,964 @@ Cloud Dashboard
 
 </div>
 
+<<<<<<< HEAD
     </div>
 
 </div>
+=======
+<!-- =========================================== -->
+<!-- AWS SERVICE HEALTH -->
+<!-- =========================================== -->
+
+<div class="card dashboard-card border-0 shadow mb-4">
+
+    <div class="card-header d-flex justify-content-between align-items-center">
+
+        <h4 class="mb-0 text-white">
+
+            <i class="bi bi-heart-pulse-fill text-success me-2"></i>
+
+            AWS Service Health
+
+        </h4>
+
+        <span class="badge bg-primary">
+
+            Live Status
+
+        </span>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th class="text-dark">
+
+                            Service
+
+                        </th>
+
+                        <th class="text-dark">
+
+                            Description
+
+                        </th>
+
+                        <th class="text-dark">
+
+                            Status
+
+                        </th>
+
+                        <th class="text-dark">
+
+                            Action
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td class="text-dark">
+
+                            <i class="bi bi-hdd-network text-primary me-2"></i>
+
+                            EC2
+
+                        </td>
+
+                        <td class="text-secondary">
+
+                            EC2 instance inventory and configuration monitoring.
+
+                        </td>
+
+                        <td>
+
+                           <span class="badge bg-{{ cloud.service_status.ec2.color }}">
+
+    {{ cloud.service_status.ec2.label }}
+
+</span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('cloud.ec2') }}"
+
+                               class="btn btn-sm btn-outline-primary">
+
+                                Open
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td class="text-dark">
+
+                            <i class="bi bi-database text-success me-2"></i>
+
+                            S3
+
+                        </td>
+
+                        <td class="text-secondary">
+
+                            Bucket security, encryption and public access monitoring.
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-{{ cloud.service_status.s3.color }}">
+
+    {{ cloud.service_status.s3.label }}
+
+</span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('cloud.s3') }}"
+
+                               class="btn btn-sm btn-outline-success">
+
+                                Open
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td class="text-dark">
+
+                            <i class="bi bi-people-fill text-warning me-2"></i>
+
+                            IAM
+
+                        </td>
+
+                        <td class="text-secondary">
+
+                            Identity management and permission auditing.
+
+                        </td>
+
+                        <td>
+
+                           <span class="badge bg-{{ cloud.service_status.iam.color }}">
+
+    {{ cloud.service_status.iam.label }}
+
+</span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('cloud.iam') }}"
+
+                               class="btn btn-sm btn-outline-warning">
+
+                                Open
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td class="text-dark">
+
+                            <i class="bi bi-shield-lock text-danger me-2"></i>
+
+                            Security Groups
+
+                        </td>
+
+                        <td class="text-secondary">
+
+                            Firewall rules and network exposure analysis.
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-{{ cloud.service_status.security_groups.color }}">
+
+    {{ cloud.service_status.security_groups.label }}
+
+</span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('cloud.security_groups') }}"
+
+                               class="btn btn-sm btn-outline-danger">
+
+                                Open
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td class="text-dark">
+
+                            <i class="bi bi-clock-history text-info me-2"></i>
+
+                            CloudTrail
+
+                        </td>
+
+                        <td class="text-secondary">
+
+                            Audit logging, API activity and compliance monitoring.
+
+                        </td>
+
+                        <td>
+<span class="badge bg-{{ cloud.service_status.cloudtrail.color }}">
+
+    {{ cloud.service_status.cloudtrail.label }}
+
+</span>
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('cloud.cloudtrail') }}"
+
+                               class="btn btn-sm btn-outline-info">
+
+                                Open
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td class="text-dark">
+
+                            <i class="bi bi-shield-check text-success me-2"></i>
+
+                            GuardDuty
+
+                        </td>
+
+                        <td class="text-secondary">
+
+                            Intelligent threat detection and continuous monitoring.
+
+                        </td>
+
+                        <td>
+
+                           <span class="badge bg-{{ cloud.service_status.guardduty.color }}">
+
+    {{ cloud.service_status.guardduty.label }}
+
+</span>
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('cloud.guardduty') }}"
+
+                               class="btn btn-sm btn-outline-success">
+
+                                Open
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td class="text-dark">
+
+                            <i class="bi bi-search text-primary me-2"></i>
+
+                            Inspector
+
+                        </td>
+
+                        <td class="text-secondary">
+
+                            Automated vulnerability assessment and findings.
+
+                        </td>
+
+                        <td>
+
+                           <span class="badge bg-{{ cloud.service_status.inspector.color }}">
+
+    {{ cloud.service_status.inspector.label }}
+
+</span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('cloud.inspector') }}"
+
+                               class="btn btn-sm btn-outline-primary">
+
+                                Open
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- =========================================== -->
+<!-- RECENT CLOUD FINDINGS -->
+<!-- =========================================== -->
+
+<div class="card dashboard-card border-0 shadow mb-4">
+
+    <div class="card-header">
+
+        <h4 class="mb-0 text-white">
+
+            <i class="bi bi-bug-fill text-danger me-2"></i>
+
+            Recent Cloud Findings
+
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Severity</th>
+
+                        <th>Finding</th>
+
+                        <th>Service</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% if cloud.cloud_findings %}
+
+                    {% for finding in cloud.cloud_findings %}
+
+                    <tr>
+
+                        <td>
+
+                            {% if finding.severity == "Critical" %}
+
+                                <span class="badge bg-danger">
+
+                            {% elif finding.severity == "High" %}
+
+                                <span class="badge bg-warning">
+
+                            {% elif finding.severity == "Medium" %}
+
+                                <span class="badge bg-info">
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                            {% endif %}
+
+                                    {{ finding.severity }}
+
+                                </span>
+
+                        </td>
+
+                        <td class="text-dark">
+
+                            {{ finding.title }}
+
+                        </td>
+
+                        <td class="text-secondary">
+
+                            {{ finding.service }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-danger">
+
+                                {{ finding.status }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center py-5">
+
+                            <i class="bi bi-check-circle-fill text-success display-5"></i>
+
+                            <h5 class="mt-3 text-white">
+
+                                No Cloud Findings
+
+                            </h5>
+
+                            <p class="text-secondary">
+
+                                Your cloud environment appears healthy.
+
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- =========================================== -->
+<!-- COMPLIANCE -->
+<!-- =========================================== -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-8">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-header">
+
+                <h4 class="mb-0 text-white">
+
+                    <i class="bi bi-patch-check-fill text-success me-2"></i>
+
+                    Cloud Compliance
+
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-4">
+
+                        <div class="card bg-dark border border-success">
+
+                            <div class="card-body">
+
+                                <h5 class="text-white">
+
+                                    CIS AWS Foundations
+
+                                </h5>
+
+                                <div class="progress mt-3">
+
+                                    <div class="progress-bar bg-success"
+
+                                         style="width:82%">
+
+                                        82%
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+
+                        <div class="card bg-dark border border-info">
+
+                            <div class="card-body">
+
+                                <h5 class="text-white">
+
+                                    NIST Cybersecurity Framework
+
+                                </h5>
+
+                                <div class="progress mt-3">
+
+                                    <div class="progress-bar bg-info"
+
+                                         style="width:88%">
+
+                                        88%
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="card bg-dark border border-warning">
+
+                            <div class="card-body">
+
+                                <h5 class="text-white">
+
+                                    ISO 27001
+
+                                </h5>
+
+                                <div class="progress mt-3">
+
+                                    <div class="progress-bar bg-warning"
+
+                                         style="width:76%">
+
+                                        76%
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="card bg-dark border border-primary">
+
+                            <div class="card-body">
+
+                                <h5 class="text-white">
+
+                                    AWS Well-Architected
+
+                                </h5>
+
+                                <div class="progress mt-3">
+
+                                    <div class="progress-bar bg-primary"
+
+                                         style="width:91%">
+
+                                        91%
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Compliance Summary -->
+
+    <div class="col-lg-4">
+
+        <div class="card dashboard-card border-0 shadow h-100">
+
+            <div class="card-header">
+
+                <h4 class="mb-0 text-white">
+
+                    <i class="bi bi-award-fill text-warning me-2"></i>
+
+                    Compliance Summary
+
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="mb-4">
+
+                    <h2 class="fw-bold text-success">
+
+                        84%
+
+                    </h2>
+
+                    <p class="text-secondary">
+
+                        Overall Compliance Score
+
+                    </p>
+
+                </div>
+
+                <hr>
+
+                <div class="mb-3">
+
+                    <strong class="text-light">
+
+                        Passed Controls
+
+                    </strong>
+
+                    <span class="float-end text-success">
+
+                        146
+
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <strong class="text-light">
+
+                        Failed Controls
+
+                    </strong>
+
+                    <span class="float-end text-danger">
+
+                        18
+
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <strong class="text-light">
+
+                        Warnings
+
+                    </strong>
+
+                    <span class="float-end text-warning">
+
+                        11
+
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <strong class="text-light">
+
+                        Last Scan
+
+                    </strong>
+
+                    <span class="float-end text-info">
+
+                        Today
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- =========================================== -->
+<!-- QUICK ACTIONS -->
+<!-- =========================================== -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-4">
+
+        <div class="card dashboard-card border-0 shadow h-100">
+
+            <div class="card-header">
+
+                <h4 class="mb-0 text-white">
+
+                    <i class="bi bi-lightning-fill text-warning me-2"></i>
+
+                    Quick Actions
+
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-grid gap-3">
+
+                    <a href="{{ url_for('cloud.aws') }}"
+                       class="btn btn-primary">
+
+                        <i class="bi bi-amazon me-2"></i>
+
+                        AWS Security Center
+
+                    </a>
+
+                    <a href="{{ url_for('scanner.home') }}"
+                       class="btn btn-success">
+
+                        <i class="bi bi-search me-2"></i>
+
+                        New Security Scan
+
+                    </a>
+
+                    <a href="{{ url_for('reports.index') }}"
+                       class="btn btn-danger">
+
+                        <i class="bi bi-file-earmark-pdf me-2"></i>
+
+                        Generate Report
+
+                    </a>
+
+                    <a href="{{ url_for('analytics.index') }}"
+                       class="btn btn-info">
+
+                        <i class="bi bi-bar-chart-fill me-2"></i>
+
+                        View Analytics
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =========================================== -->
+    <!-- RECENT CLOUD EVENTS -->
+    <!-- =========================================== -->
+
+    <div class="col-lg-8">
+
+        <div class="card dashboard-card border-0 shadow h-100">
+
+            <div class="card-header">
+
+                <h4 class="mb-0 text-white">
+
+                    <i class="bi bi-clock-history text-info me-2"></i>
+
+                    Recent Cloud Activity
+
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="timeline">
+
+                    <div class="mb-4">
+
+                        <h6 class="text-success">
+
+                            <i class="bi bi-check-circle-fill me-2"></i>
+
+                            Cloud Security Scan Completed
+
+                        </h6>
+
+                        <small class="text-secondary">
+
+                            AWS environment scanned successfully.
+
+                        </small>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <h6 class="text-warning">
+
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                            IAM Policy Review
+
+                        </h6>
+
+                        <small class="text-secondary">
+
+                            Review IAM users and permissions.
+
+                        </small>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <h6 class="text-danger">
+
+                            <i class="bi bi-bug-fill me-2"></i>
+
+                            Critical Finding Detected
+
+                        </h6>
+
+                        <small class="text-secondary">
+
+                            Public access detected on one resource.
+
+                        </small>
+
+                    </div>
+
+                    <div>
+
+                        <h6 class="text-info">
+
+                            <i class="bi bi-cloud-arrow-up-fill me-2"></i>
+
+                            Cloud Dashboard Updated
+
+                        </h6>
+
+                        <small class="text-secondary">
+
+                            Dashboard synchronized successfully.
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================== -->
+<!-- FOOTER -->
+<!-- =========================================== -->
+
+<div class="card dashboard-card border-0 shadow mb-5">
+
+    <div class="card-body text-center">
+
+        <h5 class="text-white">
+
+            CloudShield Enterprise
+
+        </h5>
+
+        <p class="text-secondary mb-2">
+
+            Enterprise Cloud Security Management Platform
+
+        </p>
+
+        <small class="text-secondary">
+
+            AWS • Azure • Google Cloud • Kubernetes • Docker
+
+        </small>
+
+    </div>
+
+</div>
+
+>>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 {% endblock %}
