@@ -12,6 +12,8 @@ from app.cloud.azure.keyvault import AzureKeyVault
 from app.cloud.azure.monitor import AzureMonitor
 from app.cloud.azure.defender import AzureDefender
 from app.cloud.azure.identity import AzureIdentity
+from app.cloud.azure.network import AzureNetwork
+from app.cloud.azure.load_balancers import AzureLoadBalancers
 
 
 class AzureService:
@@ -27,6 +29,8 @@ class AzureService:
         self.monitor = AzureMonitor(self.client)
         self.defender = AzureDefender(self.client)
         self.identity = AzureIdentity(self.client)
+        self.network = AzureNetwork(self.client)
+        self.load_balancers_service = AzureLoadBalancers(self.client)
 
     # -------------------------------------
     # Connection Status
@@ -35,6 +39,28 @@ class AzureService:
     def connected(self):
 
         return self.client.is_connected()
+
+    def virtual_networks(self):
+
+        return self.network.virtual_networks()
+
+
+    def network_security_groups(self):
+
+        return self.network.network_security_groups()
+
+
+    def public_ips(self):
+
+        return self.network.public_ips()
+    
+    def network_interfaces(self):
+
+        return self.network.network_interfaces()
+    
+    def load_balancers(self):
+
+        return self.load_balancers_service.list()
 
     # -------------------------------------
     # Dashboard Summary

@@ -32,11 +32,8 @@ def aws():
 
     return render_template(
 
-<<<<<<< HEAD
         "cloud/aws/dashboard.html",
-=======
         "cloud/aws.html",
->>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 
         cloud=cloud_data
 
@@ -145,7 +142,6 @@ def inspector():
         data=data
 
     )
-<<<<<<< HEAD
 
 # --------------------------------------------------
 # Azure Dashboard
@@ -290,5 +286,30 @@ def azure_identity():
         data=data
 
     )
-=======
->>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
+@cloud.route("/azure/network-interfaces")
+@login_required
+def azure_network_interfaces():
+
+    data = service.network_interfaces()
+
+    return render_template(
+
+        "cloud/azure/network_interfaces.html",
+
+        data=data
+
+    )
+    
+@cloud.route("/azure/load-balancers")
+@login_required
+def azure_load_balancers():
+
+    data = service.load_balancers()
+
+    return render_template(
+
+        "cloud/azure/load_balancers.html",
+
+        data=data
+
+    )    

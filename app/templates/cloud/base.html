@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-<<<<<<< HEAD
 {% block title %}
 
 Cloud Platform
@@ -16,13 +15,10 @@ Cloud Platform
 
 {% endblock %}
 
-=======
->>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 {% block content %}
 
 <div class="container-fluid py-4">
 
-<<<<<<< HEAD
     <!-- ====================================== -->
     <!-- Cloud Header -->
     <!-- ====================================== -->
@@ -42,33 +38,11 @@ Cloud Platform
             <p class="text-muted mb-0">
 
                 Multi-Cloud Security Operations Center
-=======
-    <!-- Cloud Header -->
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
-        <div>
-
-            <h2 class="fw-bold text-white">
-
-                {% block cloud_title %}
-                Cloud Security
-                {% endblock %}
-
-            </h2>
-
-            <p class="text-secondary">
-
-                {% block cloud_subtitle %}
-                Cloud Security Dashboard
-                {% endblock %}
->>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 
             </p>
 
         </div>
 
-<<<<<<< HEAD
         <div>
 
             <a href="{{ url_for('cloud.dashboard') }}"
@@ -167,29 +141,5 @@ Cloud Platform
 {{ super() }}
 
 <script src="{{ url_for('static', filename='js/cloud.js') }}"></script>
-=======
-        <a href="#"
-           class="btn btn-outline-primary">
-
-            <i class="bi bi-arrow-clockwise"></i>
-
-            Refresh
-
-        </a>
-
-    </div>
-
-   <div class="row">
-
-    <div class="col-12">
-
-        {% block cloud_content %}{% endblock %}
-
-    </div>
-
-</div>
-
-</div>
->>>>>>> 85b73280dbe0ae93cb04b6fe019fa37bd58bbd40
 
 {% endblock %}
