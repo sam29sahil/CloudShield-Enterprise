@@ -8,7 +8,7 @@ from datetime import datetime
 from app.extensions import db
 from app.models import SecurityScan, Report
 
-from app.security.manager import SecurityManager
+from app.security.core.manager import SecurityManager
 from app.assets.services import AssetManager
 
 

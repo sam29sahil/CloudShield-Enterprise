@@ -27,15 +27,19 @@ def home():
 
     if form.validate_on_submit():
 
-        result = service.scan(
+        if form.tool.data:
 
-            tool=form.tool.data,
+            result = service.scan(
+                target=form.target.data,
+                tool=form.tool.data
+            )
 
-            target=form.target.data,
+        else:
 
-            arguments=None
-
-        )
+            result = service.scan(
+                target=form.target.data,
+                profile=form.profile.data
+            )
 
     return render_template(
 

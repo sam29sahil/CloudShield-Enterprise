@@ -10,10 +10,15 @@ from app.models.security_scan import SecurityScan
 from app.cloud.aws.services import AWSScanner
 from app.cloud.azure.services import AzureService
 from app.cloud.findings_engine import CloudFindingsEngine
-
+from app.cloud.azure.security_analyzer import AzureSecurityAnalyzer
+from app.cloud.azure.risk_engine import AzureRiskEngine
+from app.cloud.azure.recommendations import AzureRecommendations
 
 aws = AWSScanner()
 azure = AzureService()
+analyzer = AzureSecurityAnalyzer()
+risk_engine = AzureRiskEngine()
+recommendations = AzureRecommendations()
 
 
 class CloudService:
@@ -23,6 +28,7 @@ class CloudService:
 
     # ==================================================
     # Service Status
+
     # ==================================================
 
     def service_status(self, result):
@@ -116,22 +122,18 @@ class CloudService:
 
             "assets": Asset.query.count(),
 
-            "findings": Finding.query.count(),
+            "findings_count": Finding.query.count(),
 
             "scans": SecurityScan.query.count(),
 
             "cloud_findings": cloud_findings,
 
-            "ec2": ec2.get("total_instances", 0),
-
-            "s3": s3.get("total_buckets", 0),
-
-            "iam": iam.get("total_users", 0),
-
-            "security_groups": security_groups.get(
-                "total_groups",
-                0
-            ),
+            "aws": {
+                "ec2": ec2.get("total_instances", 0),
+                "s3": s3.get("total_buckets", 0),
+                "iam": iam.get("total_users", 0),
+                "security_groups": security_groups.get("total_groups", 0),
+            },
 
             "cloudtrail": cloudtrail.get(
                 "total_trails",
@@ -222,7 +224,36 @@ class CloudService:
     # ==================================================
 
     def azure_dashboard(self):
-        return azure.summary()
+
+        summary = azure.summary()
+
+        virtual_machines = self.azure_virtual_machines()
+        storage_accounts = self.azure_storage()
+        network_security_groups = self.azure_network_security_groups()
+        keyvaults = self.azure_keyvault()
+    
+        azure_data = {
+
+            "virtual_machines": virtual_machines,
+
+            "storage_accounts": storage_accounts,
+
+            "network_security_groups": network_security_groups,
+
+            "keyvaults": keyvaults
+
+        }
+
+        findings = analyzer.analyze(azure_data)
+
+        findings = recommendations.enrich(findings)
+
+        security = risk_engine.dashboard(findings)
+
+        summary["security"] = security
+        summary["findings"] = findings
+
+        return summary
 
     # ==================================================
     # Azure Compute

@@ -5,7 +5,7 @@ Scan Executor
 
 from datetime import datetime
 
-from app.security.manager import SecurityManager
+from app.security.core.manager import SecurityManager
 
 
 class ScanExecutor:

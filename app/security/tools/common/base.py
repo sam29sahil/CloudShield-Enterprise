@@ -5,7 +5,7 @@ Base Tool
 
 from abc import ABC
 
-from app.security.scanner import ToolRunner
+from app.security.core.tool_runner import ToolRunner
 
 
 class BaseTool(ABC):

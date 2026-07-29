@@ -3,7 +3,7 @@ CloudShield Enterprise
 Integration Manager
 """
 
-from app.security.manager import SecurityManager
+from app.security.core.manager import SecurityManager
 
 
 class IntegrationManager:

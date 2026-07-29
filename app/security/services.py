@@ -3,7 +3,7 @@ CloudShield Enterprise
 Security Services
 """
 
-from app.security.manager import SecurityManager
+from app.security.core.engine import UniversalScannerEngine
 
 
 class SecurityService:
@@ -13,38 +13,45 @@ class SecurityService:
 
     def __init__(self):
 
-        self.manager = SecurityManager()
+        self.manager =  UniversalScannerEngine()
 
     def scan(
-
         self,
-
-        tool,
-
         target,
-
+        tool=None,
+        profile=None,
         arguments=None
-
     ):
+        """
+        Run either a single tool or a scan profile.
+        """
 
-        return self.manager.run_tool(
+        if profile:
+            return self.engine.scan_profile(
+                target=target,
+                profile=profile
+            )
 
-            tool=tool,
+        if tool:
+            return self.engine.scan(
+                target=target,
+                tool=tool,
+                arguments=arguments
+            )
 
-            target=target,
-
-            arguments=arguments
-
-        )
+        return {
+            "success": False,
+            "error": "No tool or profile selected."
+        }
 
     def available_tools(self):
 
-        return self.manager.tools()
+        return self.engine.manager.tools()
 
     def tool_exists(self, tool):
 
-        return self.manager.installed(tool)
+        return self.engine.manager.installed(tool)
 
     def categories(self):
 
-        return self.manager.categories()
+        return self.engine.manager.categories()

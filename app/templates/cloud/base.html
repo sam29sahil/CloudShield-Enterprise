@@ -1,145 +1,960 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}
+<head>
 
-Cloud Platform
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-{% endblock %}
+    <title>
+        {% block title %}
+        CloudShield Enterprise
+        {% endblock %}
+    </title>
 
-{% block styles %}
-
-{{ super() }}
-
-<link rel="stylesheet"
+    <!-- Bootstrap -->
+     <link rel="stylesheet"
       href="{{ url_for('static', filename='css/cloud.css') }}">
 
-{% endblock %}
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 
-{% block content %}
+    <!-- Bootstrap Icons -->
 
-<div class="container-fluid py-4">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
 
-    <!-- ====================================== -->
-    <!-- Cloud Header -->
-    <!-- ====================================== -->
+    <!-- Google Font -->
 
-    <div class="cloud-header mb-4">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
-        <div>
+    {% block css %}{% endblock %}
 
-            <h1 class="cloud-title">
+<style>
 
-                <i class="bi bi-cloud-fill text-primary"></i>
+:root{
 
-                CloudShield Enterprise
+    --sidebar-width:280px;
 
-            </h1>
+    --navbar-height:72px;
 
-            <p class="text-muted mb-0">
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
 
-                Multi-Cloud Security Operations Center
+    --success:#16a34a;
+    --danger:#dc2626;
+    --warning:#f59e0b;
+    --info:#06b6d4;
 
-            </p>
+    --bg:#0f172a;
+    --card:#111827;
+    --card-light:#1f2937;
 
-        </div>
+    --border:#2d3748;
 
-        <div>
+    --text:#f8fafc;
+    --text-muted:#94a3b8;
 
-            <a href="{{ url_for('cloud.dashboard') }}"
-               class="btn btn-outline-primary">
+    --shadow:
+        0 10px 30px rgba(0,0,0,.25);
 
-                <i class="bi bi-house-fill"></i>
+}
 
-                Dashboard
+*{
 
-            </a>
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 
-        </div>
+}
 
-    </div>
+body{
 
-    <!-- ====================================== -->
-    <!-- Cloud Navigation -->
-    <!-- ====================================== -->
+    font-family:'Inter',sans-serif;
 
-    <div class="cloud-nav mb-4">
+    background:var(--bg);
 
-        <div class="btn-group flex-wrap">
+    color:var(--text);
 
-            <a href="{{ url_for('cloud.dashboard') }}"
-               class="btn btn-light">
+    overflow-x:hidden;
 
-                <i class="bi bi-speedometer2"></i>
+}
 
-                Overview
+/* ==========================
+Sidebar
+========================== */
 
-            </a>
+.sidebar{
 
-            <a href="{{ url_for('cloud.aws') }}"
-               class="btn btn-light">
+    position:fixed;
 
-                <i class="bi bi-cloud-fill"></i>
+    left:0;
+    top:0;
+    bottom:0;
 
-                AWS
+    width:var(--sidebar-width);
 
-            </a>
+    background:#111827;
 
-            <a href="{{ url_for('cloud.azure') }}"
-               class="btn btn-light">
+    border-right:1px solid var(--border);
 
-                <i class="bi bi-microsoft"></i>
+    z-index:1050;
 
-                Azure
+    overflow-y:auto;
 
-            </a>
+}
 
-            <a href="{{ url_for('scanner.home') }}"
-               class="btn btn-light">
+/* Logo */
 
-                <i class="bi bi-shield-check"></i>
+.logo{
 
-                Scanner
+    height:72px;
 
-            </a>
+    display:flex;
 
-            <a href="{{ url_for('findings_ui.index') }}"
-               class="btn btn-light">
+    align-items:center;
 
-                <i class="bi bi-bug"></i>
+    justify-content:center;
 
-                Findings
+    font-size:22px;
 
-            </a>
+    font-weight:700;
 
-            <a href="{{ url_for('reports.index') }}"
-               class="btn btn-light">
+    color:white;
 
-                <i class="bi bi-file-earmark-text"></i>
+    border-bottom:1px solid var(--border);
 
-                Reports
+}
 
-            </a>
+/* Menu */
 
-        </div>
+.sidebar .nav{
 
-    </div>
+    padding:18px;
 
-    <!-- ====================================== -->
-    <!-- Page Content -->
-    <!-- ====================================== -->
+}
 
-    {% block cloud_content %}
+.sidebar .nav-link{
 
-    {% endblock %}
+    color:#cbd5e1;
+
+    border-radius:12px;
+
+    margin-bottom:8px;
+
+    padding:12px 16px;
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+.sidebar .nav-link:hover{
+
+    background:#1e293b;
+
+    color:white;
+
+}
+
+.sidebar .nav-link.active{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+.sidebar .nav-link i{
+
+    width:24px;
+
+}
+
+/* ==========================
+Main Area
+========================== */
+
+.main{
+
+    margin-left:var(--sidebar-width);
+
+    min-height:100vh;
+
+}
+
+/* ==========================
+Navbar
+========================== */
+
+.topbar{
+
+    height:var(--navbar-height);
+
+    background:#111827;
+
+    border-bottom:1px solid var(--border);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 28px;
+
+}
+
+/* Search */
+
+.search-box{
+
+    width:360px;
+
+}
+
+.search-box input{
+
+    background:#1f2937;
+
+    border:none;
+
+    color:white;
+
+}
+
+.search-box input:focus{
+
+    background:#1f2937;
+
+    color:white;
+
+    box-shadow:none;
+
+}
+
+/* Navbar Right */
+
+.top-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.action-btn{
+
+    width:42px;
+    height:42px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#1f2937;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+.action-btn:hover{
+
+    background:var(--primary);
+
+}
+
+/* Avatar */
+
+.avatar{
+
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:700;
+
+}
+
+/* ==========================
+Content
+========================== */
+
+.content{
+
+    padding:30px;
+
+}
+
+/* ==========================
+Breadcrumb
+========================== */
+
+.breadcrumb{
+
+    margin-bottom:25px;
+
+}
+
+.breadcrumb-item a{
+
+    color:#94a3b8;
+
+    text-decoration:none;
+
+}
+
+.breadcrumb-item.active{
+
+    color:white;
+
+}
+
+/* ==========================
+Cards
+========================== */
+
+.card{
+
+    background:var(--card);
+
+    border:none;
+
+    border-radius:18px;
+
+    box-shadow:var(--shadow);
+
+}
+
+.card-header{
+
+    background:transparent;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.card-footer{
+
+    background:transparent;
+
+    border-top:1px solid var(--border);
+
+}
+
+/* ==========================
+Tables
+========================== */
+
+.table{
+
+    color:white;
+
+}
+
+.table thead{
+
+    background:#1f2937;
+
+}
+
+.table td{
+
+    vertical-align:middle;
+
+}
+
+/* ==========================
+Buttons
+========================== */
+
+.btn-primary{
+
+    background:var(--primary);
+
+    border:none;
+
+}
+
+.btn-primary:hover{
+
+    background:var(--primary-dark);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+<div class="logo">
+
+<i class="bi bi-cloud-check-fill me-2"></i>
+
+CloudShield
 
 </div>
 
+<ul class="nav flex-column">
+
+<li class="nav-item">
+
+<a class="nav-link {% if request.endpoint=='cloud.dashboard' %}active{% endif %}"
+href="{{ url_for('cloud.dashboard') }}">
+
+<i class="bi bi-speedometer2"></i>
+
+Dashboard
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+href="{{ url_for('cloud.aws') }}">
+
+<i class="bi bi-amazon"></i>
+
+AWS
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+href="{{ url_for('cloud.azure') }}">
+
+<i class="bi bi-microsoft"></i>
+
+Azure
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+href="#">
+
+<i class="bi bi-shield-check"></i>
+
+Security
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+href="{{ url_for('analytics.index') }}">
+
+<i class="bi bi-bar-chart-line"></i>
+
+Analytics
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+href="{{ url_for('reports.index') }}">
+
+<i class="bi bi-file-earmark-text"></i>
+
+Reports
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+href="#">
+
+<i class="bi bi-gear"></i>
+
+Settings
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+<!-- Main -->
+
+<div class="main">
+
+<!-- Top Navbar -->
+
+<nav class="topbar">
+
+<div class="search-box">
+
+<input
+type="text"
+class="form-control"
+placeholder="Search Cloud Resources...">
+
+</div>
+
+<div class="top-actions">
+
+<div class="action-btn">
+
+<i class="bi bi-bell"></i>
+
+</div>
+
+<div class="action-btn">
+
+<i class="bi bi-moon"></i>
+
+</div>
+
+<div class="dropdown">
+
+<div
+class="avatar dropdown-toggle"
+data-bs-toggle="dropdown">
+
+{{ current_user.username[0]|upper }}
+
+</div>
+
+<ul class="dropdown-menu dropdown-menu-end">
+
+<li>
+
+<a class="dropdown-item"
+href="#">
+
+Profile
+
+</a>
+
+</li>
+
+<li>
+
+<a class="dropdown-item"
+href="#">
+
+Settings
+
+</a>
+
+</li>
+
+<li><hr></li>
+
+<li>
+
+<a
+class="dropdown-item text-danger"
+href="{{ url_for('auth.logout') }}">
+
+Logout
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+<div class="content">
+
+<nav>
+
+<ol class="breadcrumb">
+
+{% block breadcrumb %}
+
+<li class="breadcrumb-item">
+
+<a href="{{ url_for('dashboard.home') }}">
+
+Home
+
+</a>
+
+</li>
+
+<li class="breadcrumb-item active">
+
+Cloud
+
+</li>
+
 {% endblock %}
+
+</ol>
+
+</nav>
+
+{% block content %}
+
+{% endblock %}
+<!-- ==========================================
+Footer
+========================================== -->
+
+<footer class="mt-5 pt-4">
+
+    <div class="card">
+
+        <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
+
+            <div>
+
+                <strong>CloudShield Enterprise</strong>
+
+                <div class="text-secondary small">
+
+                    Cloud Security • Azure • AWS • Reports • Analytics
+
+                </div>
+
+            </div>
+
+            <div class="text-secondary small">
+
+                © {{ current_year if current_year else "2026" }}
+
+                CloudShield Enterprise
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+</div>
+
+</div>
+
+<!-- ==========================================
+Loading Overlay
+========================================== -->
+
+<div id="loadingOverlay"
+     class="position-fixed top-0 start-0 w-100 h-100
+            d-none justify-content-center align-items-center"
+     style="
+            background:rgba(15,23,42,.75);
+            z-index:9999;
+     ">
+
+    <div class="text-center">
+
+        <div class="spinner-border text-primary mb-3"
+             style="width:4rem;height:4rem;">
+
+        </div>
+
+        <h5>Loading CloudShield...</h5>
+
+    </div>
+
+</div>
+
+<!-- ==========================================
+Scroll To Top
+========================================== -->
+
+<button
+
+        id="scrollTop"
+
+        class="btn btn-primary"
+
+        style="
+
+            position:fixed;
+
+            right:30px;
+
+            bottom:30px;
+
+            display:none;
+
+            border-radius:50%;
+
+            width:52px;
+
+            height:52px;
+
+            z-index:999;
+
+        "
+
+>
+
+<i class="bi bi-arrow-up"></i>
+
+</button>
+
+<!-- ==========================================
+Toast Notification
+========================================== -->
+
+<div
+
+class="toast-container
+
+position-fixed
+
+bottom-0
+
+end-0
+
+p-3"
+
+>
+
+<div
+
+id="cloudToast"
+
+class="toast"
+
+role="alert"
+
+>
+
+<div class="toast-header">
+
+<i class="bi bi-cloud-check-fill text-primary me-2"></i>
+
+<strong class="me-auto">
+
+CloudShield
+
+</strong>
+
+<button
+
+type="button"
+
+class="btn-close"
+
+data-bs-dismiss="toast">
+
+</button>
+
+</div>
+
+<div class="toast-body"
+
+id="toastBody">
+
+Welcome to CloudShield Enterprise.
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ==========================================
+Bootstrap
+========================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+const overlay=document.getElementById("loadingOverlay");
+
+function showLoading(){
+
+    overlay.classList.remove("d-none");
+
+    overlay.classList.add("d-flex");
+
+}
+
+function hideLoading(){
+
+    overlay.classList.remove("d-flex");
+
+    overlay.classList.add("d-none");
+
+}
+
+window.addEventListener(
+
+"load",
+
+()=>{
+
+hideLoading();
+
+}
+
+);
+
+/* =======================================
+Toast
+======================================= */
+
+function showToast(message){
+
+    document.getElementById("toastBody").innerHTML=message;
+
+    let toast=new bootstrap.Toast(
+
+        document.getElementById("cloudToast")
+
+    );
+
+    toast.show();
+
+}
+
+/* =======================================
+Scroll Button
+======================================= */
+
+const topButton=document.getElementById("scrollTop");
+
+window.onscroll=function(){
+
+    if(document.body.scrollTop>250 ||
+
+       document.documentElement.scrollTop>250){
+
+        topButton.style.display="block";
+
+    }
+
+    else{
+
+        topButton.style.display="none";
+
+    }
+
+};
+
+topButton.onclick=function(){
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+};
+
+/* =======================================
+Search
+======================================= */
+
+const searchBox=document.querySelector(
+
+'.search-box input'
+
+);
+
+if(searchBox){
+
+searchBox.addEventListener(
+
+'keypress',
+
+function(e){
+
+if(e.key==="Enter"){
+
+showToast(
+
+'Search feature will be available in the next release.'
+
+);
+
+}
+
+}
+
+);
+
+}
+
+/* =======================================
+Theme Toggle
+======================================= */
+
+const moon=document.querySelector(".bi-moon");
+
+if(moon){
+
+moon.parentElement.onclick=function(){
+
+showToast(
+
+'Light theme coming soon.'
+
+);
+
+}
+
+}
+
+</script>
 
 {% block scripts %}
 
-{{ super() }}
-
-<script src="{{ url_for('static', filename='js/cloud.js') }}"></script>
-
 {% endblock %}
+
+</body>
+
+</html>

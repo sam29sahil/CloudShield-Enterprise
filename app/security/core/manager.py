@@ -5,14 +5,9 @@ Security Manager
 
 from time import perf_counter
 
-from app.security.parser import ResultParser
+from app.security.core.normalizer import ResultParser
 
-from app.security.tools.network import get_all_tools as network_tools
-from app.security.tools.web import get_all_tools as web_tools
-from app.security.tools.ssl import get_all_tools as ssl_tools
-from app.security.tools.dns import get_all_tools as dns_tools
-from app.security.tools.cloud import get_all_tools as cloud_tools
-from app.security.tools.wireless import get_all_tools as wireless_tools
+from app.security.core.registry import load_registry
 
 
 class SecurityManager:
@@ -24,19 +19,12 @@ class SecurityManager:
 
         self.registry = {}
         self.parser = ResultParser()
+        self.registry = load_registry()
 
         self.load_tools()
 
     def load_tools(self):
-
-        self.registry.clear()
-
-        self.registry.update(network_tools())
-        self.registry.update(web_tools())
-        self.registry.update(ssl_tools())
-        self.registry.update(dns_tools())
-        self.registry.update(cloud_tools())
-        self.registry.update(wireless_tools())
+        self.registry = load_registry()
 
     def tools(self):
 

@@ -33,7 +33,6 @@ def aws():
     return render_template(
 
         "cloud/aws/dashboard.html",
-        "cloud/aws.html",
 
         cloud=cloud_data
 
@@ -47,7 +46,7 @@ def ec2():
 
     return render_template(
 
-        "cloud/ec2.html",
+        "cloud/aws/ec2.html",
 
         data=data
 
@@ -62,7 +61,7 @@ def s3():
 
     return render_template(
 
-        "cloud/s3.html",
+        "cloud/aws/s3.html",
 
         data=data
 
@@ -77,7 +76,7 @@ def iam():
 
     return render_template(
 
-        "cloud/iam.html",
+        "cloud/aws/iam.html",
 
         data=data
 
@@ -92,7 +91,7 @@ def security_groups():
 
     return render_template(
 
-        "cloud/security_groups.html",
+        "cloud/aws/security_groups.html",
 
         data=data
 
@@ -107,7 +106,7 @@ def cloudtrail():
 
     return render_template(
 
-        "cloud/cloudtrail.html",
+        "cloud/aws/cloudtrail.html",
 
         data=data
 
@@ -122,7 +121,7 @@ def guardduty():
 
     return render_template(
 
-        "cloud/guardduty.html",
+        "cloud/aws/guardduty.html",
 
         data=data
 
@@ -137,7 +136,7 @@ def inspector():
 
     return render_template(
 
-        "cloud/inspector.html",
+        "cloud/aws/inspector.html",
 
         data=data
 
