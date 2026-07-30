@@ -97,78 +97,69 @@
                 <form method="POST">
 
                     {{ form.hidden_tag() }}
-
-                    {{ form.asset_id() }}
-
-                    <div class="row">
-
-                        <div class="col-md-6 mb-3">
-
-                            {{ form.mode.label(class="form-label") }}
-
-                            {{ form.mode(
-                                class="form-select",
-                                id="mode"
-                            ) }}
-
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-
-                            {{ form.category.label(class="form-label") }}
-
-                            {{ form.category(
-                                class="form-select",
-                                id="category"
-                            ) }}
-
-                        </div>
-
-                    </div>
-
-                    <div class="mb-3">
-
-                        {{ form.tool.label(class="form-label") }}
-
-                        {{ form.tool(
-                            class="form-select",
-                            id="tool"
-                        ) }}
-
-                    </div>
-
-                    <div class="mb-3">
-
+                
+                    <div class="mb-4">
+                
                         {{ form.target.label(class="form-label") }}
-
+                
                         {{ form.target(
-                            class="form-control",
-                            placeholder="example.com or https://example.com"
+                            class="form-control form-control-lg",
+                            placeholder="example.com, https://example.com or 192.168.1.1"
                         ) }}
-
+                
                     </div>
-
-                    <div class="mb-3">
-
+                
+                    <div class="mb-4">
+                
+                        {{ form.profile.label(class="form-label") }}
+                
+                        {{ form.profile(
+                            class="form-select form-select-lg"
+                        ) }}
+                
+                        <div class="form-text">
+                            Select a scan profile to run multiple security tools automatically.
+                        </div>
+                
+                    </div>
+                
+                    <div class="mb-4">
+                
+                        {{ form.tool.label(class="form-label") }}
+                
+                        {{ form.tool(
+                            class="form-select form-select-lg"
+                        ) }}
+                
+                        <div class="form-text">
+                            Optional. Select a single tool instead of a complete scan profile.
+                        </div>
+                
+                    </div>
+                
+                    <div class="mb-4">
+                
                         {{ form.arguments.label(class="form-label") }}
-
+                
                         {{ form.arguments(
                             class="form-control",
-                            placeholder="-sV -T4"
+                            placeholder="Example: -sV -Pn"
                         ) }}
-
+                
+                        <div class="form-text">
+                            Leave empty to use the default tool options.
+                        </div>
+                
                     </div>
-
-                    <button
-                        type="submit"
-                        class="btn-start">
-
-                        <i class="bi bi-play-fill"></i>
-
-                        Start Security Scan
-
-                    </button>
-
+                
+                    <div class="d-grid">
+                
+                        {{ form.submit(
+                            class="btn btn-primary btn-lg"
+                        ) }}
+                
+                    </div>
+                
                 </form>
 
             </div>

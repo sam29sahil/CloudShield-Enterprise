@@ -1,0 +1,286 @@
+/* ===================================================================
+   CloudShield Enterprise
+   Responsive Styles
+   File: responsive.css
+=================================================================== */
+
+/* ==========================================================
+   EXTRA LARGE DESKTOP
+========================================================== */
+
+@media (min-width:1600px){
+
+    .container{
+        max-width:1560px;
+    }
+
+    .stats-grid,
+    .health-grid,
+    .findings-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+}
+
+/* ==========================================================
+   LARGE DESKTOP
+========================================================== */
+
+@media (max-width:1400px){
+
+    .container{
+        max-width:1280px;
+    }
+
+    .hero-title{
+        font-size:42px;
+    }
+
+}
+
+/* ==========================================================
+   LAPTOP
+========================================================== */
+
+@media (max-width:1200px){
+
+    .dashboard-grid{
+        grid-template-columns:repeat(6,1fr);
+    }
+
+    .col-3,
+    .col-4{
+        grid-column:span 3;
+    }
+
+    .col-6,
+    .col-8,
+    .col-9,
+    .col-12{
+        grid-column:span 6;
+    }
+
+    .chart-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width:992px){
+
+    .sidebar{
+        left:-280px;
+    }
+
+    .sidebar.active{
+        left:0;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .navbar{
+        padding:0 20px;
+    }
+
+    .content{
+        padding:20px;
+    }
+
+    .dashboard-hero{
+        flex-direction:column;
+        text-align:center;
+        gap:40px;
+    }
+
+    .stats-grid,
+    .health-grid,
+    .quick-actions{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .scan-panel{
+        grid-template-columns:1fr;
+    }
+
+}
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width:768px){
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .col-3,
+    .col-4,
+    .col-6,
+    .col-8,
+    .col-9,
+    .col-12{
+        grid-column:span 1;
+    }
+
+    .hero-title{
+        font-size:34px;
+    }
+
+    .page-title{
+        font-size:30px;
+    }
+
+    .nav-search{
+        display:none;
+    }
+
+    .user-details{
+        display:none;
+    }
+
+    .stats-grid,
+    .health-grid,
+    .quick-actions,
+    .findings-grid,
+    .widget-grid{
+        grid-template-columns:1fr;
+    }
+
+    .scan-options{
+        grid-template-columns:1fr;
+    }
+
+    .scan-summary{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .footer{
+        flex-direction:column;
+        gap:12px;
+        text-align:center;
+    }
+
+}
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
+
+@media (max-width:576px){
+
+    .navbar{
+        padding:0 14px;
+    }
+
+    .content{
+        padding:16px;
+    }
+
+    .dashboard-hero{
+        padding:24px;
+    }
+
+    .hero-buttons,
+    .scan-actions{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+    .scan-summary{
+        grid-template-columns:1fr;
+    }
+
+    .hero-title{
+        font-size:28px;
+    }
+
+    .scanner-title{
+        font-size:30px;
+    }
+
+}
+
+/* ==========================================================
+   ACCESSIBILITY
+========================================================== */
+
+@media (prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation:none !important;
+
+        transition:none !important;
+
+        scroll-behavior:auto !important;
+
+    }
+
+}
+
+/* ==========================================================
+   DARK MODE SUPPORT
+========================================================== */
+
+@media (prefers-color-scheme:dark){
+
+    html{
+
+        color-scheme:dark;
+
+    }
+
+}
+
+/* ==========================================================
+   HIGH CONTRAST
+========================================================== */
+
+@media (prefers-contrast:more){
+
+    *{
+
+        border-color:#ffffff !important;
+
+    }
+
+}
+
+/* ==========================================================
+   PRINT
+========================================================== */
+
+@media print{
+
+    .sidebar,
+    .navbar,
+    .footer,
+    .fab,
+    .scan-actions,
+    .hero-buttons{
+
+        display:none !important;
+
+    }
+
+    body{
+
+        background:#ffffff;
+
+        color:#000000;
+
+    }
+
+}

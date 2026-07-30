@@ -1,0 +1,1446 @@
+/* ===================================================================
+   CloudShield Enterprise
+   Animation Library
+   File: animations.css
+   Version: 2.0
+=================================================================== */
+
+/* ==========================================================
+   ANIMATION DEFAULTS
+========================================================== */
+
+.animate {
+    animation-duration: .8s;
+    animation-fill-mode: both;
+    animation-timing-function: ease;
+}
+
+.animate-fast {
+    animation-duration: .4s;
+}
+
+.animate-slow {
+    animation-duration: 1.2s;
+}
+
+.animate-delay-1 {
+    animation-delay: .1s;
+}
+
+.animate-delay-2 {
+    animation-delay: .2s;
+}
+
+.animate-delay-3 {
+    animation-delay: .3s;
+}
+
+.animate-delay-4 {
+    animation-delay: .4s;
+}
+
+.animate-delay-5 {
+    animation-delay: .5s;
+}
+
+/* ==========================================================
+   FADE IN
+========================================================== */
+
+.fade-in {
+    animation: fadeIn .8s ease both;
+}
+
+.fade-up {
+    animation: fadeUp .8s ease both;
+}
+
+.fade-down {
+    animation: fadeDown .8s ease both;
+}
+
+.fade-left {
+    animation: fadeLeft .8s ease both;
+}
+
+.fade-right {
+    animation: fadeRight .8s ease both;
+}
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+@keyframes fadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+@keyframes fadeDown {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(-30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+@keyframes fadeLeft {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateX(-40px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateX(0);
+
+    }
+
+}
+
+@keyframes fadeRight {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateX(40px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateX(0);
+
+    }
+
+}
+
+/* ==========================================================
+   ZOOM
+========================================================== */
+
+.zoom-in {
+
+    animation: zoomIn .7s ease both;
+
+}
+
+.zoom-out {
+
+    animation: zoomOut .7s ease both;
+
+}
+
+@keyframes zoomIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: scale(.85);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: scale(1);
+
+    }
+
+}
+
+@keyframes zoomOut {
+
+    from {
+
+        opacity: 0;
+
+        transform: scale(1.15);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: scale(1);
+
+    }
+
+}
+
+/* ==========================================================
+   FLOAT
+========================================================== */
+
+.float {
+
+    animation: floating 4s ease-in-out infinite;
+
+}
+
+.float-slow {
+
+    animation: floating 7s ease-in-out infinite;
+
+}
+
+.float-fast {
+
+    animation: floating 2.5s ease-in-out infinite;
+
+}
+
+@keyframes floating {
+
+    0% {
+
+        transform: translateY(0);
+
+    }
+
+    50% {
+
+        transform: translateY(-10px);
+
+    }
+
+    100% {
+
+        transform: translateY(0);
+
+    }
+
+}
+
+/* ==========================================================
+   PULSE
+========================================================== */
+
+.pulse {
+
+    animation: pulse 2s infinite;
+
+}
+
+.pulse-fast {
+
+    animation: pulse 1s infinite;
+
+}
+
+@keyframes pulse {
+
+    0% {
+
+        transform: scale(1);
+
+    }
+
+    50% {
+
+        transform: scale(1.04);
+
+    }
+
+    100% {
+
+        transform: scale(1);
+
+    }
+
+}
+
+/* ==========================================================
+   GLOW
+========================================================== */
+
+.glow-primary {
+
+    animation: glowPrimary 2s infinite alternate;
+
+}
+
+.glow-success {
+
+    animation: glowSuccess 2s infinite alternate;
+
+}
+
+.glow-danger {
+
+    animation: glowDanger 2s infinite alternate;
+
+}
+
+@keyframes glowPrimary {
+
+    from {
+
+        box-shadow: 0 0 5px rgba(47,128,237,.25);
+
+    }
+
+    to {
+
+        box-shadow: 0 0 25px rgba(47,128,237,.6);
+
+    }
+
+}
+
+@keyframes glowSuccess {
+
+    from {
+
+        box-shadow: 0 0 5px rgba(39,174,96,.25);
+
+    }
+
+    to {
+
+        box-shadow: 0 0 25px rgba(39,174,96,.6);
+
+    }
+
+}
+
+@keyframes glowDanger {
+
+    from {
+
+        box-shadow: 0 0 5px rgba(235,87,87,.25);
+
+    }
+
+    to {
+
+        box-shadow: 0 0 25px rgba(235,87,87,.6);
+
+    }
+
+}
+
+/* ==========================================================
+   ROTATION
+========================================================== */
+
+.rotate {
+
+    animation: rotate360 4s linear infinite;
+
+}
+
+.rotate-slow {
+
+    animation: rotate360 8s linear infinite;
+
+}
+
+.rotate-reverse {
+
+    animation: rotateReverse 4s linear infinite;
+
+}
+
+@keyframes rotate360 {
+
+    from {
+
+        transform: rotate(0deg);
+
+    }
+
+    to {
+
+        transform: rotate(360deg);
+
+    }
+
+}
+
+@keyframes rotateReverse {
+
+    from {
+
+        transform: rotate(360deg);
+
+    }
+
+    to {
+
+        transform: rotate(0deg);
+
+    }
+
+}
+/* ===================================================================
+   SLIDE ANIMATIONS
+=================================================================== */
+
+.slide-up {
+    animation: slideUp .8s ease both;
+}
+
+.slide-down {
+    animation: slideDown .8s ease both;
+}
+
+.slide-left {
+    animation: slideLeft .8s ease both;
+}
+
+.slide-right {
+    animation: slideRight .8s ease both;
+}
+
+@keyframes slideUp {
+
+    from{
+        transform:translateY(100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+
+}
+
+@keyframes slideDown{
+
+    from{
+        transform:translateY(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+
+}
+
+@keyframes slideLeft{
+
+    from{
+        transform:translateX(-100%);
+    }
+
+    to{
+        transform:translateX(0);
+    }
+
+}
+
+@keyframes slideRight{
+
+    from{
+        transform:translateX(100%);
+    }
+
+    to{
+        transform:translateX(0);
+    }
+
+}
+
+/* ===================================================================
+   BOUNCE
+=================================================================== */
+
+.bounce{
+
+    animation:bounce 1.2s infinite;
+
+}
+
+@keyframes bounce{
+
+    0%,20%,50%,80%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    40%{
+
+        transform:translateY(-12px);
+
+    }
+
+    60%{
+
+        transform:translateY(-6px);
+
+    }
+
+}
+
+/* ===================================================================
+   SHAKE
+=================================================================== */
+
+.shake{
+
+    animation:shake .6s ease;
+
+}
+
+@keyframes shake{
+
+    0%{transform:translateX(0);}
+    20%{transform:translateX(-8px);}
+    40%{transform:translateX(8px);}
+    60%{transform:translateX(-6px);}
+    80%{transform:translateX(6px);}
+    100%{transform:translateX(0);}
+
+}
+
+/* ===================================================================
+   HEARTBEAT
+=================================================================== */
+
+.heartbeat{
+
+    animation:heartbeat 1.5s infinite;
+
+}
+
+@keyframes heartbeat{
+
+    0%{
+        transform:scale(1);
+    }
+
+    25%{
+        transform:scale(1.06);
+    }
+
+    50%{
+        transform:scale(.98);
+    }
+
+    75%{
+        transform:scale(1.04);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}
+
+/* ===================================================================
+   RIPPLE
+=================================================================== */
+
+.ripple{
+
+    position:relative;
+    overflow:hidden;
+
+}
+
+.ripple::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:10px;
+    height:10px;
+
+    background:rgba(255,255,255,.25);
+
+    border-radius:50%;
+
+    transform:translate(-50%,-50%) scale(0);
+
+    opacity:0;
+
+}
+
+.ripple:hover::after{
+
+    animation:rippleEffect .7s linear;
+
+}
+
+@keyframes rippleEffect{
+
+    0%{
+
+        opacity:.6;
+
+        transform:translate(-50%,-50%) scale(0);
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:translate(-50%,-50%) scale(20);
+
+    }
+
+}
+
+/* ===================================================================
+   SHIMMER
+=================================================================== */
+
+.shimmer{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.shimmer::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:50%;
+
+    height:100%;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.12),
+
+        transparent
+
+    );
+
+    animation:shimmer 2.5s infinite;
+
+}
+
+@keyframes shimmer{
+
+    from{
+
+        left:-120%;
+
+    }
+
+    to{
+
+        left:150%;
+
+    }
+
+}
+
+/* ===================================================================
+   SKELETON LOADER
+=================================================================== */
+
+.skeleton{
+
+    background:#1d2b44;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.skeleton::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.08),
+
+        transparent
+
+    );
+
+    animation:skeletonLoading 1.4s infinite;
+
+}
+
+@keyframes skeletonLoading{
+
+    from{
+
+        transform:translateX(-100%);
+
+    }
+
+    to{
+
+        transform:translateX(100%);
+
+    }
+
+}
+
+/* ===================================================================
+   SPINNER
+=================================================================== */
+
+.spinner{
+
+    width:45px;
+
+    height:45px;
+
+    border:4px solid rgba(255,255,255,.12);
+
+    border-top-color:var(--color-primary);
+
+    border-radius:50%;
+
+    animation:spin .8s linear infinite;
+
+}
+
+.spinner-lg{
+
+    width:70px;
+
+    height:70px;
+
+}
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/* ===================================================================
+   PROGRESS BAR
+=================================================================== */
+
+.progress-fill{
+
+    animation:progressFill 1.5s ease forwards;
+
+    transform-origin:left;
+
+}
+
+@keyframes progressFill{
+
+    from{
+
+        transform:scaleX(0);
+
+    }
+
+    to{
+
+        transform:scaleX(1);
+
+    }
+
+}
+
+/* ===================================================================
+   CARD HOVER
+=================================================================== */
+
+.hover-lift{
+
+    transition:var(--transition-normal);
+
+}
+
+.hover-lift:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:var(--shadow-lg);
+
+}
+
+.hover-scale{
+
+    transition:var(--transition-normal);
+
+}
+
+.hover-scale:hover{
+
+    transform:scale(1.03);
+
+}
+
+.hover-glow{
+
+    transition:var(--transition-normal);
+
+}
+
+.hover-glow:hover{
+
+    box-shadow:var(--shadow-primary);
+
+}
+
+/* ===================================================================
+   BUTTON HOVER
+=================================================================== */
+
+.button-pop{
+
+    transition:var(--transition-fast);
+
+}
+
+.button-pop:hover{
+
+    transform:translateY(-2px) scale(1.03);
+
+}
+
+.button-pop:active{
+
+    transform:scale(.98);
+
+}
+/* ===================================================================
+   TOAST ANIMATIONS
+=================================================================== */
+
+.toast-enter {
+    animation: toastEnter .45s cubic-bezier(.25,.8,.25,1) forwards;
+}
+
+.toast-exit {
+    animation: toastExit .35s ease-in forwards;
+}
+
+@keyframes toastEnter {
+
+    from{
+        opacity:0;
+        transform:translateX(120%);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+}
+
+@keyframes toastExit{
+
+    from{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+    to{
+        opacity:0;
+        transform:translateX(120%);
+    }
+
+}
+
+/* ===================================================================
+   MODAL ANIMATIONS
+=================================================================== */
+
+.modal-fade{
+
+    animation:modalFade .35s ease forwards;
+
+}
+
+.modal-scale{
+
+    animation:modalScale .35s ease forwards;
+
+}
+
+@keyframes modalFade{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+@keyframes modalScale{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.90);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+/* ===================================================================
+   NOTIFICATION PING
+=================================================================== */
+
+.notification-ping{
+
+    position:relative;
+
+}
+
+.notification-ping::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-4px;
+
+    border-radius:50%;
+
+    border:2px solid var(--color-danger);
+
+    animation:notificationPing 1.5s infinite;
+
+}
+
+@keyframes notificationPing{
+
+    0%{
+
+        opacity:1;
+
+        transform:scale(.8);
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:scale(2);
+
+    }
+
+}
+
+/* ===================================================================
+   LIVE SCAN PULSE
+=================================================================== */
+
+.scan-pulse{
+
+    position:relative;
+
+}
+
+.scan-pulse::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-10px;
+
+    border-radius:50%;
+
+    border:2px solid var(--color-primary);
+
+    animation:scanPulse 2s infinite;
+
+}
+
+@keyframes scanPulse{
+
+    from{
+
+        opacity:.8;
+
+        transform:scale(.7);
+
+    }
+
+    to{
+
+        opacity:0;
+
+        transform:scale(2);
+
+    }
+
+}
+
+/* ===================================================================
+   RADAR SCANNER
+=================================================================== */
+
+.radar{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.radar::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:220%;
+
+    height:220%;
+
+    left:-60%;
+
+    top:-60%;
+
+    background:
+
+    conic-gradient(
+
+        transparent 0deg,
+
+        rgba(47,128,237,.45) 25deg,
+
+        transparent 50deg
+
+    );
+
+    animation:radarRotate 3.5s linear infinite;
+
+}
+
+@keyframes radarRotate{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/* ===================================================================
+   NETWORK SIGNAL
+=================================================================== */
+
+.signal{
+
+    display:inline-flex;
+
+    gap:3px;
+
+    align-items:flex-end;
+
+}
+
+.signal span{
+
+    width:4px;
+
+    background:var(--color-success);
+
+    border-radius:3px;
+
+    animation:signalWave 1.2s infinite;
+
+}
+
+.signal span:nth-child(1){
+
+    height:8px;
+
+}
+
+.signal span:nth-child(2){
+
+    height:14px;
+
+    animation-delay:.2s;
+
+}
+
+.signal span:nth-child(3){
+
+    height:20px;
+
+    animation-delay:.4s;
+
+}
+
+.signal span:nth-child(4){
+
+    height:26px;
+
+    animation-delay:.6s;
+
+}
+
+@keyframes signalWave{
+
+    0%,100%{
+
+        opacity:.3;
+
+    }
+
+    50%{
+
+        opacity:1;
+
+    }
+
+}
+
+/* ===================================================================
+   SUCCESS CHECK
+=================================================================== */
+
+.success-pop{
+
+    animation:successPop .55s ease;
+
+}
+
+@keyframes successPop{
+
+    0%{
+
+        transform:scale(.4);
+
+        opacity:0;
+
+    }
+
+    70%{
+
+        transform:scale(1.15);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+
+/* ===================================================================
+   ERROR SHAKE
+=================================================================== */
+
+.error-pop{
+
+    animation:errorPop .6s ease;
+
+}
+
+@keyframes errorPop{
+
+    0%{
+
+        transform:translateX(0);
+
+    }
+
+    20%{
+
+        transform:translateX(-10px);
+
+    }
+
+    40%{
+
+        transform:translateX(10px);
+
+    }
+
+    60%{
+
+        transform:translateX(-6px);
+
+    }
+
+    80%{
+
+        transform:translateX(6px);
+
+    }
+
+    100%{
+
+        transform:translateX(0);
+
+    }
+
+}
+
+/* ===================================================================
+   HERO BACKGROUND
+=================================================================== */
+
+.hero-gradient{
+
+    background-size:300% 300%;
+
+    animation:heroGradient 12s ease infinite;
+
+}
+
+@keyframes heroGradient{
+
+    0%{
+
+        background-position:0% 50%;
+
+    }
+
+    50%{
+
+        background-position:100% 50%;
+
+    }
+
+    100%{
+
+        background-position:0% 50%;
+
+    }
+
+}
+
+/* ===================================================================
+   SCAN BEAM
+=================================================================== */
+
+.scan-beam{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.scan-beam::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-40%;
+
+    width:40%;
+
+    height:100%;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(47,128,237,.35),
+
+        transparent
+
+    );
+
+    animation:scanBeam 2.4s linear infinite;
+
+}
+
+@keyframes scanBeam{
+
+    from{
+
+        left:-40%;
+
+    }
+
+    to{
+
+        left:140%;
+
+    }
+
+}
+
+/* ===================================================================
+   UTILITY CLASSES
+=================================================================== */
+
+.animation-paused{
+
+    animation-play-state:paused !important;
+
+}
+
+.animation-running{
+
+    animation-play-state:running !important;
+
+}
+
+.animation-infinite{
+
+    animation-iteration-count:infinite !important;
+
+}
+
+.animation-once{
+
+    animation-iteration-count:1 !important;
+
+}
+
+.no-animation{
+
+    animation:none !important;
+
+    transition:none !important;
+
+}
+
+.gpu{
+
+    transform:translateZ(0);
+
+    will-change:transform,opacity;
+
+}
+
+.smooth{
+
+    transition:all var(--transition-normal);
+
+}
+
+.fast{
+
+    transition:all var(--transition-fast);
+
+}
+
+.slow{
+
+    transition:all var(--transition-slow);
+
+}

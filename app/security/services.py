@@ -13,7 +13,7 @@ class SecurityService:
 
     def __init__(self):
 
-        self.manager =  UniversalScannerEngine()
+        self.engine = UniversalScannerEngine()
 
     def scan(
         self,

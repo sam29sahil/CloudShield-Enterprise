@@ -83,7 +83,11 @@ class UniversalScannerEngine:
                     target=target,
                     severity=severity,
                     title=f"{tool} scan completed",
-                    description=result.get("message", ""),
+                    description = (
+                        result.get("error")
+                        if not result.get("success")
+                        else f"{tool} scan completed successfully."
+                    )
                     raw=result
                 )
             )

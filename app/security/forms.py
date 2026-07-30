@@ -11,7 +11,6 @@ from wtforms import (
 )
 from wtforms.validators import DataRequired
 
-
 class SecurityScanForm(FlaskForm):
     """
     Universal Security Scan Form
@@ -33,6 +32,10 @@ class SecurityScanForm(FlaskForm):
             ("full_enterprise", "🏢 Full Enterprise")
         ],
         validators=[DataRequired()]
+    )
+
+    arguments = StringField(
+        "Tool Arguments (Optional)"
     )
 
     tool = SelectField(

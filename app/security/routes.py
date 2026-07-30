@@ -23,6 +23,13 @@ def home():
 
     form = SecurityScanForm()
 
+    form.tool.choices = [
+        ("", "-- Select Individual Tool --")
+    ] + [
+        (tool, tool.title())
+        for tool in service.available_tools()
+    ]
+
     result = None
 
     if form.validate_on_submit():

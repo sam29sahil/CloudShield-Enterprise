@@ -7,7 +7,7 @@ from time import perf_counter
 
 from app.security.core.normalizer import ResultParser
 
-from app.security.core.registry import load_registry
+from app.security.core.registry import load_registry, get_categories
 
 
 class SecurityManager:
@@ -108,19 +108,4 @@ class SecurityManager:
         return parsed
 
     def categories(self):
-
-        return {
-
-            "network": list(network_tools().keys()),
-
-            "web": list(web_tools().keys()),
-
-            "ssl": list(ssl_tools().keys()),
-
-            "dns": list(dns_tools().keys()),
-
-            "cloud": list(cloud_tools().keys()),
-
-            "wireless": list(wireless_tools().keys())
-
-        }
+        return get_categories()

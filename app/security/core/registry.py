@@ -22,3 +22,20 @@ def load_registry():
     registry.update(wireless_tools())
 
     return registry
+
+
+CATEGORIES = {
+    "network": list(network_tools().keys()),
+    "web": list(web_tools().keys()),
+    "ssl": list(ssl_tools().keys()),
+    "dns": list(dns_tools().keys()),
+    "cloud": list(cloud_tools().keys()),
+    "wireless": list(wireless_tools().keys()),
+}
+
+
+def get_categories():
+    """
+    Return all registered tool categories.
+    """
+    return CATEGORIES
