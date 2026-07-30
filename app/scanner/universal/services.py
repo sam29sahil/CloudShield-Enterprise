@@ -41,15 +41,10 @@ class ScanService:
 
         started = datetime.utcnow()
 
-        result = self.manager.run_tool(
-
-            tool,
-
-            target,
-
-            arguments
-
-        )
+        findings = FindingGenerator.generate(
+        scan,
+        esult
+    )
 
         print("=" * 60)
         print("SCAN RESULT")

@@ -1,413 +1,312 @@
-{% extends "base.html" %}
+{% extends "dashboard/base.html" %}
 
-{% block styles %}
-<link rel="stylesheet"
-      href="{{ url_for('static', filename='css/scanner.css') }}">
+{% block title %}Scan History{% endblock %}
+
+{% block page_title %}
+
+Scan History
+
+{% endblock %}
+
+{% block page_subtitle %}
+
+Manage Previous Security Assessments
+
 {% endblock %}
 
 {% block content %}
 
-<div class="scanner-page">
+<div class="container-fluid scan-history">
 
-<div class="container-fluid">
+<div class="glass-card">
 
-    <!-- ========================================= -->
-    <!-- HERO -->
-    <!-- ========================================= -->
+<div class="card-header d-flex justify-content-between align-items-center">
 
-    <div class="scanner-hero fade-up">
+<h3>
 
-        <div class="row align-items-center">
+<i class="fas fa-history"></i>
 
-            <div class="col-lg-8">
+Security Scan History
 
-                <h1>
+</h3>
 
-                    <i class="bi bi-clock-history"></i>
+<a href="{{ url_for('scanner.dashboard') }}"
+class="btn btn-primary">
 
-                    Scan History
-
-                </h1>
-
-                <p>
-
-                    View, manage and analyze previous security assessments.
-
-                </p>
-
-            </div>
-
-            <div class="col-lg-4 text-end">
-
-                <a href="{{ url_for('scanner.home') }}"
-                   class="btn btn-light">
-
-                    <i class="bi bi-plus-circle"></i>
-
-                    New Scan
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- ========================================= -->
-    <!-- Statistics -->
-    <!-- ========================================= -->
-
-    <div class="row g-3 mb-4">
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="stat-card">
-
-                <div class="stat-value">
-
-                    {{ scans|length }}
-
-                </div>
-
-                <div class="stat-title">
-
-                    Total Scans
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="stat-card">
-
-                <div class="stat-value">
-
-                    {{ scans|selectattr("risk","equalto","High")|list|length }}
-
-                </div>
-
-                <div class="stat-title">
-
-                    High Risk
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="stat-card">
-
-                <div class="stat-value">
-
-                    {{ scans|selectattr("status","equalto","Completed")|list|length }}
-
-                </div>
-
-                <div class="stat-title">
-
-                    Completed
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="stat-card">
-
-                <div class="stat-value">
-
-                    {{ scans|selectattr("status","equalto","Failed")|list|length }}
-
-                </div>
-
-                <div class="stat-title">
-
-                    Failed
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- ========================================= -->
-    <!-- History Table -->
-    <!-- ========================================= -->
-
-    <div class="scanner-card fade-up">
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-
-            <h5 class="mb-0">
-
-                <i class="bi bi-list-check"></i>
-
-                Scan History
-
-            </h5>
-
-            <input
-                type="text"
-                class="form-control"
-                id="historySearch"
-                placeholder="Search target..."
-                style="width:250px;">
-
-        </div>
-
-        <div class="table-responsive">
-
-            <table class="scanner-table" id="historyTable">
-
-                <thead>
-
-                    <tr>
-
-                        <th>Target</th>
-
-                        <th>Category</th>
-
-                        <th>Tool</th>
-
-                        <th>Score</th>
-
-                        <th>Risk</th>
-
-                        <th>Status</th>
-
-                        <th>Duration</th>
-
-                        <th>Date</th>
-
-                        <th width="180">
-
-                            Actions
-
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-                    {% if scans %}
-
-{% for scan in scans %}
-
-<tr>
-
-    <td>
-
-        <strong>{{ scan.target }}</strong>
-
-    </td>
-
-    <td>
-
-        {{ scan.category|title }}
-
-    </td>
-
-    <td>
-
-        {{ scan.tool }}
-
-    </td>
-
-    <td>
-
-        <span class="badge bg-primary">
-
-            {{ scan.score }}
-
-        </span>
-
-    </td>
-
-    <td>
-
-        {% if scan.risk=="Low" %}
-
-            <span class="badge bg-success">
-
-                {{ scan.risk }}
-
-            </span>
-
-        {% elif scan.risk=="Medium" %}
-
-            <span class="badge bg-warning text-dark">
-
-                {{ scan.risk }}
-
-            </span>
-
-        {% else %}
-
-            <span class="badge bg-danger">
-
-                {{ scan.risk }}
-
-            </span>
-
-        {% endif %}
-
-    </td>
-
-    <td>
-
-        {% if scan.status=="Completed" %}
-
-            <span class="badge bg-success">
-
-                Completed
-
-            </span>
-
-        {% elif scan.status=="Running" %}
-
-            <span class="badge bg-primary">
-
-                Running
-
-            </span>
-
-        {% else %}
-
-            <span class="badge bg-danger">
-
-                Failed
-
-            </span>
-
-        {% endif %}
-
-    </td>
-
-    <td>
-
-        {{ "%.2f"|format(scan.duration or 0) }} s
-
-    </td>
-
-    <td>
-
-        {{ scan.started_at.strftime("%d-%m-%Y %H:%M") }}
-
-    </td>
-
-    <td>
-
-        <div class="btn-group">
-
-            <a href="{{ url_for('scanner.details', scan_id=scan.id) }}"
-               class="btn btn-sm btn-primary">
-
-                <i class="bi bi-eye"></i>
-
-            </a>
-
-            <a href="{{ url_for('reports.pdf', scan_id=scan.id) }}"
-               class="btn btn-sm btn-success">
-
-                <i class="bi bi-file-earmark-pdf"></i>
-
-            </a>
-
-           <a href="{{ url_for('scanner.delete_scan', scan_id=scan.id) }}"
-   class="btn btn-sm btn-danger"
-   onclick="return confirm('Delete this scan?');">
-
-    <i class="bi bi-trash"></i>
+New Scan
 
 </a>
 
-        </div>
+</div>
 
+<div class="card-body">
+
+<div class="row mb-4">
+
+<div class="col-md-4">
+
+<input
+type="search"
+class="form-control"
+placeholder="Search target...">
+
+</div>
+
+<div class="col-md-3">
+
+<select class="form-select">
+
+<option>All Scanners</option>
+<option>Basic</option>
+<option>Universal</option>
+
+</select>
+
+</div>
+
+<div class="col-md-3">
+
+<select class="form-select">
+
+<option>All Status</option>
+<option>Completed</option>
+<option>Running</option>
+<option>Failed</option>
+
+</select>
+
+</div>
+
+<div class="col-md-2">
+
+<button class="btn btn-outline-secondary w-100">
+
+Filter
+
+</button>
+
+</div>
+
+</div>
+<div class="table-responsive">
+
+    <table class="table table-hover align-middle">
+    
+    <thead>
+    
+    <tr>
+    
+    <th>Target</th>
+    
+    <th>Scanner</th>
+    
+    <th>Started</th>
+    
+    <th>Duration</th>
+    
+    <th>Score</th>
+    
+    <th>Status</th>
+    
+    <th>Actions</th>
+    
+    </tr>
+    
+    </thead>
+    
+    <tbody>
+    
+    {% for scan in scans %}
+    
+    <tr>
+    
+    <td>{{ scan.target }}</td>
+    
+    <td>{{ scan.scanner }}</td>
+    
+    <td>{{ scan.started_at }}</td>
+    
+    <td>{{ scan.duration }}</td>
+    
+    <td>
+    
+    <span class="badge bg-primary">
+    
+    {{ scan.score }}%
+    
+    </span>
+    
     </td>
+    
+    <td>
+    
+    <span class="badge bg-success">
+    
+    {{ scan.status }}
+    
+    </span>
+    
+    </td>
+    
+    <td>
+    
+    <div class="btn-group">
+    
+    <a href="{{ url_for('scanner.details', scan_id=scan.id) }}"
+    class="btn btn-sm btn-outline-primary">
+    
+    <i class="fas fa-eye"></i>
+    
+    </a>
+    
+    <a href="{{ url_for('reports.download_pdf', report_id=scan.report_id) }}"
+    class="btn btn-sm btn-outline-danger">
+    
+    <i class="fas fa-file-pdf"></i>
+    
+    </a>
+    
+    <button
+    class="btn btn-sm btn-outline-danger">
+    
+    <i class="fas fa-trash"></i>
+    
+    </button>
+    
+    </div>
+    
+    </td>
+    
+    </tr>
+    
+    {% else %}
+    
+    <tr>
+    
+    <td colspan="7"
+    class="text-center py-5">
+    
+    No scans available.
+    
+    </td>
+    
+    </tr>
+    
+    {% endfor %}
+    
+    </tbody>
+    
+    </table>
+    
+    </div>
+    <div class="table-responsive">
 
-</tr>
-
-{% endfor %}
-
-{% else %}
-
-<tr>
-
-<td colspan="10">
-
-<div class="empty-state">
-
-<i class="bi bi-search"></i>
-
-<h4>
-
-No Scans Found
-
-</h4>
-
-<p>
-
-Run your first security scan to see results here.
-
-</p>
-
-</div>
-
-</td>
-
-</tr>
-
-{% endif %}
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<script>
-
-const search=document.getElementById("historySearch");
-
-if(search){
-
-search.addEventListener("keyup",function(){
-
-let filter=this.value.toLowerCase();
-
-let rows=document.querySelectorAll("#historyTable tbody tr");
-
-rows.forEach(function(row){
-
-let text=row.innerText.toLowerCase();
-
-row.style.display=text.includes(filter)?"":"none";
-
-});
-
-});
-
-}
-
-</script>
-
-{% endblock %}
+        <table class="table table-hover align-middle">
+        
+        <thead>
+        
+        <tr>
+        
+        <th>Target</th>
+        
+        <th>Scanner</th>
+        
+        <th>Started</th>
+        
+        <th>Duration</th>
+        
+        <th>Score</th>
+        
+        <th>Status</th>
+        
+        <th>Actions</th>
+        
+        </tr>
+        
+        </thead>
+        
+        <tbody>
+        
+        {% for scan in scans %}
+        
+        <tr>
+        
+        <td>{{ scan.target }}</td>
+        
+        <td>{{ scan.scanner }}</td>
+        
+        <td>{{ scan.started_at }}</td>
+        
+        <td>{{ scan.duration }}</td>
+        
+        <td>
+        
+        <span class="badge bg-primary">
+        
+        {{ scan.score }}%
+        
+        </span>
+        
+        </td>
+        
+        <td>
+        
+        <span class="badge bg-success">
+        
+        {{ scan.status }}
+        
+        </span>
+        
+        </td>
+        
+        <td>
+        
+        <div class="btn-group">
+        
+        <a href="{{ url_for('scanner.details', scan_id=scan.id) }}"
+        class="btn btn-sm btn-outline-primary">
+        
+        <i class="fas fa-eye"></i>
+        
+        </a>
+        
+        <a href="{{ url_for('reports.download_pdf', report_id=scan.report_id) }}"
+        class="btn btn-sm btn-outline-danger">
+        
+        <i class="fas fa-file-pdf"></i>
+        
+        </a>
+        
+        <button
+        class="btn btn-sm btn-outline-danger">
+        
+        <i class="fas fa-trash"></i>
+        
+        </button>
+        
+        </div>
+        
+        </td>
+        
+        </tr>
+        
+        {% else %}
+        
+        <tr>
+        
+        <td colspan="7"
+        class="text-center py-5">
+        
+        No scans available.
+        
+        </td>
+        
+        </tr>
+        
+        {% endfor %}
+        
+        </tbody>
+        
+        </table>
+        
+        </div>

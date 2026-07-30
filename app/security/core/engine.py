@@ -16,7 +16,12 @@ class UniversalScannerEngine:
     """
 
     def __init__(self):
+
         self.manager = SecurityManager()
+
+    # ==========================================================
+    # Single Tool Scan
+    # ==========================================================
 
     def scan(self, target, tool, arguments=None):
         """
@@ -37,11 +42,25 @@ class UniversalScannerEngine:
             arguments=arguments
         )
 
+        result["target"] = target
         result["target_type"] = target_type
+        result["tool"] = tool
 
         return result
-    
-    def scan_profile(self, target, profile):
+
+    # ==========================================================
+    # Profile Scan
+    # ==========================================================
+
+    def scan_profile(
+        self,
+        target,
+        profile,
+        arguments=None
+    ):
+        """
+        Execute all tools registered in a scan profile.
+        """
 
         valid, target_type = TargetValidator.validate(target)
 
@@ -66,7 +85,8 @@ class UniversalScannerEngine:
 
             result = self.manager.run_tool(
                 tool=tool,
-                target=target
+                target=target,
+                arguments=arguments
             )
 
             results.append(result)
@@ -83,11 +103,11 @@ class UniversalScannerEngine:
                     target=target,
                     severity=severity,
                     title=f"{tool} scan completed",
-                    description = (
+                    description=(
                         result.get("error")
                         if not result.get("success")
                         else f"{tool} scan completed successfully."
-                    )
+                    ),
                     raw=result
                 )
             )
@@ -103,3 +123,21 @@ class UniversalScannerEngine:
             "findings": findings,
             "risk": risk
         }
+
+    # ==========================================================
+    # Metadata
+    # ==========================================================
+
+    def available_tools(self):
+        """
+        Return all available tools.
+        """
+
+        return self.manager.tools()
+
+    def categories(self):
+        """
+        Return tool categories.
+        """
+
+        return self.manager.categories()

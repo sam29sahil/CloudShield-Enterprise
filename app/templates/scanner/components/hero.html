@@ -1,0 +1,112 @@
+<!-- =========================================================
+ CloudShield Enterprise
+ Scanner Hero Component
+========================================================= -->
+
+<section class="scanner-hero" data-animate="fade-up">
+
+    <div class="hero-content">
+
+        <div class="hero-left">
+
+            <span class="hero-badge">
+                <i class="fas fa-shield-alt"></i>
+                CloudShield Enterprise
+            </span>
+
+            <h1 class="hero-title">
+                Enterprise Security Scanner
+            </h1>
+
+            <p class="hero-description">
+                Perform quick website security assessments with the Basic Scanner
+                or launch a comprehensive enterprise scan using the Universal
+                Scanner. Monitor live scan progress, review findings, and generate
+                professional security reports from a single interface.
+            </p>
+
+            <div class="hero-actions">
+
+                <a href="{{ url_for('scanner.basic') }}"
+                   class="btn btn-primary btn-lg btn-ripple">
+
+                    <i class="fas fa-bolt"></i>
+                    Basic Scanner
+
+                </a>
+
+                <a href="{{ url_for('scanner.universal') }}"
+                   class="btn btn-outline-primary btn-lg btn-ripple">
+
+                    <i class="fas fa-globe"></i>
+                    Universal Scanner
+
+                </a>
+
+                <a href="{{ url_for('scanner.history') }}"
+                   class="btn btn-outline-secondary btn-lg">
+
+                    <i class="fas fa-history"></i>
+                    Scan History
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="hero-right">
+
+            <div class="hero-status glass-card">
+
+                <h5>
+                    Scanner Status
+                </h5>
+
+                <div class="status-item">
+
+                    <span>Basic Scanner</span>
+
+                    <span class="badge bg-success">
+                        Ready
+                    </span>
+
+                </div>
+
+                <div class="status-item">
+
+                    <span>Universal Scanner</span>
+
+                    <span class="badge bg-success">
+                        Ready
+                    </span>
+
+                </div>
+
+                <div class="status-item">
+
+                    <span>Cloud Security</span>
+
+                    <span class="badge bg-warning">
+                        Coming Next
+                    </span>
+
+                </div>
+
+                <div class="status-item">
+
+                    <span>Report Engine</span>
+
+                    <span class="badge bg-success">
+                        Available
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

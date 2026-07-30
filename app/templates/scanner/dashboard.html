@@ -1,0 +1,123 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+
+Scanner Dashboard
+
+{% endblock %}
+
+{% block page_title %}
+
+Enterprise Scanner
+
+{% endblock %}
+
+{% block page_subtitle %}
+
+Professional Security Assessment Platform
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid scanner-dashboard">
+
+    <!-- Hero -->
+    {% include "scanner/components/hero.html" %}
+
+    <!-- Statistics -->
+    {% include "scanner/components/stats.html" %}
+
+    <!-- Scanner Selection -->
+    {% include "scanner/components/scanner_panel.html" %}
+
+    <!-- Live Scan -->
+    {% include "scanner/components/live_panel.html" %}
+
+    <div class="row mt-4">
+
+        <div class="col-lg-8">
+
+            <!-- Recent Findings -->
+            {% include "scanner/components/findings.html" %}
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <!-- Recommendations -->
+            {% include "scanner/components/recommendations.html" %}
+
+        </div>
+
+    </div>
+
+    <!-- Recent Activity -->
+    {% include "scanner/components/activity.html" %}
+
+</div>
+
+{% endblock %}
+{% block extra_css %}
+
+<link rel="stylesheet"
+      href="{{ url_for('static',
+      filename='css/scanner.css') }}">
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script src="{{ url_for('static',
+filename='js/utils.js') }}"></script>
+
+<script src="{{ url_for('static',
+filename='js/animations.js') }}"></script>
+
+<script src="{{ url_for('static',
+filename='js/dashboard.js') }}"></script>
+
+<script src="{{ url_for('static',
+filename='js/scanner.js') }}"></script>
+
+<script src="{{ url_for('static',
+filename='js/charts.js') }}"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (window.CloudShield) {
+
+        if (window.CloudShield.Animations) {
+
+            window.CloudShield.Animations.init();
+
+        }
+
+        if (window.CloudShield.Dashboard) {
+
+            window.CloudShield.Dashboard.init();
+
+        }
+
+        if (window.CloudShield.Scanner) {
+
+            window.CloudShield.Scanner.init();
+
+        }
+
+        if (window.CloudShield.Charts) {
+
+            window.CloudShield.Charts.init();
+
+        }
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,87 @@
+<!-- =========================================================
+ CloudShield Enterprise
+ Live Scan Status
+========================================================= -->
+
+<section class="live-panel mt-5" data-animate="fade-up">
+
+    <div class="glass-card">
+
+        <div class="card-header d-flex justify-content-between align-items-center">
+
+            <h4 class="mb-0">
+
+                <i class="fas fa-satellite-dish"></i>
+
+                Live Scan Status
+
+            </h4>
+
+            <span class="badge bg-success">
+
+                Ready
+
+            </span>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="progress mb-4" style="height:12px;">
+
+                <div class="progress-bar progress-bar-striped progress-bar-animated"
+                     role="progressbar"
+                     style="width:0%;"
+                     id="scanProgress">
+
+                    0%
+
+                </div>
+
+            </div>
+
+            <div class="row text-center">
+
+                <div class="col-md-3">
+
+                    <h6>Current Phase</h6>
+
+                    <strong id="scanPhase">Waiting</strong>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <h6>Running Tool</h6>
+
+                    <strong id="runningTool">None</strong>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <h6>Status</h6>
+
+                    <span class="badge bg-secondary" id="scanStatus">
+                        Idle
+                    </span>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <h6>Elapsed</h6>
+
+                    <strong id="elapsedTime">
+                        00:00
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

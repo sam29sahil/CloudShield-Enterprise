@@ -6,38 +6,80 @@ Security Manager
 from time import perf_counter
 
 from app.security.core.normalizer import ResultParser
-
 from app.security.core.registry import load_registry, get_categories
 
 
 class SecurityManager:
     """
-    Central Security Manager
+    Central Security Manager.
+
+    Responsibilities:
+    - Load registered security tools
+    - Execute security tools
+    - Normalize results
+    - Provide tool metadata
     """
 
     def __init__(self):
 
-        self.registry = {}
         self.parser = ResultParser()
-        self.registry = load_registry()
+        self.registry = {}
 
-        self.load_tools()
+        self.reload_tools()
 
-    def load_tools(self):
+    # ==========================================================
+    # Registry
+    # ==========================================================
+
+    def reload_tools(self):
+        """
+        Reload all registered security tools.
+        """
+
         self.registry = load_registry()
 
     def tools(self):
+        """
+        Return all registered tools.
+        """
 
         return sorted(self.registry.keys())
 
+    def categories(self):
+        """
+        Return available tool categories.
+        """
+
+        return get_categories()
+
+    # ==========================================================
+    # Tool Lookup
+    # ==========================================================
+
     def get(self, tool):
+        """
+        Return tool instance.
+        """
 
         if not tool:
             return None
 
         return self.registry.get(tool.lower())
 
+    def is_registered(self, tool):
+        """
+        Check whether a tool exists in the registry.
+        """
+
+        if not tool:
+            return False
+
+        return tool.lower() in self.registry
+
     def installed(self, tool):
+        """
+        Check whether the tool is installed.
+        """
 
         scanner = self.get(tool)
 
@@ -49,23 +91,28 @@ class SecurityManager:
 
         return True
 
+    # ==========================================================
+    # Tool Execution
+    # ==========================================================
+
     def run_tool(
         self,
         tool,
         target,
         arguments=None
     ):
+        """
+        Execute a registered tool.
+        """
 
         scanner = self.get(tool)
 
         if scanner is None:
 
             return {
-
                 "success": False,
-
-                "error": f"{tool} is not registered."
-
+                "tool": tool,
+                "error": f"'{tool}' is not registered."
             }
 
         start = perf_counter()
@@ -73,39 +120,57 @@ class SecurityManager:
         try:
 
             raw = scanner.scan(
-                target,
-                arguments
+                target=target,
+                arguments=arguments
             )
 
         except Exception as e:
 
             raw = {
-
                 "success": False,
-
+                "tool": tool,
+                "target": target,
                 "error": str(e)
-
             }
 
-        elapsed = perf_counter() - start
+        elapsed = round(perf_counter() - start, 2)
 
-        print("\n========== RAW RESULT ==========")
+        print("\n" + "=" * 60)
+        print(f"TOOL EXECUTED : {tool}")
+        print(f"TARGET        : {target}")
+        print(f"TIME          : {elapsed}s")
+        print("=" * 60)
         print(raw)
-        print("================================\n")
+        print("=" * 60 + "\n")
 
         parsed = self.parser.parse(
-
             tool=tool,
-
             target=target,
-
             result=raw,
-
-            execution_time=round(elapsed, 2)
-
+            execution_time=elapsed
         )
 
         return parsed
 
-    def categories(self):
-        return get_categories()
+    # ==========================================================
+    # Future Extensions
+    # ==========================================================
+
+    def run_category(
+        self,
+        category,
+        target,
+        arguments=None
+    ):
+        """
+        Placeholder for future category execution.
+
+        Example:
+            run_category("web", "example.com")
+
+        This will execute every registered web tool.
+        """
+
+        raise NotImplementedError(
+            "Category execution is not implemented yet."
+        )

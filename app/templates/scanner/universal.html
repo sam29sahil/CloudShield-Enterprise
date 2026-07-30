@@ -1,0 +1,807 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Universal Scanner{% endblock %}
+
+{% block page_title %}
+
+Universal Enterprise Scanner
+
+{% endblock %}
+
+{% block page_subtitle %}
+
+Multi-Tool Enterprise Security Assessment
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid universal-scanner">
+
+<div class="row">
+
+<div class="col-lg-8">
+
+<div class="glass-card">
+
+<div class="card-header">
+
+<h3>
+
+<i class="fas fa-globe"></i>
+
+Universal Scanner
+
+</h3>
+
+<p class="text-muted mb-0">
+
+Configure an enterprise security assessment using multiple integrated tools.
+
+</p>
+
+</div>
+
+<div class="card-body">
+
+<form id="universalScanForm"
+      method="POST"
+      action="{{ url_for('scanner.start_universal_scan') }}">
+
+{{ form.hidden_tag() }}
+
+<div class="row">
+
+<div class="col-md-8">
+
+<label class="form-label">
+
+Target
+
+</label>
+
+{{ form.target(
+class="form-control form-control-lg",
+placeholder="https://example.com or IP Address"
+) }}
+
+</div>
+
+<div class="col-md-4">
+
+<label class="form-label">
+
+Scan Profile
+
+</label>
+
+{{ form.profile(class="form-select") }}
+
+</div>
+
+</div>
+
+<hr class="my-4">
+
+<h4>
+
+Enterprise Scan Profiles
+
+</h4>
+
+<div class="row g-3 mt-2">
+
+<div class="col-md-4">
+
+<div class="profile-card">
+
+<input type="radio"
+       name="scan_profile"
+       value="quick">
+
+<h6>
+
+Quick Scan
+
+</h6>
+
+<small>
+
+Fast security assessment.
+
+</small>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="profile-card">
+
+<input type="radio"
+       name="scan_profile"
+       value="web">
+
+<h6>
+
+Web Assessment
+
+</h6>
+
+<small>
+
+Website & application testing.
+
+</small>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="profile-card">
+
+<input type="radio"
+       name="scan_profile"
+       value="full">
+
+<h6>
+
+Enterprise
+
+</h6>
+
+<small>
+
+Complete infrastructure scan.
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+<hr class="my-5">
+
+<h4>
+
+Select Security Tools
+
+</h4>
+<!-- Network -->
+
+<h5 class="mt-4">
+
+    <i class="fas fa-network-wired"></i>
+    
+    Network Tools
+    
+    </h5>
+    
+    <div class="row">
+    
+    <div class="col-md-4">
+    
+    <div class="form-check">
+    
+    {{ form.nmap(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    Nmap
+    
+    </label>
+    
+    </div>
+    
+    <div class="form-check">
+    
+    {{ form.rustscan(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    RustScan
+    
+    </label>
+    
+    </div>
+    
+    <div class="form-check">
+    
+    {{ form.masscan(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    Masscan
+    
+    </label>
+    
+    </div>
+    
+    </div>
+    
+    </div>
+    
+    <hr>
+    
+    <!-- Web -->
+    
+    <h5>
+    
+    <i class="fas fa-globe"></i>
+    
+    Web Security Tools
+    
+    </h5>
+    
+    <div class="row">
+    
+    <div class="col-md-6">
+    
+    <div class="form-check">
+    
+    {{ form.nikto(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    Nikto
+    
+    </label>
+    
+    </div>
+    
+    <div class="form-check">
+    
+    {{ form.nuclei(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    Nuclei
+    
+    </label>
+    
+    </div>
+    
+    <div class="form-check">
+    
+    {{ form.whatweb(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    WhatWeb
+    
+    </label>
+    
+    </div>
+    
+    </div>
+    
+    <div class="col-md-6">
+    
+    <div class="form-check">
+    
+    {{ form.gobuster(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    Gobuster
+    
+    </label>
+    
+    </div>
+    
+    <div class="form-check">
+    
+    {{ form.ffuf(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    FFUF
+    
+    </label>
+    
+    </div>
+    
+    <div class="form-check">
+    
+    {{ form.sqlmap(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    SQLMap
+    
+    </label>
+    
+    </div>
+    
+    </div>
+    
+    </div>
+    
+    <hr>
+    
+    <!-- SSL -->
+    
+    <h5>
+    
+    <i class="fas fa-lock"></i>
+    
+    SSL • DNS • WAF
+    
+    </h5>
+    
+    <div class="row">
+    
+    <div class="col-md-4">
+    
+    <div class="form-check">
+    
+    {{ form.sslyze(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    SSLyze
+    
+    </label>
+    
+    </div>
+    
+    <div class="form-check">
+    
+    {{ form.testssl(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    testssl.sh
+    
+    </label>
+    
+    </div>
+    
+    </div>
+    
+    <div class="col-md-4">
+    
+    <div class="form-check">
+    
+    {{ form.dnsrecon(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    DNSRecon
+    
+    </label>
+    
+    </div>
+    
+    </div>
+    
+    <div class="col-md-4">
+    
+    <div class="form-check">
+    
+    {{ form.wafw00f(class="form-check-input") }}
+    
+    <label class="form-check-label">
+    
+    WAFW00F
+    
+    </label>
+    
+    </div>
+    
+    </div>
+    
+    </div>
+    <!-- Network -->
+
+<h5 class="mt-4">
+
+<i class="fas fa-network-wired"></i>
+
+Network Tools
+
+</h5>
+
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="form-check">
+
+{{ form.nmap(class="form-check-input") }}
+
+<label class="form-check-label">
+
+Nmap
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+{{ form.rustscan(class="form-check-input") }}
+
+<label class="form-check-label">
+
+RustScan
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+{{ form.masscan(class="form-check-input") }}
+
+<label class="form-check-label">
+
+Masscan
+
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<hr>
+
+<!-- Web -->
+
+<h5>
+
+<i class="fas fa-globe"></i>
+
+Web Security Tools
+
+</h5>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="form-check">
+
+{{ form.nikto(class="form-check-input") }}
+
+<label class="form-check-label">
+
+Nikto
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+{{ form.nuclei(class="form-check-input") }}
+
+<label class="form-check-label">
+
+Nuclei
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+{{ form.whatweb(class="form-check-input") }}
+
+<label class="form-check-label">
+
+WhatWeb
+
+</label>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="form-check">
+
+{{ form.gobuster(class="form-check-input") }}
+
+<label class="form-check-label">
+
+Gobuster
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+{{ form.ffuf(class="form-check-input") }}
+
+<label class="form-check-label">
+
+FFUF
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+{{ form.sqlmap(class="form-check-input") }}
+
+<label class="form-check-label">
+
+SQLMap
+
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<hr>
+
+<!-- SSL -->
+
+<h5>
+
+<i class="fas fa-lock"></i>
+
+SSL • DNS • WAF
+
+</h5>
+
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="form-check">
+
+{{ form.sslyze(class="form-check-input") }}
+
+<label class="form-check-label">
+
+SSLyze
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+{{ form.testssl(class="form-check-input") }}
+
+<label class="form-check-label">
+
+testssl.sh
+
+</label>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="form-check">
+
+{{ form.dnsrecon(class="form-check-input") }}
+
+<label class="form-check-label">
+
+DNSRecon
+
+</label>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="form-check">
+
+{{ form.wafw00f(class="form-check-input") }}
+
+<label class="form-check-label">
+
+WAFW00F
+
+</label>
+
+</div>
+
+</div>
+
+</div>
+<hr class="my-5">
+
+<h4>
+
+Advanced Options
+
+</h4>
+
+<div class="row">
+
+<div class="col-md-3">
+
+<label>
+
+Threads
+
+</label>
+
+{{ form.threads(class="form-control") }}
+
+</div>
+
+<div class="col-md-3">
+
+<label>
+
+Timeout
+
+</label>
+
+{{ form.timeout(class="form-control") }}
+
+</div>
+
+<div class="col-md-3">
+
+<label>
+
+Scan Speed
+
+</label>
+
+{{ form.speed(class="form-select") }}
+
+</div>
+
+<div class="col-md-3">
+
+<label>
+
+Output Format
+
+</label>
+
+{{ form.output(class="form-select") }}
+
+</div>
+
+</div>
+
+<div class="mt-5 d-flex gap-3">
+
+<button
+class="btn btn-danger btn-lg btn-ripple"
+type="submit">
+
+<i class="fas fa-rocket"></i>
+
+Launch Enterprise Scan
+
+</button>
+
+<a href="{{ url_for('scanner.dashboard') }}"
+class="btn btn-outline-secondary">
+
+Cancel
+
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+{% include "scanner/components/live_panel.html" %}
+
+{% include "scanner/components/recommendations.html" %}
+
+</div>
+
+</div>
+<div class="row mt-4">
+
+    <div class="col-lg-8">
+    
+    {% include "scanner/components/findings.html" %}
+    
+    </div>
+    
+    <div class="col-lg-4">
+    
+    <div class="glass-card">
+    
+    <div class="card-header">
+    
+    <h4>
+    
+    Enterprise Summary
+    
+    </h4>
+    
+    </div>
+    
+    <div class="card-body">
+    
+    <div id="enterpriseScoreChart"></div>
+    
+    <ul class="list-group list-group-flush mt-4">
+    
+    <li class="list-group-item bg-transparent">
+    
+    Selected Tools
+    
+    <span class="float-end" id="selectedTools">
+    
+    0
+    
+    </span>
+    
+    </li>
+    
+    <li class="list-group-item bg-transparent">
+    
+    Estimated Time
+    
+    <span class="float-end">
+    
+    --
+    
+    </span>
+    
+    </li>
+    
+    <li class="list-group-item bg-transparent">
+    
+    Risk Level
+    
+    <span class="float-end">
+    
+    Pending
+    
+    </span>
+    
+    </li>
+    
+    </ul>
+    
+    </div>
+    
+    </div>
+    
+    </div>
+    
+    </div>
+    
+    </div>
+    
+    {% endblock %}
+    
+    {% block extra_js %}
+    
+    <script src="{{ url_for('static', filename='js/scanner.js') }}"></script>
+    
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+    
+    {% endblock %}

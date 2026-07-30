@@ -1,78 +1,203 @@
 """
 CloudShield Enterprise
-Security Constants
+Scanner Constants
 """
 
-# -------------------------
-# General
-# -------------------------
+# ==========================================================
+# QUICK SCAN TOOLS
+# ==========================================================
 
-DEFAULT_TIMEOUT = 300
+QUICK_TOOLS = {
 
-DEFAULT_ENCODING = "utf-8"
+    "network": [
+        "quick_scan"
+    ],
 
-MAX_THREADS = 10
+    "web": [
+        "quick_scan"
+    ],
 
-# -------------------------
-# Scan Types
-# -------------------------
+    "ssl": [
+        "quick_scan"
+    ],
 
-SCAN_NETWORK = "Network"
+    "dns": [
+        "quick_scan"
+    ],
 
-SCAN_WEB = "Web"
+    "cloud": [],
 
-SCAN_SSL = "SSL"
+    "wireless": []
 
-SCAN_DNS = "DNS"
+}
 
-SCAN_CLOUD = "Cloud"
+# ==========================================================
+# DEEP SCAN TOOLS
+# ==========================================================
 
-# -------------------------
-# Risk Levels
-# -------------------------
+DEEP_TOOLS = {
 
-LOW = "Low"
+    "network": [
+        "nmap",
+        "rustscan",
+        "masscan",
+        "netdiscover"
+    ],
 
-MEDIUM = "Medium"
+    "web": [
+        "whatweb",
+        "nikto",
+        "nuclei",
+        "gobuster",
+        "ffuf",
+        "dirsearch",
+        "sqlmap",
+        "zap",
+        "dalfox",
+        "xsstrike",
+        "wafw00f",
+        "corsy"
+    ],
 
-HIGH = "High"
+    "ssl": [
+        "sslyze",
+        "testssl",
+        "openssl"
+    ],
 
-CRITICAL = "Critical"
+    "dns": [
+        "amass",
+        "subfinder",
+        "assetfinder",
+        "dnsrecon",
+        "dnsenum",
+        "fierce"
+    ],
 
-# -------------------------
-# Tool Names
-# -------------------------
+    "cloud": [
+        "prowler",
+        "scoutsuite",
+        "cloudsplaining",
+        "trivy"
+    ],
 
-NMAP = "nmap"
+    "wireless": [
+        "aircrack-ng",
+        "airodump-ng",
+        "aireplay-ng",
+        "wifite"
+    ]
 
-RUSTSCAN = "rustscan"
+}
 
-MASSCAN = "masscan"
+# ==========================================================
+# DNS
+# ==========================================================
 
-NIKTO = "nikto"
+DNS_RECORDS = [
 
-NUCLEI = "nuclei"
+    "A",
+    "AAAA",
+    "CNAME",
+    "MX",
+    "NS",
+    "TXT",
+    "SOA"
 
-GOBUSTER = "gobuster"
+]
 
-FFUF = "ffuf"
+# ==========================================================
+# WEBSITE
+# ==========================================================
 
-WHATWEB = "whatweb"
+HTTP_TIMEOUT = 10
 
-SQLMAP = "sqlmap"
+USER_AGENT = "CloudShield/1.0"
 
-ZAP = "zap"
+# ==========================================================
+# SECURITY HEADERS
+# ==========================================================
 
-SSLYZE = "sslyze"
+OWASP_REFERENCE = "https://owasp.org/www-project-secure-headers/"
 
-TESTSSL = "testssl"
+SECURITY_HEADERS = {
 
-AMASS = "amass"
+    "Content-Security-Policy": {
+        "severity": "High",
+        "description": "Protects against XSS attacks."
+    },
 
-SUBFINDER = "subfinder"
+    "Strict-Transport-Security": {
+        "severity": "High",
+        "description": "Forces HTTPS."
+    },
 
-DNSRECON = "dnsrecon"
+    "X-Frame-Options": {
+        "severity": "Medium",
+        "description": "Prevents clickjacking."
+    },
 
-DNSENUM = "dnsenum"
+    "X-Content-Type-Options": {
+        "severity": "Medium",
+        "description": "Stops MIME sniffing."
+    },
 
-WAFW00F = "wafw00f"
+    "Referrer-Policy": {
+        "severity": "Low",
+        "description": "Controls referrer leakage."
+    },
+
+    "Permissions-Policy": {
+        "severity": "Low",
+        "description": "Restricts browser features."
+    }
+
+}
+
+# ==========================================================
+# TECHNOLOGY DETECTION
+# ==========================================================
+
+SERVER_SIGNATURES = {
+
+    "apache": "Apache",
+
+    "nginx": "Nginx",
+
+    "iis": "Microsoft IIS",
+
+    "cloudflare": "Cloudflare"
+
+}
+
+FRAMEWORK_SIGNATURES = {
+
+    "php": "PHP",
+
+    "asp.net": "ASP.NET",
+
+    "express": "Express.js",
+
+    "django": "Django",
+
+    "flask": "Flask"
+
+}
+
+HTML_SIGNATURES = {
+
+    "wp-content": "WordPress",
+
+    "drupal": "Drupal",
+
+    "joomla": "Joomla",
+
+    "bootstrap": "Bootstrap",
+
+    "react": "React",
+
+    "angular": "Angular",
+
+    "vue": "Vue.js"
+
+}
