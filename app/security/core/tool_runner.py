@@ -4,19 +4,30 @@ Tool Runner
 """
 
 import subprocess
+import time
 
 
 class ToolRunner:
     """
-    Executes security tools.
+    Executes external security tools.
     """
+
+    DEFAULT_TIMEOUT = 300
+
+    # ==========================================================
+    # Execute Tool
+    # ==========================================================
 
     def execute(
         self,
         tool,
-        target,
-        arguments=None
+        target=None,
+        arguments=None,
+        timeout=None
     ):
+        """
+        Execute a security tool.
+        """
 
         command = [tool]
 
@@ -26,12 +37,18 @@ class ToolRunner:
 
                 command.extend(arguments)
 
-            else:
+            elif isinstance(arguments, str):
 
-                command.append(arguments)
-            if target:    
+                command.extend(arguments.split())
 
-                command.append(target)
+        # Always append target if provided
+        if target:
+
+            command.append(target)
+
+        timeout = timeout or self.DEFAULT_TIMEOUT
+
+        start = time.perf_counter()
 
         try:
 
@@ -43,7 +60,15 @@ class ToolRunner:
 
                 text=True,
 
-                timeout=300
+                timeout=timeout
+
+            )
+
+            elapsed = round(
+
+                time.perf_counter() - start,
+
+                2
 
             )
 
@@ -51,13 +76,17 @@ class ToolRunner:
 
                 "success": result.returncode == 0,
 
+                "tool": tool,
+
                 "command": " ".join(command),
 
-                "stdout": result.stdout,
+                "stdout": result.stdout.strip(),
 
-                "stderr": result.stderr,
+                "stderr": result.stderr.strip(),
 
-                "return_code": result.returncode
+                "return_code": result.returncode,
+
+                "execution_time": elapsed
 
             }
 
@@ -66,6 +95,8 @@ class ToolRunner:
             return {
 
                 "success": False,
+
+                "tool": tool,
 
                 "error": f"{tool} is not installed."
 
@@ -77,7 +108,9 @@ class ToolRunner:
 
                 "success": False,
 
-                "error": "Scan timed out."
+                "tool": tool,
+
+                "error": f"{tool} timed out after {timeout} seconds."
 
             }
 
@@ -87,13 +120,19 @@ class ToolRunner:
 
                 "success": False,
 
+                "tool": tool,
+
                 "error": str(e)
 
             }
 
+    # ==========================================================
+    # Installation Check
+    # ==========================================================
+
     def is_installed(self, tool):
         """
-        Check tool availability.
+        Check whether the tool exists.
         """
 
         try:
@@ -104,7 +143,9 @@ class ToolRunner:
 
                 capture_output=True,
 
-                text=True
+                text=True,
+
+                timeout=10
 
             )
 
@@ -113,6 +154,10 @@ class ToolRunner:
         except Exception:
 
             return False
+
+    # ==========================================================
+    # Version
+    # ==========================================================
 
     def version(self, tool):
         """
@@ -127,11 +172,19 @@ class ToolRunner:
 
                 capture_output=True,
 
-                text=True
+                text=True,
+
+                timeout=10
 
             )
 
-            return result.stdout.strip()
+            output = result.stdout.strip()
+
+            if not output:
+
+                output = result.stderr.strip()
+
+            return output or "Unknown"
 
         except Exception:
 

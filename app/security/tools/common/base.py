@@ -15,6 +15,8 @@ class BaseTool(ABC):
 
     name = ""
 
+    display_name = ""
+
     default_arguments = []
 
     timeout = 300
@@ -23,20 +25,28 @@ class BaseTool(ABC):
 
         self.runner = ToolRunner()
 
+    # ==========================================================
+    # Execute
+    # ==========================================================
+
     def scan(
         self,
         target,
         arguments=None
     ):
         """
-        Execute the tool.
+        Execute the security tool.
         """
 
         if arguments is None:
 
             arguments = self.default_arguments.copy()
 
-        return self.runner.execute(
+        elif isinstance(arguments, str):
+
+            arguments = arguments.split()
+
+        result = self.runner.execute(
 
             tool=self.name,
 
@@ -46,7 +56,16 @@ class BaseTool(ABC):
 
         )
 
+        return result
+
+    # ==========================================================
+    # Tool Information
+    # ==========================================================
+
     def version(self):
+        """
+        Return installed tool version.
+        """
 
         return self.runner.version(
 
@@ -55,6 +74,9 @@ class BaseTool(ABC):
         )
 
     def installed(self):
+        """
+        Check whether the tool exists.
+        """
 
         return self.runner.is_installed(
 
@@ -62,14 +84,50 @@ class BaseTool(ABC):
 
         )
 
+    # ==========================================================
+    # Metadata
+    # ==========================================================
+
     def info(self):
+        """
+        Return metadata.
+        """
 
         return {
 
             "name": self.name,
 
+            "display_name": self.display_name or self.name.title(),
+
             "installed": self.installed(),
 
-            "version": self.version()
+            "version": self.version(),
+
+            "timeout": self.timeout,
+
+            "default_arguments": self.default_arguments
 
         }
+
+    # ==========================================================
+    # Helpers
+    # ==========================================================
+
+    def command(self):
+        """
+        Return executable name.
+        """
+
+        return self.name
+
+    def __repr__(self):
+
+        return (
+
+            f"<{self.__class__.__name__}"
+
+            f" name='{self.name}'"
+
+            f" installed={self.installed()}>"
+
+        )

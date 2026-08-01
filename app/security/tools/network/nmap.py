@@ -1,17 +1,30 @@
 """
 CloudShield Enterprise
-Nmap Tool
+Enterprise Nmap Tool
 """
 
+import time
 import nmap
 
 
 class NmapTool:
     """
     Enterprise Nmap Scanner
+
+    Features
+    --------
+    • Host Discovery
+    • Service Detection
+    • OS Detection
+    • Version Detection
+    • Enterprise Metadata
     """
 
     name = "nmap"
+
+    display_name = "Nmap"
+
+    version_required = "7.0"
 
     default_arguments = "-sV -T4"
 
@@ -21,6 +34,8 @@ class NmapTool:
 
         self.scanner = None
 
+        self.last_command = ""
+
         try:
 
             self.scanner = nmap.PortScanner()
@@ -29,17 +44,48 @@ class NmapTool:
 
             self.scanner = None
 
+    # ==========================================================
+    # Installation
+    # ==========================================================
+
+    @staticmethod
+    def installed():
+        """
+        Check whether Nmap is available.
+        """
+
+        try:
+
+            nmap.PortScanner()
+
+            return True
+
+        except Exception:
+
+            return False
+
+    # ==========================================================
+    # Execute Scan
+    # ==========================================================
+
     def scan(
         self,
         target,
         arguments=None
     ):
+        """
+        Execute Nmap scan.
+        """
 
         if self.scanner is None:
 
             return {
 
                 "success": False,
+
+                "tool": self.name,
+
+                "target": target,
 
                 "error": "Nmap is not installed."
 
@@ -53,6 +99,8 @@ class NmapTool:
 
             arguments = " ".join(arguments)
 
+        start = time.perf_counter()
+
         try:
 
             self.scanner.scan(
@@ -63,7 +111,23 @@ class NmapTool:
 
             )
 
-            return self.parse(target)
+            self.last_command = self.command()
+
+            execution_time = round(
+
+                time.perf_counter() - start,
+
+                2
+
+            )
+
+            return self.parse(
+
+                target,
+
+                execution_time
+
+            )
 
         except Exception as e:
 
@@ -71,14 +135,26 @@ class NmapTool:
 
                 "success": False,
 
+                "tool": self.name,
+
+                "target": target,
+
                 "error": str(e)
 
             }
+        # ==========================================================
+    # Parse Results
+    # ==========================================================
 
     def parse(
         self,
-        target
+        target,
+        execution_time
     ):
+        """
+        Parse Nmap results into the CloudShield
+        Enterprise standard format.
+        """
 
         if self.scanner is None:
 
@@ -86,7 +162,11 @@ class NmapTool:
 
                 "success": False,
 
-                "error": "Nmap is not available."
+                "tool": self.name,
+
+                "target": target,
+
+                "error": "Nmap is unavailable."
 
             }
 
@@ -96,19 +176,17 @@ class NmapTool:
 
                 "success": False,
 
+                "tool": self.name,
+
+                "target": target,
+
                 "error": "Host not found."
 
             }
 
         host = self.scanner[target]
 
-        result = {
-
-            "success": True,
-
-            "tool": self.name,
-
-            "target": target,
+        raw = {
 
             "hostname": host.hostname(),
 
@@ -128,17 +206,27 @@ class NmapTool:
 
         }
 
+        # ------------------------------------------------------
+        # Operating Systems
+        # ------------------------------------------------------
+
         if "osmatch" in host:
 
-            for os in host["osmatch"]:
+            for operating_system in host["osmatch"]:
 
-                result["os"].append({
+                raw["os"].append({
 
-                    "name": os.get("name"),
+                    "name": operating_system.get("name"),
 
-                    "accuracy": os.get("accuracy")
+                    "accuracy": operating_system.get("accuracy")
 
                 })
+
+        # ------------------------------------------------------
+        # Ports
+        # ------------------------------------------------------
+
+        open_ports = 0
 
         for protocol in host.all_protocols():
 
@@ -146,13 +234,19 @@ class NmapTool:
 
                 service = host[protocol][port]
 
-                result["ports"].append({
+                state = service.get("state")
+
+                if state == "open":
+
+                    open_ports += 1
+
+                raw["ports"].append({
 
                     "protocol": protocol,
 
                     "port": port,
 
-                    "state": service.get("state"),
+                    "state": state,
 
                     "service": service.get("name"),
 
@@ -160,74 +254,158 @@ class NmapTool:
 
                     "version": service.get("version"),
 
-                    "extrainfo": service.get("extrainfo"),
+                    "reason": service.get("reason"),
 
-                    "reason": service.get("reason")
+                    "extra_info": service.get("extrainfo")
 
                 })
 
-        return result
+        # ------------------------------------------------------
+        # Security Score
+        # ------------------------------------------------------
+
+        score = max(
+
+            0,
+
+            100 - (open_ports * 3)
+
+        )
+
+        if open_ports == 0:
+
+            risk = "Info"
+
+        elif open_ports <= 5:
+
+            risk = "Low"
+
+        elif open_ports <= 15:
+
+            risk = "Medium"
+
+        else:
+
+            risk = "High"
+
+        # ------------------------------------------------------
+        # Enterprise Result
+        # ------------------------------------------------------
+
+        return {
+
+            "success": True,
+
+            "tool": self.name,
+
+            "target": target,
+
+            "execution_time": execution_time,
+
+            "scanner_version": self.version(),
+
+            "command": self.last_command,
+
+            "raw_output": raw,
+
+            "summary": {
+
+                "status": "Completed",
+
+                "score": score,
+
+                "risk": risk,
+
+                "open_ports": open_ports,
+
+                "hosts": 1
+
+            }
+
+        }
+
+        # ==========================================================
+    # Helpers
+    # ==========================================================
 
     def hosts(self):
+        """
+        Return discovered hosts.
+        """
 
         if self.scanner is None:
-
             return []
 
-        return self.scanner.all_hosts()
+        try:
+            return self.scanner.all_hosts()
+
+        except Exception:
+            return []
 
     def version(self):
+        """
+        Return installed Nmap version.
+        """
 
         if self.scanner is None:
-
             return "Not Installed"
 
         try:
 
             version = self.scanner.nmap_version()
 
-            return ".".join(map(str, version))
+            return ".".join(
+                map(str, version)
+            )
 
         except Exception:
 
             return "Unknown"
 
     def command(self):
+        """
+        Return executed command line.
+        """
 
         if self.scanner is None:
-
             return ""
 
         try:
-
             return self.scanner.command_line()
 
         except Exception:
-
             return ""
 
-    def installed(self):
-
-        return self.scanner is not None
+    # ==========================================================
+    # Metadata
+    # ==========================================================
 
     def info(self):
+        """
+        Tool information.
+        """
 
         return {
 
             "name": self.name,
 
+            "display_name": self.display_name,
+
             "installed": self.installed(),
 
             "version": self.version(),
 
-            "timeout": self.timeout
+            "timeout": self.timeout,
+
+            "default_arguments": self.default_arguments
 
         }
 
 
 def get_tool():
     """
-    Return Nmap tool instance.
+    Return Nmap Tool instance.
     """
 
-    return NmapTool()
+    return NmapTool()    
+
