@@ -7,6 +7,7 @@ from datetime import datetime
 
 from app.extensions import db
 from app.models import SecurityScan, Report
+from app.scanner.live import ScanTracker
 
 from app.security.core.manager import SecurityManager
 from app.assets.services import AssetManager
@@ -96,6 +97,16 @@ class ScanService:
 
         db.session.commit()
 
+        tracker = ScanTracker(scan)
+
+        tracker.start()
+
+        tracker.validating()
+
+        tracker.initializing()
+
+        tracker.running(tool)
+
         print("=" * 60)
         print("SCAN ID :", scan.id)
         print("ASSET ID:", scan.asset_id)
@@ -117,6 +128,8 @@ class ScanService:
 
         try:
 
+            tracker.parsing()
+
             findings = FindingGenerator.generate(
 
                 scan,
@@ -125,22 +138,33 @@ class ScanService:
 
             )
 
+            tracker.findings()
+
             print("=" * 60)
             print(f"FINDINGS CREATED : {findings}")
             print("=" * 60)
 
-        except Exception:
+                except Exception as e:
+
+            tracker.failed(e)
 
             print("=" * 60)
             print("FINDING GENERATOR ERROR")
             traceback.print_exc()
-            print("=" * 60)   
+            print("=" * 60)
+
+        # --------------------------
+        # Update Asset
+        # --------------------------
 
         if asset_id:
+
             from app.models.finding import Finding
 
             count = Finding.query.filter_by(
+
                 asset_id=asset_id
+
             ).count()
 
             AssetManager().update_scan(
@@ -154,6 +178,14 @@ class ScanService:
                 findings=count
 
             )
+
+        # --------------------------
+        # Live Scanner
+        # --------------------------
+
+        tracker.reporting()
+
+        tracker.complete()
 
         return {
 

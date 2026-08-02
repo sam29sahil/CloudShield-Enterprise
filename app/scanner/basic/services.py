@@ -9,6 +9,7 @@ import json
 from app.extensions import db
 from app.models import SecurityScan, Report
 from app.assets.services import AssetManager
+from app.scanner.live import ScanTracker
 
 from app.scanner.basic.website import website_scan
 from app.scanner.basic.headers import header_scan
@@ -179,6 +180,16 @@ class BasicScanService:
 
         db.session.commit()
 
+        tracker = ScanTracker(scan)
+
+        tracker.start()
+
+        tracker.validating()
+
+        tracker.initializing()
+
+        tracker.running("Basic Security Scan")
+
         # --------------------------
         # Generate Finding
         # --------------------------
@@ -187,12 +198,16 @@ class BasicScanService:
 
         try:
 
+            tracker.parsing()
+
             findings = FindingGenerator.generate(
 
                 scan,
 
                 report
             )
+
+            tracker.findings()
 
             print("=" * 60)
             print("FINDINGS CREATED:", findings)
@@ -227,6 +242,12 @@ class BasicScanService:
                 findings=count
 
             )
+
+        # --------------------------
+        # Live Scanner
+        # --------------------------
+
+        tracker.reporting()    
 
         # --------------------------
         # Create Notification
@@ -273,6 +294,8 @@ class BasicScanService:
         )
 
         print("\n========== Scan Completed ==========\n")
+
+        tracker.complete()
 
         return {
 

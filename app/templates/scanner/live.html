@@ -1,0 +1,53 @@
+{% extends "dashboard_base.html" %}
+
+{% block styles %}
+
+{{ super() }}
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/scanner/timeline.css') }}">
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/scanner/scanner_live.css') }}">
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    {% include "scanner/components/status_card.html" %}
+
+    {% include "scanner/components/progress_bar.html" %}
+
+    {% include "scanner/components/timeline.html" %}
+
+    {% include "scanner/components/console.html" %}
+
+    {% include "scanner/components/summary_cards.html" %}
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+const scanId={{ scan_id }};
+
+</script>
+
+<script src="{{ url_for('static', filename='js/scanner/progress.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/scanner/status.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/scanner/timer.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/scanner/console.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/scanner/live.js') }}"></script>
+
+{% endblock %}

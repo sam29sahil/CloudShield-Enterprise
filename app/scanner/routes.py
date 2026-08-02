@@ -307,3 +307,66 @@ def delete_scan(scan_id):
     return redirect(
         url_for("scanner.history")
     )
+
+@scanner.route("/progress/<int:scan_id>")
+@login_required
+def progress(scan_id):
+
+    from flask import jsonify
+    from app.scanner.live import live_manager
+
+    progress = live_manager.get(scan_id)
+
+    if progress is None:
+
+        return jsonify({
+
+            "success": False,
+
+            "error": "Scan not found"
+
+        }), 404
+
+    return jsonify({
+
+        "success": True,
+
+        "data": progress.to_dict()
+
+    })    
+
+@scanner.route("/status/<int:scan_id>")
+@login_required
+def status(scan_id):
+
+    from flask import jsonify
+    from app.scanner.live import live_manager
+
+    progress = live_manager.get(scan_id)
+
+    if progress is None:
+
+        return jsonify({
+
+            "status": "Unknown"
+
+        })
+
+    return jsonify({
+
+        "status": progress.status.value
+
+    })
+    @scanner.route("/live/<int:scan_id>")
+@login_required
+def live(scan_id):
+
+    from flask import render_template
+
+    return render_template(
+
+        "scanner/live.html",
+
+        scan_id=scan_id
+
+    )
