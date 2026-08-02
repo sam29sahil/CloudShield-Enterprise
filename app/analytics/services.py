@@ -4,6 +4,7 @@ Enterprise Analytics Service
 """
 
 from sqlalchemy import func, desc
+from app.cloud.azure.services import AzureService
 
 from app.extensions import db
 from app.models import (
@@ -14,6 +15,18 @@ from app.models import (
 
 
 class AnalyticsService:
+
+    def __init__(self):
+
+        self.azure = AzureService()
+
+     # ------------------------------------------
+    # Cloud Analytics
+    # ------------------------------------------
+
+    def cloud(self):
+
+        return self.azure.summary()   
 
     # ------------------------------------------
     # Dashboard Statistics
@@ -97,7 +110,9 @@ class AnalyticsService:
 
                 ).scalar() or 0
 
-            )
+            ),
+
+            "security_score": self.security_score(),
 
         }
 
@@ -389,24 +404,48 @@ class AnalyticsService:
 
         return {
 
-            "summary": self.summary(),
+        "summary": self.summary(),
 
-            "statistics": self.statistics(),
+        "statistics": self.statistics(),
 
-            "severity": self.severity(),
+        "severity": self.severity(),
 
-            "charts": self.chart_data(),
+        "charts": self.chart_data(),
 
-            "trend": self.score_trend(),
+        "trend": self.score_trend(),
 
-            "recent_scans": self.recent_scans(),
+        "recent_scans": self.recent_scans(),
 
-            "top_assets": self.top_assets(),
+        "top_assets": self.top_assets(),
 
-            "scanner_usage": self.scanner_usage(),
+        "scanner_usage": self.scanner_usage(),
 
-            "top_vulnerabilities": self.top_vulnerabilities(),
+        "top_vulnerabilities": self.top_vulnerabilities(),
 
-            "performance": self.performance()
+        "performance": self.performance(),
 
-        }
+        "cloud": self.cloud()
+
+    }
+
+    # ------------------------------------------
+    # Overall Security Score
+    # ------------------------------------------
+
+    def security_score(self):
+
+        average = db.session.query(
+
+            func.avg(SecurityScan.score)
+
+        ).scalar() or 0
+
+        cloud = self.azure.summary()
+
+        azure_score = cloud.get("secure_score", average)
+
+        return round(
+
+            (average + azure_score) / 2
+
+        )

@@ -469,17 +469,33 @@ Dashboard
 
                     </td>
 
-                    <td>
+                    <tbody>
 
-                        Storage Account
-
-                    </td>
-
-                    <td>
-
-                        Public Access Enabled
-
-                    </td>
+                        {% for finding in findings %}
+                        
+                        <tr>
+                        
+                            <td>
+                        
+                                <span class="badge bg-danger">
+                        
+                                    {{ finding.severity }}
+                        
+                                </span>
+                        
+                            </td>
+                        
+                            <td>{{ finding.resource }}</td>
+                        
+                            <td>{{ finding.title }}</td>
+                        
+                            <td>Open</td>
+                        
+                        </tr>
+                        
+                        {% endfor %}
+                        
+                        </tbody>
 
                     <td>
 
@@ -624,7 +640,7 @@ Dashboard
 
                         <span>Secure Score</span>
 
-                        <strong>92%</strong>
+                        <strong>{{ data.secure_score }}</strong>
 
                     </div>
 
@@ -632,7 +648,7 @@ Dashboard
 
                         <div class="progress-bar bg-success"
 
-                             style="width:92%">
+                             style="width:{{ data.secure_score }}">
 
                         </div>
 
@@ -1228,11 +1244,21 @@ Dashboard
 
                     <tr>
 
-                        <td>vm-production-01</td>
+                        <{% for vm in virtual_machines %}
 
-                        <td>Virtual Machine</td>
-
-                        <td>Central India</td>
+                        <tr>
+                        
+                            <td>{{ vm.name }}</td>
+                        
+                            <td>Virtual Machine</td>
+                        
+                            <td>{{ vm.location }}</td>
+                        
+                            <td>{{ vm.status }}</td>
+                        
+                        </tr>
+                        
+                        {% endfor %}
 
                         <td>
 

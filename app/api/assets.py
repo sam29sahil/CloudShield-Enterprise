@@ -17,10 +17,62 @@ asset_service = AssetService()
 @login_required
 def get_assets():
     """
-    Get all assets.
+    Get all assets with pagination and filters.
     """
 
-    assets = asset_service.all()
+    page = request.args.get(
+        "page",
+        1,
+        type=int
+    )
+
+    per_page = request.args.get(
+        "per_page",
+        20,
+        type=int
+    )
+
+    risk = request.args.get("risk")
+    asset_type = request.args.get("asset_type")
+    project_id = request.args.get("project_id", type=int)
+    search = request.args.get("q")
+
+    query = asset_service.query()
+
+    if risk:
+        query = query.filter_by(
+            risk=risk
+        )
+
+    if asset_type:
+        query = query.filter_by(
+            asset_type=asset_type
+        )
+
+    if project_id:
+        query = query.filter_by(
+            project_id=project_id
+        )
+
+    if search:
+
+        from app.models import Asset
+
+        query = query.filter(
+            Asset.name.ilike(f"%{search}%")
+        )
+
+    pagination = query.paginate(
+
+        page=page,
+
+        per_page=per_page,
+
+        error_out=False
+
+    )
+
+    assets = pagination.items
 
     data = []
 
@@ -52,7 +104,23 @@ def get_assets():
 
     return success_response(
 
-        data=data,
+        data={
+
+            "items": data,
+
+            "page": pagination.page,
+
+            "pages": pagination.pages,
+
+            "per_page": pagination.per_page,
+
+            "total": pagination.total,
+
+            "has_next": pagination.has_next,
+
+            "has_prev": pagination.has_prev
+
+        },
 
         message="Assets retrieved successfully"
 

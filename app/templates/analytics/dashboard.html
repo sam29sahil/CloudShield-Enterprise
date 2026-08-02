@@ -184,7 +184,7 @@
 
                             <h2 class="fw-bold mt-2 text-success">
 
-                                {{ ((severity.low*100)+(severity.medium*75)+(severity.high*40)+(severity.critical*10)) // (summary.findings if summary.findings else 1) }}%
+                                {{ summary.security_score }}%
 
                             </h2>
 
@@ -205,6 +205,110 @@
         </div>
 
     </div>
+
+    <!-- ===================================== -->
+<!-- Azure KPI Cards -->
+<!-- ===================================== -->
+
+<div class="row g-4 mb-5">
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted">
+
+                    Azure Resources
+
+                </small>
+
+                <h2 class="fw-bold text-primary">
+
+                    {{ cloud.resource_groups }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted">
+
+                    Virtual Machines
+
+                </small>
+
+                <h2 class="fw-bold text-info">
+
+                    {{ cloud.virtual_machines }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted">
+
+                    Storage Accounts
+
+                </small>
+
+                <h2 class="fw-bold text-warning">
+
+                    {{ cloud.storage_accounts }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <small class="text-muted">
+
+                    Azure Secure Score
+
+                </small>
+
+                <h2 class="fw-bold text-success">
+
+                    {{ cloud.secure_score }}%
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
     <!-- ===================================== -->
     <!-- Severity Cards -->
@@ -344,6 +448,7 @@
                <div class="card-body" style="height:350px;">
 
     <canvas id="scoreChart"></canvas>
+    <canvas id="toolChart"></canvas>
 
 </div>
             </div>

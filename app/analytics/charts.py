@@ -3,15 +3,21 @@ CloudShield Enterprise
 Analytics Charts
 """
 
+from sqlalchemy import func
+
+from app.extensions import db
 from app.models import SecurityScan
 
 
 class ChartData:
+    """
+    Chart Data Generator
+    """
 
     @staticmethod
     def score_chart():
         """
-        Security score chart.
+        Security score trend.
         """
 
         scans = (
@@ -20,22 +26,15 @@ class ChartData:
             .all()
         )
 
-        labels = []
-        scores = []
-
-        for scan in scans:
-
-            labels.append(
-                scan.started_at.strftime("%d-%m")
-            )
-
-            scores.append(
-                scan.score
-            )
-
         return {
 
-            "labels": labels,
+            "labels": [
+
+                scan.started_at.strftime("%d-%m")
+
+                for scan in scans
+
+            ],
 
             "datasets": [
 
@@ -43,7 +42,13 @@ class ChartData:
 
                     "label": "Security Score",
 
-                    "data": scores
+                    "data": [
+
+                        scan.score
+
+                        for scan in scans
+
+                    ]
 
                 }
 
@@ -57,27 +62,81 @@ class ChartData:
         Risk distribution.
         """
 
-        low = SecurityScan.query.filter_by(
-            risk="Low"
-        ).count()
+        risks = {
 
-        medium = SecurityScan.query.filter_by(
-            risk="Medium"
-        ).count()
+            "Critical": SecurityScan.query.filter_by(
+                risk="Critical"
+            ).count(),
 
-        high = SecurityScan.query.filter_by(
-            risk="High"
-        ).count()
+            "High": SecurityScan.query.filter_by(
+                risk="High"
+            ).count(),
+
+            "Medium": SecurityScan.query.filter_by(
+                risk="Medium"
+            ).count(),
+
+            "Low": SecurityScan.query.filter_by(
+                risk="Low"
+            ).count(),
+
+            "Unknown": SecurityScan.query.filter_by(
+                risk="Unknown"
+            ).count()
+
+        }
+
+        return {
+
+            "labels": list(risks.keys()),
+
+            "datasets": [
+
+                {
+
+                    "label": "Risk Distribution",
+
+                    "data": list(risks.values())
+
+                }
+
+            ]
+
+        }
+
+    @staticmethod
+    def tool_chart():
+        """
+        Scanner tool usage.
+        """
+
+        rows = (
+
+            db.session.query(
+
+                SecurityScan.tool,
+
+                func.count(SecurityScan.id)
+
+            )
+
+            .group_by(
+
+                SecurityScan.tool
+
+            )
+
+            .all()
+
+        )
 
         return {
 
             "labels": [
 
-                "Low",
+                row[0] or "Unknown"
 
-                "Medium",
-
-                "High"
+                for row in rows
 
             ],
 
@@ -85,18 +144,34 @@ class ChartData:
 
                 {
 
+                    "label": "Scanner Usage",
+
                     "data": [
 
-                        low,
+                        row[1]
 
-                        medium,
-
-                        high
+                        for row in rows
 
                     ]
 
                 }
 
             ]
+
+        }
+
+    @staticmethod
+    def charts():
+        """
+        Return all charts.
+        """
+
+        return {
+
+            "score": ChartData.score_chart(),
+
+            "risk": ChartData.risk_chart(),
+
+            "tools": ChartData.tool_chart()
 
         }

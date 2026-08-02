@@ -69,3 +69,48 @@ def paginated_response(
     }
 
     return jsonify(response), 200
+
+def validation_error(errors):
+
+    return error_response(
+
+        message="Validation Error",
+
+        status_code=422,
+
+        errors=errors
+
+    )
+
+
+def unauthorized():
+
+    return error_response(
+
+        message="Unauthorized",
+
+        status_code=401
+
+    )
+
+
+def forbidden():
+
+    return error_response(
+
+        message="Forbidden",
+
+        status_code=403
+
+    )
+
+
+def not_found(resource="Resource"):
+
+    return error_response(
+
+        message=f"{resource} not found",
+
+        status_code=404
+
+    )

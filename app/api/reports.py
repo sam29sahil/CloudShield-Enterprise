@@ -17,10 +17,42 @@ report_service = ReportService()
 @login_required
 def get_reports():
     """
-    Get all reports.
+    Get reports with pagination.
     """
 
-    reports = report_service.all()
+    page = request.args.get(
+        "page",
+        1,
+        type=int
+    )
+
+    per_page = request.args.get(
+        "per_page",
+        20,
+        type=int
+    )
+
+    report_type = request.args.get("report_type")
+
+    query = report_service.query()
+
+    if report_type:
+
+        query = query.filter_by(
+            report_type=report_type
+        )
+
+    pagination = query.paginate(
+
+        page=page,
+
+        per_page=per_page,
+
+        error_out=False
+
+    )
+
+    reports = pagination.items
 
     data = []
 
@@ -46,7 +78,19 @@ def get_reports():
 
     return success_response(
 
-        data=data,
+        data={
+
+            "items": data,
+
+            "page": pagination.page,
+
+            "pages": pagination.pages,
+
+            "per_page": pagination.per_page,
+
+            "total": pagination.total
+
+        },
 
         message="Reports retrieved successfully"
 
@@ -185,3 +229,93 @@ def delete_report(report_id):
         message="Report deleted successfully"
 
     )
+
+@api.route("/reports/<int:report_id>/pdf", methods=["GET"])
+@login_required
+def download_pdf(report_id):
+
+    report = report_service.get(report_id)
+
+    if not report:
+
+        return error_response(
+            "Report not found",
+            404
+        )
+
+    return success_response(
+
+        data={
+
+            "file": report.file_name,
+
+            "type": "PDF"
+
+        },
+
+        message="PDF report ready"
+
+    )
+@api.route("/reports/<int:report_id>/csv", methods=["GET"])
+@login_required
+def download_csv(report_id):
+
+    report = report_service.get(report_id)
+
+    if not report:
+
+        return error_response(
+            "Report not found",
+            404
+        )
+
+    return success_response(
+
+        data={
+
+            "file": report.file_name,
+
+            "type": "CSV"
+
+        },
+
+        message="CSV report ready"
+
+    )    
+@api.route("/reports/<int:report_id>/json", methods=["GET"])
+@login_required
+def download_json(report_id):
+
+    report = report_service.get(report_id)
+
+    if not report:
+
+        return error_response(
+            "Report not found",
+            404
+        )
+
+    return success_response(
+
+        data={
+
+            "file": report.file_name,
+
+            "type": "JSON"
+
+        },
+
+        message="JSON report ready"
+
+    )
+@api.route("/reports/statistics", methods=["GET"])
+@login_required
+def report_statistics():
+
+    return success_response(
+
+        data=report_service.statistics(),
+
+        message="Report statistics"
+
+    )    

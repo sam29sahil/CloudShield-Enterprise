@@ -17,10 +17,49 @@ scan_service = ScanService()
 @login_required
 def get_scans():
     """
-    Return all scans.
+    Return all scans with pagination.
     """
 
-    scans = scan_service.all()
+    page = request.args.get(
+        "page",
+        1,
+        type=int
+    )
+
+    per_page = request.args.get(
+        "per_page",
+        20,
+        type=int
+    )
+
+    risk = request.args.get("risk")
+    scan_type = request.args.get("scan_type")
+
+    query = scan_service.query()
+
+    if risk:
+
+        query = query.filter_by(
+            risk=risk
+        )
+
+    if scan_type:
+
+        query = query.filter_by(
+            scan_type=scan_type
+        )
+
+    pagination = query.paginate(
+
+        page=page,
+
+        per_page=per_page,
+
+        error_out=False
+
+    )
+
+    scans = pagination.items
 
     data = []
 
@@ -56,12 +95,23 @@ def get_scans():
 
     return success_response(
 
-        data=data,
+        data={
+
+            "items": data,
+
+            "page": pagination.page,
+
+            "pages": pagination.pages,
+
+            "per_page": pagination.per_page,
+
+            "total": pagination.total
+
+        },
 
         message="Scans retrieved successfully"
 
     )
-
 
 @api.route("/scans/<int:scan_id>", methods=["GET"])
 @login_required
@@ -211,3 +261,87 @@ def delete_scan(scan_id):
         message="Scan deleted successfully"
 
     )
+
+@api.route("/scans/latest", methods=["GET"])
+@login_required
+def latest_scan():
+
+    scan = scan_service.latest()
+
+    if not scan:
+
+        return error_response(
+            "No scans found",
+            404
+        )
+
+    return success_response(
+
+        data={
+
+            "id": scan.id,
+
+            "score": scan.score,
+
+            "risk": scan.risk,
+
+            "scan_type": scan.scan_type,
+
+            "started_at": (
+                scan.started_at.isoformat()
+                if scan.started_at
+                else None
+            )
+
+        }
+
+    )    
+
+@api.route("/scans/statistics", methods=["GET"])
+@login_required
+def scan_statistics():
+
+    return success_response(
+
+        data=scan_service.statistics(),
+
+        message="Statistics retrieved"
+
+    )    
+
+@api.route("/scans/history", methods=["GET"])
+@login_required
+def scan_history():
+
+    return success_response(
+
+        data=scan_service.history(),
+
+        message="History retrieved"
+
+    )
+
+@api.route("/scans/<int:scan_id>/status", methods=["GET"])
+@login_required
+def scan_status(scan_id):
+
+    scan = scan_service.get(scan_id)
+
+    if not scan:
+
+        return error_response(
+            "Scan not found",
+            404
+        )
+
+    return success_response(
+
+        data={
+
+            "status": getattr(scan, "status", "Completed"),
+
+            "progress": getattr(scan, "progress", 100)
+
+        }
+
+    )    

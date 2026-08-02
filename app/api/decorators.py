@@ -31,3 +31,76 @@ def admin_required(func):
         return func(*args, **kwargs)
 
     return wrapper
+
+# ------------------------------------------
+# API Login Required
+# ------------------------------------------
+
+def api_login_required(func):
+
+    @wraps(func)
+
+    def wrapper(*args, **kwargs):
+
+        if not current_user.is_authenticated:
+
+            return error_response(
+
+                "Authentication required",
+
+                401
+
+            )
+
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+# ------------------------------------------
+# Role Required
+# ------------------------------------------
+
+def role_required(role):
+
+    def decorator(func):
+
+        @wraps(func)
+
+        def wrapper(*args, **kwargs):
+
+            if not current_user.is_authenticated:
+
+                return error_response(
+
+                    "Authentication required",
+
+                    401
+
+                )
+
+            user_role = getattr(
+
+                current_user,
+
+                "role",
+
+                None
+
+            )
+
+            if user_role != role:
+
+                return error_response(
+
+                    "Permission denied",
+
+                    403
+
+                )
+
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator 

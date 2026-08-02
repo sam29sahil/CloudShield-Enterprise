@@ -46,4 +46,6 @@ def index():
 
         performance=data["performance"]
 
+        cloud=data["cloud"]
+
     )
