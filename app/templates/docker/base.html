@@ -1,0 +1,128 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+
+Docker
+
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/docker.css') }}">
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-box-fill text-primary"></i>
+
+                Docker
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                CloudShield Enterprise Docker Security Platform
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <div class="btn-group flex-wrap">
+
+                <a href="{{ url_for('docker.index') }}"
+                   class="btn btn-outline-primary">
+
+                    Dashboard
+
+                </a>
+
+                <a href="{{ url_for('docker.containers') }}"
+                   class="btn btn-outline-primary">
+
+                    Containers
+
+                </a>
+
+                <a href="{{ url_for('docker.images') }}"
+                   class="btn btn-outline-primary">
+
+                    Images
+
+                </a>
+
+                <a href="{{ url_for('docker.networks') }}"
+                   class="btn btn-outline-primary">
+
+                    Networks
+
+                </a>
+
+                <a href="{{ url_for('docker.volumes') }}"
+                   class="btn btn-outline-primary">
+
+                    Volumes
+
+                </a>
+
+                <a href="{{ url_for('docker.benchmark') }}"
+                   class="btn btn-outline-primary">
+
+                    Benchmark
+
+                </a>
+
+                <a href="{{ url_for('docker.findings') }}"
+                   class="btn btn-outline-primary">
+
+                    Findings
+
+                </a>
+
+                <a href="{{ url_for('docker.health') }}"
+                   class="btn btn-outline-primary">
+
+                    Health
+
+                </a>
+
+                <a href="{{ url_for('docker.details') }}"
+                   class="btn btn-outline-primary">
+
+                    Details
+
+                </a>
+
+                <a href="{{ url_for('docker.security') }}"
+                   class="btn btn-outline-primary">
+
+                    Security
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% block docker_content %}
+
+    {% endblock %}
+
+</div>
+
+<script src="{{ url_for('static', filename='js/docker.js') }}"></script>
+
+{% endblock %}

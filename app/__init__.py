@@ -90,6 +90,9 @@ def create_app():
     from app.api import api
     app.register_blueprint(api)
 
+    from app.docker.api import docker_api
+    app.register_blueprint(docker_api)
+
     from app.docker import docker
     app.register_blueprint(docker)
 

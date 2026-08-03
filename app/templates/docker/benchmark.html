@@ -1,0 +1,193 @@
+{% extends "docker/base.html" %}
+
+{% block docker_content %}
+
+<div class="card border-0 shadow-lg bg-dark text-white mb-4">
+
+    <div class="card-body">
+
+        <h2 class="fw-bold">
+
+            Docker Security Benchmark
+
+        </h2>
+
+        <p class="mb-0">
+
+            CIS Docker Benchmark Summary
+
+        </p>
+
+    </div>
+
+</div>
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h6>Security Score</h6>
+
+                <h1 class="text-success">
+
+                    {{ benchmark.score }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h6>Critical</h6>
+
+                <h2 class="text-danger">
+
+                    {{ benchmark.critical }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h6>High</h6>
+
+                <h2 class="text-warning">
+
+                    {{ benchmark.high }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h6>Medium / Low</h6>
+
+                <h2>
+
+                    {{ benchmark.medium + benchmark.low }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="card-header bg-dark text-white">
+
+        Benchmark Checks
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover">
+
+            <thead>
+
+                <tr>
+
+                    <th>Severity</th>
+
+                    <th>Container</th>
+
+                    <th>Finding</th>
+
+                    <th>Recommendation</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for item in benchmark.checks %}
+
+                <tr>
+
+                    <td>
+
+                        {{ item.severity }}
+
+                    </td>
+
+                    <td>
+
+                        {{ item.container }}
+
+                    </td>
+
+                    <td>
+
+                        {{ item.title }}
+
+                    </td>
+
+                    <td>
+
+                        {{ item.recommendation }}
+
+                    </td>
+
+                </tr>
+
+            {% else %}
+
+                <tr>
+
+                    <td colspan="4"
+
+                        class="text-center">
+
+                        No benchmark issues found.
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

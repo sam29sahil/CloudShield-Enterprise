@@ -357,7 +357,8 @@ def status(scan_id):
         "status": progress.status.value
 
     })
-    @scanner.route("/live/<int:scan_id>")
+    
+@scanner.route("/live/<int:scan_id>")
 @login_required
 def live(scan_id):
 

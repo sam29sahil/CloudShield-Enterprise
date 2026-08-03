@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "dashboard_base.html" %}
 
 {% block title %}
 
@@ -9,6 +9,62 @@ Container Details
 {% block content %}
 
 <div class="container-fluid py-4">
+    <div class="card border-0 shadow-lg bg-dark text-white mb-4">
+
+        <div class="card-body">
+    
+            <div class="row align-items-center">
+    
+                <div class="col-lg-8">
+    
+                    <span class="badge bg-primary mb-3">
+    
+                        Docker Container
+    
+                    </span>
+    
+                    <h2 class="fw-bold">
+    
+                        {{ data.container.name }}
+    
+                    </h2>
+    
+                    <p class="text-light mb-0">
+    
+                        Live container monitoring, runtime statistics,
+                        mounted volumes, networking and logs.
+    
+                    </p>
+    
+                </div>
+    
+                <div class="col-lg-4 text-center">
+    
+                    {% if data.container.status=="running" %}
+    
+                        <span class="badge bg-success fs-5">
+    
+                            Running
+    
+                        </span>
+    
+                    {% else %}
+    
+                        <span class="badge bg-danger fs-5">
+    
+                            Stopped
+    
+                        </span>
+    
+                    {% endif %}
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+    </div>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
@@ -41,6 +97,91 @@ Container Details
         </a>
 
     </div>
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-3">
+    
+            <div class="card shadow-sm">
+    
+                <div class="card-body text-center">
+    
+                    <h6>CPU</h6>
+    
+                    <h3>
+    
+                        {{ data.stats.cpu_stats.cpu_usage.total_usage if data.stats else 0 }}
+    
+                    </h3>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+        <div class="col-lg-3">
+    
+            <div class="card shadow-sm">
+    
+                <div class="card-body text-center">
+    
+                    <h6>Memory</h6>
+    
+                    <h3>
+    
+                        {{ data.stats.memory_stats.usage if data.stats else 0 }}
+    
+                    </h3>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+        <div class="col-lg-3">
+    
+            <div class="card shadow-sm">
+    
+                <div class="card-body text-center">
+    
+                    <h6>Networks</h6>
+    
+                    <h3>
+    
+                        {{ data.container.attrs.NetworkSettings.Networks|length }}
+    
+                    </h3>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+        <div class="col-lg-3">
+    
+            <div class="card shadow-sm">
+    
+                <div class="card-body text-center">
+    
+                    <h6>Volumes</h6>
+    
+                    <h3>
+    
+                        {{ data.container.attrs.Mounts|length }}
+    
+                    </h3>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+    </div>
+    
     <div class="card shadow-sm mb-4">
 
     <div class="card-header">
@@ -436,6 +577,15 @@ Container Details
     </div>
 
 </div>
+
+<div class="alert alert-info">
+
+    <i class="bi bi-clock-history"></i>
+
+    Live data collected from Docker Engine.
+
+</div>
+
 <div class="card shadow-sm mb-4">
 
     <div class="card-header">
@@ -452,7 +602,7 @@ Container Details
 
         {% if data.logs %}
 
-        <pre class="docker-terminal">
+        <pre class="docker-terminal bg-dark text-success p-4 rounded">
 
 {{ data.logs }}
 
@@ -535,6 +685,20 @@ Container Details
     </div>
 
 </div>
+</div>
+
+<div class="card border-0 shadow-sm mt-4">
+
+    <div class="card-body text-center">
+
+        <small class="text-muted">
+
+            CloudShield Enterprise • Docker Runtime Inspector
+
+        </small>
+
+    </div>
+
 </div>
 
 <link rel="stylesheet"

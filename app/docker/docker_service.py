@@ -4,6 +4,7 @@ Docker Service
 """
 
 import docker
+from app.docker.scanner import DockerScanner
 
 
 class DockerService:
@@ -25,6 +26,54 @@ class DockerService:
             self.client = None
 
             self.connected = False
+
+    # ----------------------------------
+    # Security Findings
+    # ----------------------------------
+
+    def security_findings(self):
+
+        if not self.connected:
+
+            return []
+
+        findings = []
+
+        for container in self.containers():
+
+            if container.attrs["HostConfig"].get("Privileged"):
+
+                findings.append({
+
+                    "severity": "Critical",
+
+                    "container": container.name,
+
+                    "title": "Privileged Container",
+
+                    "description": "Container runs with privileged mode.",
+
+                    "recommendation": "Disable privileged mode."
+
+                })
+
+            if container.attrs["Config"].get("User") in ("", "root"):
+
+                findings.append({
+
+                    "severity": "High",
+
+                    "container": container.name,
+
+                    "title": "Running as Root",
+
+                    "description": "Container executes as root user.",
+
+                    "recommendation": "Use a non-root user."
+
+                })
+
+        return findings       
 
     # ----------------------------------
     # Connection Status

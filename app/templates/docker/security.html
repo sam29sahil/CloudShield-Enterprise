@@ -1,0 +1,453 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Docker Security
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ===================================== -->
+    <!-- Hero -->
+    <!-- ===================================== -->
+
+    <div class="card border-0 shadow-lg bg-dark text-white mb-4">
+
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-8">
+
+                    <span class="badge bg-success mb-3">
+
+                        Docker Security Center
+
+                    </span>
+
+                    <h2 class="fw-bold">
+
+                        Container Security Dashboard
+
+                    </h2>
+
+                    <p class="text-light mb-0">
+
+                        CIS Benchmark results, runtime findings,
+                        recommendations and Docker security posture.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-4 text-center">
+
+                    <h1 class="display-2 fw-bold">
+
+                        {{ security.score }}
+
+                    </h1>
+
+                    <span class="badge bg-success fs-5">
+
+                        {{ security.risk }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Security Cards -->
+    <!-- ===================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-3">
+
+            <div class="card border-danger shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-exclamation-octagon-fill text-danger display-5"></i>
+
+                    <h5 class="mt-3">
+
+                        Critical
+
+                    </h5>
+
+                    <h2>
+
+                        {{ benchmark.critical }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card border-warning shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-exclamation-triangle-fill text-warning display-5"></i>
+
+                    <h5 class="mt-3">
+
+                        High
+
+                    </h5>
+
+                    <h2>
+
+                        {{ benchmark.high }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card border-info shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-info-circle-fill text-info display-5"></i>
+
+                    <h5 class="mt-3">
+
+                        Medium
+
+                    </h5>
+
+                    <h2>
+
+                        {{ benchmark.medium }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card border-success shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-check-circle-fill text-success display-5"></i>
+
+                    <h5 class="mt-3">
+
+                        Low
+
+                    </h5>
+
+                    <h2>
+
+                        {{ benchmark.low }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Benchmark -->
+    <!-- ===================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5 class="mb-0">
+
+                CIS Docker Benchmark
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tbody>
+
+                    <tr>
+
+                        <th width="250">
+
+                            Security Score
+
+                        </th>
+
+                        <td>
+
+                            {{ benchmark.score }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Total Findings
+
+                        </th>
+
+                        <td>
+
+                            {{ benchmark.findings|length }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Risk Level
+
+                        </th>
+
+                        <td>
+
+                            {{ security.risk }}
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+        <!-- ===================================== -->
+    <!-- Security Findings -->
+    <!-- ===================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5 class="mb-0">
+
+                Security Findings
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Severity</th>
+
+                        <th>Container</th>
+
+                        <th>Finding</th>
+
+                        <th>Description</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for finding in benchmark.findings %}
+
+                    <tr>
+
+                        <td>
+
+                            {% if finding.severity=="Critical" %}
+
+                                <span class="badge bg-danger">
+
+                                    Critical
+
+                                </span>
+
+                            {% elif finding.severity=="High" %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    High
+
+                                </span>
+
+                            {% elif finding.severity=="Medium" %}
+
+                                <span class="badge bg-info">
+
+                                    Medium
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-success">
+
+                                    Low
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ finding.container }}
+
+                        </td>
+
+                        <td>
+
+                            {{ finding.title }}
+
+                        </td>
+
+                        <td>
+
+                            {{ finding.description }}
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center py-5">
+
+                            <i class="bi bi-shield-check display-4 text-success"></i>
+
+                            <h5 class="mt-3">
+
+                                No Security Findings
+
+                            </h5>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Recommendations -->
+    <!-- ===================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5 class="mb-0">
+
+                Security Recommendations
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if report.recommendations %}
+
+                <ul class="list-group">
+
+                    {% for item in report.recommendations %}
+
+                        <li class="list-group-item">
+
+                            <i class="bi bi-check-circle-fill text-success"></i>
+
+                            {{ item }}
+
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            {% else %}
+
+                <div class="alert alert-success mb-0">
+
+                    No recommendations. Docker configuration looks secure.
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Footer -->
+    <!-- ===================================== -->
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body text-center">
+
+            <small class="text-muted">
+
+                CloudShield Enterprise • Docker Security Center • CIS Docker Benchmark
+
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

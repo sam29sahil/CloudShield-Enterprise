@@ -4,6 +4,8 @@ Docker Business Service
 """
 
 from app.docker.docker_service import DockerService
+from app.docker.images import DockerImages
+from app.docker.benchmark import DockerBenchmark
 
 
 class DockerDashboardService:
@@ -11,6 +13,64 @@ class DockerDashboardService:
     def __init__(self):
 
         self.docker = DockerService()
+        self.images_service = DockerImages()
+        self.benchmark = DockerBenchmark()
+
+    # ----------------------------------
+    # Images Summary
+    # ----------------------------------
+
+    def image_summary(self):
+
+        return self.images_service.summary()
+
+
+    # ----------------------------------
+    # Docker Benchmark
+    # ----------------------------------
+
+    def benchmark(self):
+
+        findings = self.security_summary()
+
+        return {
+
+            "score": findings["score"],
+
+            "risk": findings["risk"],
+
+            "critical": sum(
+                1 for f in self.docker.security_findings()
+                if f["severity"] == "Critical"
+            ),
+
+            "high": sum(
+                1 for f in self.docker.security_findings()
+                if f["severity"] == "High"
+            ),
+
+            "medium": sum(
+                1 for f in self.docker.security_findings()
+                if f["severity"] == "Medium"
+            ),
+
+            "low": sum(
+                1 for f in self.docker.security_findings()
+                if f["severity"] == "Low"
+            ),
+
+            "checks": self.docker.security_findings()
+
+        }
+
+    # ----------------------------------
+    # Security Findings
+    # ----------------------------------
+
+    def findings(self):
+
+        return self.docker.security_findings()   
+      
 
     # ----------------------------------
     # Dashboard Summary
@@ -61,6 +121,76 @@ class DockerDashboardService:
             "volumes": len(volumes)
 
         }
+
+    # ----------------------------------
+    # Security Summary
+    # ----------------------------------
+
+    def security_summary(self):
+
+        if not self.docker.is_running():
+
+            return {
+
+                "score": 0,
+
+                "risk": "Unknown",
+
+                "findings": 0
+
+            }
+
+        findings = self.docker.security_findings()
+
+        critical = sum(
+
+            1
+
+            for finding in findings
+
+            if finding["severity"] == "Critical"
+
+        )
+
+        high = sum(
+
+            1
+
+            for finding in findings
+
+            if finding["severity"] == "High"
+
+        )
+
+        score = max(
+
+            100 - critical * 20 - high * 10,
+
+            0
+
+        )
+
+        return {
+
+            "score": score,
+
+            "risk": (
+
+                "Critical"
+
+                if critical
+
+                else "High"
+
+                if high
+
+                else "Low"
+
+            ),
+
+            "findings": len(findings)
+
+        }    
 
     # ----------------------------------
     # Docker Information
@@ -183,3 +313,47 @@ class DockerDashboardService:
     def remove(self, container_id):
 
         return self.docker.remove(container_id)
+
+    # ----------------------------------
+    # Dashboard
+    # ----------------------------------
+
+    def dashboard(self):
+
+        return {
+
+            "summary": self.summary(),
+
+            "information": self.information(),
+
+            "security": self.security_summary()
+
+        }    
+
+    # ----------------------------------
+    # Health
+    # ----------------------------------
+
+    def health(self):
+
+        return {
+
+            "docker_running": self.docker.is_running(),
+
+            "containers": len(
+
+                self.docker.running_containers()
+
+                or []
+
+            ),
+
+            "images": len(
+
+                self.docker.images()
+
+                or []
+
+            )
+
+        }   

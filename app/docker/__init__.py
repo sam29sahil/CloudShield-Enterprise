@@ -1,20 +1,14 @@
 """
 CloudShield Enterprise
-Docker Blueprint
+Docker Module
 """
 
 from flask import Blueprint
 
 docker = Blueprint(
-
     "docker",
-
     __name__,
-
-    url_prefix="/docker",
-
-    template_folder="../templates/docker"
-
+    url_prefix="/docker"
 )
 
 from app.docker import routes
