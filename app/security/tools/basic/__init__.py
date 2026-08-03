@@ -13,12 +13,21 @@ from .technology import TechnologyScanner
 
 
 def get_all_tools():
+
     return {
+
         "website": WebsiteScanner(),
+
         "headers": HeaderScanner(),
+
         "ssl": SSLScanner(),
+
         "dns": DNSScanner(),
+
         "whois": WhoisScanner(),
+
         "ports": PortScanner(),
-        "technology": TechnologyScanner(),
+
+        "technology": TechnologyScanner()
+
     }

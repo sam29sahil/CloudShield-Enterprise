@@ -3,37 +3,42 @@ CloudShield Enterprise
 DNS Scanner
 """
 
-import dns.resolver
-
-from app.scanner.constants import DNS_RECORDS
+import socket
 
 
-def dns_scan(hostname):
-    """
-    Collect common DNS records.
-    """
+class DNSScanner:
 
-    results = {}
+    def __init__(self):
 
-    for record in DNS_RECORDS:
+        self.name = "DNS Scanner"
 
-        try:
+    def scan(self, domain):
 
-            answers = dns.resolver.resolve(
-                hostname,
-                record
-            )
+        return dns_scan(domain)
 
-            results[record] = [
 
-                answer.to_text()
+def dns_scan(domain):
 
-                for answer in answers
+    try:
 
-            ]
+        ip = socket.gethostbyname(domain)
 
-        except Exception:
+        return {
 
-            results[record] = []
+            "success": True,
 
-    return results
+            "domain": domain,
+
+            "ip": ip
+
+        }
+
+    except Exception as e:
+
+        return {
+
+            "success": False,
+
+            "error": str(e)
+
+        }

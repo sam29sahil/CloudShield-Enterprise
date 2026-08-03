@@ -1,4 +1,4 @@
-{% extends "dashboard_base.html" %}
+{% extends "docker/base.html" %}
 
 {% block title %}
 Docker Security
@@ -686,7 +686,7 @@ Docker Security
 
                 <tbody>
 
-                {% for container in service.containers() %}
+                {% for container in containers %}
 
                     <tr>
 

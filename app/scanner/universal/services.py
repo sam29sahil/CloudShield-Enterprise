@@ -144,7 +144,7 @@ class ScanService:
             print(f"FINDINGS CREATED : {findings}")
             print("=" * 60)
 
-                except Exception as e:
+        except Exception as e:
 
             tracker.failed(e)
 

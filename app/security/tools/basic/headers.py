@@ -1,109 +1,150 @@
 """
 CloudShield Enterprise
-Security Header Analyzer
+HTTP Security Header Scanner
 """
 
-from app.scanner.constants import (
-    SECURITY_HEADERS,
-    OWASP_REFERENCE
+import requests
+
+from app.security.constants import (
+    HTTP_TIMEOUT,
+    USER_AGENT
 )
 
 
-def header_scan(response_headers):
+class HeaderScanner:
     """
-    Analyze HTTP security headers.
+    HTTP Header Scanner
     """
 
-    found = []
-    missing = []
-    analysis = []
+    def __init__(self):
 
-    total_headers = len(SECURITY_HEADERS)
+        self.name = "Header Scanner"
 
-    for header, info in SECURITY_HEADERS.items():
+    def scan(self, target):
 
-        # Accept Report-Only CSP
-        if (
-            header == "Content-Security-Policy"
-            and "Content-Security-Policy-Report-Only" in response_headers
-        ):
+        return scan_headers(target)
 
-            found.append(header)
 
-            analysis.append({
+def scan_headers(url):
 
-                "header": header,
+    try:
 
-                "status": "Report Only",
+        response = requests.get(
 
-                "severity": info["severity"],
+            url,
 
-                "description": info["description"],
+            timeout=HTTP_TIMEOUT,
 
-                "recommendation":
-                    "Enable full Content-Security-Policy.",
+            headers={
 
-                "reference": OWASP_REFERENCE
+                "User-Agent": USER_AGENT
 
-            })
+            }
 
-            continue
+        )
 
-        if header in response_headers:
+        headers = response.headers
 
-            found.append(header)
+        security_headers = {
 
-            analysis.append({
+            "Content-Security-Policy": headers.get("Content-Security-Policy"),
 
-                "header": header,
+            "Strict-Transport-Security": headers.get("Strict-Transport-Security"),
 
-                "status": "Present",
+            "X-Frame-Options": headers.get("X-Frame-Options"),
 
-                "severity": "Info",
+            "X-Content-Type-Options": headers.get("X-Content-Type-Options"),
 
-                "description": info["description"],
+            "Referrer-Policy": headers.get("Referrer-Policy"),
 
-                "recommendation": "No action required.",
+            "Permissions-Policy": headers.get("Permissions-Policy")
 
-                "reference": OWASP_REFERENCE
+        }
 
-            })
+        missing = [
 
-        else:
+            key
 
-            missing.append(header)
+            for key, value in security_headers.items()
 
-            analysis.append({
+            if value is None
 
-                "header": header,
+        ]
 
-                "status": "Missing",
+        return {
 
-                "severity": info["severity"],
+            "success": True,
 
-                "description": info["description"],
+            "headers": security_headers,
 
-                "recommendation":
-                    f"Configure {header}.",
+            "missing": missing,
 
-                "reference": OWASP_REFERENCE
+            "score": max(
 
-            })
+                100 - len(missing) * 15,
 
-    score = round(
+                0
 
-        (len(found) / total_headers) * 100
+            )
 
-    )
+        }
 
-    return {
+    except Exception as e:
 
-        "found": found,
+        return {
 
-        "missing": missing,
+            "success": False,
 
-        "analysis": analysis,
+            "error": str(e)
 
-        "score": score
+        }
 
-    }
+    # ----------------------------------
+    # Compatibility
+#     ----------------------------------
+
+    def header_scan(response_headers):
+
+        found = []
+
+        missing = []
+
+        security_headers = [
+
+            "Content-Security-Policy",
+
+            "Strict-Transport-Security",
+    
+            "X-Frame-Options",
+
+            "X-Content-Type-Options",
+
+            "Referrer-Policy",
+
+            "Permissions-Policy"
+
+        ]
+
+        for header in security_headers:
+
+            if header in response_headers:
+
+                found.append(header)
+
+            else:
+
+                missing.append(header)
+
+        return {
+
+            "success": True,
+
+            "headers": dict(response_headers),
+
+            "found": found,
+
+            "missing": missing,
+
+            "score": max(100 - len(missing) * 15, 0)
+
+        }   

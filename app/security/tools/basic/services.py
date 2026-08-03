@@ -9,9 +9,10 @@ import json
 from app.extensions import db
 from app.models import SecurityScan, Report
 from app.assets.services import AssetManager
+from app.notifications.services import NotificationService
 
 from app.security.tools.basic.website import website_scan
-from app.security.tools.basic.headers import header_scan
+from app.security.tools.basic.headers import scan_headers
 from app.security.tools.basic.ssl_scanner import get_ssl_info
 from app.security.tools.basic.dns import dns_scan
 from app.security.tools.basic.whois import whois_scan
@@ -19,7 +20,7 @@ from app.security.tools.basic.ports import port_scan
 from app.security.tools.basic.technology import detect_technology
 from app.security.tools.basic.risk import calculate_risk
 
-class BasicScanService:
+class BasicSecurityService:
 
     def execute(
         self,
@@ -31,7 +32,7 @@ class BasicScanService:
         arguments=None
     ):
 
-        print("\n========== BasicScanService Started ==========\n")
+        print("\n========== BasicSecurityService Started ==========\n")
 
         started = datetime.utcnow()
 
@@ -72,11 +73,7 @@ class BasicScanService:
 
         print("Running Header Analysis...")
 
-        report["headers"] = header_scan(
-
-            website["headers"]
-
-        )
+        report["headers"] = scan_headers(target)
 
         # -------------------------------------------------
         # Technology
@@ -280,3 +277,5 @@ class BasicScanService:
             "result": report
 
         }
+
+  

@@ -3,95 +3,165 @@ CloudShield Enterprise
 Docker Security Scanner
 """
 
-from app.docker.docker_service import DockerService
+import docker
 
 
 class DockerScanner:
+    """
+    Docker Security Scanner
+    """
 
     def __init__(self):
 
-        self.docker = DockerService()
+        try:
 
-    def security_findings(self):
+            self.client = docker.from_env()
+
+            self.client.ping()
+
+            self.connected = True
+
+        except Exception:
+
+            self.client = None
+
+            self.connected = False
+
+    # ----------------------------------
+    # Connection
+    # ----------------------------------
+
+    def is_connected(self):
+
+        return self.connected
+
+    # ----------------------------------
+    # Scan Docker Environment
+    # ----------------------------------
+
+    def scan(self):
+
+        if not self.connected:
+
+            return []
 
         findings = []
 
-        if not self.docker.is_running():
+        try:
 
-            return findings
+            containers = self.client.containers.list(all=True)
 
-        containers = self.docker.containers()
+            for container in containers:
 
-        for container in containers:
-
-            attrs = container.attrs
-
-            host = attrs.get("HostConfig", {})
-
-            config = attrs.get("Config", {})
-
-            # Privileged Container
-            if host.get("Privileged"):
-
-                findings.append({
-
-                    "container": container.name,
-
-                    "severity": "Critical",
-
-                    "title": "Privileged Container",
-
-                    "description": "Container is running in privileged mode."
-
-                })
-
-            # Running as Root
-            if config.get("User", "") in ("", "root"):
-
-                findings.append({
-
-                    "container": container.name,
-
-                    "severity": "High",
-
-                    "title": "Running as Root",
-
-                    "description": "Container is running as root."
-
-                })
-
-            # Host Network
-            if host.get("NetworkMode") == "host":
-
-                findings.append({
-
-                    "container": container.name,
-
-                    "severity": "High",
-
-                    "title": "Host Network",
-
-                    "description": "Container shares the host network."
-
-                })
-
-            # Docker Socket Mounted
-            mounts = attrs.get("Mounts", [])
-
-            for mount in mounts:
-
-                if mount.get("Source") == "/var/run/docker.sock":
+                # Privileged Container
+                if container.attrs["HostConfig"].get("Privileged"):
 
                     findings.append({
 
-                        "container": container.name,
+                        "title": "Privileged Container",
 
                         "severity": "Critical",
 
-                        "title": "Docker Socket Mounted",
+                        "container": container.name,
 
-                        "description": "Container can control Docker daemon."
+                        "description": (
+                            "Container is running in privileged mode."
+                        )
 
                     })
 
+                # Host Network
+                if container.attrs["HostConfig"].get("NetworkMode") == "host":
+
+                    findings.append({
+
+                        "title": "Host Network Mode",
+
+                        "severity": "High",
+
+                        "container": container.name,
+
+                        "description": (
+                            "Container shares host network."
+                        )
+
+                    })
+
+                # Running as Root
+                user = container.attrs["Config"].get("User", "")
+
+                if user in ("", "0", "root"):
+
+                    findings.append({
+
+                        "title": "Running as Root",
+
+                        "severity": "Medium",
+
+                        "container": container.name,
+
+                        "description": (
+                            "Container appears to run as root."
+                        )
+
+                    })
+
+        except Exception:
+
+            return []
+
         return findings
+
+    # ----------------------------------
+    # Security Score
+    # ----------------------------------
+
+    def score(self):
+
+        findings = self.scan()
+
+        critical = sum(
+
+            1 for finding in findings
+
+            if finding["severity"] == "Critical"
+
+        )
+
+        high = sum(
+
+            1 for finding in findings
+
+            if finding["severity"] == "High"
+
+        )
+
+        score = max(
+
+            100 - (critical * 20) - (high * 10),
+
+            0
+
+        )
+
+        return {
+
+            "score": score,
+
+            "risk_level": (
+
+                "Critical"
+
+                if critical
+
+                else "High"
+
+                if high
+
+                else "Low"
+
+            ),
+
+            "findings": findings
+
+        }

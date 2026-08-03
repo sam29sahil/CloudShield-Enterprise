@@ -191,19 +191,24 @@ class DockerService:
     # Container By ID
     # ----------------------------------
 
-    def container(self, container_id):
+    def container_details(self, container_id):
 
-        if not self.connected:
+        container = self.client.containers.get(container_id)
 
-            return None
+        return {
 
-        try:
+            "container": container,
 
-            return self.client.containers.get(container_id)
+            "stats": container.stats(stream=False),
 
-        except Exception:
+            "logs": container.logs(
+                tail=200
+            ).decode(
+                "utf-8",
+                errors="ignore"
+            )
 
-            return None
+        }
 
     # ----------------------------------
     # Start Container

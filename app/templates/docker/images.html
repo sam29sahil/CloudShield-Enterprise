@@ -1,4 +1,4 @@
-{% extends "dashboard_base.html" %}
+{% extends "docker/base.html" %}
 
 {% block title %}
 Docker Images
@@ -165,7 +165,7 @@ Docker Images
 
                 <tbody>
 
-                {% for image in summary.images %}
+                {% for image in images %}
                 <tr>
 
                     <td>

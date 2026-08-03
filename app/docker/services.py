@@ -190,7 +190,12 @@ class DockerDashboardService:
 
             "findings": len(findings)
 
-        }    
+        }   
+
+
+    def container_details(self, container_id):
+
+        return self.docker.container_details(container_id)     
 
     # ----------------------------------
     # Docker Information

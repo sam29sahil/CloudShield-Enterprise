@@ -44,7 +44,7 @@ def index():
 
         vulnerabilities=data["top_vulnerabilities"],
 
-        performance=data["performance"]
+        performance=data["performance"],
 
         cloud=data["cloud"]
 

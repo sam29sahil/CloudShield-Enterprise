@@ -1,37 +1,63 @@
-import socket
+"""
+CloudShield Enterprise
+SSL Scanner
+"""
+
 import ssl
-from datetime import datetime
+import socket
 
 
-def get_ssl_info(hostname):
+class SSLScanner:
+
+    def __init__(self):
+        self.name = "SSL Scanner"
+
+    def scan(self, host):
+        return get_ssl_info(host)
+
+
+def get_ssl_info(host):
+
     try:
+
         context = ssl.create_default_context()
 
-        with socket.create_connection((hostname, 443), timeout=5) as sock:
-            with context.wrap_socket(sock, server_hostname=hostname) as ssock:
+        with socket.create_connection((host, 443), timeout=5) as sock:
 
-                cert = ssock.getpeercert()
+            with context.wrap_socket(
+                sock,
+                server_hostname=host
+            ) as secure:
 
-                issuer = dict(x[0] for x in cert["issuer"])
-
-                issued_to = dict(x[0] for x in cert["subject"])
-
-                expires = datetime.strptime(
-                    cert["notAfter"],
-                    "%b %d %H:%M:%S %Y %Z"
-                )
-
-                days_left = (expires - datetime.utcnow()).days
+                cert = secure.getpeercert()
 
                 return {
-                    "issuer": issuer.get("organizationName", "Unknown"),
-                    "issued_to": issued_to.get("commonName", "Unknown"),
-                    "expires": expires.strftime("%d-%m-%Y"),
-                    "days_left": days_left,
-                    "valid": days_left > 0
+
+                    "success": True,
+
+                    "issuer": cert.get("issuer"),
+
+                    "subject": cert.get("subject"),
+
+                    "version": cert.get("version"),
+
+                    "serial": cert.get("serialNumber"),
+
+                    "expires": cert.get("notAfter")
+
                 }
 
     except Exception as e:
+
         return {
+
+            "success": False,
+
             "error": str(e)
+
         }
+
+
+# Backward compatibility
+def scan_ssl(host):
+    return get_ssl_info(host)

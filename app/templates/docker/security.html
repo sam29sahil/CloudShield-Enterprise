@@ -1,4 +1,4 @@
-{% extends "dashboard_base.html" %}
+{% extends "docker/base.html" %}
 
 {% block title %}
 Docker Security
@@ -290,7 +290,7 @@ Docker Security
 
                 <tbody>
 
-                {% for finding in benchmark.findings %}
+                {% for finding in findings %}
 
                     <tr>
 

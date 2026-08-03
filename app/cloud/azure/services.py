@@ -163,33 +163,33 @@ class AzureService:
 
         dashboard = self.security_dashboard()
 
-        summary = {
+        return {
 
-        "connected": True,
+            "connected": True,
 
-        "virtual_machines": len(self.virtual_machines.list()),
+            "virtual_machines": len(self.virtual_machines.list()),
     
-        "storage_accounts": len(self.storage.list()),
+            "storage_accounts": len(self.storage.list()),
 
-        "resource_groups": len(self.resource_groups.list()),
+            "resource_groups": len(self.resource_groups.list()),
 
-        "keyvaults": len(self.keyvault.list()),
+            "keyvaults": len(self.keyvault.list()),
 
-        "virtual_networks": len(self.virtual_networks()),
+            "virtual_networks": len(self.virtual_networks()),
 
-        "network_security_groups": len(self.network_security_groups()),
+            "network_security_groups": len(self.network_security_groups()),
 
-        "public_ips": len(self.public_ips()),
+            "public_ips": len(self.public_ips()),
 
-        "load_balancers": len(self.load_balancers()),
+            "load_balancers": len(self.load_balancers()),
 
-        "secure_score": dashboard["score"],
+            "secure_score": dashboard["score"],
 
-        "risk_level": dashboard["risk_level"]
+            "risk_level": dashboard["risk_level"]
 
-            }
+        }
         
-            return summary
+            
 
 
 

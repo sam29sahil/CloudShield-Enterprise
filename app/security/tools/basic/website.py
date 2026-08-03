@@ -12,6 +12,21 @@ from app.security.constants import (
 )
 
 
+class WebsiteScanner:
+    """
+    Website Scanner
+    """
+
+    def __init__(self):
+        self.name = "Website Scanner"
+
+    def scan(self, target):
+        """
+        Scan a website.
+        """
+        return website_scan(target)
+
+
 def website_scan(url):
     """
     Perform website scan.
@@ -22,17 +37,12 @@ def website_scan(url):
     try:
 
         response = requests.get(
-
             url,
-
             timeout=HTTP_TIMEOUT,
-
             allow_redirects=True,
-
             headers={
                 "User-Agent": USER_AGENT
             }
-
         )
 
         end_time = time.perf_counter()
@@ -54,9 +64,7 @@ def website_scan(url):
                 3
             ),
 
-            "redirects": len(
-                response.history
-            ),
+            "redirects": len(response.history),
 
             "server": response.headers.get(
                 "Server",

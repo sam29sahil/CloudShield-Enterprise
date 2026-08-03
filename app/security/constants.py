@@ -154,9 +154,9 @@ SECURITY_HEADERS = {
 
 }
 
-# ==========================================================
-# TECHNOLOGY DETECTION
-# ==========================================================
+# ==========================================
+# Technology Detection
+# ==========================================
 
 SERVER_SIGNATURES = {
 
@@ -166,38 +166,50 @@ SERVER_SIGNATURES = {
 
     "iis": "Microsoft IIS",
 
-    "cloudflare": "Cloudflare"
+    "cloudflare": "Cloudflare",
+
+    "openresty": "OpenResty",
+
+    "caddy": "Caddy"
 
 }
+
 
 FRAMEWORK_SIGNATURES = {
 
     "php": "PHP",
 
-    "asp.net": "ASP.NET",
-
     "express": "Express.js",
+
+    "asp.net": "ASP.NET",
 
     "django": "Django",
 
-    "flask": "Flask"
+    "flask": "Flask",
+
+    "laravel": "Laravel",
+
+    "wordpress": "WordPress"
 
 }
+
 
 HTML_SIGNATURES = {
 
     "wp-content": "WordPress",
 
-    "drupal": "Drupal",
+    "drupal.settings": "Drupal",
 
-    "joomla": "Joomla",
-
-    "bootstrap": "Bootstrap",
+    "__next": "Next.js",
 
     "react": "React",
 
+    "vue": "Vue.js",
+
     "angular": "Angular",
 
-    "vue": "Vue.js"
+    "bootstrap": "Bootstrap",
+
+    "jquery": "jQuery"
 
 }
