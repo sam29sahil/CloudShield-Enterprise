@@ -20,13 +20,13 @@ class Finding(db.Model):
     project_id = db.Column(
         db.Integer,
         db.ForeignKey("projects.id"),
-        nullable=False
+        nullable=True
     )
 
     asset_id = db.Column(
         db.Integer,
         db.ForeignKey("assets.id"),
-        nullable=False
+        nullable=True
     )
 
     scan_id = db.Column(
