@@ -9,7 +9,7 @@ from flask import jsonify
 from flask_login import login_required
 
 from app.security import security
-from app.security.services import SecurityService
+from app.security.services.security_service import SecurityService
 
 
 # ==========================================================

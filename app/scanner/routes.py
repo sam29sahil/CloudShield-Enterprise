@@ -1,24 +1,37 @@
 """
 CloudShield Enterprise
-Universal Scanner Routes
+Unified Scanner Routes
 """
-from flask import redirect, url_for
 from app.extensions import db
-from flask import render_template, request, jsonify
-from flask_login import login_required, current_user
+from flask import (
+    render_template,
+    request,
+    jsonify,
+    redirect,
+    url_for,
+)
+
+from flask_login import (
+    login_required,
+    current_user,
+)
 
 from app.scanner import scanner
+
 from app.scanner.forms import ScanForm
 from app.scanner.helpers import get_tools
 from app.scanner.validators import validate_target
+
 from app.notifications.services import NotificationService
 
-# Deep Scanner
-from app.scanner.universal.services import ScanService
+from app.security.services import SecurityService
 
-# Quick Scanner
-from app.scanner.basic.services import BasicScanService
+from app.models.finding import Finding
 
+
+# ==========================================================
+# Scanner Dashboard
+# ==========================================================
 
 @scanner.route("/", methods=["GET", "POST"])
 @login_required
@@ -26,26 +39,9 @@ def home():
 
     form = ScanForm()
 
-    deep_service = ScanService()
-    quick_service = BasicScanService()
+    security_service = SecurityService()
+
     notification_service = NotificationService()
-
-    # ----------------------------
-    # Open scanner from an Asset
-    # ----------------------------
-
-    asset_id = request.args.get("asset")
-    if asset_id:
-
-        from app.models.asset import Asset
-
-        asset = Asset.query.get(asset_id)
-
-        if asset:
-
-            form.target.data = asset.target
-            form.asset_id.data = asset.id
-
 
     result = None
 
@@ -53,153 +49,288 @@ def home():
 
     asset_id = None
 
-    findings = 0
-
     dashboard = {
 
         "status": "Waiting",
 
         "score": "--",
 
-        "duration": "0",
+        "duration": 0,
 
         "findings": 0,
 
-        "ports": 0
+        "ports": 0,
 
     }
 
+    # ==========================================================
+    # Statistics
+    # ==========================================================
+
+    from app.models import SecurityScan
+    from app.models.finding import Finding
+
+    total_scans = SecurityScan.query.count()
+
+    completed = SecurityScan.query.filter_by(
+        status="Completed"
+    ).count()
+
+    total_findings = Finding.query.count()
+
+    average_score = db.session.query(
+        db.func.avg(SecurityScan.score)
+    ).scalar()
+
+    if average_score is None:
+        average_score = 0
+
+    success_rate = 0
+
+    if total_scans:
+
+        success_rate = round(
+            (completed / total_scans) * 100,
+        1
+        )
+
+    stats = {
+
+        "total_scans": total_scans,
+
+        "success_rate": success_rate,
+
+        "findings": total_findings,
+
+        "security_score": round(average_score, 1)
+
+    }
+
+    #
+    # Open scanner from Asset
+    #
+
+    asset = request.args.get("asset")
+
+    if asset:
+
+        from app.models.asset import Asset
+
+        db_asset = Asset.query.get(asset)
+
+        if db_asset:
+
+            form.target.data = db_asset.target
+
+            form.asset_id.data = db_asset.id
+
+    #
+    # Default selections
+    #
+
     mode = form.mode.data or "quick"
+
     category = form.category.data or "network"
 
-    form.tool.choices = get_tools(category, mode)
+    form.tool.choices = get_tools(
+
+        category,
+
+        mode
+
+    )
+
+    #
+    # Execute Scan
+    #
 
     if request.method == "POST":
 
         asset_id = form.asset_id.data
 
-        mode = request.form.get("mode", "quick")
-        category = request.form.get("category", "network")
+        mode = request.form.get(
 
-        form.tool.choices = get_tools(category, mode)
+            "mode",
 
-        # -------------------------------------------------
-        # QUICK MODE DOES NOT USE TOOL DROPDOWN
-        # -------------------------------------------------
+            "quick"
 
-        if mode == "basic":
+        )
 
-            tool = "quick_scan"
+        category = request.form.get(
 
-        else:
+            "category",
 
-            tool = (form.tool.data or "").strip()
+            "network"
 
-        target = (form.target.data or "").strip()
+        )
 
-        arguments = (form.arguments.data or "").strip()
+        form.tool.choices = get_tools(
+
+            category,
+
+            mode
+
+        )
+
+        tool = (
+
+            form.tool.data or ""
+
+        ).strip()
+
+        if tool == "":
+
+            tool = None
+
+        target = (
+
+            form.target.data or ""
+
+        ).strip()
+
+        arguments = (
+
+            form.arguments.data or ""
+
+        ).strip()
 
         if not validate_target(target):
 
             result = {
+
                 "success": False,
-                "error": "Invalid Target"
+
+                "message": "Invalid Target"
+
             }
 
         else:
 
-            args = arguments.split() if arguments else None
+            args = (
 
-            print("\n" + "=" * 60)
-            print("MODE   :", mode)
-            print("TOOL   :", tool)
-            print("TARGET :", target)
-            print("=" * 60)
+                arguments.split()
+
+                if arguments
+
+                else []
+
+            )
 
             try:
 
-                if mode == "basic":
+                response = security_service.execute(
 
-                    print(">>> USING BASIC SCANNER <<<")
+                    user_id=current_user.id,
 
-                    response = quick_service.execute(
+                    asset_id=asset_id,
 
-                        user_id=current_user.id,
-                        asset_id=asset_id,
-                        category=category,
-                        tool=tool,
-                        target=target,
-                        arguments=args
+                    mode=mode,
 
-                    )
+                    category=category,
 
-                else:
+                    tool=tool,
 
-                    print(">>> USING UNIVERSAL SCANNER <<<")
+                    target=target,
 
-                    response = deep_service.execute(
+                    arguments=args,
 
-                        user_id=current_user.id,
-                        asset_id=asset_id,
-                        category=category,
-                        tool=tool,
-                        target=target,
-                        arguments=args
+                )
 
-                    )
+                scan = response.get("scan")
 
-                result = response["result"]
+                result = response.get("result")
+
+                if result is None:
+
+                    result = {
+
+                        "success": False,
+
+                        "message": "No response"
+
+                    }
 
                 result["mode"] = mode
+
                 result["category"] = category
-                result["tool"] = tool
+
                 result["target"] = target
+
+                result["tool"] = tool
+
                 result["arguments"] = arguments
 
-                if result.get("success") is False:
+                if result.get("success"):
 
-                    result["message"] = result.get(
-                        "error",
-                        "Failed"
-                    )
+                    result["message"] = "Completed"
 
                 else:
 
-                    result["message"] = "Completed"
-                # ------------------------------------
-                # Dashboard Data
-                # ------------------------------------
+                    result["message"] = result.get(
 
-                scan = response["scan"]
+                        "error",
 
-                from app.models.finding import Finding
+                        "Failed"
 
-                findings = Finding.query.filter_by(
-                scan_id=scan.id
-                ).count()
+                    )
+
+                findings = 0
+
+                if scan:
+
+                    findings = Finding.query.filter_by(
+
+                        scan_id=scan.id
+
+                    ).count()
 
                 ports = 0
 
-                if isinstance(result.get("ports"), list):
+                if isinstance(
 
-                    ports = len(result["ports"])
+                    result.get("ports"),
+
+                    list
+
+                ):
+
+                    ports = len(
+
+                        result["ports"]
+
+                    )
 
                 dashboard = {
 
-                "status": result["message"],
+                    "status": result["message"],
 
-                "score": scan.score,
+                    "score": (
 
-                "duration": round(scan.duration, 2),
+                        scan.score
 
-                "findings": findings,
+                        if scan
 
-                "ports": ports
+                        else "--"
 
-            }
+                    ),
+
+                    "duration": (
+
+                        round(scan.duration, 2)
+
+                        if scan
+
+                        else 0
+
+                    ),
+
+                    "findings": findings,
+
+                    "ports": ports,
+
+                }
+
             except Exception as e:
-
-                print(e)
 
                 notification_service.create(
 
@@ -209,7 +340,7 @@ def home():
 
                     message=str(e),
 
-                    severity="High"
+                    severity="High",
 
                 )
 
@@ -217,9 +348,9 @@ def home():
 
                     "success": False,
 
-                    "error": str(e),
+                    "message": str(e),
 
-                    "message": str(e)
+                    "error": str(e),
 
                 }
 
@@ -233,22 +364,33 @@ def home():
 
         dashboard=dashboard,
 
+        stats=stats,
+
         asset_id=asset_id,
 
-        scan=scan
+        scan=scan,
 
     )
 
+# ==========================================================
+# Tool Loader
+# ==========================================================
 
 @scanner.route("/tools/<mode>/<category>")
 @login_required
 def tools(mode, category):
+    """
+    Return available tools for the selected category/mode.
+    """
 
     return jsonify(
-
         get_tools(category, mode)
-
     )
+
+
+# ==========================================================
+# Scan History
+# ==========================================================
 
 @scanner.route("/history")
 @login_required
@@ -256,14 +398,91 @@ def history():
 
     from app.models import SecurityScan
 
-    scans = SecurityScan.query.order_by(
-        SecurityScan.started_at.desc()
-    ).all()
+    scans = (
+
+        SecurityScan.query
+
+        .order_by(
+
+            SecurityScan.started_at.desc()
+
+        )
+
+        .all()
+
+    )
 
     return render_template(
+
         "scanner/history.html",
+
         scans=scans
+
     )
+
+
+# ==========================================================
+# Recent Scan API
+# ==========================================================
+
+@scanner.route("/api/recent")
+@login_required
+def recent_scans():
+
+    from app.models import SecurityScan
+
+    scans = (
+
+        SecurityScan.query
+
+        .order_by(
+
+            SecurityScan.started_at.desc()
+
+        )
+
+        .limit(10)
+
+        .all()
+
+    )
+
+    return jsonify([
+
+        {
+
+            "id": scan.id,
+
+            "target": scan.target,
+
+            "category": scan.category,
+
+            "tool": scan.tool,
+
+            "status": scan.status,
+
+            "score": scan.score,
+
+            "risk": scan.risk,
+
+            "started_at": (
+
+                scan.started_at.isoformat()
+
+                if scan.started_at
+
+                else None
+
+            )
+
+        }
+
+        for scan in scans
+
+    ])   
+# ==========================================================
+# Scan Details
+# ==========================================================
 
 @scanner.route("/details/<int:scan_id>")
 @login_required
@@ -287,40 +506,68 @@ def details(scan_id):
         findings=scan.findings
 
     )
+
+
+# ==========================================================
+# Delete Scan
+# ==========================================================
+
 @scanner.route("/delete/<int:scan_id>")
 @login_required
 def delete_scan(scan_id):
 
-    from app.extensions import db
     from app.models import SecurityScan
     from app.models.finding import Finding
     from app.models.report import Report
+    from app.extensions import db
 
     scan = SecurityScan.query.get_or_404(scan_id)
 
+    #
     # Delete Findings
+    #
+
     Finding.query.filter_by(
+
         scan_id=scan.id
+
     ).delete()
 
+    #
     # Delete Reports
+    #
+
     Report.query.filter_by(
+
         scan_id=scan.id
+
     ).delete()
+
+    #
+    # Delete Scan
+    #
 
     db.session.delete(scan)
 
     db.session.commit()
 
     return redirect(
-        url_for("scanner.history")
-    )
+
+        url_for(
+
+            "scanner.history"
+
+        )
+
+    )   
+# ==========================================================
+# Live Progress
+# ==========================================================
 
 @scanner.route("/progress/<int:scan_id>")
 @login_required
 def progress(scan_id):
 
-    from flask import jsonify
     from app.scanner.live import live_manager
 
     progress = live_manager.get(scan_id)
@@ -341,13 +588,17 @@ def progress(scan_id):
 
         "data": progress.to_dict()
 
-    })    
+    })
+
+
+# ==========================================================
+# Scan Status
+# ==========================================================
 
 @scanner.route("/status/<int:scan_id>")
 @login_required
 def status(scan_id):
 
-    from flask import jsonify
     from app.scanner.live import live_manager
 
     progress = live_manager.get(scan_id)
@@ -365,12 +616,15 @@ def status(scan_id):
         "status": progress.status.value
 
     })
-    
+
+
+# ==========================================================
+# Live Scanner
+# ==========================================================
+
 @scanner.route("/live/<int:scan_id>")
 @login_required
 def live(scan_id):
-
-    from flask import render_template
 
     return render_template(
 
@@ -378,4 +632,4 @@ def live(scan_id):
 
         scan_id=scan_id
 
-    )
+    )   
