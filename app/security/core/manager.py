@@ -6,6 +6,7 @@ Enterprise Security Manager
 from time import perf_counter
 import logging
 
+from app.security.tools.common.base import BaseTool
 from app.security.core.normalizer import ResultParser
 
 from app.security.core.registry import (
@@ -135,79 +136,78 @@ class SecurityManager:
     def _execute(self, scanner, target, arguments=None):
 
         if arguments is None:
-
             arguments = []
 
         #
-        # New API
+        # Preferred API
         #
 
-        if hasattr(scanner, "run"):
-
-            return scanner.run(
-
-                target,
-
-                arguments
-
-            )
-
-        #
-        # Existing APIs
-        #
-
-        if hasattr(scanner, "scan"):
-
+        if (
+            hasattr(scanner, "scan")
+            and callable(scanner.scan)
+            and scanner.__class__.scan is not BaseTool.run
+        ):
             return scanner.scan(
-
                 target=target,
-
                 arguments=arguments
-
             )
 
-        if hasattr(scanner, "execute"):
+        #
+        # Legacy execute()
+        #
 
+        if (
+            hasattr(scanner, "execute")
+            and callable(scanner.execute)
+        ):
             return scanner.execute(
-
                 target,
-
                 arguments
-
             )
 
-        if hasattr(scanner, "check"):
+        #
+        # Legacy check()
+        #
 
+        if (
+            hasattr(scanner, "check")
+            and callable(scanner.check)
+        ):
             return scanner.check(
-
                 target,
-
                 arguments
-
             )
 
-        if hasattr(scanner, "analyze"):
+        #
+        # Legacy analyze()
+        #
 
+        if (
+            hasattr(scanner, "analyze")
+            and callable(scanner.analyze)
+        ):
             return scanner.analyze(
-
                 target,
-
                 arguments
+            )
 
+        #
+        # Enterprise run()
+        #
+
+        if (
+            hasattr(scanner, "run")
+            and callable(scanner.run)
+            and scanner.__class__.run is not BaseTool.run
+        ):
+            return scanner.run(
+                target,
+                arguments
             )
 
         raise RuntimeError(
-
-            f"{scanner.__class__.__name__} "
-
-            "does not expose "
-
-            "run(), scan(), execute(), "
-
-            "check() or analyze()."
-
+            f"{scanner.__class__.__name__} exposes no execution method."
         )
-
     # =====================================================
     # Execute One Tool
     # =====================================================

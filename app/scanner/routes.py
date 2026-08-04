@@ -128,7 +128,7 @@ def home():
     # Default selections
     #
 
-    mode = form.mode.data or "quick"
+    mode = form.mode.data or "basic"
 
     category = form.category.data or "network"
 
@@ -146,13 +146,17 @@ def home():
 
     if request.method == "POST":
 
+        print("=" * 60)
+        print(request.form)
+        print("=" * 60)
+
         asset_id = form.asset_id.data
 
         mode = request.form.get(
 
             "mode",
 
-            "quick"
+            "basic"
 
         )
 
@@ -218,6 +222,15 @@ def home():
 
             try:
 
+                print("=" * 60)
+                print("POST RECEIVED")
+                print("MODE      :", mode)
+                print("CATEGORY  :", category)
+                print("TOOL      :", tool)
+                print("TARGET    :", target)
+                print("ARGS      :", args)
+                print("=" * 60)
+
                 response = security_service.execute(
 
                     user_id=current_user.id,
@@ -232,9 +245,12 @@ def home():
 
                     target=target,
 
-                    arguments=args,
-
+                    arguments=args
                 )
+                print("=" * 60)
+                print("SERVICE RESPONSE"),
+                print(response),
+                print("=" * 60),
 
                 scan = response.get("scan")
 
@@ -353,6 +369,8 @@ def home():
                     "error": str(e),
 
                 }
+
+                
 
     return render_template(
 

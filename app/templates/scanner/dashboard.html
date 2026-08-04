@@ -1,123 +1,2265 @@
 {% extends "base.html" %}
 
-{% block title %}
+{% block title %}Universal Security Scanner{% endblock %}
 
-Scanner Dashboard
-
-{% endblock %}
-
-{% block page_title %}
-
-Enterprise Scanner
-
-{% endblock %}
+{% block page_title %}Universal Security Scanner{% endblock %}
 
 {% block page_subtitle %}
-
-Professional Security Assessment Platform
-
+Enterprise Vulnerability Assessment Platform
 {% endblock %}
 
 {% block content %}
 
-<div class="container-fluid scanner-dashboard">
+<div class="container-fluid scanner-workspace py-4">
 
-    <!-- Hero -->
-    {% include "scanner/components/hero.html" %}
+    <!-- ========================================================= -->
+    <!-- HERO -->
+    <!-- ========================================================= -->
 
-    <!-- Statistics -->
-    {% include "scanner/components/stats.html" %}
+    <section class="scanner-hero mb-5">
 
-    <!-- Scanner Selection -->
-    {% include "scanner/components/scanner_panel.html" %}
+        <div class="hero-card position-relative overflow-hidden">
 
-    <!-- Live Scan -->
-    {% include "scanner/components/live_panel.html" %}
+            <!-- Animated Background -->
+            <div class="hero-grid"></div>
+            <div class="hero-glow hero-glow-1"></div>
+            <div class="hero-glow hero-glow-2"></div>
 
-    <div class="row mt-4">
+            <div class="row align-items-center">
 
-        <div class="col-lg-8">
+                <!-- LEFT -->
+                <div class="col-lg-7">
 
-            <!-- Recent Findings -->
-            {% include "scanner/components/findings.html" %}
+                    <span class="hero-badge">
+
+                        <i class="fas fa-shield-alt me-2"></i>
+
+                        CloudShield Enterprise
+
+                    </span>
+
+                    <h1 class="hero-title mt-4">
+
+                        Universal Security Scanner
+
+                    </h1>
+
+                    <p class="hero-description">
+
+                        Enterprise-grade vulnerability assessment platform
+                        supporting Web, Network, DNS, SSL/TLS, Wireless,
+                        Cloud Security and intelligent scan automation.
+
+                    </p>
+
+                    <!-- Categories -->
+
+                    <div class="hero-tags mt-4">
+
+                        <span class="hero-tag">
+                            <i class="fas fa-globe"></i>
+                            Web
+                        </span>
+
+                        <span class="hero-tag">
+                            <i class="fas fa-network-wired"></i>
+                            Network
+                        </span>
+
+                        <span class="hero-tag">
+                            <i class="fas fa-server"></i>
+                            DNS
+                        </span>
+
+                        <span class="hero-tag">
+                            <i class="fas fa-lock"></i>
+                            SSL
+                        </span>
+
+                        <span class="hero-tag">
+                            <i class="fas fa-wifi"></i>
+                            Wireless
+                        </span>
+
+                        <span class="hero-tag">
+                            <i class="fas fa-cloud"></i>
+                            Azure
+                        </span>
+
+                    </div>
+
+                    <!-- Quick Actions -->
+
+                    <div class="mt-5 d-flex flex-wrap gap-3">
+
+                        <button
+                            class="btn btn-primary btn-lg px-4"
+                            id="startScanHero">
+
+                            <i class="fas fa-play me-2"></i>
+
+                            Start Enterprise Scan
+
+                        </button>
+
+                        <a
+                            href="{{ url_for('scanner.history') }}"
+                            class="btn btn-outline-light btn-lg px-4">
+
+                            <i class="fas fa-history me-2"></i>
+
+                            Scan History
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT -->
+
+                <div class="col-lg-5">
+
+                    <div class="hero-visual">
+
+                        <div class="shield-circle">
+
+                            <i class="fas fa-shield-virus"></i>
+
+                        </div>
+
+                        <div class="status-panel">
+
+                            <div class="status-item">
+
+                                <span>Status</span>
+
+                                <strong class="text-success">
+
+                                    Ready
+
+                                </strong>
+
+                            </div>
+
+                            <div class="status-item">
+
+                                <span>Scanner Engine</span>
+
+                                <strong>
+
+                                    Universal Engine
+
+                                </strong>
+
+                            </div>
+
+                            <div class="status-item">
+
+                                <span>Profiles</span>
+
+                                <strong>
+
+                                    Quick / Standard / Deep / Enterprise
+
+                                </strong>
+
+                            </div>
+
+                            <div class="status-item">
+
+                                <span>Tools Loaded</span>
+
+                                <strong>
+
+                                    {{ stats.total_tools|default(40) }}
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
-        <div class="col-lg-4">
+    </section>
 
-            <!-- Recommendations -->
-            {% include "scanner/components/recommendations.html" %}
+    <!-- ========================================================= -->
+<!-- ENTERPRISE KPI CARDS -->
+<!-- ========================================================= -->
+
+<section class="scanner-kpis mb-5">
+
+    <div class="row g-4">
+
+        <!-- Security Score -->
+
+        <div class="col-xl-2 col-lg-4 col-md-6">
+
+            <div class="kpi-card score-card">
+
+                <div class="kpi-icon">
+
+                    <i class="fas fa-shield-alt"></i>
+
+                </div>
+
+                <div class="kpi-content">
+
+                    <span class="kpi-label">
+
+                        Security Score
+
+                    </span>
+
+                    <h2 class="kpi-value">
+
+                        {{ dashboard.score|default(87) }}
+
+                    </h2>
+
+                    <small class="kpi-trend text-success">
+
+                        <i class="fas fa-arrow-up"></i>
+
+                        Excellent
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Risk -->
+
+        <div class="col-xl-2 col-lg-4 col-md-6">
+
+            <div class="kpi-card risk-card">
+
+                <div class="kpi-icon">
+
+                    <i class="fas fa-triangle-exclamation"></i>
+
+                </div>
+
+                <div class="kpi-content">
+
+                    <span class="kpi-label">
+
+                        Risk Level
+
+                    </span>
+
+                    <h2 class="kpi-value">
+
+                        {{ dashboard.risk_level|default("Low") }}
+
+                    </h2>
+
+                    <small class="text-warning">
+
+                        Current Exposure
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Running -->
+
+        <div class="col-xl-2 col-lg-4 col-md-6">
+
+            <div class="kpi-card running-card">
+
+                <div class="kpi-icon">
+
+                    <i class="fas fa-play-circle"></i>
+
+                </div>
+
+                <div class="kpi-content">
+
+                    <span class="kpi-label">
+
+                        Running
+
+                    </span>
+
+                    <h2 class="kpi-value">
+
+                        {{ dashboard.running_scans|default(0) }}
+
+                    </h2>
+
+                    <small>
+
+                        Active Scans
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Findings -->
+
+        <div class="col-xl-2 col-lg-4 col-md-6">
+
+            <div class="kpi-card finding-card">
+
+                <div class="kpi-icon">
+
+                    <i class="fas fa-bug"></i>
+
+                </div>
+
+                <div class="kpi-content">
+
+                    <span class="kpi-label">
+
+                        Findings
+
+                    </span>
+
+                    <h2 class="kpi-value">
+
+                        {{ dashboard.findings|default(0) }}
+
+                    </h2>
+
+                    <small class="text-danger">
+
+                        Open Issues
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Assets -->
+
+        <div class="col-xl-2 col-lg-4 col-md-6">
+
+            <div class="kpi-card asset-card">
+
+                <div class="kpi-icon">
+
+                    <i class="fas fa-server"></i>
+
+                </div>
+
+                <div class="kpi-content">
+
+                    <span class="kpi-label">
+
+                        Assets
+
+                    </span>
+
+                    <h2 class="kpi-value">
+
+                        {{ dashboard.assets|default(0) }}
+
+                    </h2>
+
+                    <small>
+
+                        Managed Targets
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Reports -->
+
+        <div class="col-xl-2 col-lg-4 col-md-6">
+
+            <div class="kpi-card report-card">
+
+                <div class="kpi-icon">
+
+                    <i class="fas fa-file-alt"></i>
+
+                </div>
+
+                <div class="kpi-content">
+
+                    <span class="kpi-label">
+
+                        Reports
+
+                    </span>
+
+                    <h2 class="kpi-value">
+
+                        {{ dashboard.reports|default(0) }}
+
+                    </h2>
+
+                    <small>
+
+                        Generated Reports
+
+                    </small>
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
-    <!-- Recent Activity -->
-    {% include "scanner/components/activity.html" %}
+</section>
+
+
+<!-- ========================================================= -->
+<!-- SCAN CONFIGURATION -->
+<!-- ========================================================= -->
+
+<div class="workspace-card">
+
+    <div class="workspace-header">
+
+        <div>
+
+            <h4>
+
+                <i class="fas fa-radar me-2 text-primary"></i>
+
+                Scan Configuration
+
+            </h4>
+
+            <p>
+
+                Configure your enterprise security assessment.
+
+            </p>
+
+        </div>
+
+        <span class="badge bg-success">
+
+            Ready
+
+        </span>
+
+    </div>
+
+    <div class="workspace-body">
+
+        <form
+            method="POST"
+            id="scanForm"
+            novalidate>
+
+            {{ form.hidden_tag() }}
+
+            <!-- ====================================== -->
+            <!-- TARGET -->
+            <!-- ====================================== -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    Target
+
+                </label>
+
+                {{ form.target(
+
+                    class="form-control form-control-lg",
+
+                    placeholder="https://example.com"
+
+                ) }}
+
+            </div>
+
+            <!-- ====================================== -->
+            <!-- PROFILE -->
+            <!-- ====================================== -->
+
+            <label class="form-label">
+
+                Scan Profile
+
+            </label>
+
+            <div class="profile-grid mb-4">
+
+                <div class="profile-card active"
+                     data-profile="basic">
+
+                    <i class="fas fa-bolt"></i>
+
+                    <h6>Quick</h6>
+
+                    <small>Fast Assessment</small>
+
+                </div>
+
+                <div class="profile-card"
+                     data-profile="standard">
+
+                    <i class="fas fa-shield-alt"></i>
+
+                    <h6>Standard</h6>
+
+                    <small>Balanced</small>
+
+                </div>
+
+                <div class="profile-card"
+                     data-profile="deep">
+
+                    <i class="fas fa-search"></i>
+
+                    <h6>Deep</h6>
+
+                    <small>Comprehensive</small>
+
+                </div>
+
+                <div class="profile-card"
+                     data-profile="enterprise">
+
+                    <i class="fas fa-building"></i>
+
+                    <h6>Enterprise</h6>
+
+                    <small>Maximum Coverage</small>
+
+                </div>
+
+            </div>
+
+            <!-- Hidden Profile -->
+
+            {{ form.mode(id="mode", style="display:none;") }}
+
+            <!-- ====================================== -->
+            <!-- CATEGORY -->
+            <!-- ====================================== -->
+
+            <label class="form-label">
+
+                Scan Category
+
+            </label>
+
+            <div class="category-grid mb-4">
+
+                <div class="category-card active"
+                     data-category="web">
+
+                    <i class="fas fa-globe"></i>
+
+                    <span>Web</span>
+
+                </div>
+
+                <div class="category-card"
+                     data-category="network">
+
+                    <i class="fas fa-network-wired"></i>
+
+                    <span>Network</span>
+
+                </div>
+
+                <div class="category-card"
+                     data-category="dns">
+
+                    <i class="fas fa-server"></i>
+
+                    <span>DNS</span>
+
+                </div>
+
+                <div class="category-card"
+                     data-category="ssl">
+
+                    <i class="fas fa-lock"></i>
+
+                    <span>SSL/TLS</span>
+
+                </div>
+
+                <div class="category-card"
+                     data-category="wireless">
+
+                    <i class="fas fa-wifi"></i>
+
+                    <span>Wireless</span>
+
+                </div>
+
+                <div class="category-card"
+                     data-category="cloud">
+
+                    <i class="fas fa-cloud"></i>
+
+                    <span>Azure</span>
+
+                </div>
+
+            </div>
+
+            <input
+                type="hidden"
+                id="category"
+                name="category"
+                value="web">
+
+            <!-- ====================================== -->
+            <!-- TOOL -->
+            <!-- ====================================== -->
+
+            <div class="row">
+
+                <div class="col-lg-6 mb-4">
+
+                    <label class="form-label">
+
+                        Tool (Optional)
+
+                    </label>
+
+                    {{ form.tool(
+
+                        class="form-select"
+
+                    ) }}
+
+                </div>
+
+                <div class="col-lg-6 mb-4">
+
+                    <label class="form-label">
+
+                        Arguments
+
+                    </label>
+
+                    {{ form.arguments(
+
+                        class="form-control",
+
+                        placeholder="-T4"
+
+                    ) }}
+
+                </div>
+
+            </div>
+
+            <!-- ====================================== -->
+            <!-- BUTTONS -->
+            <!-- ====================================== -->
+
+            <div class="d-flex flex-wrap gap-3 mt-4">
+
+                <button
+                    class="btn btn-primary btn-lg px-5"
+                    type="submit">
+
+                    <i class="fas fa-play me-2"></i>
+
+                    Start Enterprise Scan
+
+                </button>
+
+                <button
+                    class="btn btn-outline-light btn-lg"
+                    type="reset">
+
+                    Reset
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+    <!-- ========================================================= -->
+<!-- LIVE SCAN MONITOR -->
+<!-- ========================================================= -->
+
+<div class="workspace-card h-100">
+
+    <div class="workspace-header">
+
+        <div>
+
+            <h4>
+
+                <i class="fas fa-satellite-dish me-2 text-info"></i>
+
+                Live Monitor
+
+            </h4>
+
+            <p>
+
+                Real-time scan execution status
+
+            </p>
+
+        </div>
+
+        <span
+            id="scanStatusBadge"
+            class="badge bg-secondary">
+
+            Idle
+
+        </span>
+
+    </div>
+
+    <div class="workspace-body">
+
+        <!-- Progress Circle -->
+
+        <div class="text-center mb-4">
+
+            <div class="progress-ring">
+
+                <div class="progress-value"
+                     id="progressPercent">
+
+                    0%
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Progress Bar -->
+
+        <div class="mb-4">
+
+            <div class="progress scanner-progress">
+
+                <div
+                    id="scanProgressBar"
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    role="progressbar"
+                    style="width:0%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Current Tool -->
+
+        <div class="monitor-item">
+
+            <span>
+
+                Current Tool
+
+            </span>
+
+            <strong id="currentTool">
+
+                Waiting...
+
+            </strong>
+
+        </div>
+
+        <!-- Status -->
+
+        <div class="monitor-item">
+
+            <span>
+
+                Status
+
+            </span>
+
+            <strong id="currentStatus">
+
+                Ready
+
+            </strong>
+
+        </div>
+
+        <!-- Elapsed -->
+
+        <div class="monitor-item">
+
+            <span>
+
+                Elapsed
+
+            </span>
+
+            <strong id="elapsedTime">
+
+                00:00
+
+            </strong>
+
+        </div>
+
+        <!-- ETA -->
+
+        <div class="monitor-item">
+
+            <span>
+
+                Remaining
+
+            </span>
+
+            <strong id="remainingTime">
+
+                --:--
+
+            </strong>
+
+        </div>
+
+        <!-- CPU -->
+
+        <div class="monitor-item">
+
+            <span>
+
+                CPU Usage
+
+            </span>
+
+            <strong id="cpuUsage">
+
+                --
+
+            </strong>
+
+        </div>
+
+        <!-- Memory -->
+
+        <div class="monitor-item">
+
+            <span>
+
+                Memory
+
+            </span>
+
+            <strong id="memoryUsage">
+
+                --
+
+            </strong>
+
+        </div>
+
+        <hr>
+
+        <h6 class="mb-3">
+
+            Live Activity
+
+        </h6>
+
+        <div
+            id="activityFeed"
+            class="activity-feed">
+
+            <div class="activity-item">
+
+                <i class="fas fa-circle text-success"></i>
+
+                Scanner ready.
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
+</div>
+
+<!-- ========================================================= -->
+<!-- TOOL EXECUTION TIMELINE -->
+<!-- ========================================================= -->
+
+<section class="timeline-section mt-4">
+
+    <div class="workspace-card">
+
+        <div class="workspace-header">
+
+            <div>
+
+                <h4>
+
+                    <i class="fas fa-stream me-2 text-primary"></i>
+
+                    Tool Execution Timeline
+
+                </h4>
+
+                <p>
+
+                    Real-time execution status of every security tool.
+
+                </p>
+
+            </div>
+
+            <span class="badge bg-primary">
+
+                Universal Engine
+
+            </span>
+
+        </div>
+
+        <div class="workspace-body">
+
+            <div class="timeline-grid">
+
+                <!-- Website -->
+                <div class="timeline-item completed" id="tool-website">
+
+                    <div class="timeline-icon">
+
+                        <i class="fas fa-globe"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>Website</strong>
+
+                        <small class="d-block text-success">
+
+                            Completed
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <!-- Headers -->
+                <div class="timeline-item completed" id="tool-headers">
+
+                    <div class="timeline-icon">
+
+                        <i class="fas fa-list"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>Headers</strong>
+
+                        <small class="d-block text-success">
+
+                            Completed
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <!-- DNS -->
+                <div class="timeline-item completed" id="tool-dns">
+
+                    <div class="timeline-icon">
+
+                        <i class="fas fa-server"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>DNS</strong>
+
+                        <small class="d-block text-success">
+
+                            Completed
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <!-- SSL -->
+                <div class="timeline-item completed" id="tool-ssl">
+
+                    <div class="timeline-icon">
+
+                        <i class="fas fa-lock"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>SSL/TLS</strong>
+
+                        <small class="d-block text-success">
+
+                            Completed
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <!-- Technology -->
+                <div class="timeline-item completed" id="tool-tech">
+
+                    <div class="timeline-icon">
+
+                        <i class="fas fa-microchip"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>Technology</strong>
+
+                        <small class="d-block text-success">
+
+                            Completed
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <!-- Whois -->
+                <div class="timeline-item completed" id="tool-whois">
+
+                    <div class="timeline-icon">
+
+                        <i class="fas fa-address-card"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>Whois</strong>
+
+                        <small class="d-block text-success">
+
+                            Completed
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <!-- Ports -->
+                <div class="timeline-item completed" id="tool-ports">
+
+                    <div class="timeline-icon">
+
+                        <i class="fas fa-network-wired"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>Port Scan</strong>
+
+                        <small class="d-block text-success">
+
+                            Completed
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <!-- Nmap -->
+                <div class="timeline-item running" id="tool-nmap">
+
+                    <div class="timeline-icon">
+
+                        <i class="fas fa-radar"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>Nmap</strong>
+
+                        <small class="d-block text-info">
+
+                            Running...
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <!-- Nikto -->
+                <div class="timeline-item waiting" id="tool-nikto">
+
+                    <div class="timeline-icon">
+
+                        <i class="fas fa-search"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>Nikto</strong>
+
+                        <small class="d-block text-secondary">
+
+                            Waiting
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <!-- Nuclei -->
+                <div class="timeline-item waiting" id="tool-nuclei">
+
+                    <div class="timeline-icon">
+
+                        <i class="fas fa-bug"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>Nuclei</strong>
+
+                        <small class="d-block text-secondary">
+
+                            Waiting
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <!-- Gobuster -->
+                <div class="timeline-item waiting" id="tool-gobuster">
+
+                    <div class="timeline-icon">
+
+                        <i class="fas fa-folder-open"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>Gobuster</strong>
+
+                        <small class="d-block text-secondary">
+
+                            Waiting
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <!-- SQLMap -->
+                <div class="timeline-item waiting" id="tool-sqlmap">
+
+                    <div class="timeline-icon">
+
+                        <i class="fas fa-database"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>SQLMap</strong>
+
+                        <small class="d-block text-secondary">
+
+                            Waiting
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ========================================================= -->
+<!-- SCAN SUMMARY -->
+<!-- ========================================================= -->
+
+<section class="summary-section mt-4">
+
+    <div class="row g-4">
+
+        <!-- Security Score -->
+
+        <div class="col-xl-4">
+
+            <div class="workspace-card summary-card score-summary h-100">
+
+                <div class="workspace-header">
+
+                    <h4>
+
+                        <i class="fas fa-shield-alt text-primary me-2"></i>
+
+                        Security Score
+
+                    </h4>
+
+                </div>
+
+                <div class="workspace-body text-center">
+
+                    <div class="score-circle">
+
+                        <span id="securityScore">
+
+                            {{ dashboard.score|default(87) }}
+
+                        </span>
+
+                    </div>
+
+                    <h5 class="mt-4">
+
+                        Overall Protection
+
+                    </h5>
+
+                    <p class="text-muted">
+
+                        Calculated from all executed security tools.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Risk Level -->
+
+        <div class="col-xl-4">
+
+            <div class="workspace-card summary-card h-100">
+
+                <div class="workspace-header">
+
+                    <h4>
+
+                        <i class="fas fa-triangle-exclamation text-warning me-2"></i>
+
+                        Risk Assessment
+
+                    </h4>
+
+                </div>
+
+                <div class="workspace-body">
+
+                    <div class="risk-level">
+
+                        <span class="risk-badge risk-medium">
+
+                            {{ dashboard.risk_level|default("Medium") }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="severity-list mt-4">
+
+                        <div class="severity-row">
+
+                            <span>Critical</span>
+
+                            <strong class="text-danger">
+
+                                {{ dashboard.critical|default(0) }}
+
+                            </strong>
+
+                        </div>
+
+                        <div class="severity-row">
+
+                            <span>High</span>
+
+                            <strong class="text-warning">
+
+                                {{ dashboard.high|default(0) }}
+
+                            </strong>
+
+                        </div>
+
+                        <div class="severity-row">
+
+                            <span>Medium</span>
+
+                            <strong class="text-info">
+
+                                {{ dashboard.medium|default(0) }}
+
+                            </strong>
+
+                        </div>
+
+                        <div class="severity-row">
+
+                            <span>Low</span>
+
+                            <strong class="text-success">
+
+                                {{ dashboard.low|default(0) }}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Scan Details -->
+
+        <div class="col-xl-4">
+
+            <div class="workspace-card summary-card h-100">
+
+                <div class="workspace-header">
+
+                    <h4>
+
+                        <i class="fas fa-chart-bar text-success me-2"></i>
+
+                        Scan Statistics
+
+                    </h4>
+
+                </div>
+
+                <div class="workspace-body">
+
+                    <div class="summary-item">
+
+                        <span>Duration</span>
+
+                        <strong>
+
+                            {{ dashboard.duration|default("00:00") }}
+
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-item">
+
+                        <span>Open Ports</span>
+
+                        <strong>
+
+                            {{ dashboard.ports|default(0) }}
+
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-item">
+
+                        <span>Findings</span>
+
+                        <strong>
+
+                            {{ dashboard.findings|default(0) }}
+
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-item">
+
+                        <span>Executed Tools</span>
+
+                        <strong>
+
+                            {{ dashboard.executed_tools|default(0) }}
+
+                        </strong>
+
+                    </div>
+
+                    <div class="summary-item">
+
+                        <span>Target</span>
+
+                        <strong>
+
+                            {{ result.target|default("--") }}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ========================================================= -->
+<!-- FINDINGS CENTER -->
+<!-- ========================================================= -->
+
+<section class="findings-section mt-4">
+
+    <div class="workspace-card">
+
+        <div class="workspace-header">
+
+            <div>
+
+                <h4>
+
+                    <i class="fas fa-bug text-danger me-2"></i>
+
+                    Security Findings
+
+                </h4>
+
+                <p>
+
+                    Vulnerabilities discovered during the latest assessment.
+
+                </p>
+
+            </div>
+
+            <div class="d-flex gap-2">
+
+                <span class="badge bg-danger">
+
+                    {{ dashboard.critical|default(0) }} Critical
+
+                </span>
+
+                <span class="badge bg-warning text-dark">
+
+                    {{ dashboard.high|default(0) }} High
+
+                </span>
+
+                <span class="badge bg-info">
+
+                    {{ dashboard.medium|default(0) }} Medium
+
+                </span>
+
+                <span class="badge bg-success">
+
+                    {{ dashboard.low|default(0) }} Low
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="workspace-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-dark table-hover findings-table align-middle mb-0">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Severity</th>
+                            <th>Tool</th>
+                            <th>Category</th>
+                            <th>Finding</th>
+                            <th>CVSS</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% if findings %}
+
+                            {% for finding in findings %}
+
+                            <tr>
+
+                                <td>
+
+                                    <span class="severity-badge severity-{{ finding.severity|lower }}">
+
+                                        {{ finding.severity }}
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    {{ finding.tool }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ finding.category }}
+
+                                </td>
+
+                                <td>
+
+                                    <strong>
+
+                                        {{ finding.title }}
+
+                                    </strong>
+
+                                    <br>
+
+                                    <small class="text-muted">
+
+                                        {{ finding.description }}
+
+                                    </small>
+
+                                </td>
+
+                                <td>
+
+                                    {{ finding.cvss|default("--") }}
+
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-secondary">
+
+                                        {{ finding.status|default("Open") }}
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <button
+                                        class="btn btn-sm btn-outline-primary">
+
+                                        <i class="fas fa-eye"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="7">
+
+                                <div class="text-center py-5">
+
+                                    <i class="fas fa-shield-check fa-3x text-success mb-3"></i>
+
+                                    <h5>
+
+                                        No Findings Yet
+
+                                    </h5>
+
+                                    <p class="text-muted">
+
+                                        Run an assessment to generate security findings.
+
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endif %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ========================================================= -->
+<!-- RAW TOOL OUTPUT -->
+<!-- ========================================================= -->
+
+<section class="raw-output-section mt-4">
+
+    <div class="workspace-card">
+
+        <div class="workspace-header">
+
+            <div>
+
+                <h4>
+
+                    <i class="fas fa-terminal text-success me-2"></i>
+
+                    Raw Tool Output
+
+                </h4>
+
+                <p>
+
+                    View original output generated by every security tool.
+
+                </p>
+
+            </div>
+
+            <span class="badge bg-dark">
+
+                Developer Mode
+
+            </span>
+
+        </div>
+
+        <div class="workspace-body">
+
+            <div class="accordion"
+                 id="toolOutputAccordion">
+
+                <!-- Website -->
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+
+                        <button
+                            class="accordion-button"
+
+                            type="button"
+
+                            data-bs-toggle="collapse"
+
+                            data-bs-target="#websiteOutput">
+
+                            🌐 Website Scanner
+
+                        </button>
+
+                    </h2>
+
+                    <div
+                        id="websiteOutput"
+
+                        class="accordion-collapse collapse show"
+
+                        data-bs-parent="#toolOutputAccordion">
+
+                        <div class="accordion-body">
+
+<pre id="output-website">{{ result.website_output|default("No output available.") }}</pre>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Headers -->
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+
+                        <button
+                            class="accordion-button collapsed"
+
+                            type="button"
+
+                            data-bs-toggle="collapse"
+
+                            data-bs-target="#headerOutput">
+
+                            📄 HTTP Headers
+
+                        </button>
+
+                    </h2>
+
+                    <div
+                        id="headerOutput"
+
+                        class="accordion-collapse collapse"
+
+                        data-bs-parent="#toolOutputAccordion">
+
+                        <div class="accordion-body">
+
+<pre id="output-headers">{{ result.headers_output|default("No output available.") }}</pre>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Nmap -->
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+
+                        <button
+                            class="accordion-button collapsed"
+
+                            type="button"
+
+                            data-bs-toggle="collapse"
+
+                            data-bs-target="#nmapOutput">
+
+                            🛰 Nmap
+
+                        </button>
+
+                    </h2>
+
+                    <div
+                        id="nmapOutput"
+
+                        class="accordion-collapse collapse"
+
+                        data-bs-parent="#toolOutputAccordion">
+
+                        <div class="accordion-body">
+
+<pre id="output-nmap">{{ result.nmap_output|default("No output available.") }}</pre>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Nikto -->
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+
+                        <button
+                            class="accordion-button collapsed"
+
+                            type="button"
+
+                            data-bs-toggle="collapse"
+
+                            data-bs-target="#niktoOutput">
+
+                            🔍 Nikto
+
+                        </button>
+
+                    </h2>
+
+                    <div
+                        id="niktoOutput"
+
+                        class="accordion-collapse collapse"
+
+                        data-bs-parent="#toolOutputAccordion">
+
+                        <div class="accordion-body">
+
+<pre id="output-nikto">{{ result.nikto_output|default("No output available.") }}</pre>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Nuclei -->
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+
+                        <button
+                            class="accordion-button collapsed"
+
+                            type="button"
+
+                            data-bs-toggle="collapse"
+
+                            data-bs-target="#nucleiOutput">
+
+                            🧬 Nuclei
+
+                        </button>
+
+                    </h2>
+
+                    <div
+                        id="nucleiOutput"
+
+                        class="accordion-collapse collapse"
+
+                        data-bs-parent="#toolOutputAccordion">
+
+                        <div class="accordion-body">
+
+<pre id="output-nuclei">{{ result.nuclei_output|default("No output available.") }}</pre>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- SQLMap -->
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+
+                        <button
+                            class="accordion-button collapsed"
+
+                            type="button"
+
+                            data-bs-toggle="collapse"
+
+                            data-bs-target="#sqlmapOutput">
+
+                            🗄 SQLMap
+
+                        </button>
+
+                    </h2>
+
+                    <div
+                        id="sqlmapOutput"
+
+                        class="accordion-collapse collapse"
+
+                        data-bs-parent="#toolOutputAccordion">
+
+                        <div class="accordion-body">
+
+<pre id="output-sqlmap">{{ result.sqlmap_output|default("No output available.") }}</pre>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ========================================================= -->
+<!-- REPORT CENTER -->
+<!-- ========================================================= -->
+
+<section class="reports-section mt-4">
+
+    <div class="workspace-card">
+
+        <div class="workspace-header">
+
+            <div>
+
+                <h4>
+
+                    <i class="fas fa-file-shield text-primary me-2"></i>
+
+                    Enterprise Reports
+
+                </h4>
+
+                <p>
+
+                    Export professional security reports in multiple formats.
+
+                </p>
+
+            </div>
+
+            <span class="badge bg-primary">
+
+                Reporting Engine
+
+            </span>
+
+        </div>
+
+        <div class="workspace-body">
+
+            <div class="row g-4">
+
+                <!-- Executive Report -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <button
+                        class="report-card w-100"
+                        type="button">
+
+                        <i class="fas fa-file-pdf fa-3x text-danger mb-3"></i>
+
+                        <h5>
+
+                            Executive PDF
+
+                        </h5>
+
+                        <small>
+
+                            Management Summary
+
+                        </small>
+
+                    </button>
+
+                </div>
+
+                <!-- Technical -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <button
+                        class="report-card w-100"
+                        type="button">
+
+                        <i class="fas fa-file-code fa-3x text-primary mb-3"></i>
+
+                        <h5>
+
+                            Technical PDF
+
+                        </h5>
+
+                        <small>
+
+                            Full Scan Details
+
+                        </small>
+
+                    </button>
+
+                </div>
+
+                <!-- JSON -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <button
+                        class="report-card w-100"
+                        type="button">
+
+                        <i class="fas fa-file-code fa-3x text-success mb-3"></i>
+
+                        <h5>
+
+                            JSON
+
+                        </h5>
+
+                        <small>
+
+                            API Export
+
+                        </small>
+
+                    </button>
+
+                </div>
+
+                <!-- CSV -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <button
+                        class="report-card w-100"
+                        type="button">
+
+                        <i class="fas fa-file-csv fa-3x text-warning mb-3"></i>
+
+                        <h5>
+
+                            CSV
+
+                        </h5>
+
+                        <small>
+
+                            Spreadsheet
+
+                        </small>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ========================================================= -->
+<!-- RECENT SCAN HISTORY -->
+<!-- ========================================================= -->
+
+<section class="history-section mt-4 mb-5">
+
+    <div class="workspace-card">
+
+        <div class="workspace-header">
+
+            <div>
+
+                <h4>
+
+                    <i class="fas fa-history text-info me-2"></i>
+
+                    Recent Scan History
+
+                </h4>
+
+                <p>
+
+                    Recently executed enterprise security assessments.
+
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('scanner.history') }}"
+                class="btn btn-outline-light">
+
+                View All
+
+            </a>
+
+        </div>
+
+        <div class="workspace-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-dark align-middle mb-0">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Target</th>
+                            <th>Profile</th>
+                            <th>Risk</th>
+                            <th>Score</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% if recent_scans %}
+
+                            {% for scan in recent_scans %}
+
+                            <tr>
+
+                                <td>{{ scan.id }}</td>
+
+                                <td>{{ scan.target }}</td>
+
+                                <td>{{ scan.mode }}</td>
+
+                                <td>{{ scan.risk }}</td>
+
+                                <td>{{ scan.score }}</td>
+
+                                <td>
+
+                                    <span class="badge bg-success">
+
+                                        {{ scan.status }}
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    {{ scan.started_at.strftime('%d %b %Y') if scan.started_at else "--" }}
+
+                                </td>
+
+                                <td>
+
+                                    <a
+                                        href="{{ url_for('scanner.details', scan_id=scan.id) }}"
+                                        class="btn btn-sm btn-primary">
+
+                                        View
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="8" class="text-center py-5">
+
+                                <i class="fas fa-clock fa-3x text-secondary mb-3"></i>
+
+                                <h5>
+
+                                    No Scan History
+
+                                </h5>
+
+                                <p class="text-muted">
+
+                                    Start your first enterprise scan.
+
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                        {% endif %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
 {% endblock %}
+
 {% block extra_css %}
 
-<link rel="stylesheet"
-      href="{{ url_for('static',
-      filename='css/scanner.css') }}">
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/scanner.css') }}">
 
 {% endblock %}
-
 
 {% block extra_js %}
 
-<script src="{{ url_for('static',
-filename='js/utils.js') }}"></script>
-
-<script src="{{ url_for('static',
-filename='js/animations.js') }}"></script>
-
-<script src="{{ url_for('static',
-filename='js/dashboard.js') }}"></script>
-
-<script src="{{ url_for('static',
-filename='js/scanner.js') }}"></script>
-
-<script src="{{ url_for('static',
-filename='js/charts.js') }}"></script>
-
-<script>
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    if (window.CloudShield) {
-
-        if (window.CloudShield.Animations) {
-
-            window.CloudShield.Animations.init();
-
-        }
-
-        if (window.CloudShield.Dashboard) {
-
-            window.CloudShield.Dashboard.init();
-
-        }
-
-        if (window.CloudShield.Scanner) {
-
-            window.CloudShield.Scanner.init();
-
-        }
-
-        if (window.CloudShield.Charts) {
-
-            window.CloudShield.Charts.init();
-
-        }
-
-    }
-
-});
-
-</script>
+<script src="{{ url_for('static', filename='js/scanner.js') }}"></script>
 
 {% endblock %}

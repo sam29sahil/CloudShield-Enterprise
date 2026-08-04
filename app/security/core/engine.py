@@ -67,23 +67,33 @@ class UniversalScannerEngine:
         # Execute
         #
 
-        result = self.manager.execute(
+        try:
 
-            user_id=None,
+            result = self.manager.execute(
 
-            asset_id=None,
+                user_id=None,
 
-            mode=mode,
+                asset_id=None,
 
-            category=category,
+                mode=mode,
 
-            tool=tool,
+                category=category,
 
-            target=target,
+                tool=tool,
 
-            arguments=arguments
+                target=target,
 
-        )
+                arguments=arguments
+
+            )
+
+        except Exception:
+
+            import traceback
+
+            traceback.print_exc()
+
+            raise
 
         #
         # Multiple tool execution
