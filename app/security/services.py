@@ -1,143 +1,222 @@
 """
 CloudShield Enterprise
-Security Services
+Security Service
 """
 
-from app.security.core.engine import UniversalScannerEngine
+from app.models import SecurityScan
+from app.models.finding import Finding
+from app.models.report import Report
+from app.notifications.models import Notification
 
-# Basic Scanner
-from app.security.tools.basic.services import BasicSecurityService
+from app.security.core.engine import UniversalScannerEngine
 
 
 class SecurityService:
     """
-    Central Security Service.
+    Enterprise Security Service
 
-    Acts as the single entry point for all
-    security operations inside CloudShield.
+    Acts as the bridge between:
 
-    Scanner -> SecurityService -> Security Tools
+        Scanner
+            ↓
+        Security Engine
+            ↓
+        Database
     """
 
     def __init__(self):
 
-        # Enterprise Scanner Engine
         self.engine = UniversalScannerEngine()
 
-        # Basic Scanner
-        self.basic = BasicSecurityService()
-
     # =====================================================
-    # Basic Scanner
+    # Scanner
     # =====================================================
 
-    def run_basic_scan(
+    def execute(
         self,
-        user_id=None,
-        asset_id=None,
-        category="basic",
-        tool="quick_scan",
-        target=None,
-        arguments=None,
-    ):
-        """
-        Execute the Basic Scanner.
-        """
-
-        return self.basic.execute(
-            user_id=user_id,
-            asset_id=asset_id,
-            category=category,
-            tool=tool,
-            target=target,
-            arguments=arguments,
-        )
-
-    # =====================================================
-    # Universal Scanner
-    # =====================================================
-
-    def run_universal_scan(
-        self,
-        user_id=None,
-        asset_id=None,
-        category=None,
-        tool=None,
-        target=None,
-        arguments=None,
-    ):
-        """
-        Execute a Universal Scanner tool.
-        """
-
-        return self.engine.execute(
-            user_id=user_id,
-            asset_id=asset_id,
-            category=category,
-            tool=tool,
-            target=target,
-            arguments=arguments,
-        )
-
-    # =====================================================
-    # Legacy Compatibility
-    # =====================================================
-
-    def scan(
-        self,
+        user_id,
+        asset_id,
+        mode,
+        category,
+        tool,
         target,
-        tool=None,
-        profile=None,
-        arguments=None,
+        arguments=None
     ):
-        """
-        Legacy API.
 
-        Keeps old routes working while the
-        project is migrated.
-        """
+        if arguments is None:
 
-        if profile:
+            arguments = []
+
+        if mode == "basic":
 
             return self.engine.scan_profile(
+
                 target=target,
-                profile=profile,
+
+                profile="quick",
+
+                arguments=arguments
+
             )
 
-        if tool:
+        return self.engine.scan(
 
-            return self.engine.scan(
-                target=target,
-                tool=tool,
-                arguments=arguments,
-            )
+            target=target,
+
+            tool=tool,
+
+            arguments=arguments
+
+        )
+
+    # =====================================================
+    # Dashboard
+    # =====================================================
+
+    def dashboard(self):
+
+        scans = SecurityScan.query.count()
+
+        findings = Finding.query.count()
+
+        reports = Report.query.count()
+
+        critical = Finding.query.filter_by(
+
+            severity="Critical"
+
+        ).count()
+
+        high = Finding.query.filter_by(
+
+            severity="High"
+
+        ).count()
+
+        medium = Finding.query.filter_by(
+
+            severity="Medium"
+
+        ).count()
+
+        low = Finding.query.filter_by(
+
+            severity="Low"
+
+        ).count()
+
+        latest = SecurityScan.query.order_by(
+
+            SecurityScan.started_at.desc()
+
+        ).first()
+
+        score = 100
+
+        if latest:
+
+            score = latest.score
 
         return {
-            "success": False,
-            "error": "No tool or profile selected.",
+
+            "score": score,
+
+            "risk_level": (
+
+                latest.risk
+
+                if latest
+
+                else "Unknown"
+
+            ),
+
+            "total_scans": scans,
+
+            "findings": findings,
+
+            "reports": reports,
+
+            "critical": critical,
+
+            "high": high,
+
+            "medium": medium,
+
+            "low": low
+
         }
 
     # =====================================================
-    # Tool Management
+    # Findings
     # =====================================================
 
-    def available_tools(self):
-        """
-        Return all installed tools.
-        """
+    def findings(self):
 
-        return self.engine.manager.tools()
+        return Finding.query.order_by(
 
-    def tool_exists(self, tool):
-        """
-        Check whether a tool exists.
-        """
+            Finding.created_at.desc()
 
-        return self.engine.manager.installed(tool)
+        ).all()
 
-    def categories(self):
-        """
-        Return tool categories.
-        """
+    # =====================================================
+    # Reports
+    # =====================================================
 
-        return self.engine.manager.categories()
+    def reports(self):
+
+        return Report.query.order_by(
+
+            Report.created_at.desc()
+
+        ).all()
+
+    # =====================================================
+    # Threats
+    # =====================================================
+
+    def threats(self):
+
+        return Finding.query.filter(
+
+            Finding.severity.in_(
+
+                [
+
+                    "Critical",
+
+                    "High"
+
+                ]
+
+            )
+
+        ).all()
+
+    # =====================================================
+    # Statistics
+    # =====================================================
+
+    def statistics(self):
+
+        dashboard = self.dashboard()
+
+        return {
+
+            "dashboard": dashboard,
+
+            "notifications": Notification.query.count()
+
+        }
+
+    # =====================================================
+    # Metadata
+    # =====================================================
+
+    def available_categories(self):
+
+        return self.engine.categories()
+
+    def available_tools(self, category):
+
+        return self.engine.tools(category)

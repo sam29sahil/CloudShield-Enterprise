@@ -3,7 +3,10 @@ CloudShield Enterprise
 Quick Scan Engine
 """
 
-from app.scanner.basic.services import BasicScanService
+"""
+CloudShield Enterprise
+Universal Scanner Package
+"""
 
 __all__ = [
     "BasicScanService"

@@ -49,6 +49,12 @@ def home():
 
     result = None
 
+    scan = None
+
+    asset_id = None
+
+    findings = 0
+
     dashboard = {
 
         "status": "Waiting",
@@ -219,7 +225,7 @@ def home():
 
     return render_template(
 
-        "scanner/scan.html",
+        "scanner/dashboard.html",
 
         form=form,
 
@@ -227,7 +233,9 @@ def home():
 
         dashboard=dashboard,
 
-        asset_id=asset_id
+        asset_id=asset_id,
+
+        scan=scan
 
     )
 

@@ -3,7 +3,10 @@ CloudShield Enterprise
 Universal Scanner
 """
 
-from app.scanner.universal.services import ScanService
+"""
+CloudShield Enterprise
+Universal Scanner Package
+"""
 
 __all__ = [
     "ScanService"

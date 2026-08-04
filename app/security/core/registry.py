@@ -27,13 +27,25 @@ def load_registry():
 
     registry = {}
 
-    registry.update(basic_tools())
-    registry.update(network_tools())
-    registry.update(web_tools())
-    registry.update(ssl_tools())
-    registry.update(dns_tools())
-    registry.update(cloud_tools())
-    registry.update(wireless_tools())
+    for loader in (
+
+        basic_tools,
+
+        network_tools,
+
+        web_tools,
+
+        ssl_tools,
+
+        dns_tools,
+
+        cloud_tools,
+
+        wireless_tools,
+
+    ):
+
+        registry.update(loader())
 
     return registry
 
@@ -42,40 +54,102 @@ def load_registry():
 # Categories
 # ==========================================================
 
-CATEGORIES = {
-    "basic": list(basic_tools().keys()),
-    "network": list(network_tools().keys()),
-    "web": list(web_tools().keys()),
-    "ssl": list(ssl_tools().keys()),
-    "dns": list(dns_tools().keys()),
-    "cloud": list(cloud_tools().keys()),
-    "wireless": list(wireless_tools().keys()),
+CATEGORY_LOADERS = {
+
+    "basic": basic_tools,
+
+    "network": network_tools,
+
+    "web": web_tools,
+
+    "ssl": ssl_tools,
+
+    "dns": dns_tools,
+
+    "cloud": cloud_tools,
+
+    "wireless": wireless_tools,
+
 }
 
 
 def get_categories():
     """
-    Return all registered categories.
+    Return available categories.
     """
 
-    return CATEGORIES
+    return sorted(CATEGORY_LOADERS.keys())
 
-
-# ==========================================================
-# Helper Functions
-# ==========================================================
 
 def get_tools(category):
     """
-    Return all tools for a category.
+    Return tools for a category.
     """
 
-    return CATEGORIES.get(category.lower(), [])
+    loader = CATEGORY_LOADERS.get(category.lower())
+
+    if loader is None:
+
+        return {}
+
+    return loader()
+
+
+def get_tool_names(category):
+    """
+    Return tool names for UI dropdowns.
+    """
+
+    return sorted(
+
+        get_tools(category).keys()
+
+    )
 
 
 def tool_exists(tool):
     """
-    Check if a tool is registered.
+    Check if tool exists.
     """
 
     return tool.lower() in load_registry()
+
+
+def get_tool(tool):
+    """
+    Return tool instance.
+    """
+
+    return load_registry().get(
+
+        tool.lower()
+
+    )
+
+
+def registry_summary():
+    """
+    Enterprise dashboard summary.
+    """
+
+    registry = load_registry()
+
+    summary = {
+
+        "categories": {},
+
+        "total_categories": len(CATEGORY_LOADERS),
+
+        "total_tools": len(registry)
+
+    }
+
+    for category in CATEGORY_LOADERS:
+
+        summary["categories"][category] = len(
+
+            get_tools(category)
+
+        )
+
+    return summary

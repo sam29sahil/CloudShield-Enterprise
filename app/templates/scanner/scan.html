@@ -63,7 +63,7 @@ Running
 
 <strong id="scanTarget">
 
-{{ scan.target|default("--") }}
+     {{ scan.target if scan else "--" }}
 
 </strong>
 

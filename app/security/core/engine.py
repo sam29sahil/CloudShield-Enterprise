@@ -23,35 +23,55 @@ class UniversalScannerEngine:
     # Single Tool Scan
     # ==========================================================
 
-    def scan(self, target, tool, arguments=None):
+    def scan(
+        self,
+        target,
+        tool,
+        arguments=None
+    ):
         """
-        Validate target and execute a single tool.
+        Execute a single security tool.
         """
 
         valid, target_type = TargetValidator.validate(target)
 
         if not valid:
+
             return {
+
                 "success": False,
+
                 "error": target_type
+
             }
 
-        result = self.manager.run_tool(
+        result = self.manager.execute(
+
+            user_id=None,
+
+            asset_id=None,
+
+            mode="universal",
+
+            category="custom",
+
             tool=tool,
+
             target=target,
-            arguments=arguments
+
+            arguments=arguments or []
+
         )
 
         result["target"] = target
         result["target_type"] = target_type
-        result["tool"] = tool
 
         return result
 
     # ==========================================================
     # Profile Scan
     # ==========================================================
-
+    
     def scan_profile(
         self,
         target,
@@ -59,12 +79,13 @@ class UniversalScannerEngine:
         arguments=None
     ):
         """
-        Execute all tools registered in a scan profile.
+        Execute every tool inside a profile.
         """
 
         valid, target_type = TargetValidator.validate(target)
 
         if not valid:
+
             return {
                 "success": False,
                 "error": target_type
@@ -73,13 +94,14 @@ class UniversalScannerEngine:
         tools = SCAN_PROFILES.get(profile)
 
         if not tools:
+
             return {
                 "success": False,
-                "error": "Unknown scan profile."
+                "error": "Unknown profile."
             }
 
-        findings = []
         results = []
+        findings = []
 
         for tool in tools:
 
@@ -91,22 +113,17 @@ class UniversalScannerEngine:
 
             results.append(result)
 
-            severity = "Info"
-
-            if not result.get("success"):
-                severity = "Low"
-
             findings.append(
                 FindingsEngine.create(
                     tool=tool,
                     category=profile,
                     target=target,
-                    severity=severity,
-                    title=f"{tool} scan completed",
+                    severity="Info" if result.get("success") else "Low",
+                    title=f"{tool} completed",
                     description=(
-                        result.get("error")
-                        if not result.get("success")
-                        else f"{tool} scan completed successfully."
+                        "Execution completed successfully."
+                        if result.get("success")
+                        else result.get("error")
                     ),
                     raw=result
                 )
@@ -121,23 +138,29 @@ class UniversalScannerEngine:
             "target_type": target_type,
             "results": results,
             "findings": findings,
-            "risk": risk
+            "risk": risk,
+            "summary": {
+                "tools": len(tools),
+                "successful": sum(
+                    1 for r in results if r.get("success")
+                ),
+                "failed": sum(
+                    1 for r in results if not r.get("success")
+                )
+            }
         }
-
     # ==========================================================
     # Metadata
     # ==========================================================
 
     def available_tools(self):
-        """
-        Return all available tools.
-        """
 
         return self.manager.tools()
 
     def categories(self):
-        """
-        Return tool categories.
-        """
 
-        return self.manager.categories()
+        return self.manager.get_categories()
+
+    def tools(self, category):
+
+        return self.manager.get_tools(category)

@@ -11,13 +11,13 @@ from app.security.core.registry import load_registry, get_categories
 
 class SecurityManager:
     """
-    Central Security Manager.
+    Central Security Manager
 
-    Responsibilities:
-    - Load registered security tools
-    - Execute security tools
-    - Normalize results
-    - Provide tool metadata
+    Responsible for:
+    - Loading tool registry
+    - Executing tools
+    - Returning categories/tools
+    - Normalizing results
     """
 
     def __init__(self):
@@ -27,73 +27,115 @@ class SecurityManager:
 
         self.reload_tools()
 
-    # ==========================================================
+    # =====================================================
     # Registry
-    # ==========================================================
+    # =====================================================
 
     def reload_tools(self):
-        """
-        Reload all registered security tools.
-        """
 
         self.registry = load_registry()
 
-    def tools(self):
-        """
-        Return all registered tools.
-        """
-
-        return sorted(self.registry.keys())
-
-    def categories(self):
-        """
-        Return available tool categories.
-        """
+    def get_categories(self):
 
         return get_categories()
 
-    # ==========================================================
-    # Tool Lookup
-    # ==========================================================
+    def get_tools(
+        self,
+        category=None,
+        mode="universal"
+    ):
+
+        tools = []
+
+        for name, tool in self.registry.items():
+
+            if category is None:
+
+                tools.append(name)
+
+                continue
+
+            tool_category = getattr(
+                tool,
+                "category",
+                None
+            )
+
+            if tool_category == category:
+
+                tools.append(name)
+
+        return sorted(tools)
+
+    def tools(self):
+
+        return sorted(self.registry.keys())
 
     def get(self, tool):
-        """
-        Return tool instance.
-        """
 
         if not tool:
+
             return None
 
         return self.registry.get(tool.lower())
 
     def is_registered(self, tool):
-        """
-        Check whether a tool exists in the registry.
-        """
-
-        if not tool:
-            return False
 
         return tool.lower() in self.registry
 
     def installed(self, tool):
-        """
-        Check whether the tool is installed.
-        """
 
         scanner = self.get(tool)
 
         if scanner is None:
+
             return False
 
         if hasattr(scanner, "installed"):
+
             return scanner.installed()
 
         return True
 
-    # ==========================================================
+    # =====================================================
+    # Main Entry
+    # =====================================================
+
+    def execute(
+        self,
+        user_id,
+        asset_id,
+        mode,
+        category,
+        tool,
+        target,
+        arguments=None
+    ):
+        """
+        Main execution entry used by SecurityService.
+        """
+
+        if arguments is None:
+
+            arguments = []
+
+        if mode == "basic":
+
+            tool = "quick_scan"
+
+        return self.run_tool(
+
+            tool=tool,
+
+            target=target,
+
+            arguments=arguments
+
+        )
+
+    # =====================================================
     # Tool Execution
-    # ==========================================================
+    # =====================================================
 
     def run_tool(
         self,
@@ -101,60 +143,72 @@ class SecurityManager:
         target,
         arguments=None
     ):
-        """
-        Execute a registered tool.
-        """
 
         scanner = self.get(tool)
 
         if scanner is None:
 
             return {
+
                 "success": False,
+
                 "tool": tool,
-                "error": f"'{tool}' is not registered."
+
+                "error": f"{tool} is not registered."
+
             }
 
         start = perf_counter()
 
         try:
 
-            raw = scanner.scan(
+            result = scanner.scan(
+
                 target=target,
+
                 arguments=arguments
+
             )
 
         except Exception as e:
 
-            raw = {
+            result = {
+
                 "success": False,
+
                 "tool": tool,
+
                 "target": target,
+
                 "error": str(e)
+
             }
 
-        elapsed = round(perf_counter() - start, 2)
+        elapsed = round(
 
-        print("\n" + "=" * 60)
-        print(f"TOOL EXECUTED : {tool}")
-        print(f"TARGET        : {target}")
-        print(f"TIME          : {elapsed}s")
-        print("=" * 60)
-        print(raw)
-        print("=" * 60 + "\n")
+            perf_counter() - start,
+
+            2
+
+        )
 
         parsed = self.parser.parse(
+
             tool=tool,
+
             target=target,
-            result=raw,
+
+            result=result,
+
             execution_time=elapsed
+
         )
 
         return parsed
 
-    # ==========================================================
-    # Future Extensions
-    # ==========================================================
+    # =====================================================
+    # Future
+    # =====================================================
 
     def run_category(
         self,
@@ -162,14 +216,6 @@ class SecurityManager:
         target,
         arguments=None
     ):
-        """
-        Placeholder for future category execution.
-
-        Example:
-            run_category("web", "example.com")
-
-        This will execute every registered web tool.
-        """
 
         raise NotImplementedError(
             "Category execution is not implemented yet."
