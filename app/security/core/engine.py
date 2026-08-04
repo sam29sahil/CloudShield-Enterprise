@@ -5,14 +5,21 @@ Universal Scanner Engine
 
 from app.security.core.manager import SecurityManager
 from app.security.core.validator import TargetValidator
-from app.security.core.profiles import SCAN_PROFILES
 from app.security.core.findings import FindingsEngine
 from app.security.core.risk_engine import RiskEngine
 
 
 class UniversalScannerEngine:
     """
-    Main orchestration engine for CloudShield Enterprise.
+    Enterprise Scan Orchestrator
+
+    Responsible only for:
+
+        • Validate target
+        • Execute manager
+        • Build findings
+        • Calculate risk
+        • Return response
     """
 
     def __init__(self):
@@ -20,20 +27,31 @@ class UniversalScannerEngine:
         self.manager = SecurityManager()
 
     # ==========================================================
-    # Single Tool Scan
+    # Main Scan
     # ==========================================================
 
     def scan(
         self,
         target,
-        tool,
+        category,
+        mode="quick",
+        tool=None,
         arguments=None
     ):
-        """
-        Execute a single security tool.
-        """
 
-        valid, target_type = TargetValidator.validate(target)
+        if arguments is None:
+
+            arguments = []
+
+        #
+        # Validate Target
+        #
+
+        valid, target_type = TargetValidator.validate(
+
+            target
+
+        )
 
         if not valid:
 
@@ -44,6 +62,10 @@ class UniversalScannerEngine:
                 "error": target_type
 
             }
+
+        #
+        # Execute
+        #
 
         result = self.manager.execute(
 
@@ -51,104 +73,168 @@ class UniversalScannerEngine:
 
             asset_id=None,
 
-            mode="universal",
+            mode=mode,
 
-            category="custom",
+            category=category,
 
             tool=tool,
 
             target=target,
 
-            arguments=arguments or []
+            arguments=arguments
 
         )
 
-        result["target"] = target
-        result["target_type"] = target_type
+        #
+        # Multiple tool execution
+        #
 
-        return result
+        if isinstance(result, list):
 
-    # ==========================================================
-    # Profile Scan
-    # ==========================================================
-    
-    def scan_profile(
-        self,
-        target,
-        profile,
-        arguments=None
-    ):
-        """
-        Execute every tool inside a profile.
-        """
+            results = result
 
-        valid, target_type = TargetValidator.validate(target)
+        else:
 
-        if not valid:
+            results = [
 
-            return {
-                "success": False,
-                "error": target_type
-            }
+                result
 
-        tools = SCAN_PROFILES.get(profile)
+            ]
 
-        if not tools:
-
-            return {
-                "success": False,
-                "error": "Unknown profile."
-            }
-
-        results = []
         findings = []
 
-        for tool in tools:
 
-            result = self.manager.run_tool(
-                tool=tool,
-                target=target,
-                arguments=arguments
-            )
 
-            results.append(result)
+
+
+                # ======================================================
+        # Build Findings
+        # ======================================================
+
+        for item in results:
 
             findings.append(
+
                 FindingsEngine.create(
-                    tool=tool,
-                    category=profile,
-                    target=target,
-                    severity="Info" if result.get("success") else "Low",
-                    title=f"{tool} completed",
-                    description=(
-                        "Execution completed successfully."
-                        if result.get("success")
-                        else result.get("error")
+
+                    tool=item.get(
+
+                        "tool",
+
+                        "unknown"
+
                     ),
-                    raw=result
+
+                    category=category,
+
+                    target=target,
+
+                    severity=(
+
+                        "Info"
+
+                        if item.get("success")
+
+                        else "Low"
+
+                    ),
+
+                    title=(
+
+                        f"{item.get('tool','Tool')} "
+
+                        "completed"
+
+                    ),
+
+                    description=(
+
+                        "Execution completed successfully."
+
+                        if item.get("success")
+
+                        else item.get(
+
+                            "error",
+
+                            "Execution failed."
+
+                        )
+
+                    ),
+
+                    raw=item
+
                 )
+
             )
 
-        risk = RiskEngine.calculate(findings)
+        # ======================================================
+        # Calculate Risk
+        # ======================================================
+
+        risk = RiskEngine.calculate(
+
+            findings
+
+        )
+
+        # ======================================================
+        # Summary
+        # ======================================================
+
+        summary = {
+
+            "total_tools": len(results),
+
+            "successful": sum(
+
+                1
+
+                for r in results
+
+                if r.get("success")
+
+            ),
+
+            "failed": sum(
+
+                1
+
+                for r in results
+
+                if not r.get("success")
+
+            )
+
+        }
+
+        # ======================================================
+        # Final Response
+        # ======================================================
 
         return {
+
             "success": True,
-            "profile": profile,
+
+            "mode": mode,
+
+            "category": category,
+
             "target": target,
+
             "target_type": target_type,
+
             "results": results,
+
             "findings": findings,
+
             "risk": risk,
-            "summary": {
-                "tools": len(tools),
-                "successful": sum(
-                    1 for r in results if r.get("success")
-                ),
-                "failed": sum(
-                    1 for r in results if not r.get("success")
-                )
-            }
+
+            "summary": summary
+
         }
+
     # ==========================================================
     # Metadata
     # ==========================================================
@@ -164,3 +250,39 @@ class UniversalScannerEngine:
     def tools(self, category):
 
         return self.manager.get_tools(category)
+
+    # ==========================================================
+    # Information
+    # ==========================================================
+
+    def info(self):
+
+        return {
+
+            "engine": "UniversalScannerEngine",
+
+            "version": "2.0",
+
+            "categories": self.categories(),
+
+            "tools": len(
+
+                self.available_tools()
+
+            )
+
+        }
+
+    # ==========================================================
+    # Debug
+    # ==========================================================
+
+    def __repr__(self):
+
+        return (
+
+            "<UniversalScannerEngine "
+
+            f"tools={len(self.available_tools())}>"
+
+        )
