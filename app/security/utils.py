@@ -70,6 +70,7 @@ def normalize_target(target):
 
     target = target.strip()
 
+<<<<<<< HEAD
     target = target.replace("https://", "")
 
     target = target.replace("http://", "")
@@ -77,3 +78,18 @@ def normalize_target(target):
     target = target.strip("/")
 
     return target
+=======
+    target = target.replace(
+        "https://",
+        ""
+    )
+
+    target = target.replace(
+        "http://",
+        ""
+    )
+
+    target = target.strip("/")
+
+    return target
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

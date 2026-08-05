@@ -20,4 +20,14 @@ class WhatWebParser:
 
                 technologies.append(item)
 
+<<<<<<< HEAD
         return {"count": len(technologies), "technologies": technologies}
+=======
+        return {
+
+            "count": len(technologies),
+
+            "technologies": technologies
+
+        }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

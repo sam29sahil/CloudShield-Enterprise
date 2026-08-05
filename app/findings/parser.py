@@ -45,6 +45,7 @@ class FindingParser:
                 continue
 
             FindingEngine.create(
+<<<<<<< HEAD
                 scan=scan,
                 title=rule["title"],
                 severity=rule["severity"],
@@ -53,6 +54,25 @@ class FindingParser:
                 category=rule["category"],
                 cvss=rule["cvss"],
                 evidence=item["header"],
+=======
+
+                scan=scan,
+
+                title=rule["title"],
+
+                severity=rule["severity"],
+
+                description=rule["description"],
+
+                recommendation=rule["recommendation"],
+
+                category=rule["category"],
+
+                cvss=rule["cvss"],
+
+                evidence=item["header"]
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
             )
 
             findings += 1
@@ -74,6 +94,7 @@ class FindingParser:
                 continue
 
             FindingEngine.create(
+<<<<<<< HEAD
                 scan=scan,
                 title=rule["title"],
                 severity=rule["severity"],
@@ -82,11 +103,34 @@ class FindingParser:
                 category="Network",
                 cvss=rule["cvss"],
                 evidence=str(port),
+=======
+
+                scan=scan,
+
+                title=rule["title"],
+
+                severity=rule["severity"],
+
+                description=f"{port['service']} service is exposed.",
+
+                recommendation=rule["recommendation"],
+
+                category="Network",
+
+                cvss=rule["cvss"],
+
+                evidence=str(port)
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
             )
 
             findings += 1
 
+<<<<<<< HEAD
             # =====================================================
+=======
+                # =====================================================
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         # SSL FINDINGS
         # =====================================================
 
@@ -101,6 +145,7 @@ class FindingParser:
                 rule = SSL_RULES["invalid"]
 
                 FindingEngine.create(
+<<<<<<< HEAD
                     scan=scan,
                     title=rule["title"],
                     severity=rule["severity"],
@@ -109,6 +154,25 @@ class FindingParser:
                     category="SSL",
                     cvss=rule["cvss"],
                     evidence=str(ssl),
+=======
+
+                    scan=scan,
+
+                    title=rule["title"],
+
+                    severity=rule["severity"],
+
+                    description="SSL certificate validation failed.",
+
+                    recommendation=rule["recommendation"],
+
+                    category="SSL",
+
+                    cvss=rule["cvss"],
+
+                    evidence=str(ssl)
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
                 )
 
                 findings += 1
@@ -120,6 +184,7 @@ class FindingParser:
                 rule = SSL_RULES["expired"]
 
                 FindingEngine.create(
+<<<<<<< HEAD
                     scan=scan,
                     title=rule["title"],
                     severity=rule["severity"],
@@ -128,6 +193,25 @@ class FindingParser:
                     category="SSL",
                     cvss=rule["cvss"],
                     evidence=str(ssl),
+=======
+
+                    scan=scan,
+
+                    title=rule["title"],
+
+                    severity=rule["severity"],
+
+                    description="SSL certificate has expired.",
+
+                    recommendation=rule["recommendation"],
+
+                    category="SSL",
+
+                    cvss=rule["cvss"],
+
+                    evidence=str(ssl)
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
                 )
 
                 findings += 1
@@ -139,6 +223,7 @@ class FindingParser:
                 rule = SSL_RULES["expiring"]
 
                 FindingEngine.create(
+<<<<<<< HEAD
                     scan=scan,
                     title=rule["title"],
                     severity=rule["severity"],
@@ -147,6 +232,25 @@ class FindingParser:
                     category="SSL",
                     cvss=rule["cvss"],
                     evidence=str(ssl),
+=======
+
+                    scan=scan,
+
+                    title=rule["title"],
+
+                    severity=rule["severity"],
+
+                    description=f"Certificate expires in {ssl.get('days_left')} days.",
+
+                    recommendation=rule["recommendation"],
+
+                    category="SSL",
+
+                    cvss=rule["cvss"],
+
+                    evidence=str(ssl)
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
                 )
 
                 findings += 1
@@ -177,6 +281,7 @@ class FindingParser:
                 continue
 
             FindingEngine.create(
+<<<<<<< HEAD
                 scan=scan,
                 title=rule["title"],
                 severity=rule["severity"],
@@ -190,6 +295,30 @@ class FindingParser:
             findings += 1
 
             # =====================================================
+=======
+
+                scan=scan,
+
+                title=rule["title"],
+
+                severity=rule["severity"],
+
+                description=rule["description"],
+
+                recommendation=rule["recommendation"],
+
+                category="Technology",
+
+                cvss=rule["cvss"],
+
+                evidence=name
+
+            )
+
+            findings += 1    
+
+                # =====================================================
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         # DNS FINDINGS
         # =====================================================
 
@@ -208,6 +337,7 @@ class FindingParser:
                 if value in (None, "", [], False):
 
                     FindingEngine.create(
+<<<<<<< HEAD
                         scan=scan,
                         title=rule["title"],
                         severity=rule["severity"],
@@ -216,6 +346,25 @@ class FindingParser:
                         category="DNS",
                         cvss=rule["cvss"],
                         evidence=f"{key}: {value}",
+=======
+
+                        scan=scan,
+
+                        title=rule["title"],
+
+                        severity=rule["severity"],
+
+                        description=rule["description"],
+
+                        recommendation=rule["recommendation"],
+
+                        category="DNS",
+
+                        cvss=rule["cvss"],
+
+                        evidence=f"{key}: {value}"
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
                     )
 
                     findings += 1
@@ -235,6 +384,7 @@ class FindingParser:
                 rule = WHOIS_RULES["registrar"]
 
                 FindingEngine.create(
+<<<<<<< HEAD
                     scan=scan,
                     title=rule["title"],
                     severity=rule["severity"],
@@ -243,6 +393,25 @@ class FindingParser:
                     category="WHOIS",
                     cvss=rule["cvss"],
                     evidence="Registrar Missing",
+=======
+
+                    scan=scan,
+
+                    title=rule["title"],
+
+                    severity=rule["severity"],
+
+                    description=rule["description"],
+
+                    recommendation=rule["recommendation"],
+
+                    category="WHOIS",
+
+                    cvss=rule["cvss"],
+
+                    evidence="Registrar Missing"
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
                 )
 
                 findings += 1
@@ -270,6 +439,7 @@ class FindingParser:
                         rule = WHOIS_RULES["expiry"]
 
                         FindingEngine.create(
+<<<<<<< HEAD
                             scan=scan,
                             title=rule["title"],
                             severity=rule["severity"],
@@ -278,15 +448,40 @@ class FindingParser:
                             category="WHOIS",
                             cvss=rule["cvss"],
                             evidence=str(expiry),
+=======
+
+                            scan=scan,
+
+                            title=rule["title"],
+
+                            severity=rule["severity"],
+
+                            description=f"Domain expires in {days} days.",
+
+                            recommendation=rule["recommendation"],
+
+                            category="WHOIS",
+
+                            cvss=rule["cvss"],
+
+                            evidence=str(expiry)
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
                         )
 
                         findings += 1
 
                 except Exception:
 
+<<<<<<< HEAD
                     pass
 
                 # =====================================================
+=======
+                    pass    
+
+                 # =====================================================
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         # CLOUD FINDINGS
         # =====================================================
 
@@ -297,6 +492,7 @@ class FindingParser:
             if cloud.get(key):
 
                 FindingEngine.create(
+<<<<<<< HEAD
                     scan=scan,
                     title=rule["title"],
                     severity=rule["severity"],
@@ -305,11 +501,34 @@ class FindingParser:
                     category=rule["category"],
                     cvss=rule["cvss"],
                     evidence=str(cloud.get(key)),
+=======
+
+                    scan=scan,
+
+                    title=rule["title"],
+
+                    severity=rule["severity"],
+
+                    description=rule["description"],
+
+                    recommendation=rule["recommendation"],
+
+                    category=rule["category"],
+
+                    cvss=rule["cvss"],
+
+                    evidence=str(cloud.get(key))
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
                 )
 
                 findings += 1
 
+<<<<<<< HEAD
             # =====================================================
+=======
+               # =====================================================
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         # THREAT INTELLIGENCE FINDINGS
         # =====================================================
 
@@ -320,6 +539,7 @@ class FindingParser:
             if threat.get(key):
 
                 FindingEngine.create(
+<<<<<<< HEAD
                     scan=scan,
                     title=rule["title"],
                     severity=rule["severity"],
@@ -328,6 +548,25 @@ class FindingParser:
                     category=rule["category"],
                     cvss=rule["cvss"],
                     evidence=str(threat.get(key)),
+=======
+
+                    scan=scan,
+
+                    title=rule["title"],
+
+                    severity=rule["severity"],
+
+                    description=rule["description"],
+
+                    recommendation=rule["recommendation"],
+
+                    category=rule["category"],
+
+                    cvss=rule["cvss"],
+
+                    evidence=str(threat.get(key))
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
                 )
 
                 findings += 1
@@ -340,4 +579,8 @@ class FindingParser:
         if ai:
             pass
 
+<<<<<<< HEAD
         return findings
+=======
+        return findings        
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

@@ -12,6 +12,7 @@ class Evidence(db.Model):
 
     __tablename__ = "evidence"
 
+<<<<<<< HEAD
     id = db.Column(db.Integer, primary_key=True)
 
     finding_id = db.Column(
@@ -27,3 +28,39 @@ class Evidence(db.Model):
     uploaded_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     finding = db.relationship("Finding", back_populates="evidence_files")
+=======
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    finding_id = db.Column(
+        db.Integer,
+        db.ForeignKey("findings.id"),   # <-- FIXED
+        nullable=False
+    )
+
+    filename = db.Column(
+        db.String(255),
+        nullable=False
+    )
+
+    filepath = db.Column(
+        db.String(500),
+        nullable=False
+    )
+
+    filetype = db.Column(
+        db.String(50)
+    )
+
+    uploaded_at = db.Column(
+        db.DateTime,
+        default=datetime.utcnow
+    )
+
+    finding = db.relationship(
+        "Finding",
+        back_populates="evidence_files"
+    )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

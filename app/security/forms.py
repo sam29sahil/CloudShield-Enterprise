@@ -21,6 +21,10 @@ from wtforms.validators import (
     ValidationError,
 )
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 # ==========================================================
 # Constants
 # ==========================================================
@@ -53,7 +57,10 @@ SCAN_SPEEDS = [
 # Shared Validators
 # ==========================================================
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 def validate_target(form, field):
     """
     Validate scan target.
@@ -73,14 +80,23 @@ def validate_target(form, field):
         and not target.startswith("https://")
         and "." not in target
     ):
+<<<<<<< HEAD
         raise ValidationError("Enter a valid domain or URL.")
+=======
+        raise ValidationError(
+            "Enter a valid domain or URL."
+        )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 # ==========================================================
 # Universal Security Scan Form (Legacy / Generic)
 # ==========================================================
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 class SecurityScanForm(FlaskForm):
     """
     Generic Security Scan Form.
@@ -114,9 +130,17 @@ class SecurityScanForm(FlaskForm):
         "Advanced Mode",
         choices=[
             ("", "-- Select Individual Tool --"),
+<<<<<<< HEAD
             ("nmap", "Nmap"),
             ("rustscan", "RustScan"),
             ("masscan", "Masscan"),
+=======
+
+            ("nmap", "Nmap"),
+            ("rustscan", "RustScan"),
+            ("masscan", "Masscan"),
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
             ("whatweb", "WhatWeb"),
             ("nikto", "Nikto"),
             ("nuclei", "Nuclei"),
@@ -124,11 +148,22 @@ class SecurityScanForm(FlaskForm):
             ("ffuf", "FFUF"),
             ("sqlmap", "SQLMap"),
             ("wafw00f", "WAFW00F"),
+<<<<<<< HEAD
             ("sslyze", "SSLyze"),
             ("testssl", "TestSSL"),
             ("amass", "Amass"),
             ("subfinder", "Subfinder"),
             ("dnsrecon", "DNSRecon"),
+=======
+
+            ("sslyze", "SSLyze"),
+            ("testssl", "TestSSL"),
+
+            ("amass", "Amass"),
+            ("subfinder", "Subfinder"),
+            ("dnsrecon", "DNSRecon"),
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
             ("prowler", "Prowler"),
             ("scoutsuite", "ScoutSuite"),
             ("trivy", "Trivy"),
@@ -142,7 +177,10 @@ class SecurityScanForm(FlaskForm):
 # Basic Scanner Form
 # ==========================================================
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 class BasicScannerForm(FlaskForm):
     """
     CloudShield Basic Scanner
@@ -179,7 +217,10 @@ class BasicScannerForm(FlaskForm):
 # Universal Scanner Form
 # ==========================================================
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 class UniversalScannerForm(FlaskForm):
     """
     CloudShield Universal Scanner
@@ -283,4 +324,8 @@ class UniversalScannerForm(FlaskForm):
         ],
     )
 
+<<<<<<< HEAD
     submit = SubmitField("Launch Enterprise Scan")
+=======
+    submit = SubmitField("Launch Enterprise Scan")
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

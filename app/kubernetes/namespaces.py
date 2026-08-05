@@ -28,6 +28,7 @@ class KubernetesNamespaces:
 
             for namespace in namespaces:
 
+<<<<<<< HEAD
                 data.append(
                     {
                         "name": namespace.metadata.name,
@@ -35,6 +36,17 @@ class KubernetesNamespaces:
                         "created": namespace.metadata.creation_timestamp,
                     }
                 )
+=======
+                data.append({
+
+                    "name": namespace.metadata.name,
+
+                    "status": namespace.status.phase,
+
+                    "created": namespace.metadata.creation_timestamp
+
+                })
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             return data
 
@@ -44,4 +56,8 @@ class KubernetesNamespaces:
 
         except Exception:
 
+<<<<<<< HEAD
             return []
+=======
+            return []
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

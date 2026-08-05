@@ -40,4 +40,8 @@ def time_ago(dt):
 
     years = months // 12
 
+<<<<<<< HEAD
     return f"{years} year{'s' if years != 1 else ''} ago"
+=======
+    return f"{years} year{'s' if years != 1 else ''} ago"
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

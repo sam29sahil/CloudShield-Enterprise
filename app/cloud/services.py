@@ -10,8 +10,13 @@ from app.models.security_scan import SecurityScan
 from app.cloud.aws.services import AWSScanner
 from app.cloud.azure.services import AzureService
 from app.cloud.findings_engine import CloudFindingsEngine
+<<<<<<< HEAD
 from app.cloud.azure.analyzer import AzureSecurityAnalyzer
 from app.cloud.azure.risk import AzureRiskEngine
+=======
+from app.cloud.azure.security_analyzer import AzureSecurityAnalyzer
+from app.cloud.azure.risk_engine import AzureRiskEngine
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 from app.cloud.azure.recommendations import AzureRecommendations
 
 aws = AWSScanner()
@@ -37,17 +42,42 @@ class CloudService:
         """
 
         if result.get("success"):
+<<<<<<< HEAD
             return {"label": "Connected", "color": "success"}
+=======
+            return {
+                "label": "Connected",
+                "color": "success"
+            }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         error = str(result.get("error", "")).lower()
 
         if "credential" in error:
+<<<<<<< HEAD
             return {"label": "Waiting", "color": "warning"}
 
         if "region" in error:
             return {"label": "Configuration", "color": "warning"}
 
         return {"label": "Error", "color": "danger"}
+=======
+            return {
+                "label": "Waiting",
+                "color": "warning"
+            }
+
+        if "region" in error:
+            return {
+                "label": "Configuration",
+                "color": "warning"
+            }
+
+        return {
+            "label": "Error",
+            "color": "danger"
+        }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # ==================================================
     # Dashboard
@@ -75,6 +105,7 @@ class CloudService:
         # Results
 
         results = {
+<<<<<<< HEAD
             "ec2": ec2,
             "s3": s3,
             "iam": iam,
@@ -82,6 +113,23 @@ class CloudService:
             "cloudtrail": cloudtrail,
             "guardduty": guardduty,
             "inspector": inspector,
+=======
+
+            "ec2": ec2,
+
+            "s3": s3,
+
+            "iam": iam,
+
+            "security_groups": security_groups,
+
+            "cloudtrail": cloudtrail,
+
+            "guardduty": guardduty,
+
+            "inspector": inspector
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
         score = self.calculate_score(results)
@@ -91,6 +139,7 @@ class CloudService:
         cloud_findings = findings_engine.generate(results)
 
         dashboard = {
+<<<<<<< HEAD
             "provider": "Azure",
             "region": "Central India",
             "score": score,
@@ -99,12 +148,32 @@ class CloudService:
             "findings_count": Finding.query.count(),
             "scans": SecurityScan.query.count(),
             "cloud_findings": cloud_findings,
+=======
+
+            "provider": "Azure",
+
+            "region": "Central India",
+
+            "score": score,
+
+            "resources": Asset.query.count(),
+
+            "assets": Asset.query.count(),
+
+            "findings_count": Finding.query.count(),
+
+            "scans": SecurityScan.query.count(),
+
+            "cloud_findings": cloud_findings,
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
             "aws": {
                 "ec2": ec2.get("total_instances", 0),
                 "s3": s3.get("total_buckets", 0),
                 "iam": iam.get("total_users", 0),
                 "security_groups": security_groups.get("total_groups", 0),
             },
+<<<<<<< HEAD
             "cloudtrail": cloudtrail.get("total_trails", 0),
             "guardduty": len(guardduty.get("detectors", [])),
             "inspector": inspector.get("total_findings", 0),
@@ -124,6 +193,59 @@ class CloudService:
 
         # ==================================================
 
+=======
+
+            "cloudtrail": cloudtrail.get(
+                "total_trails",
+                0
+            ),
+
+            "guardduty": len(
+                guardduty.get(
+                    "detectors",
+                    []
+                )
+            ),
+
+            "inspector": inspector.get(
+                "total_findings",
+                0
+            ),
+
+            "azure": azure_summary,
+
+            "service_status": {
+
+                "ec2": self.service_status(ec2),
+
+                "s3": self.service_status(s3),
+
+                "iam": self.service_status(iam),
+
+                "security_groups": self.service_status(
+                    security_groups
+                ),
+
+                "cloudtrail": self.service_status(
+                    cloudtrail
+                ),
+
+                "guardduty": self.service_status(
+                    guardduty
+                ),
+
+                "inspector": self.service_status(
+                    inspector
+                )
+
+            }
+
+        }
+
+        return dashboard
+    
+        # ==================================================
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     # AWS Services
     # ==================================================
 
@@ -157,9 +279,14 @@ class CloudService:
 
     def full_scan(self):
         return aws.scan()
+<<<<<<< HEAD
 
         # ==================================================
 
+=======
+    
+        # ==================================================
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     # Azure Dashboard
     # ==================================================
 
@@ -171,12 +298,26 @@ class CloudService:
         storage_accounts = self.azure_storage()
         network_security_groups = self.azure_network_security_groups()
         keyvaults = self.azure_keyvault()
+<<<<<<< HEAD
 
         azure_data = {
             "virtual_machines": virtual_machines,
             "storage_accounts": storage_accounts,
             "network_security_groups": network_security_groups,
             "keyvaults": keyvaults,
+=======
+    
+        azure_data = {
+
+            "virtual_machines": virtual_machines,
+
+            "storage_accounts": storage_accounts,
+
+            "network_security_groups": network_security_groups,
+
+            "keyvaults": keyvaults
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
         findings = analyzer.analyze(azure_data)
@@ -245,7 +386,11 @@ class CloudService:
 
     def azure_identity(self):
         return azure.identity.information()
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     # ==================================================
     # Enterprise Cloud Security Score
     # ==================================================
@@ -262,7 +407,11 @@ class CloudService:
             "security_groups": 15,
             "cloudtrail": 10,
             "guardduty": 10,
+<<<<<<< HEAD
             "inspector": 10,
+=======
+            "inspector": 10
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
         score = 0
@@ -277,7 +426,16 @@ class CloudService:
 
             else:
 
+<<<<<<< HEAD
                 error = str(result.get("error", "")).lower()
+=======
+                error = str(
+                    result.get(
+                        "error",
+                        ""
+                    )
+                ).lower()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
                 if "credential" in error:
 
@@ -305,4 +463,11 @@ class CloudService:
         Basic service health.
         """
 
+<<<<<<< HEAD
         return {"aws": True, "azure": azure.client.is_connected()}
+=======
+        return {
+            "aws": True,
+            "azure": azure.client.is_connected()
+        }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

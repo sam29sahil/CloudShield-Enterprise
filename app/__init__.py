@@ -37,6 +37,7 @@ def create_app():
 
     # Register Blueprints
     from app.routes import main
+<<<<<<< HEAD
 
     app.register_blueprint(main)
 
@@ -114,6 +115,65 @@ def create_app():
 
     from app.docker import docker
 
+=======
+    app.register_blueprint(main)
+
+    from app.auth import auth
+    app.register_blueprint(auth)
+
+    from app.dashboard import dashboard
+    app.register_blueprint(dashboard)
+
+    from app.scanner import scanner
+    app.register_blueprint(scanner)
+
+    from app.security import security
+    app.register_blueprint(security)
+
+    from app.reports import reports
+    app.register_blueprint(reports)
+
+    from app.analytics import analytics
+    app.register_blueprint(analytics)
+
+    from app.history import history
+    app.register_blueprint(history)
+
+    from app.settings import settings
+    app.register_blueprint(settings)
+
+    from app.admin import admin
+    app.register_blueprint(admin)
+
+    from app.cloud import cloud
+    app.register_blueprint(cloud)
+
+    from app.threat import threat
+    app.register_blueprint(threat)
+    
+    from app.findings_ui import findings_ui
+    app.register_blueprint(findings_ui)
+
+    from app.notifications import notifications
+    app.register_blueprint(notifications)
+
+    from app.assets import assets
+    app.register_blueprint(assets)
+
+    from app.projects import projects
+    app.register_blueprint(projects)
+
+    from app.executive import executive
+    app.register_blueprint(executive)
+    
+    from app.api import api
+    app.register_blueprint(api)
+
+    from app.docker.api import docker_api
+    app.register_blueprint(docker_api)
+
+    from app.docker import docker
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     app.register_blueprint(docker)
 
     # -------------------------------
@@ -127,10 +187,18 @@ def create_app():
             return json.loads(value)
         except Exception:
             return {}
+<<<<<<< HEAD
 
     @app.template_filter("timeago")
     def timeago_filter(value):
         return time_ago(value)
+=======
+        
+
+    @app.template_filter("timeago")
+    def timeago_filter(value):
+        return time_ago(value)    
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # -------------------------------
     # Global Notification Badge
@@ -143,12 +211,26 @@ def create_app():
 
         if current_user.is_authenticated:
 
+<<<<<<< HEAD
             unread = notification_service.unread_count(current_user.id)
+=======
+            unread = notification_service.unread_count(
+                current_user.id
+            )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         else:
 
             unread = 0
 
+<<<<<<< HEAD
         return {"unread_notifications": unread}
 
     return app
+=======
+        return {
+            "unread_notifications": unread
+        }
+
+    return app
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

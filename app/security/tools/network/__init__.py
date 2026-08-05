@@ -23,7 +23,15 @@ def _safe_create(tool_class):
 
     except Exception as e:
 
+<<<<<<< HEAD
         logger.exception("Failed to initialize %s: %s", tool_class.__name__, e)
+=======
+        logger.exception(
+            "Failed to initialize %s: %s",
+            tool_class.__name__,
+            e
+        )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         return None
 
@@ -60,7 +68,15 @@ def get_all_tools():
     Return all successfully initialized tools.
     """
 
+<<<<<<< HEAD
     return {name: tool for name, tool in NETWORK_TOOLS.items() if tool is not None}
+=======
+    return {
+        name: tool
+        for name, tool in NETWORK_TOOLS.items()
+        if tool is not None
+    }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 def tool_names():
@@ -81,4 +97,8 @@ __all__ = [
     "get_all_tools",
     "tool_exists",
     "tool_names",
+<<<<<<< HEAD
 ]
+=======
+]
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

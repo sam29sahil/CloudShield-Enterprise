@@ -42,10 +42,26 @@ class DockerAnalyzer:
             risk = "Critical"
 
         return {
+<<<<<<< HEAD
             "score": score,
             "risk": risk,
             "summary": benchmark,
             "recommendation": self.recommendations(benchmark["findings"]),
+=======
+
+            "score": score,
+
+            "risk": risk,
+
+            "summary": benchmark,
+
+            "recommendation": self.recommendations(
+
+                benchmark["findings"]
+
+            )
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # ----------------------------------
@@ -62,6 +78,7 @@ class DockerAnalyzer:
 
             if title == "Privileged Container":
 
+<<<<<<< HEAD
                 recommendations.append("Disable privileged mode.")
 
             elif title == "Running as Root":
@@ -71,11 +88,43 @@ class DockerAnalyzer:
             elif title == "Docker Socket Mounted":
 
                 recommendations.append("Do not mount docker.sock into containers.")
+=======
+                recommendations.append(
+
+                    "Disable privileged mode."
+
+                )
+
+            elif title == "Running as Root":
+
+                recommendations.append(
+
+                    "Run containers using a non-root user."
+
+                )
+
+            elif title == "Docker Socket Mounted":
+
+                recommendations.append(
+
+                    "Do not mount docker.sock into containers."
+
+                )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             elif title == "Host Network":
 
                 recommendations.append(
+<<<<<<< HEAD
                     "Use bridge networking instead of host networking."
                 )
 
         return list(set(recommendations))
+=======
+
+                    "Use bridge networking instead of host networking."
+
+                )
+
+        return list(set(recommendations))
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

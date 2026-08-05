@@ -13,7 +13,25 @@ class IntegrationEngine:
 
     def available_tools(self):
 
+<<<<<<< HEAD
         tools = ["nmap", "nuclei", "nikto", "whatweb", "wafw00f", "testssl.sh"]
+=======
+        tools = [
+
+            "nmap",
+
+            "nuclei",
+
+            "nikto",
+
+            "whatweb",
+
+            "wafw00f",
+
+            "testssl.sh"
+
+        ]
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         available = {}
 
@@ -21,4 +39,8 @@ class IntegrationEngine:
 
             available[tool] = self.tool_exists(tool)
 
+<<<<<<< HEAD
         return available
+=======
+        return available
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

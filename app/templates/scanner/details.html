@@ -1,12 +1,30 @@
+<<<<<<< HEAD
 {% extends "base.html" %}
 
 {% block styles %}
 <link rel="stylesheet"
       href="{{ url_for('static', filename='css/scanner.css') }}">
+=======
+{% extends "dashboard/base.html" %}
+
+{% block title %}Scan Results{% endblock %}
+
+{% block page_title %}
+
+Security Assessment Report
+
+{% endblock %}
+
+{% block page_subtitle %}
+
+Executive Security Analysis
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 {% endblock %}
 
 {% block content %}
 
+<<<<<<< HEAD
 <div class="scanner-page">
 
 <div class="container-fluid">
@@ -495,11 +513,37 @@ Invalid
 </span>
 
 {% endif %}
+=======
+<div class="container-fluid scanner-details">
+
+<div class="row">
+
+<div class="col-lg-9">
+
+<div class="glass-card">
+
+<div class="card-header d-flex justify-content-between align-items-center">
+
+<div>
+
+<h3>
+
+<i class="fas fa-file-shield"></i>
+
+Executive Summary
+
+</h3>
+
+<p class="text-muted mb-0">
+
+Enterprise Security Assessment Report
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 </p>
 
 </div>
 
+<<<<<<< HEAD
 <div class="col-md-4">
 
 <strong>TLS Version</strong>
@@ -521,6 +565,49 @@ Invalid
 <strong>Expiry</strong>
 
 <p>{{ report.ssl.valid_until or "Unavailable" }}</p>
+=======
+<span class="badge bg-success">
+
+Completed
+
+</span>
+
+</div>
+
+<div class="card-body">
+
+<div class="row text-center">
+
+<div class="col-md-3">
+
+<h6>Target</h6>
+
+<strong>{{ report.target }}</strong>
+
+</div>
+
+<div class="col-md-3">
+
+<h6>Scanner</h6>
+
+<strong>{{ report.scanner }}</strong>
+
+</div>
+
+<div class="col-md-3">
+
+<h6>Date</h6>
+
+<strong>{{ report.date }}</strong>
+
+</div>
+
+<div class="col-md-3">
+
+<h6>Duration</h6>
+
+<strong>{{ report.duration }}</strong>
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 </div>
 
@@ -529,6 +616,7 @@ Invalid
 </div>
 
 </div>
+<<<<<<< HEAD
 <div class="card shadow-sm border-0 mt-4">
 
     <div class="card-header bg-info text-white">
@@ -1099,3 +1187,322 @@ No recommendations.
 
 </div>
 {% endblock %}
+=======
+<div class="row mt-4">
+
+    <div class="col-md-3">
+    
+    <div class="stat-card glass-card text-center">
+    
+    <h6>Security Score</h6>
+    
+    <h2 id="securityScore">
+    
+    {{ report.score }}%
+    
+    </h2>
+    
+    </div>
+    
+    </div>
+    
+    <div class="col-md-3">
+    
+    <div class="stat-card glass-card text-center">
+    
+    <h6>Risk Level</h6>
+    
+    <h2>
+    
+    {{ report.risk }}
+    
+    </h2>
+    
+    </div>
+    
+    </div>
+    
+    <div class="col-md-3">
+    
+    <div class="stat-card glass-card text-center">
+    
+    <h6>Total Findings</h6>
+    
+    <h2>
+    
+    {{ report.findings }}
+    
+    </h2>
+    
+    </div>
+    
+    </div>
+    
+    <div class="col-md-3">
+    
+    <div class="stat-card glass-card text-center">
+    
+    <h6>Security Grade</h6>
+    
+    <h2>
+    
+    {{ report.grade }}
+    
+    </h2>
+    
+    </div>
+    
+    </div>
+    
+    </div>
+    
+    <div class="row mt-4">
+    
+    <div class="col-lg-6">
+    
+    <div class="glass-card">
+    
+    <div class="card-header">
+    
+    <h5>
+    
+    Security Score
+    
+    </h5>
+    
+    </div>
+    
+    <div class="card-body">
+    
+    <div id="securityGauge"></div>
+    
+    </div>
+    
+    </div>
+    
+    </div>
+    
+    <div class="col-lg-6">
+    
+    <div class="glass-card">
+    
+    <div class="card-header">
+    
+    <h5>
+    
+    Severity Distribution
+    
+    </h5>
+    
+    </div>
+    
+    <div class="card-body">
+    
+    <div id="severityChart"></div>
+    
+    </div>
+    
+    </div>
+    
+    </div>
+    
+    </div>
+    <div class="row mt-4">
+
+        <div class="col-lg-8">
+        
+        {% include "scanner/components/findings.html" %}
+        
+        </div>
+        
+        <div class="col-lg-4">
+        
+        {% include "scanner/components/recommendations.html" %}
+        
+        </div>
+        
+        </div>
+        
+        <div class="row mt-4">
+        
+        <div class="col-12">
+        
+        <div class="glass-card">
+        
+        <div class="card-header">
+        
+        <h5>
+        
+        Evidence & Tool Output
+        
+        </h5>
+        
+        </div>
+        
+        <div class="card-body">
+        
+        <pre id="toolEvidence">
+        
+        Tool execution logs and evidence will appear here.
+        
+        </pre>
+        
+        </div>
+        
+        </div>
+        
+        </div>
+        
+        </div>
+        <div class="row mt-4">
+
+            <div class="col-12">
+            
+            <div class="glass-card">
+            
+            <div class="card-header">
+            
+            <h5>
+            
+            Export Report
+            
+            </h5>
+            
+            </div>
+            
+            <div class="card-body d-flex flex-wrap gap-3">
+            
+            <a href="{{ url_for('reports.download_pdf', report_id=report.id) }}"
+            class="btn btn-danger">
+            
+            <i class="fas fa-file-pdf"></i>
+            
+            PDF
+            
+            </a>
+            
+            <a href="{{ url_for('reports.download_csv', report_id=report.id) }}"
+            class="btn btn-success">
+            
+            <i class="fas fa-file-csv"></i>
+            
+            CSV
+            
+            </a>
+            
+            <a href="{{ url_for('reports.download_json', report_id=report.id) }}"
+            class="btn btn-warning">
+            
+            <i class="fas fa-file-code"></i>
+            
+            JSON
+            
+            </a>
+            
+            <a href="{{ url_for('reports.download_html', report_id=report.id) }}"
+            class="btn btn-primary">
+            
+            <i class="fas fa-globe"></i>
+            
+            HTML
+            
+            </a>
+            
+            </div>
+            
+            </div>
+            
+            </div>
+            
+            </div>
+            
+            </div>
+            
+            <div class="col-lg-3">
+            
+            <div class="glass-card">
+            
+            <div class="card-header">
+            
+            <h5>
+            
+            Assessment Summary
+            
+            </h5>
+            
+            </div>
+            
+            <div class="card-body">
+            
+            <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item bg-transparent">
+            
+            Critical
+            
+            <span class="float-end">
+            
+            {{ report.critical }}
+            
+            </span>
+            
+            </li>
+            
+            <li class="list-group-item bg-transparent">
+            
+            High
+            
+            <span class="float-end">
+            
+            {{ report.high }}
+            
+            </span>
+            
+            </li>
+            
+            <li class="list-group-item bg-transparent">
+            
+            Medium
+            
+            <span class="float-end">
+            
+            {{ report.medium }}
+            
+            </span>
+            
+            </li>
+            
+            <li class="list-group-item bg-transparent">
+            
+            Low
+            
+            <span class="float-end">
+            
+            {{ report.low }}
+            
+            </span>
+            
+            </li>
+            
+            </ul>
+            
+            </div>
+            
+            </div>
+            
+            </div>
+            
+            </div>
+            
+            </div>
+            
+            {% endblock %}
+            
+            {% block extra_js %}
+            
+            <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+            
+            <script src="{{ url_for('static', filename='js/scanner.js') }}"></script>
+            
+            {% endblock %}
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

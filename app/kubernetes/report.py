@@ -25,6 +25,7 @@ class KubernetesReport:
         security = benchmark.evaluate(findings)
 
         recommendations = [
+<<<<<<< HEAD
             "Keep Kubernetes version updated.",
             "Restrict public LoadBalancer services.",
             "Monitor pod security policies.",
@@ -37,3 +38,27 @@ class KubernetesReport:
             "security": security,
             "recommendations": recommendations,
         }
+=======
+
+            "Keep Kubernetes version updated.",
+
+            "Restrict public LoadBalancer services.",
+
+            "Monitor pod security policies.",
+
+            "Review RBAC permissions regularly.",
+
+            "Enable audit logging."
+
+        ]
+
+        return {
+
+            "dashboard": data,
+
+            "security": security,
+
+            "recommendations": recommendations
+
+        }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

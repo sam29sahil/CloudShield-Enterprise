@@ -56,6 +56,7 @@ class DockerScanner:
                 # Privileged Container
                 if container.attrs["HostConfig"].get("Privileged"):
 
+<<<<<<< HEAD
                     findings.append(
                         {
                             "title": "Privileged Container",
@@ -64,10 +65,26 @@ class DockerScanner:
                             "description": ("Container is running in privileged mode."),
                         }
                     )
+=======
+                    findings.append({
+
+                        "title": "Privileged Container",
+
+                        "severity": "Critical",
+
+                        "container": container.name,
+
+                        "description": (
+                            "Container is running in privileged mode."
+                        )
+
+                    })
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
                 # Host Network
                 if container.attrs["HostConfig"].get("NetworkMode") == "host":
 
+<<<<<<< HEAD
                     findings.append(
                         {
                             "title": "Host Network Mode",
@@ -76,12 +93,28 @@ class DockerScanner:
                             "description": ("Container shares host network."),
                         }
                     )
+=======
+                    findings.append({
+
+                        "title": "Host Network Mode",
+
+                        "severity": "High",
+
+                        "container": container.name,
+
+                        "description": (
+                            "Container shares host network."
+                        )
+
+                    })
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
                 # Running as Root
                 user = container.attrs["Config"].get("User", "")
 
                 if user in ("", "0", "root"):
 
+<<<<<<< HEAD
                     findings.append(
                         {
                             "title": "Running as Root",
@@ -90,6 +123,21 @@ class DockerScanner:
                             "description": ("Container appears to run as root."),
                         }
                     )
+=======
+                    findings.append({
+
+                        "title": "Running as Root",
+
+                        "severity": "Medium",
+
+                        "container": container.name,
+
+                        "description": (
+                            "Container appears to run as root."
+                        )
+
+                    })
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         except Exception:
 
@@ -105,6 +153,7 @@ class DockerScanner:
 
         findings = self.scan()
 
+<<<<<<< HEAD
         critical = sum(1 for finding in findings if finding["severity"] == "Critical")
 
         high = sum(1 for finding in findings if finding["severity"] == "High")
@@ -116,3 +165,50 @@ class DockerScanner:
             "risk_level": ("Critical" if critical else "High" if high else "Low"),
             "findings": findings,
         }
+=======
+        critical = sum(
+
+            1 for finding in findings
+
+            if finding["severity"] == "Critical"
+
+        )
+
+        high = sum(
+
+            1 for finding in findings
+
+            if finding["severity"] == "High"
+
+        )
+
+        score = max(
+
+            100 - (critical * 20) - (high * 10),
+
+            0
+
+        )
+
+        return {
+
+            "score": score,
+
+            "risk_level": (
+
+                "Critical"
+
+                if critical
+
+                else "High"
+
+                if high
+
+                else "Low"
+
+            ),
+
+            "findings": findings
+
+        }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

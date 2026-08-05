@@ -27,9 +27,40 @@ class DockerRuntime:
     def health(self):
 
         return {
+<<<<<<< HEAD
             "running": self.docker.is_running(),
             "containers": len(self.docker.running_containers()),
             "images": len(self.docker.images()),
             "networks": len(self.docker.networks()),
             "volumes": len(self.docker.volumes()),
         }
+=======
+
+            "running": self.docker.is_running(),
+
+            "containers": len(
+
+                self.docker.running_containers()
+
+            ),
+
+            "images": len(
+
+                self.docker.images()
+
+            ),
+
+            "networks": len(
+
+                self.docker.networks()
+
+            ),
+
+            "volumes": len(
+
+                self.docker.volumes()
+
+            )
+
+        }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

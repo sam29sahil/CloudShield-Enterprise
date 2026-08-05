@@ -23,6 +23,30 @@ class IntegrationManager:
 
         return self.manager.installed(tool)
 
+<<<<<<< HEAD
     def execute(self, tool, target, arguments=None):
 
         return self.manager.run_tool(tool, target, arguments)
+=======
+    def execute(
+
+        self,
+
+        tool,
+
+        target,
+
+        arguments=None
+
+    ):
+
+        return self.manager.run_tool(
+
+            tool,
+
+            target,
+
+            arguments
+
+        )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

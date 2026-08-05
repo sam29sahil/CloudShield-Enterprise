@@ -28,6 +28,7 @@ class KubernetesSecrets:
 
             for secret in secrets:
 
+<<<<<<< HEAD
                 data.append(
                     {
                         "name": secret.metadata.name,
@@ -36,6 +37,19 @@ class KubernetesSecrets:
                         "created": secret.metadata.creation_timestamp,
                     }
                 )
+=======
+                data.append({
+
+                    "name": secret.metadata.name,
+
+                    "namespace": secret.metadata.namespace,
+
+                    "type": secret.type,
+
+                    "created": secret.metadata.creation_timestamp
+
+                })
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             return data
 
@@ -45,4 +59,8 @@ class KubernetesSecrets:
 
         except Exception:
 
+<<<<<<< HEAD
             return []
+=======
+            return []
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

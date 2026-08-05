@@ -21,6 +21,7 @@ class AWSScanner:
     def __init__(self):
 
         self.scanners = {
+<<<<<<< HEAD
             "ec2": EC2Scanner(),
             "s3": S3Scanner(),
             "iam": IAMScanner(),
@@ -29,6 +30,25 @@ class AWSScanner:
             "guardduty": GuardDutyScanner(),
             "inspector": InspectorScanner(),
             "config": ConfigScanner(),
+=======
+
+            "ec2": EC2Scanner(),
+
+            "s3": S3Scanner(),
+
+            "iam": IAMScanner(),
+
+            "security_groups": SecurityGroupScanner(),
+
+            "cloudtrail": CloudTrailScanner(),
+
+            "guardduty": GuardDutyScanner(),
+
+            "inspector": InspectorScanner(),
+
+            "config": ConfigScanner()
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # --------------------------------------------------
@@ -47,7 +67,19 @@ class AWSScanner:
 
             except Exception as e:
 
+<<<<<<< HEAD
                 results[name] = {"success": False, "service": name, "error": str(e)}
+=======
+                results[name] = {
+
+                    "success": False,
+
+                    "service": name,
+
+                    "error": str(e)
+
+                }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         return results
 
@@ -62,9 +94,19 @@ class AWSScanner:
         if scanner is None:
 
             return {
+<<<<<<< HEAD
                 "success": False,
                 "service": service,
                 "error": "Unknown AWS service.",
+=======
+
+                "success": False,
+
+                "service": service,
+
+                "error": "Unknown AWS service."
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
             }
 
         try:
@@ -73,7 +115,19 @@ class AWSScanner:
 
         except Exception as e:
 
+<<<<<<< HEAD
             return {"success": False, "service": service, "error": str(e)}
+=======
+            return {
+
+                "success": False,
+
+                "service": service,
+
+                "error": str(e)
+
+            }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # --------------------------------------------------
     # Individual Services
@@ -109,4 +163,8 @@ class AWSScanner:
 
     def scan_config(self):
 
+<<<<<<< HEAD
         return self.scan_service("config")
+=======
+        return self.scan_service("config")
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

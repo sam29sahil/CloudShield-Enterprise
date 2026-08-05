@@ -20,9 +20,23 @@ def get_scans():
     Return all scans with pagination.
     """
 
+<<<<<<< HEAD
     page = request.args.get("page", 1, type=int)
 
     per_page = request.args.get("per_page", 20, type=int)
+=======
+    page = request.args.get(
+        "page",
+        1,
+        type=int
+    )
+
+    per_page = request.args.get(
+        "per_page",
+        20,
+        type=int
+    )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     risk = request.args.get("risk")
     scan_type = request.args.get("scan_type")
@@ -31,6 +45,7 @@ def get_scans():
 
     if risk:
 
+<<<<<<< HEAD
         query = query.filter_by(risk=risk)
 
     if scan_type:
@@ -38,6 +53,27 @@ def get_scans():
         query = query.filter_by(scan_type=scan_type)
 
     pagination = query.paginate(page=page, per_page=per_page, error_out=False)
+=======
+        query = query.filter_by(
+            risk=risk
+        )
+
+    if scan_type:
+
+        query = query.filter_by(
+            scan_type=scan_type
+        )
+
+    pagination = query.paginate(
+
+        page=page,
+
+        per_page=per_page,
+
+        error_out=False
+
+    )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     scans = pagination.items
 
@@ -45,6 +81,7 @@ def get_scans():
 
     for scan in scans:
 
+<<<<<<< HEAD
         data.append(
             {
                 "id": scan.id,
@@ -73,6 +110,55 @@ def get_scans():
         message="Scans retrieved successfully",
     )
 
+=======
+        data.append({
+
+            "id": scan.id,
+
+            "asset_id": scan.asset_id,
+
+            "user_id": scan.user_id,
+
+            "score": scan.score,
+
+            "risk": scan.risk,
+
+            "scan_type": scan.scan_type,
+
+            "started_at": (
+                scan.started_at.isoformat()
+                if scan.started_at
+                else None
+            ),
+
+            "completed_at": (
+                scan.completed_at.isoformat()
+                if scan.completed_at
+                else None
+            )
+
+        })
+
+    return success_response(
+
+        data={
+
+            "items": data,
+
+            "page": pagination.page,
+
+            "pages": pagination.pages,
+
+            "per_page": pagination.per_page,
+
+            "total": pagination.total
+
+        },
+
+        message="Scans retrieved successfully"
+
+    )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 @api.route("/scans/<int:scan_id>", methods=["GET"])
 @login_required
@@ -85,6 +171,7 @@ def get_scan(scan_id):
 
     if not scan:
 
+<<<<<<< HEAD
         return error_response("Scan not found", 404)
 
     return success_response(
@@ -100,6 +187,46 @@ def get_scan(scan_id):
                 scan.completed_at.isoformat() if scan.completed_at else None
             ),
         }
+=======
+        return error_response(
+
+            "Scan not found",
+
+            404
+
+        )
+
+    return success_response(
+
+        data={
+
+            "id": scan.id,
+
+            "asset_id": scan.asset_id,
+
+            "user_id": scan.user_id,
+
+            "score": scan.score,
+
+            "risk": scan.risk,
+
+            "scan_type": scan.scan_type,
+
+            "started_at": (
+                scan.started_at.isoformat()
+                if scan.started_at
+                else None
+            ),
+
+            "completed_at": (
+                scan.completed_at.isoformat()
+                if scan.completed_at
+                else None
+            )
+
+        }
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     )
 
 
@@ -114,14 +241,37 @@ def create_scan():
 
     if not data:
 
+<<<<<<< HEAD
         return error_response("JSON data required", 400)
 
     required = ["asset_id", "score", "risk", "scan_type"]
+=======
+        return error_response(
+
+            "JSON data required",
+
+            400
+
+        )
+
+    required = [
+
+        "asset_id",
+
+        "score",
+
+        "risk",
+
+        "scan_type"
+
+    ]
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     for field in required:
 
         if field not in data:
 
+<<<<<<< HEAD
             return error_response(f"{field} is required", 400)
 
     scan = scan_service.create(
@@ -134,6 +284,42 @@ def create_scan():
 
     return success_response(
         data={"id": scan.id}, message="Scan created successfully", status_code=201
+=======
+            return error_response(
+
+                f"{field} is required",
+
+                400
+
+            )
+
+    scan = scan_service.create(
+
+        asset_id=data["asset_id"],
+
+        user_id=current_user.id,
+
+        score=data["score"],
+
+        risk=data["risk"],
+
+        scan_type=data["scan_type"]
+
+    )
+
+    return success_response(
+
+        data={
+
+            "id": scan.id
+
+        },
+
+        message="Scan created successfully",
+
+        status_code=201
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     )
 
 
@@ -148,10 +334,26 @@ def delete_scan(scan_id):
 
     if not deleted:
 
+<<<<<<< HEAD
         return error_response("Scan not found", 404)
 
     return success_response(message="Scan deleted successfully")
 
+=======
+        return error_response(
+
+            "Scan not found",
+
+            404
+
+        )
+
+    return success_response(
+
+        message="Scan deleted successfully"
+
+    )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 @api.route("/scans/latest", methods=["GET"])
 @login_required
@@ -161,6 +363,7 @@ def latest_scan():
 
     if not scan:
 
+<<<<<<< HEAD
         return error_response("No scans found", 404)
 
     return success_response(
@@ -173,22 +376,69 @@ def latest_scan():
         }
     )
 
+=======
+        return error_response(
+            "No scans found",
+            404
+        )
+
+    return success_response(
+
+        data={
+
+            "id": scan.id,
+
+            "score": scan.score,
+
+            "risk": scan.risk,
+
+            "scan_type": scan.scan_type,
+
+            "started_at": (
+                scan.started_at.isoformat()
+                if scan.started_at
+                else None
+            )
+
+        }
+
+    )    
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 @api.route("/scans/statistics", methods=["GET"])
 @login_required
 def scan_statistics():
 
     return success_response(
+<<<<<<< HEAD
         data=scan_service.statistics(), message="Statistics retrieved"
     )
 
+=======
+
+        data=scan_service.statistics(),
+
+        message="Statistics retrieved"
+
+    )    
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 @api.route("/scans/history", methods=["GET"])
 @login_required
 def scan_history():
 
+<<<<<<< HEAD
     return success_response(data=scan_service.history(), message="History retrieved")
 
+=======
+    return success_response(
+
+        data=scan_service.history(),
+
+        message="History retrieved"
+
+    )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 @api.route("/scans/<int:scan_id>/status", methods=["GET"])
 @login_required
@@ -198,6 +448,7 @@ def scan_status(scan_id):
 
     if not scan:
 
+<<<<<<< HEAD
         return error_response("Scan not found", 404)
 
     return success_response(
@@ -206,3 +457,21 @@ def scan_status(scan_id):
             "progress": getattr(scan, "progress", 100),
         }
     )
+=======
+        return error_response(
+            "Scan not found",
+            404
+        )
+
+    return success_response(
+
+        data={
+
+            "status": getattr(scan, "status", "Completed"),
+
+            "progress": getattr(scan, "progress", 100)
+
+        }
+
+    )    
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

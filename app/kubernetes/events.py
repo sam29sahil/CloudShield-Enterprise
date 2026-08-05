@@ -22,12 +22,21 @@ class KubernetesEvents:
 
             api = self.client.core()
 
+<<<<<<< HEAD
             events = api.list_event_for_all_namespaces(limit=limit).items
+=======
+            events = api.list_event_for_all_namespaces(
+
+                limit=limit
+
+            ).items
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             data = []
 
             for event in events:
 
+<<<<<<< HEAD
                 data.append(
                     {
                         "namespace": event.metadata.namespace,
@@ -39,6 +48,25 @@ class KubernetesEvents:
                         "time": event.last_timestamp,
                     }
                 )
+=======
+                data.append({
+
+                    "namespace": event.metadata.namespace,
+
+                    "resource": event.involved_object.kind,
+
+                    "name": event.involved_object.name,
+
+                    "reason": event.reason,
+
+                    "type": event.type,
+
+                    "message": event.message,
+
+                    "time": event.last_timestamp
+
+                })
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             return data
 
@@ -48,4 +76,8 @@ class KubernetesEvents:
 
         except Exception:
 
+<<<<<<< HEAD
             return []
+=======
+            return []
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

@@ -42,12 +42,17 @@ class KubernetesService:
         if not self.connected():
 
             return {
+<<<<<<< HEAD
+=======
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
                 "connected": False,
                 "nodes": 0,
                 "pods": 0,
                 "deployments": 0,
                 "services": 0,
                 "namespaces": 0,
+<<<<<<< HEAD
                 "ingress": 0,
             }
 
@@ -59,6 +64,28 @@ class KubernetesService:
             "services": len(self.services.list()),
             "namespaces": len(self.namespaces.list()),
             "ingress": len(self.ingress.list()),
+=======
+                "ingress": 0
+
+            }
+
+        return {
+
+            "connected": True,
+
+            "nodes": len(self.nodes.list()),
+
+            "pods": len(self.pods.list()),
+
+            "deployments": len(self.deployments.list()),
+
+            "services": len(self.services.list()),
+
+            "namespaces": len(self.namespaces.list()),
+
+            "ingress": len(self.ingress.list())
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # ------------------------------------
@@ -68,6 +95,7 @@ class KubernetesService:
     def dashboard(self):
 
         return {
+<<<<<<< HEAD
             "summary": self.summary(),
             "nodes": self.nodes.list(),
             "pods": self.pods.list(),
@@ -76,3 +104,21 @@ class KubernetesService:
             "namespaces": self.namespaces.list(),
             "ingress": self.ingress.list(),
         }
+=======
+
+            "summary": self.summary(),
+
+            "nodes": self.nodes.list(),
+
+            "pods": self.pods.list(),
+
+            "deployments": self.deployments.list(),
+
+            "services": self.services.list(),
+
+            "namespaces": self.namespaces.list(),
+
+            "ingress": self.ingress.list()
+
+        }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

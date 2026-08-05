@@ -24,6 +24,7 @@ class FindingEngine:
 
     @staticmethod
     def create(
+<<<<<<< HEAD
         scan,
         title,
         severity="Low",
@@ -34,6 +35,29 @@ class FindingEngine:
         evidence="",
         cwe=None,
         owasp=None,
+=======
+
+        scan,
+
+        title,
+
+        severity="Low",
+
+        description="",
+
+        recommendation="",
+
+        category="General",
+
+        cvss=0.0,
+
+        evidence="",
+
+        cwe=None,
+
+        owasp=None
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     ):
 
         # ------------------------------------------
@@ -79,6 +103,7 @@ class FindingEngine:
         # ------------------------------------------
 
         finding = Finding(
+<<<<<<< HEAD
             project_id=project_id,
             asset_id=scan.asset_id,
             scan_id=scan.id,
@@ -92,6 +117,35 @@ class FindingEngine:
             recommendation=recommendation,
             evidence=evidence,
             status="Open",
+=======
+
+            project_id=project_id,
+
+            asset_id=scan.asset_id,
+
+            scan_id=scan.id,
+
+            title=title,
+
+            description=description,
+
+            severity=severity,
+
+            cvss=cvss,
+
+            cwe=cwe,
+
+            owasp=owasp,
+
+            category=category,
+
+            recommendation=recommendation,
+
+            evidence=evidence,
+
+            status="Open"
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         )
 
         db.session.add(finding)
@@ -105,4 +159,8 @@ class FindingEngine:
         print("SEVERITY :", finding.severity)
         print("=" * 60)
 
+<<<<<<< HEAD
         return finding
+=======
+        return finding
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

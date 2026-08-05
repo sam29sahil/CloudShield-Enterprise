@@ -1,5 +1,6 @@
 """
 CloudShield Enterprise
+<<<<<<< HEAD
 Azure Identity Service
 """
 
@@ -55,3 +56,56 @@ class AzureIdentity:
             logger.exception(error)
 
             return {"connected": False, "error": str(error)}
+=======
+Azure Identity
+"""
+
+
+class AzureIdentity:
+
+    def __init__(self, client):
+
+        self.client = client
+
+    # ----------------------------------
+    # Identity Information
+    # ----------------------------------
+
+    def information(self):
+
+        if not self.client.is_connected():
+
+            return {
+
+                "connected": False,
+
+                "tenant": "-",
+
+                "subscription": "-"
+
+            }
+
+        try:
+
+            return {
+
+                "connected": True,
+
+                "tenant": self.client.subscription(),
+
+                "subscription": self.client.subscription()
+
+            }
+
+        except Exception:
+
+            return {
+
+                "connected": False,
+
+                "tenant": "-",
+
+                "subscription": "-"
+
+            }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

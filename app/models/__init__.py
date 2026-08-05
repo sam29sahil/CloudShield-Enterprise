@@ -13,6 +13,7 @@ from app.models.security_scan import SecurityScan
 from app.notifications.models import Notification
 
 __all__ = [
+<<<<<<< HEAD
     "User",
     "Project",
     "Asset",
@@ -22,3 +23,23 @@ __all__ = [
     "SecurityScan",
     "Notification",
 ]
+=======
+
+    "User",
+
+    "Project",
+
+    "Asset",
+
+    "Finding",
+
+    "Report",
+
+    "Evidence",
+
+    "SecurityScan",
+
+    "Notification"
+
+]
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

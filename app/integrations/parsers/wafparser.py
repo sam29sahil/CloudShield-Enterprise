@@ -46,4 +46,14 @@ class WAFParser:
 
                 detected = True
 
+<<<<<<< HEAD
         return {"detected": detected, "vendor": vendor}
+=======
+        return {
+
+            "detected": detected,
+
+            "vendor": vendor
+
+        }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

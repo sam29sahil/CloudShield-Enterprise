@@ -28,6 +28,7 @@ class KubernetesNetworkPolicies:
 
             for policy in policies:
 
+<<<<<<< HEAD
                 data.append(
                     {
                         "name": policy.metadata.name,
@@ -35,9 +36,24 @@ class KubernetesNetworkPolicies:
                         "created": policy.metadata.creation_timestamp,
                     }
                 )
+=======
+                data.append({
+
+                    "name": policy.metadata.name,
+
+                    "namespace": policy.metadata.namespace,
+
+                    "created": policy.metadata.creation_timestamp
+
+                })
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             return data
 
         except Exception:
 
+<<<<<<< HEAD
             return []
+=======
+            return []
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

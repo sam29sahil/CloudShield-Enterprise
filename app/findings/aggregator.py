@@ -88,9 +88,14 @@ class FindingAggregator:
             result[finding.asset_id] += 1
 
         return dict(result)
+<<<<<<< HEAD
 
         # =====================================================
 
+=======
+    
+        # =====================================================
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     # SCAN
     # =====================================================
 
@@ -114,6 +119,7 @@ class FindingAggregator:
 
         if not findings:
 
+<<<<<<< HEAD
             return {"average": 0, "maximum": 0, "minimum": 0}
 
         scores = [float(f.cvss or 0) for f in findings]
@@ -122,6 +128,40 @@ class FindingAggregator:
             "average": round(sum(scores) / len(scores), 2),
             "maximum": max(scores),
             "minimum": min(scores),
+=======
+            return {
+
+                "average": 0,
+
+                "maximum": 0,
+
+                "minimum": 0
+
+            }
+
+        scores = [
+
+            float(f.cvss or 0)
+
+            for f in findings
+
+        ]
+
+        return {
+
+            "average": round(
+
+                sum(scores) / len(scores),
+
+                2
+
+            ),
+
+            "maximum": max(scores),
+
+            "minimum": min(scores)
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # =====================================================
@@ -131,7 +171,23 @@ class FindingAggregator:
     @staticmethod
     def risk_score(findings):
 
+<<<<<<< HEAD
         weights = {"Critical": 10, "High": 7, "Medium": 5, "Low": 2, "Info": 0}
+=======
+        weights = {
+
+            "Critical": 10,
+
+            "High": 7,
+
+            "Medium": 5,
+
+            "Low": 2,
+
+            "Info": 0
+
+        }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         score = 0
 
@@ -139,7 +195,17 @@ class FindingAggregator:
 
             if finding.status != "Resolved":
 
+<<<<<<< HEAD
                 score += weights.get(finding.severity, 0)
+=======
+                score += weights.get(
+
+                    finding.severity,
+
+                    0
+
+                )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         return score
 
@@ -151,8 +217,28 @@ class FindingAggregator:
     def resolution(findings):
 
         return {
+<<<<<<< HEAD
             "open": len([f for f in findings if f.status == "Open"]),
             "resolved": len([f for f in findings if f.status == "Resolved"]),
+=======
+
+            "open": len([
+
+                f for f in findings
+
+                if f.status == "Open"
+
+            ]),
+
+            "resolved": len([
+
+                f for f in findings
+
+                if f.status == "Resolved"
+
+            ])
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # =====================================================
@@ -162,7 +248,19 @@ class FindingAggregator:
     @staticmethod
     def false_positives(findings):
 
+<<<<<<< HEAD
         return len([f for f in findings if f.false_positive])
+=======
+        return len([
+
+            f
+
+            for f in findings
+
+            if f.false_positive
+
+        ])
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # TOP ASSETS
@@ -193,9 +291,14 @@ class FindingAggregator:
             projects[finding.project_id] += 1
 
         return projects.most_common(limit)
+<<<<<<< HEAD
 
         # =====================================================
 
+=======
+    
+        # =====================================================
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     # EXECUTIVE SUMMARY
     # =====================================================
 
@@ -203,12 +306,28 @@ class FindingAggregator:
     def executive_summary(findings):
 
         return {
+<<<<<<< HEAD
             "total": len(findings),
             "severity": FindingAggregator.by_severity(findings),
             "status": FindingAggregator.by_status(findings),
             "categories": FindingAggregator.by_category(findings),
             "risk_score": FindingAggregator.risk_score(findings),
             "cvss": FindingAggregator.cvss(findings),
+=======
+
+            "total": len(findings),
+
+            "severity": FindingAggregator.by_severity(findings),
+
+            "status": FindingAggregator.by_status(findings),
+
+            "categories": FindingAggregator.by_category(findings),
+
+            "risk_score": FindingAggregator.risk_score(findings),
+
+            "cvss": FindingAggregator.cvss(findings)
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # =====================================================
@@ -219,11 +338,45 @@ class FindingAggregator:
     def dashboard(findings):
 
         return {
+<<<<<<< HEAD
             "summary": FindingAggregator.executive_summary(findings),
             "top_assets": FindingAggregator.top_assets(findings),
             "top_projects": FindingAggregator.top_projects(findings),
             "false_positives": FindingAggregator.false_positives(findings),
             "resolution": FindingAggregator.resolution(findings),
+=======
+
+            "summary": FindingAggregator.executive_summary(
+
+                findings
+
+            ),
+
+            "top_assets": FindingAggregator.top_assets(
+
+                findings
+
+            ),
+
+            "top_projects": FindingAggregator.top_projects(
+
+                findings
+
+            ),
+
+            "false_positives": FindingAggregator.false_positives(
+
+                findings
+
+            ),
+
+            "resolution": FindingAggregator.resolution(
+
+                findings
+
+            )
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # =====================================================
@@ -239,11 +392,31 @@ class FindingAggregator:
 
             if finding.created_at:
 
+<<<<<<< HEAD
                 key = finding.created_at.strftime("%Y-%m-%d")
 
                 timeline[key] += 1
 
         return dict(sorted(timeline.items()))
+=======
+                key = finding.created_at.strftime(
+
+                    "%Y-%m-%d"
+
+                )
+
+                timeline[key] += 1
+
+        return dict(
+
+            sorted(
+
+                timeline.items()
+
+            )
+
+        )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # MONTHLY TREND
@@ -258,11 +431,31 @@ class FindingAggregator:
 
             if finding.created_at:
 
+<<<<<<< HEAD
                 key = finding.created_at.strftime("%Y-%m")
 
                 trend[key] += 1
 
         return dict(sorted(trend.items()))
+=======
+                key = finding.created_at.strftime(
+
+                    "%Y-%m"
+
+                )
+
+                trend[key] += 1
+
+        return dict(
+
+            sorted(
+
+                trend.items()
+
+            )
+
+        )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # COMPLETE PACKAGE
@@ -272,7 +465,30 @@ class FindingAggregator:
     def package(findings):
 
         return {
+<<<<<<< HEAD
             "dashboard": FindingAggregator.dashboard(findings),
             "timeline": FindingAggregator.timeline(findings),
             "monthly": FindingAggregator.monthly(findings),
         }
+=======
+
+            "dashboard": FindingAggregator.dashboard(
+
+                findings
+
+            ),
+
+            "timeline": FindingAggregator.timeline(
+
+                findings
+
+            ),
+
+            "monthly": FindingAggregator.monthly(
+
+                findings
+
+            )
+
+        }
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

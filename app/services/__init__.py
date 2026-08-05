@@ -11,6 +11,7 @@ from app.services.project_service import ProjectService
 from app.services.dashboard_service import DashboardService
 
 __all__ = [
+<<<<<<< HEAD
     "AssetService",
     "ScanService",
     "FindingService",
@@ -18,3 +19,19 @@ __all__ = [
     "ProjectService",
     "DashboardService",
 ]
+=======
+
+    "AssetService",
+
+    "ScanService",
+
+    "FindingService",
+
+    "ReportService",
+
+    "ProjectService",
+
+    "DashboardService"
+
+]
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

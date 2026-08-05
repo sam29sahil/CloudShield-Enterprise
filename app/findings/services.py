@@ -80,7 +80,15 @@ class FindingService:
 
     def list(self):
 
+<<<<<<< HEAD
         return Finding.query.order_by(Finding.created_at.desc()).all()
+=======
+        return Finding.query.order_by(
+
+            Finding.created_at.desc()
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # RECENT
@@ -88,7 +96,15 @@ class FindingService:
 
     def recent(self, limit=10):
 
+<<<<<<< HEAD
         return Finding.query.order_by(Finding.created_at.desc()).limit(limit).all()
+=======
+        return Finding.query.order_by(
+
+            Finding.created_at.desc()
+
+        ).limit(limit).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # SEARCH
@@ -97,6 +113,7 @@ class FindingService:
     def search(self, keyword):
 
         return Finding.query.filter(
+<<<<<<< HEAD
             or_(
                 Finding.title.ilike(f"%{keyword}%"),
                 Finding.description.ilike(f"%{keyword}%"),
@@ -104,17 +121,44 @@ class FindingService:
             )
         ).all()
 
+=======
+
+            or_(
+
+                Finding.title.ilike(f"%{keyword}%"),
+
+                Finding.description.ilike(f"%{keyword}%"),
+
+                Finding.category.ilike(f"%{keyword}%")
+
+            )
+
+        ).all()
+    
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     # =====================================================
     # BY PROJECT
     # =====================================================
 
     def by_project(self, project_id):
 
+<<<<<<< HEAD
         return (
             Finding.query.filter_by(project_id=project_id)
             .order_by(Finding.created_at.desc())
             .all()
         )
+=======
+        return Finding.query.filter_by(
+
+            project_id=project_id
+
+        ).order_by(
+
+            Finding.created_at.desc()
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # BY ASSET
@@ -122,11 +166,23 @@ class FindingService:
 
     def by_asset(self, asset_id):
 
+<<<<<<< HEAD
         return (
             Finding.query.filter_by(asset_id=asset_id)
             .order_by(Finding.created_at.desc())
             .all()
         )
+=======
+        return Finding.query.filter_by(
+
+            asset_id=asset_id
+
+        ).order_by(
+
+            Finding.created_at.desc()
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # BY SCAN
@@ -134,11 +190,23 @@ class FindingService:
 
     def by_scan(self, scan_id):
 
+<<<<<<< HEAD
         return (
             Finding.query.filter_by(scan_id=scan_id)
             .order_by(Finding.created_at.desc())
             .all()
         )
+=======
+        return Finding.query.filter_by(
+
+            scan_id=scan_id
+
+        ).order_by(
+
+            Finding.created_at.desc()
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # BY SEVERITY
@@ -146,11 +214,23 @@ class FindingService:
 
     def by_severity(self, severity):
 
+<<<<<<< HEAD
         return (
             Finding.query.filter_by(severity=severity)
             .order_by(Finding.created_at.desc())
             .all()
         )
+=======
+        return Finding.query.filter_by(
+
+            severity=severity
+
+        ).order_by(
+
+            Finding.created_at.desc()
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # BY STATUS
@@ -158,11 +238,23 @@ class FindingService:
 
     def by_status(self, status):
 
+<<<<<<< HEAD
         return (
             Finding.query.filter_by(status=status)
             .order_by(Finding.created_at.desc())
             .all()
         )
+=======
+        return Finding.query.filter_by(
+
+            status=status
+
+        ).order_by(
+
+            Finding.created_at.desc()
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # BY CATEGORY
@@ -170,11 +262,23 @@ class FindingService:
 
     def by_category(self, category):
 
+<<<<<<< HEAD
         return (
             Finding.query.filter_by(category=category)
             .order_by(Finding.created_at.desc())
             .all()
         )
+=======
+        return Finding.query.filter_by(
+
+            category=category
+
+        ).order_by(
+
+            Finding.created_at.desc()
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # OPEN FINDINGS
@@ -182,11 +286,23 @@ class FindingService:
 
     def open(self):
 
+<<<<<<< HEAD
         return (
             Finding.query.filter_by(status="Open")
             .order_by(Finding.created_at.desc())
             .all()
         )
+=======
+        return Finding.query.filter_by(
+
+            status="Open"
+
+        ).order_by(
+
+            Finding.created_at.desc()
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # RESOLVED FINDINGS
@@ -194,11 +310,23 @@ class FindingService:
 
     def resolved(self):
 
+<<<<<<< HEAD
         return (
             Finding.query.filter_by(status="Resolved")
             .order_by(Finding.resolved_at.desc())
             .all()
         )
+=======
+        return Finding.query.filter_by(
+
+            status="Resolved"
+
+        ).order_by(
+
+            Finding.resolved_at.desc()
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # FALSE POSITIVES
@@ -206,11 +334,23 @@ class FindingService:
 
     def false_positives(self):
 
+<<<<<<< HEAD
         return (
             Finding.query.filter_by(false_positive=True)
             .order_by(Finding.created_at.desc())
             .all()
         )
+=======
+        return Finding.query.filter_by(
+
+            false_positive=True
+
+        ).order_by(
+
+            Finding.created_at.desc()
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # CRITICAL FINDINGS
@@ -218,11 +358,23 @@ class FindingService:
 
     def critical(self):
 
+<<<<<<< HEAD
         return (
             Finding.query.filter_by(severity="Critical")
             .order_by(Finding.created_at.desc())
             .all()
         )
+=======
+        return Finding.query.filter_by(
+
+            severity="Critical"
+
+        ).order_by(
+
+            Finding.created_at.desc()
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # HIGH FINDINGS
@@ -230,6 +382,7 @@ class FindingService:
 
     def high(self):
 
+<<<<<<< HEAD
         return (
             Finding.query.filter_by(severity="High")
             .order_by(Finding.created_at.desc())
@@ -238,6 +391,19 @@ class FindingService:
 
         # =====================================================
 
+=======
+        return Finding.query.filter_by(
+
+            severity="High"
+
+        ).order_by(
+
+            Finding.created_at.desc()
+
+        ).all()
+    
+        # =====================================================
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     # RESOLVE FINDING
     # =====================================================
 
@@ -327,7 +493,15 @@ class FindingService:
 
     def bulk_delete(self, ids):
 
+<<<<<<< HEAD
         findings = Finding.query.filter(Finding.id.in_(ids)).all()
+=======
+        findings = Finding.query.filter(
+
+            Finding.id.in_(ids)
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         for finding in findings:
 
@@ -343,7 +517,15 @@ class FindingService:
 
     def bulk_resolve(self, ids):
 
+<<<<<<< HEAD
         findings = Finding.query.filter(Finding.id.in_(ids)).all()
+=======
+        findings = Finding.query.filter(
+
+            Finding.id.in_(ids)
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         now = datetime.utcnow()
 
@@ -365,7 +547,15 @@ class FindingService:
 
     def bulk_reopen(self, ids):
 
+<<<<<<< HEAD
         findings = Finding.query.filter(Finding.id.in_(ids)).all()
+=======
+        findings = Finding.query.filter(
+
+            Finding.id.in_(ids)
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         now = datetime.utcnow()
 
@@ -387,7 +577,15 @@ class FindingService:
 
     def bulk_false_positive(self, ids):
 
+<<<<<<< HEAD
         findings = Finding.query.filter(Finding.id.in_(ids)).all()
+=======
+        findings = Finding.query.filter(
+
+            Finding.id.in_(ids)
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         now = datetime.utcnow()
 
@@ -407,7 +605,15 @@ class FindingService:
 
     def bulk_change_severity(self, ids, severity):
 
+<<<<<<< HEAD
         findings = Finding.query.filter(Finding.id.in_(ids)).all()
+=======
+        findings = Finding.query.filter(
+
+            Finding.id.in_(ids)
+
+        ).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         now = datetime.utcnow()
 
@@ -420,9 +626,14 @@ class FindingService:
         db.session.commit()
 
         return len(findings)
+<<<<<<< HEAD
 
         # =====================================================
 
+=======
+    
+        # =====================================================
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     # TOTAL FINDINGS
     # =====================================================
 
@@ -437,6 +648,7 @@ class FindingService:
     def summary(self):
 
         return {
+<<<<<<< HEAD
             "total": Finding.query.count(),
             "critical": Finding.query.filter_by(severity="Critical").count(),
             "high": Finding.query.filter_by(severity="High").count(),
@@ -446,6 +658,43 @@ class FindingService:
             "open": Finding.query.filter_by(status="Open").count(),
             "resolved": Finding.query.filter_by(status="Resolved").count(),
             "false_positive": Finding.query.filter_by(false_positive=True).count(),
+=======
+
+            "total": Finding.query.count(),
+
+            "critical": Finding.query.filter_by(
+                severity="Critical"
+            ).count(),
+
+            "high": Finding.query.filter_by(
+                severity="High"
+            ).count(),
+
+            "medium": Finding.query.filter_by(
+                severity="Medium"
+            ).count(),
+
+            "low": Finding.query.filter_by(
+                severity="Low"
+            ).count(),
+
+            "info": Finding.query.filter_by(
+                severity="Info"
+            ).count(),
+
+            "open": Finding.query.filter_by(
+                status="Open"
+            ).count(),
+
+            "resolved": Finding.query.filter_by(
+                status="Resolved"
+            ).count(),
+
+            "false_positive": Finding.query.filter_by(
+                false_positive=True
+            ).count()
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # =====================================================
@@ -455,12 +704,28 @@ class FindingService:
     def dashboard(self):
 
         return {
+<<<<<<< HEAD
             "summary": self.summary(),
             "recent": self.recent(10),
             "critical": self.critical(),
             "high": self.high(),
             "open": self.open(),
             "resolved": self.resolved(),
+=======
+
+            "summary": self.summary(),
+
+            "recent": self.recent(10),
+
+            "critical": self.critical(),
+
+            "high": self.high(),
+
+            "open": self.open(),
+
+            "resolved": self.resolved()
+
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # =====================================================
@@ -471,6 +736,7 @@ class FindingService:
 
         score = 0
 
+<<<<<<< HEAD
         weights = {"Critical": 10, "High": 7, "Medium": 5, "Low": 2, "Info": 0}
 
         findings = Finding.query.filter_by(status="Open").all()
@@ -478,6 +744,32 @@ class FindingService:
         for finding in findings:
 
             score += weights.get(finding.severity, 0)
+=======
+        weights = {
+
+            "Critical": 10,
+
+            "High": 7,
+
+            "Medium": 5,
+
+            "Low": 2,
+
+            "Info": 0
+
+        }
+
+        findings = Finding.query.filter_by(
+            status="Open"
+        ).all()
+
+        for finding in findings:
+
+            score += weights.get(
+                finding.severity,
+                0
+            )
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         return score
 
@@ -489,6 +781,7 @@ class FindingService:
 
         from sqlalchemy import func
 
+<<<<<<< HEAD
         return (
             db.session.query(Finding.asset_id, func.count(Finding.id))
             .group_by(Finding.asset_id)
@@ -496,6 +789,23 @@ class FindingService:
             .limit(limit)
             .all()
         )
+=======
+        return db.session.query(
+
+            Finding.asset_id,
+
+            func.count(Finding.id)
+
+        ).group_by(
+
+            Finding.asset_id
+
+        ).order_by(
+
+            func.count(Finding.id).desc()
+
+        ).limit(limit).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # TOP PROJECTS
@@ -505,6 +815,7 @@ class FindingService:
 
         from sqlalchemy import func
 
+<<<<<<< HEAD
         return (
             db.session.query(Finding.project_id, func.count(Finding.id))
             .group_by(Finding.project_id)
@@ -512,6 +823,23 @@ class FindingService:
             .limit(limit)
             .all()
         )
+=======
+        return db.session.query(
+
+            Finding.project_id,
+
+            func.count(Finding.id)
+
+        ).group_by(
+
+            Finding.project_id
+
+        ).order_by(
+
+            func.count(Finding.id).desc()
+
+        ).limit(limit).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # LATEST FINDINGS
@@ -519,7 +847,15 @@ class FindingService:
 
     def latest(self, limit=20):
 
+<<<<<<< HEAD
         return Finding.query.order_by(Finding.created_at.desc()).limit(limit).all()
+=======
+        return Finding.query.order_by(
+
+            Finding.created_at.desc()
+
+        ).limit(limit).all()
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # =====================================================
     # EXISTS
@@ -527,4 +863,12 @@ class FindingService:
 
     def exists(self, finding_id):
 
+<<<<<<< HEAD
         return Finding.query.filter_by(id=finding_id).first() is not None
+=======
+        return Finding.query.filter_by(
+
+            id=finding_id
+
+        ).first() is not None
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

@@ -28,6 +28,7 @@ class KubernetesPersistentVolumes:
 
             for volume in volumes:
 
+<<<<<<< HEAD
                 data.append(
                     {
                         "name": volume.metadata.name,
@@ -37,6 +38,21 @@ class KubernetesPersistentVolumes:
                         "storage_class": volume.spec.storage_class_name,
                     }
                 )
+=======
+                data.append({
+
+                    "name": volume.metadata.name,
+
+                    "capacity": volume.spec.capacity.get("storage"),
+
+                    "access_modes": volume.spec.access_modes,
+
+                    "status": volume.status.phase,
+
+                    "storage_class": volume.spec.storage_class_name
+
+                })
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             return data
 
@@ -46,4 +62,8 @@ class KubernetesPersistentVolumes:
 
         except Exception:
 
+<<<<<<< HEAD
             return []
+=======
+            return []
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

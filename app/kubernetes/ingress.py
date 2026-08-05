@@ -37,6 +37,7 @@ class KubernetesIngress:
 
                         hosts.append(rule.host)
 
+<<<<<<< HEAD
                 data.append(
                     {
                         "name": ingress.metadata.name,
@@ -45,6 +46,19 @@ class KubernetesIngress:
                         "class": ingress.spec.ingress_class_name,
                     }
                 )
+=======
+                data.append({
+
+                    "name": ingress.metadata.name,
+
+                    "namespace": ingress.metadata.namespace,
+
+                    "hosts": hosts,
+
+                    "class": ingress.spec.ingress_class_name
+
+                })
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             return data
 
@@ -54,4 +68,8 @@ class KubernetesIngress:
 
         except Exception:
 
+<<<<<<< HEAD
             return []
+=======
+            return []
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

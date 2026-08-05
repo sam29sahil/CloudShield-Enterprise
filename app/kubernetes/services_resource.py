@@ -28,6 +28,7 @@ class KubernetesServices:
 
             for service in services:
 
+<<<<<<< HEAD
                 data.append(
                     {
                         "name": service.metadata.name,
@@ -37,6 +38,21 @@ class KubernetesServices:
                         "ports": len(service.spec.ports),
                     }
                 )
+=======
+                data.append({
+
+                    "name": service.metadata.name,
+
+                    "namespace": service.metadata.namespace,
+
+                    "type": service.spec.type,
+
+                    "cluster_ip": service.spec.cluster_ip,
+
+                    "ports": len(service.spec.ports)
+
+                })
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             return data
 
@@ -46,4 +62,8 @@ class KubernetesServices:
 
         except Exception:
 
+<<<<<<< HEAD
             return []
+=======
+            return []
+>>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
