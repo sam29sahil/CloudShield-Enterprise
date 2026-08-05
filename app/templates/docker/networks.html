@@ -1,0 +1,259 @@
+{% extends "docker/base.html" %}
+
+{% block title %}
+Docker Networks
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ===================================== -->
+    <!-- Header -->
+    <!-- ===================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-diagram-3-fill text-warning"></i>
+
+                Docker Networks
+
+            </h2>
+
+            <p class="text-muted">
+
+                View all Docker bridge, host and overlay networks.
+
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('docker.refresh') }}"
+           class="btn btn-primary">
+
+            <i class="bi bi-arrow-clockwise"></i>
+
+            Refresh
+
+        </a>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Summary -->
+    <!-- ===================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Total Networks
+
+                    </h6>
+
+                    <h2 class="fw-bold text-warning">
+
+                        {{ networks|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Driver Types
+
+                    </h6>
+
+                    <h2 class="fw-bold text-primary">
+
+                        {{ networks|map(attribute='attrs.Driver')|list|unique|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Status
+
+                    </h6>
+
+                    <span class="badge bg-success">
+
+                        Active
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Network Inventory -->
+    <!-- ===================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5 class="mb-0">
+
+                Network Inventory
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Driver</th>
+
+                        <th>Scope</th>
+
+                        <th>ID</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for network in networks %}
+                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ network.name }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        <span class="badge bg-primary">
+
+                            {{ network.attrs.Driver }}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        {{ network.attrs.Scope }}
+
+                    </td>
+
+                    <td>
+
+                        <code>
+
+                            {{ network.short_id }}
+
+                        </code>
+
+                    </td>
+
+                </tr>
+
+            {% else %}
+
+                <tr>
+
+                    <td colspan="4" class="text-center py-5">
+
+                        <i class="bi bi-diagram-3 display-1 text-muted"></i>
+
+                        <h4 class="mt-3">
+
+                            No Docker Networks Found
+
+                        </h4>
+
+                        <p class="text-muted">
+
+                            Docker networks will appear here when available.
+
+                        </p>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- Footer -->
+<!-- ===================================== -->
+
+<div class="card border-0 shadow-sm mt-4">
+
+    <div class="card-body text-center">
+
+        <small class="text-muted">
+
+            CloudShield Enterprise • Docker Network Inventory
+
+        </small>
+
+    </div>
+
+</div>
+
+</div>
+
+{% endblock %}

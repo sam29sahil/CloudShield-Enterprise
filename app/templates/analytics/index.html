@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% block styles %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/analytics.css') }}">
+{% endblock %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                Security Analytics
+
+            </h2>
+
+            <p class="text-muted">
+
+                Analyze CloudShield scan statistics and security posture.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Total Scans
+
+                    </h6>
+
+                    <h2 class="fw-bold">
+
+                        {{ statistics.total_scans }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Average Score
+
+                    </h6>
+
+                    <h2 class="fw-bold text-primary">
+
+                        {{ statistics.average_score }}%
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-success">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Completed
+
+                    </h6>
+
+                    <h2 class="fw-bold text-success">
+
+                        {{ statistics.completed }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-danger">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Failed
+
+                    </h6>
+
+                    <h2 class="fw-bold text-danger">
+
+                        {{ statistics.failed }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Risk Summary -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-dark">
+
+                <div class="card-body text-center">
+
+                    <h6>
+
+                        Critical
+
+                    </h6>
+
+                    <h2 class="fw-bold">
+
+                        {{ statistics.critical }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-danger">
+
+                <div class="card-body text-center">
+
+                    <h6>
+
+                        High
+
+                    </h6>
+
+                    <h2 class="fw-bold text-danger">
+
+                        {{ statistics.high }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-warning">
+
+                <div class="card-body text-center">
+
+                    <h6>
+
+                        Medium
+
+                    </h6>
+
+                    <h2 class="fw-bold text-warning">
+
+                        {{ statistics.medium }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-success">
+
+                <div class="card-body text-center">
+
+                    <h6>
+
+                        Low
+
+                    </h6>
+
+                    <h2 class="fw-bold text-success">
+
+                        {{ statistics.low }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Charts -->
+
+    <div class="row">
+
+        <div class="col-lg-8 mb-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-dark text-white">
+
+                    <h5 class="mb-0">
+
+                        Security Score Trend
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="scoreChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h5 class="mb-0">
+
+                        Risk Distribution
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="riskChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const labels = {{ charts.labels|tojson }};
+const scores = {{ charts.scores|tojson }};
+
+new Chart(
+
+document.getElementById("scoreChart"),
+
+{
+
+type:"line",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+label:"Security Score",
+
+data:scores,
+
+fill:false,
+
+borderWidth:3,
+
+tension:0.3
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false
+
+}
+
+}
+
+);
+
+new Chart(
+
+document.getElementById("riskChart"),
+
+{
+
+type:"doughnut",
+
+data:{
+
+labels:[
+
+"Critical",
+
+"High",
+
+"Medium",
+
+"Low"
+
+],
+
+datasets:[{
+
+data:[
+
+{{ statistics.critical }},
+
+{{ statistics.high }},
+
+{{ statistics.medium }},
+
+{{ statistics.low }}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:true
+
+}
+
+}
+
+);
+
+</script>
+
+{% endblock %}

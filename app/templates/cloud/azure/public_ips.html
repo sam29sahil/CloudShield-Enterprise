@@ -1,0 +1,171 @@
+{% extends "cloud/base.html" %}
+
+{% block title %}
+
+Azure Public IP Addresses
+
+{% endblock %}
+
+{% block cloud_content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-globe2 text-primary"></i>
+
+                Public IP Addresses
+
+            </h2>
+
+            <p class="text-muted">
+
+                Azure Public IP inventory.
+
+            </p>
+
+        </div>
+
+        <span class="badge bg-primary fs-6">
+
+            {{ data|length }} Public IPs
+
+        </span>
+
+    </div>
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total Public IPs
+
+                    </small>
+
+                    <h2>
+
+                        {{ data|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Static Allocation
+
+                    </small>
+
+                    <h2>
+
+                        {{ data | selectattr('allocation','equalto','Static') | list | length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        IPv4
+
+                    </small>
+
+                    <h2>
+
+                        {{ data | selectattr('version','equalto','IPv4') | list | length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>IP Address</th>
+
+                        <th>Allocation</th>
+
+                        <th>Version</th>
+
+                        <th>Resource Group</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for ip in data %}
+
+                    <tr>
+
+                        <td>{{ ip.name }}</td>
+
+                        <td>{{ ip.ip }}</td>
+
+                        <td>{{ ip.allocation }}</td>
+
+                        <td>{{ ip.version }}</td>
+
+                        <td>{{ ip.resource_group }}</td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

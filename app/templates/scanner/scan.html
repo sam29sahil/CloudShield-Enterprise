@@ -1,0 +1,933 @@
+{% extends "base.html" %}
+{% block styles %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/scanner.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="scanner-page">
+
+<div class="container-fluid">
+
+    <!-- ========================================= -->
+    <!-- HERO -->
+    <!-- ========================================= -->
+
+    <div class="scanner-hero fade-up">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-8">
+
+                <h1>
+
+                    <i class="bi bi-shield-check"></i>
+
+                    CloudShield Enterprise Scanner
+
+                </h1>
+
+                <p>
+
+                    Enterprise Website, Network & Cloud Security Assessment Platform
+
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="{{ url_for('scanner.home') }}"
+                       class="btn btn-light">
+
+                        <i class="bi bi-plus-circle"></i>
+
+                        New Scan
+
+                    </a>
+
+                    <a href="{{ url_for('scanner.history') }}"
+                       class="btn btn-outline-light">
+
+                        <i class="bi bi-clock-history"></i>
+
+                        Scan History
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 text-end">
+
+                <i class="bi bi-radar"
+                   style="font-size:120px;
+                          opacity:.15;">
+
+                </i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- MAIN ROW -->
+    <!-- ========================================= -->
+
+    <div class="row">
+
+        <!-- ===================================== -->
+        <!-- LEFT -->
+        <!-- ===================================== -->
+
+        <div class="col-lg-7">
+
+            <div class="scanner-card fade-up">
+
+                <div class="scanner-card-title">
+
+                    <i class="bi bi-sliders"></i>
+
+                    Configure Security Scan
+
+                </div>
+
+                <form method="POST">
+
+                    {{ form.hidden_tag() }}
+
+                    {{ form.asset_id() }}
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            {{ form.mode.label(class="form-label") }}
+
+                            {{ form.mode(
+                                class="form-select",
+                                id="mode"
+                            ) }}
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            {{ form.category.label(class="form-label") }}
+
+                            {{ form.category(
+                                class="form-select",
+                                id="category"
+                            ) }}
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        {{ form.tool.label(class="form-label") }}
+
+                        {{ form.tool(
+                            class="form-select",
+                            id="tool"
+                        ) }}
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        {{ form.target.label(class="form-label") }}
+
+                        {{ form.target(
+                            class="form-control",
+                            placeholder="example.com or https://example.com"
+                        ) }}
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        {{ form.arguments.label(class="form-label") }}
+
+                        {{ form.arguments(
+                            class="form-control",
+                            placeholder="-sV -T4"
+                        ) }}
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn-start">
+
+                        <i class="bi bi-play-fill"></i>
+
+                        Start Security Scan
+
+                    </button>
+
+                </form>
+
+            </div>
+
+            <!-- ================================= -->
+            <!-- MODULES -->
+            <!-- ================================= -->
+
+            <div class="scanner-card fade-up">
+
+                <div class="scanner-card-title">
+
+                    <i class="bi bi-grid"></i>
+
+                    Scan Coverage
+
+                </div>
+
+                <div class="module-grid">
+
+                    <div class="module-item">
+
+                        🌐 Website Analysis
+
+                    </div>
+
+                    <div class="module-item">
+
+                        🛡 Security Headers
+
+                    </div>
+
+                    <div class="module-item">
+
+                        🔒 SSL Inspection
+
+                    </div>
+
+                    <div class="module-item">
+
+                        🌍 DNS Analysis
+
+                    </div>
+
+                    <div class="module-item">
+
+                        📡 WHOIS Lookup
+
+                    </div>
+
+                    <div class="module-item">
+
+                        ⚙ Technology Detection
+
+                    </div>
+
+                    <div class="module-item">
+
+                        🚪 Port Analysis
+
+                    </div>
+
+                    <div class="module-item">
+
+                        ☁ Cloud Security
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+                <!-- ===================================== -->
+        <!-- RIGHT PANEL -->
+        <!-- ===================================== -->
+
+        <div class="col-lg-5">
+
+            <!-- Live Status -->
+
+            <div class="scanner-card fade-up">
+
+                <div class="scanner-card-title">
+
+                    <i class="bi bi-activity"></i>
+
+                    Live Scan Status
+
+                </div>
+
+                <div class="status-box">
+
+                    <div class="status-title">
+
+                        Scanner Status
+
+                    </div>
+
+                    <div class="status-value">
+
+                        {{ dashboard.status }}
+
+                    </div>
+
+                </div>
+
+
+                <div class="mt-4">
+
+                    <div class="scan-step">
+
+                        <span class="step-title">
+
+                            Website Analysis
+
+                        </span>
+
+                        <span class="badge badge-secondary step-status">
+
+                            {{ dashboard.status }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="scan-step">
+
+                        <span class="step-title">
+
+                            Security Headers
+
+                        </span>
+
+                        <span class="badge badge-secondary step-status">
+
+                            {{ dashboard.status }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="scan-step">
+
+                        <span class="step-title">
+
+                            SSL Inspection
+
+                        </span>
+
+                        <span class="badge badge-secondary step-status">
+
+                            {{ dashboard.status }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="scan-step">
+
+                        <span class="step-title">
+
+                            DNS Analysis
+
+                        </span>
+
+                        <span class="badge badge-secondary step-status">
+
+                            {{ dashboard.status }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="scan-step">
+
+                        <span class="step-title">
+
+                            WHOIS Lookup
+
+                        </span>
+
+                        <span class="badge badge-secondary step-status">
+
+                           {{ dashboard.status }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="scan-step">
+
+                        <span class="step-title">
+
+                            Technology Detection
+
+                        </span>
+
+                        <span class="badge badge-secondary step-status">
+
+                            {{ dashboard.status }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="scan-step">
+
+                        <span class="step-title">
+
+                            Port Analysis
+
+                        </span>
+
+                        <span class="badge badge-secondary step-status">
+{{ dashboard.status }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Scanner Statistics -->
+
+            <div class="scanner-card fade-up">
+
+                <div class="scanner-card-title">
+
+                    <i class="bi bi-speedometer2"></i>
+
+                    Scanner Statistics
+
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-6">
+
+                        <div class="stat-card">
+
+                            <div class="stat-value">
+
+                                {{ dashboard.findings }}
+
+                            </div>
+
+                            <div class="stat-title">
+
+                                Findings
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-6">
+
+                        <div class="stat-card">
+
+                            <div class="stat-value">
+
+                                {{ dashboard.ports }}
+
+                            </div>
+
+                            <div class="stat-title">
+
+                                Open Ports
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-6">
+
+                        <div class="stat-card">
+
+                            <div class="stat-value">
+
+                                {{ dashboard.score }}
+
+                            </div>
+
+                            <div class="stat-title">
+
+                                Risk Score
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-6">
+
+                        <div class="stat-card">
+
+                            <div class="stat-value">
+
+                                {{ dashboard.duration }} s
+
+                            </div>
+
+                            <div class="stat-title">
+
+                                Duration
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Security Tips -->
+
+            <div class="scanner-card fade-up">
+
+                <div class="scanner-card-title">
+
+                    <i class="bi bi-lightbulb"></i>
+
+                    Security Tips
+
+                </div>
+
+                <div class="recommendation-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Enable HSTS for HTTPS websites.
+
+                </div>
+
+                <div class="recommendation-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Use TLS 1.3 whenever possible.
+
+                </div>
+
+                <div class="recommendation-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Hide Server Version headers.
+
+                </div>
+
+                <div class="recommendation-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Enable Content Security Policy (CSP).
+
+                </div>
+
+                <div class="recommendation-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Keep software and services updated.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+        <!-- ========================================= -->
+    <!-- RESULT SECTION -->
+    <!-- ========================================= -->
+
+    {% if result %}
+
+    <div class="scanner-card fade-up mt-4">
+
+        <div class="scanner-card-title">
+
+            <i class="bi bi-bar-chart-line-fill"></i>
+
+            Scan Summary
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Risk -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="result-card">
+
+                    <div class="result-icon danger">
+
+                        <i class="bi bi-shield-exclamation"></i>
+
+                    </div>
+
+                    <div class="result-number">
+
+                         {{ dashboard.score }}
+
+                    </div>
+
+                    <div class="result-label">
+
+                        Security Score
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Status -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="result-card">
+
+                    <div class="result-icon success">
+
+                        <i class="bi bi-check-circle"></i>
+
+                    </div>
+
+                    <div class="result-number">
+
+                        {{ result.message }}
+
+                    </div>
+
+                    <div class="result-label">
+
+                        Status
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Tool -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="result-card">
+
+                    <div class="result-icon primary">
+
+                        <i class="bi bi-cpu"></i>
+
+                    </div>
+
+                    <div class="result-number">
+
+                        {{ result.tool }}
+
+                    </div>
+
+                    <div class="result-label">
+
+                        Scanner
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Target -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="result-card">
+
+                    <div class="result-icon warning">
+
+                        <i class="bi bi-globe"></i>
+
+                    </div>
+
+                    <div class="result-number">
+
+                        <h3>{{ result.target }} </h3>
+
+                    </div>
+
+                    <div class="result-label">
+
+                        Target
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- DETAILS -->
+    <!-- ========================================= -->
+
+    <div class="scanner-card fade-up">
+
+        <div class="scanner-card-title">
+
+            <i class="bi bi-list-check"></i>
+
+            Scan Details
+
+        </div>
+
+        <table class="scanner-table">
+
+            <thead>
+
+                <tr>
+
+                    <th width="220">
+
+                        Property
+
+                    </th>
+
+                    <th>
+
+                        Value
+
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>Scan Mode</td>
+
+                    <td>{{ result.mode }}</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Category</td>
+
+                    <td>{{ result.category }}</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Scanner</td>
+
+                    <td>{{ result.tool }}</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Target</td>
+
+                    <td>{{ result.target }}</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Arguments</td>
+
+                    <td>
+
+                        {{ result.arguments if result.arguments else "Default" }}
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- RECOMMENDATIONS -->
+    <!-- ========================================= -->
+
+    <div class="recommendation-card fade-up">
+
+        <h6>
+
+            <i class="bi bi-lightbulb-fill"></i>
+
+            Security Recommendations
+
+        </h6>
+
+        <div class="recommendation-item">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            Enable HSTS headers.
+
+        </div>
+
+        <div class="recommendation-item">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            Enable Content Security Policy.
+
+        </div>
+
+        <div class="recommendation-item">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            Disable unnecessary services.
+
+        </div>
+
+        <div class="recommendation-item">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            Keep SSL certificates updated.
+
+        </div>
+
+        <div class="recommendation-item">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            Perform periodic vulnerability assessments.
+
+        </div>
+
+    </div>
+
+    {% endif %}
+    <script>
+
+const mode=document.getElementById("mode");
+const category=document.getElementById("category");
+const tool=document.getElementById("tool");
+
+function loadTools(){
+
+    fetch("/scanner/tools/"+mode.value+"/"+category.value)
+
+    .then(response=>response.json())
+
+    .then(data=>{
+
+        tool.innerHTML="";
+
+        data.forEach(function(item){
+
+            const option=document.createElement("option");
+
+            option.value=item[0];
+
+            option.text=item[1];
+
+            tool.appendChild(option);
+
+        });
+
+    });
+
+}
+
+mode.addEventListener("change",loadTools);
+
+category.addEventListener("change",loadTools);
+
+window.onload=loadTools;
+
+
+
+/*=========================================
+Progress Animation
+=========================================*/
+
+const progress=document.getElementById("scanProgress");
+
+if(progress){
+
+let width=0;
+
+const interval=setInterval(()=>{
+
+width++;
+
+progress.style.width=width+"%";
+
+if(width>=100){
+
+clearInterval(interval);
+
+}
+
+},25);
+
+}
+
+
+
+/*=========================================
+Button Animation
+=========================================*/
+
+const form=document.querySelector("form");
+
+const button=document.querySelector(".btn-start");
+
+if(form){
+
+form.addEventListener("submit",function(){
+
+button.innerHTML=`
+
+<span class="spinner-border spinner-border-sm me-2">
+
+</span>
+
+Running Scan...
+
+`;
+
+button.disabled=true;
+
+});
+
+}
+
+</script>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,243 @@
+{% extends "cloud/base.html" %}
+
+{% block cloud_title %}
+
+<i class="bi bi-cpu-fill text-primary"></i>
+
+EC2 Dashboard
+
+{% endblock %}
+
+{% block cloud_subtitle %}
+
+Monitor Amazon EC2 instances, instance health, key pairs, security groups and compute resources.
+
+{% endblock %}
+
+{% block breadcrumb %}
+
+EC2
+
+{% endblock %}
+
+{% block content %}
+
+    <!-- KPI Cards -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Buckets
+
+                    </small>
+
+                    <h2 class="fw-bold text-white">
+
+                        {{ data.total_buckets if data.success else 0 }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Public Buckets
+
+                    </small>
+
+                    <h2 class="fw-bold text-danger">
+
+                        {{ data.public }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Encrypted
+
+                    </small>
+
+                    <h2 class="fw-bold text-success">
+
+                        {{ data.encrypted }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Versioning Enabled
+
+                    </small>
+
+                    <h2 class="fw-bold text-info">
+
+                        {{ data.versioning }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Bucket Table -->
+
+    <div class="card dashboard-card border-0 shadow">
+
+        <div class="card-header">
+
+            <h5 class="mb-0 text-white">
+
+                S3 Buckets
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Bucket</th>
+
+                            <th>Region</th>
+
+                            <th>Encryption</th>
+
+                            <th>Versioning</th>
+
+                            <th>Crreated</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+{% if data.success %}
+
+    {% for bucket in data.buckets %}
+
+    <tr>
+
+        <td>
+
+            {{ bucket.name }}
+
+        </td>
+
+        <td>
+
+            -
+
+        </td>
+
+        <td>
+
+            -
+
+        </td>
+
+        <td>
+
+            -
+
+        </td>
+
+        <td>
+
+            {{ bucket.created }}
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+{% else %}
+
+<tr>
+
+    <td colspan="5" class="text-center py-5">
+
+        <i class="bi bi-database display-4 text-secondary"></i>
+
+        <h5 class="mt-3">
+
+            {{ data.error }}
+
+        </h5>
+
+        <p class="text-secondary">
+
+            Configure AWS credentials to view S3 buckets.
+
+        </p>
+
+    </td>
+
+</tr>
+
+{% endif %}
+
+</tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

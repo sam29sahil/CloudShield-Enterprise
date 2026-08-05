@@ -1,0 +1,1106 @@
+{% extends "base.html" %}
+
+{% block title %}
+Findings Management
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ========================================= -->
+    <!-- Header -->
+    <!-- ========================================= -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                <i class="bi bi-shield-check me-2"></i>
+
+                Findings Management
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Search, investigate and manage all security findings.
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <a href="{{ url_for('findings_ui.create') }}"
+               class="btn btn-primary">
+
+                <i class="bi bi-plus-circle me-2"></i>
+
+                New Finding
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- Breadcrumb -->
+    <!-- ========================================= -->
+
+    <nav class="mb-4">
+
+        <ol class="breadcrumb">
+
+            <li class="breadcrumb-item">
+
+                <a href="{{ url_for('dashboard.home') }}">
+
+                    Dashboard
+
+                </a>
+
+            </li>
+
+            <li class="breadcrumb-item">
+
+                <a href="{{ url_for('findings_ui.index') }}">
+
+                    Findings
+
+                </a>
+
+            </li>
+
+            <li class="breadcrumb-item active">
+
+                List
+
+            </li>
+
+        </ol>
+
+    </nav>
+
+    <!-- ========================================= -->
+    <!-- Statistics -->
+    <!-- ========================================= -->
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total Findings
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ findings|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Critical
+
+                    </small>
+
+                    <h2 class="text-danger fw-bold">
+
+                        {{ findings|selectattr('severity','equalto','Critical')|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Open
+
+                    </small>
+
+                    <h2 class="text-warning fw-bold">
+
+                        {{ findings|selectattr('status','equalto','Open')|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Resolved
+
+                    </small>
+
+                    <h2 class="text-success fw-bold">
+
+                        {{ findings|selectattr('status','equalto','Resolved')|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- ========================================= -->
+<!-- Search & Filters -->
+<!-- ========================================= -->
+
+<div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-header bg-white">
+
+        <h5 class="fw-bold mb-0">
+
+            <i class="bi bi-search me-2"></i>
+
+            Search & Filters
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="GET">
+
+            <div class="row g-3">
+
+                <!-- Search -->
+
+                <div class="col-lg-4">
+
+                    <label class="form-label fw-semibold">
+
+                        Search
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="search"
+                        placeholder="Title, Description, Category..."
+                        value="{{ request.args.get('search','') }}"
+                    >
+
+                </div>
+
+                <!-- Severity -->
+
+                <div class="col-lg-2">
+
+                    <label class="form-label fw-semibold">
+
+                        Severity
+
+                    </label>
+
+                    <select
+                        class="form-select"
+                        name="severity">
+
+                        <option value="">All</option>
+                        <option value="Critical"
+{% if severity == "Critical" %}selected{% endif %}>
+Critical
+</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                        <option value="Info">Info</option>
+                        <option value="Open"
+{% if status == "Open" %}selected{% endif %}>
+Open
+</option>
+
+                    </select>
+
+                </div>
+
+                <!-- Status -->
+
+                <div class="col-lg-2">
+
+                    <label class="form-label fw-semibold">
+
+                        Status
+
+                    </label>
+
+                    <select
+                        class="form-select"
+                        name="status">
+
+                        <option value="">All</option>
+                        <option value="Open">Open</option>
+                        <option value="Resolved">Resolved</option>
+
+                    </select>
+
+                </div>
+
+                <!-- Category -->
+
+                <div class="col-lg-2">
+
+                    <label class="form-label fw-semibold">
+
+                        Category
+
+                    </label>
+
+                    <input
+                        type="text"
+                        placeholder="HTTP"
+                        class="form-control"
+                        name="category"
+                        value="{{ category }}">
+                        
+                    >
+
+                </div>
+
+                <!-- Buttons -->
+
+                <div class="col-lg-2 d-flex align-items-end">
+
+                    <div class="d-grid gap-2 w-100">
+
+                        <button
+                            class="btn btn-primary">
+
+                            <i class="bi bi-search me-2"></i>
+
+                            Search
+
+                        </button>
+
+                        <a
+                            href="{{ url_for('findings_ui.list_findings') }}"
+                            class="btn btn-outline-secondary">
+
+                            Reset
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<!-- ========================================= -->
+<!-- Findings Table -->
+<!-- ========================================= -->
+
+<div class="card border-0 shadow-sm">
+    <form method="POST"
+      action="{{ url_for('findings_ui.bulk_delete') }}">
+
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+        <h5 class="fw-bold mb-0">
+
+            <i class="bi bi-list-check me-2"></i>
+
+            All Findings
+
+        </h5>
+
+        <span class="badge bg-primary">
+
+            {{ findings|length }} Findings
+
+        </span>
+
+    </div>
+
+    <!-- ========================================= -->
+<!-- Bulk Actions -->
+<!-- ========================================= -->
+
+<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+
+    <div>
+
+        <strong>
+
+            Bulk Actions
+
+        </strong>
+
+    </div>
+
+    <div class="btn-group">
+<button
+    type="button"
+    id="ajax-bulk-resolve"
+    class="btn btn-outline-success">
+
+    <i class="bi bi-check2-circle me-2"></i>
+
+    Resolve Selected
+
+</button>
+
+   <button
+    type="button"
+    id="ajax-bulk-delete"
+    class="btn btn-outline-danger">
+
+    <i class="bi bi-trash me-2"></i>
+
+    Delete Selected
+
+</button>
+
+        <div class="dropdown">
+
+    <button
+        class="btn btn-outline-primary dropdown-toggle"
+        data-bs-toggle="dropdown">
+
+        <i class="bi bi-download me-2"></i>
+
+        Export Selected
+
+    </button>
+
+    <ul class="dropdown-menu">
+
+        <li>
+
+            <button
+                type="submit"
+                formaction="{{ url_for('findings_ui.export_selected_csv') }}"
+                class="dropdown-item">
+
+                CSV
+
+            </button>
+
+        </li>
+
+        <li>
+
+            <button
+                type="submit"
+                formaction="{{ url_for('findings_ui.export_selected_json') }}"
+                class="dropdown-item">
+
+                JSON
+
+            </button>
+
+        </li>
+
+    </ul>
+
+</div>
+        <button
+            type="button"
+            class="btn btn-outline-secondary">
+
+            <i class="bi bi-arrow-clockwise me-2"></i>
+
+            Refresh
+
+        </button>
+
+    </div>
+
+</div>
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th width="50">
+                            <input
+    id="select-all"
+    class="form-check-input"
+    type="checkbox">
+                        </th>
+
+                        <th>ID</th>
+
+                        <th>Title</th>
+
+                        <th>Severity</th>
+
+                        <th>CVSS</th>
+
+                        <th>Category</th>
+
+                        <th>Status</th>
+
+                        <th>Project</th>
+
+                        <th>Asset</th>
+
+                        <th>
+
+    <a href="{{ url_for(
+        'findings_ui.list_findings',
+        sort='created_at',
+        order='asc' if order == 'desc' else 'desc',
+        search=search,
+        severity=severity,
+        status=status,
+        category=category
+    ) }}">
+
+        Created
+
+    </a>
+
+</th>
+
+                        <th width="220">
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+                    
+
+{% if findings %}
+
+{% for finding in findings %}
+
+<tr>
+
+    <!-- Select -->
+
+    <td>
+
+       <input
+    class="form-check-input finding-checkbox"
+    type="checkbox"
+    name="finding_ids"
+    value="{{ finding.id }}">
+    </td>
+
+    <!-- ID -->
+
+    <td>
+
+        <span class="fw-bold">
+
+            #{{ finding.id }}
+
+        </span>
+
+    </td>
+
+    <!-- Title -->
+
+    <td>
+
+        <div class="fw-semibold">
+
+            {{ finding.title }}
+
+        </div>
+
+        <small class="text-muted">
+
+            {{ finding.description[:60] if finding.description else "-" }}{% if finding.description and finding.description|length > 60 %}...{% endif %}
+
+        </small>
+
+    </td>
+
+    <!-- Severity -->
+
+    <td>
+
+        {% if finding.severity == "Critical" %}
+
+            <span class="badge bg-danger">
+
+                Critical
+
+            </span>
+
+        {% elif finding.severity == "High" %}
+
+            <span class="badge bg-warning text-dark">
+
+                High
+
+            </span>
+
+        {% elif finding.severity == "Medium" %}
+
+            <span class="badge bg-primary">
+
+                Medium
+
+            </span>
+
+        {% elif finding.severity == "Low" %}
+
+            <span class="badge bg-success">
+
+                Low
+
+            </span>
+
+        {% else %}
+
+            <span class="badge bg-secondary">
+
+                Info
+
+            </span>
+
+        {% endif %}
+
+    </td>
+
+    <!-- CVSS -->
+
+    <td>
+
+        {{ "%.1f"|format(finding.cvss or 0) }}
+
+    </td>
+
+    <!-- Category -->
+
+    <td>
+
+        {{ finding.category or "-" }}
+
+    </td>
+
+    <!-- Status -->
+
+    <td>
+
+        {% if finding.status == "Resolved" %}
+
+            <span class="badge bg-success">
+
+                Resolved
+
+            </span>
+
+        {% else %}
+
+            <span class="badge bg-warning text-dark">
+
+                Open
+
+            </span>
+
+        {% endif %}
+
+    </td>
+
+    <!-- Project -->
+
+    <td>
+
+        {{ finding.project.name if finding.project else "-" }}
+
+    </td>
+
+    <!-- Asset -->
+
+    <td>
+
+        {{ finding.asset.name if finding.asset else "-" }}
+
+    </td>
+
+    <!-- Created -->
+
+    <td>
+
+        {{ finding.created_at.strftime("%d %b %Y") }}
+
+    </td>
+
+    <td>
+
+    <div class="btn-group btn-group-sm" role="group">
+
+        <a href="{{ url_for('findings_ui.view', finding_id=finding.id) }}"
+           class="btn btn-outline-primary">
+            <i class="bi bi-eye"></i>
+        </a>
+
+        <a href="{{ url_for('findings_ui.edit', finding_id=finding.id) }}"
+           class="btn btn-outline-warning">
+            <i class="bi bi-pencil-square"></i>
+        </a>
+
+        {% if finding.status != "Resolved" %}
+       <button
+    type="button"
+    class="btn btn-outline-success ajax-resolve"
+    data-id="{{ finding.id }}">
+
+    <i class="bi bi-check-circle"></i>
+
+</button>
+        {% endif %}
+        <button
+    type="button"
+    class="btn btn-outline-danger ajax-delete"
+    data-id="{{ finding.id }}">
+
+    <i class="bi bi-trash"></i>
+
+</button>
+
+    </div>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+{% else %}
+
+<tr>
+
+    <td colspan="11" class="text-center py-5">
+
+        <i class="bi bi-folder2-open fs-1 text-muted"></i>
+
+        <h5 class="mt-3">
+
+            No Findings Found
+
+        </h5>
+
+        <p class="text-muted">
+
+            Start by creating a new finding.
+
+        </p>
+
+        <a href="{{ url_for('findings_ui.create') }}"
+           class="btn btn-primary">
+
+            <i class="bi bi-plus-circle me-2"></i>
+
+            Create Finding
+
+        </a>
+
+    </td>
+
+</tr>
+
+{% endif %}
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="card-footer bg-white">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <small class="text-muted">
+
+            Showing
+
+            {{ pagination.first if pagination.total else 0 }}
+
+            -
+
+            {{ pagination.last if pagination.total else 0 }}
+
+            of
+
+            {{ pagination.total }}
+
+            findings
+
+        </small>
+
+        <nav>
+
+            <ul class="pagination pagination-sm mb-0">
+
+                {% if pagination.has_prev %}
+
+                <li class="page-item">
+
+                    <a class="page-link"
+
+                       href="{{ url_for(
+                           'findings_ui.list_findings',
+                           page=pagination.prev_num,
+                           search=search,
+                           severity=severity,
+                           status=status,
+                           category=category
+                       ) }}">
+
+                        Previous
+
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+                {% for p in pagination.iter_pages() %}
+
+                    {% if p %}
+
+                    <li class="page-item {% if p == pagination.page %}active{% endif %}">
+
+                        <a class="page-link"
+
+                           href="{{ url_for(
+                               'findings_ui.list_findings',
+                               page=p,
+                               search=search,
+                               severity=severity,
+                               status=status,
+                               category=category
+                           ) }}">
+
+                            {{ p }}
+
+                        </a>
+
+                    </li>
+
+                    {% endif %}
+
+                {% endfor %}
+
+                {% if pagination.has_next %}
+
+                <li class="page-item">
+
+                    <a class="page-link"
+
+                       href="{{ url_for(
+                           'findings_ui.list_findings',
+                           page=pagination.next_num,
+                           search=search,
+                           severity=severity,
+                           status=status,
+                           category=category
+                       ) }}">
+
+                        Next
+
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+            </ul>
+
+        </nav>
+    </form>
+    </div>
+
+</div>
+</div>
+<<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ==========================================
+    // AJAX DELETE
+    // ==========================================
+
+    document.querySelectorAll(".ajax-delete").forEach(button => {
+
+        button.addEventListener("click", async function () {
+
+            if (!confirm("Delete this finding?")) {
+                return;
+            }
+
+            const id = this.dataset.id;
+
+            try {
+
+                const response = await fetch(`/findings/delete/${id}`, {
+
+                    method: "POST",
+
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+
+                });
+
+                if (response.ok) {
+
+                    const row = this.closest("tr");
+
+                    row.style.transition = "0.3s";
+
+                    row.style.opacity = "0";
+
+                    setTimeout(() => {
+
+                        row.remove();
+
+                    }, 300);
+
+                    showToast("Finding deleted successfully.");
+
+                } else {
+
+                    showToast("Delete failed.", "danger");
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                showToast("Server error.", "danger");
+
+            }
+
+        });
+
+    });
+
+    // ==========================================
+    // AJAX RESOLVE
+    // ==========================================
+
+    document.querySelectorAll(".ajax-resolve").forEach(button => {
+
+        button.addEventListener("click", async function () {
+
+            if (!confirm("Mark this finding as resolved?")) {
+                return;
+            }
+
+            const id = this.dataset.id;
+
+            try {
+
+                const response = await fetch(`/findings/resolve/${id}`, {
+
+                    method: "POST",
+
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+
+                });
+
+                if (response.ok) {
+
+                    showToast("Finding resolved successfully.");
+
+                    setTimeout(() => {
+
+                        location.reload();
+
+                    }, 500);
+
+                } else {
+
+                    showToast("Resolve failed.", "danger");
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                showToast("Server error.", "danger");
+
+            }
+
+        });
+
+    });
+
+    // ==========================================
+    // AJAX BULK DELETE
+    // ==========================================
+
+    document.getElementById("ajax-bulk-delete")?.addEventListener("click", async function () {
+
+        const ids = [...document.querySelectorAll(".finding-checkbox:checked")]
+            .map(cb => cb.value);
+
+        if (!ids.length) {
+
+            showToast("Select at least one finding.", "warning");
+
+            return;
+
+        }
+
+        if (!confirm("Delete selected findings?")) {
+            return;
+        }
+
+        const formData = new FormData();
+
+        ids.forEach(id => formData.append("finding_ids", id));
+
+        const response = await fetch("/findings/bulk-delete", {
+
+            method: "POST",
+
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            },
+
+            body: formData
+
+        });
+
+        if (response.ok) {
+
+            showToast("Selected findings deleted.");
+
+            setTimeout(() => {
+
+                location.reload();
+
+            }, 500);
+
+        } else {
+
+            showToast("Bulk delete failed.", "danger");
+
+        }
+
+    });
+
+    // ==========================================
+    // AJAX BULK RESOLVE
+    // ==========================================
+
+    document.getElementById("ajax-bulk-resolve")?.addEventListener("click", async function () {
+
+        const ids = [...document.querySelectorAll(".finding-checkbox:checked")]
+            .map(cb => cb.value);
+
+        if (!ids.length) {
+
+            showToast("Select at least one finding.", "warning");
+
+            return;
+
+        }
+
+        if (!confirm("Resolve selected findings?")) {
+            return;
+        }
+
+        const formData = new FormData();
+
+        ids.forEach(id => formData.append("finding_ids", id));
+
+        const response = await fetch("/findings/bulk-resolve", {
+
+            method: "POST",
+
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            },
+
+            body: formData
+
+        });
+
+        if (response.ok) {
+
+            showToast("Selected findings resolved.");
+
+            setTimeout(() => {
+
+                location.reload();
+
+            }, 500);
+
+        } else {
+
+            showToast("Bulk resolve failed.", "danger");
+
+        }
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

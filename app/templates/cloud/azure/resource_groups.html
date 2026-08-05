@@ -1,0 +1,76 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-folder2-open text-warning"></i>
+Resource Groups
+{% endblock %}
+
+{% block azure_subtitle %}
+Manage Azure Resource Groups.
+{% endblock %}
+
+{% block breadcrumb %}
+Resource Groups
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="card shadow-sm">
+
+<div class="card-header">
+
+<strong>Azure Resource Groups</strong>
+
+</div>
+
+<div class="card-body">
+
+{% if data %}
+
+<table class="table table-hover">
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>Location</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for group in data %}
+
+<tr>
+
+<td>{{ group.name }}</td>
+
+<td>{{ group.location }}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% else %}
+
+<div class="alert alert-warning">
+
+No Resource Groups Found.
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+{% endblock %}

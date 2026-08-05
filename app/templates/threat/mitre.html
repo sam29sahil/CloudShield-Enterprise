@@ -1,0 +1,69 @@
+{% extends "threat/base.html" %}
+
+{% block threat_content %}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold text-white">
+
+                <i class="bi bi-diagram-3-fill text-warning me-2"></i>
+
+                MITRE ATT&CK
+
+            </h2>
+
+            <p class="text-secondary">
+
+                Enterprise ATT&CK tactics and techniques.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        {% for technique in techniques %}
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <span class="badge bg-warning mb-3">
+
+                        {{ technique.id }}
+
+                    </span>
+
+                    <h5 class="text-white">
+
+                        {{ technique.name }}
+
+                    </h5>
+
+                    <p class="text-secondary">
+
+                        {{ technique.description }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

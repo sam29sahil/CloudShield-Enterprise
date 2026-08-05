@@ -1,0 +1,76 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-key-fill text-warning"></i>
+Azure Key Vault
+{% endblock %}
+
+{% block azure_subtitle %}
+Manage Azure Key Vault resources.
+{% endblock %}
+
+{% block breadcrumb %}
+Key Vault
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+
+        <strong>Azure Key Vault</strong>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if data %}
+
+        <table class="table table-hover">
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Location</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for vault in data %}
+
+                <tr>
+
+                    <td>{{ vault.name }}</td>
+
+                    <td>{{ vault.location }}</td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="alert alert-warning">
+
+            No Key Vaults Found.
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

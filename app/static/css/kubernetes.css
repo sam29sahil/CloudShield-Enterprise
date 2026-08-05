@@ -1,0 +1,252 @@
+/*
+==========================================
+CloudShield Enterprise
+Kubernetes Styles
+==========================================
+*/
+
+.card{
+    border-radius:16px;
+}
+
+.card-header{
+    font-weight:600;
+}
+
+.table{
+    margin-bottom:0;
+}
+
+.table thead th{
+
+    background:#0f172a;
+
+    color:#fff;
+
+    border:none;
+
+    font-weight:600;
+
+    white-space:nowrap;
+
+}
+
+.table tbody tr{
+
+    transition:.2s;
+
+}
+
+.table tbody tr:hover{
+
+    background:#f8fafc;
+
+}
+
+.badge{
+
+    font-size:.8rem;
+
+    padding:.45rem .75rem;
+
+    border-radius:10px;
+
+}
+
+.display-2{
+
+    font-weight:700;
+
+}
+
+.display-3{
+
+    font-weight:700;
+
+}
+
+.display-4{
+
+    font-weight:700;
+
+}
+
+.display-5{
+
+    font-size:2rem;
+
+}
+
+.card-body h3{
+
+    font-weight:700;
+
+}
+
+pre{
+
+    background:#0f172a;
+
+    color:#39ff14;
+
+    padding:20px;
+
+    border-radius:10px;
+
+    overflow:auto;
+
+}
+
+.cluster-status{
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.health-good{
+
+    color:#198754;
+
+}
+
+.health-warning{
+
+    color:#ffc107;
+
+}
+
+.health-danger{
+
+    color:#dc3545;
+
+}
+
+.resource-card{
+
+    transition:.25s;
+
+}
+
+.resource-card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.quick-action{
+
+    transition:.2s;
+
+}
+
+.quick-action:hover{
+
+    transform:scale(1.03);
+
+}
+
+.summary-icon{
+
+    font-size:2.5rem;
+
+}
+
+.table-responsive{
+
+    overflow-x:auto;
+
+}
+
+.section-title{
+
+    font-weight:700;
+
+    margin-bottom:20px;
+
+}
+
+.cluster-hero{
+
+    background:linear-gradient(
+        135deg,
+        #0f172a,
+        #1d4ed8
+    );
+
+    color:white;
+
+}
+
+.health-circle{
+
+    width:130px;
+
+    height:130px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:2rem;
+
+    font-weight:bold;
+
+    margin:auto;
+
+    border:8px solid #198754;
+
+}
+
+.finding-critical{
+
+    border-left:5px solid #dc3545;
+
+}
+
+.finding-high{
+
+    border-left:5px solid #fd7e14;
+
+}
+
+.finding-medium{
+
+    border-left:5px solid #ffc107;
+
+}
+
+.finding-low{
+
+    border-left:5px solid #198754;
+
+}
+
+.footer-note{
+
+    font-size:.85rem;
+
+    color:#6c757d;
+
+}
+
+@media(max-width:992px){
+
+.display-2{
+
+font-size:3rem;
+
+}
+
+.summary-icon{
+
+font-size:2rem;
+
+}
+
+}

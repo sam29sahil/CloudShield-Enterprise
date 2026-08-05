@@ -1,0 +1,723 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Security Report
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                Security Scan Report
+
+            </h2>
+
+            <p class="text-muted">
+
+                Detailed analysis of the selected scan.
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <a href="{{ url_for('reports.index') }}"
+               class="btn btn-secondary">
+
+                <i class="bi bi-arrow-left"></i>
+
+                Back
+
+            </a>
+
+            <a href="{{ url_for('reports.pdf', scan_id=scan.id) }}"
+   class="btn btn-danger">
+    <i class="bi bi-file-earmark-pdf"></i>
+    PDF
+</a>
+
+<a href="{{ url_for('reports.csv', scan_id=scan.id) }}"
+   class="btn btn-success">
+    <i class="bi bi-file-earmark-spreadsheet"></i>
+    CSV
+</a>
+
+<a href="{{ url_for('reports.json_report', scan_id=scan.id) }}"
+   class="btn btn-warning">
+    <i class="bi bi-filetype-json"></i>
+    JSON
+</a>
+
+<button onclick="window.print()"
+        class="btn btn-primary">
+    <i class="bi bi-printer"></i>
+    Print
+</button>
+
+        </div>
+
+    </div>
+
+    <!-- Executive Summary -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5 class="mb-0">
+
+                Executive Summary
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-3">
+
+                    <h6 class="text-muted">
+
+                        Tool
+
+                    </h6>
+
+                    <h5>
+
+                        {{ scan.tool }}
+
+                    </h5>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <h6 class="text-muted">
+
+                        Category
+
+                    </h6>
+
+                    <h5>
+
+                        {{ scan.category }}
+
+                    </h5>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <h6 class="text-muted">
+
+                        Target
+
+                    </h6>
+
+                    <h5>
+
+                        {{ scan.target }}
+
+                    </h5>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <h6 class="text-muted">
+
+                        Status
+
+                    </h6>
+
+                    {% if scan.status=="Completed" %}
+
+                    <span class="badge bg-success">
+
+                        {{ scan.status }}
+
+                    </span>
+
+                    {% else %}
+
+                    <span class="badge bg-danger">
+
+                        {{ scan.status }}
+
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Scan Information -->
+
+    <div class="row">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header">
+
+                    <h5>
+
+                        Scan Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <td>{{ scan.id }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Started</th>
+
+                            <td>{{ scan.started_at }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Completed</th>
+
+                            <td>{{ scan.completed_at }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Duration</th>
+
+                            <td>{{ scan.duration }} sec</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Arguments</th>
+
+                            <td>{{ scan.arguments }}</td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+                        <div class="card shadow-sm mb-4">
+
+                <div class="card-header">
+
+                    <h5>
+
+                        Risk Assessment
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body text-center">
+
+                    <h1 class="display-4 fw-bold">
+
+                        {{ scan.score }}
+
+                    </h1>
+
+                    <p class="text-muted">
+
+                        Security Score
+
+                    </p>
+
+                    {% if scan.risk == "Critical" %}
+
+                        <span class="badge bg-dark fs-6">
+
+                            Critical
+
+                        </span>
+
+                    {% elif scan.risk == "High" %}
+
+                        <span class="badge bg-danger fs-6">
+
+                            High
+
+                        </span>
+
+                    {% elif scan.risk == "Medium" %}
+
+                        <span class="badge bg-warning text-dark fs-6">
+
+                            Medium
+
+                        </span>
+
+                    {% elif scan.risk == "Low" %}
+
+                        <span class="badge bg-success fs-6">
+
+                            Low
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-secondary fs-6">
+
+                            Unknown
+
+                        </span>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <div class="progress">
+
+                        <div class="progress-bar bg-danger"
+
+                             style="width: {{ scan.score }}%">
+
+                            {{ scan.score }}%
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Parsed Output -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <h5>
+
+                Parsed Output
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+          {% if scan.parsed_output %}
+
+{% set data = scan.parsed_output | from_json %}
+
+<!-- Website -->
+
+<div class="mb-4">
+
+    <h5>🌐 Website</h5>
+
+    <table class="table table-bordered">
+
+        <tr>
+
+            <th>Status</th>
+
+            <td>
+
+                {% if data.website.success %}
+
+                    Reachable
+
+                {% else %}
+
+                    Unreachable
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <th>Status Code</th>
+
+            <td>{{ data.website.status_code }}</td>
+
+        </tr>
+
+        <tr>
+
+            <th>Response Time</th>
+
+            <td>{{ data.website.response_time }}</td>
+
+        </tr>
+
+        <tr>
+
+            <th>Server</th>
+
+            <td>{{ data.website.headers.Server }}</td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+
+<!-- Technologies -->
+
+<div class="mb-4">
+
+    <h5>💻 Technology Detection</h5>
+
+    <ul class="list-group">
+
+    {% for tech in data.technology %}
+
+        <li class="list-group-item">
+
+            {{ tech }}
+
+        </li>
+
+    {% endfor %}
+
+    </ul>
+
+</div>
+
+
+<!-- Ports -->
+
+<div class="mb-4">
+
+    <h5>🔓 Open Ports</h5>
+
+    <table class="table table-striped">
+
+        <tr>
+
+            <th>Port</th>
+
+            <th>Service</th>
+
+            <th>Status</th>
+
+        </tr>
+
+        {% for port in data.ports %}
+
+        <tr>
+
+            <td>{{ port.port }}</td>
+
+            <td>{{ port.service }}</td>
+
+            <td>{{ port.status }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+
+<!-- Risk -->
+
+<div class="mb-4">
+
+    <h5>🛡 Risk Assessment</h5>
+
+    <table class="table table-bordered">
+
+        <tr>
+
+            <th>Score</th>
+
+            <td>{{ data.score }}</td>
+
+        </tr>
+
+        <tr>
+
+            <th>Risk</th>
+
+            <td>{{ data.risk }}</td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+{% else %}
+
+<p class="text-muted">
+
+No parsed output available.
+
+</p>
+
+{% endif %}  
+
+        </div>
+
+    </div>
+
+    <!-- Raw Output -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <h5>
+
+                Raw Output
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if scan.raw_output %}
+
+                <pre style="max-height:400px;overflow:auto;">{{ scan.raw_output }}</pre>
+
+            {% else %}
+
+                <p class="text-muted">
+
+                    No raw output available.
+
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="row">
+                <div class="col-lg-6">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header">
+
+                    <h5>
+
+                        Recommendations
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if scan.risk == "Critical" %}
+
+                        <ul class="list-group">
+
+                            <li class="list-group-item">
+
+                                Immediately investigate this target.
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                Patch all discovered vulnerabilities.
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                Perform a full security assessment.
+
+                            </li>
+
+                        </ul>
+
+                    {% elif scan.risk == "High" %}
+
+                        <ul class="list-group">
+
+                            <li class="list-group-item">
+
+                                Review exposed services.
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                Update affected software.
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                Schedule another verification scan.
+
+                            </li>
+
+                        </ul>
+
+                    {% elif scan.risk == "Medium" %}
+
+                        <ul class="list-group">
+
+                            <li class="list-group-item">
+
+                                Review findings and harden configurations.
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                Apply recommended security settings.
+
+                            </li>
+
+                        </ul>
+
+                    {% else %}
+
+                        <ul class="list-group">
+
+                            <li class="list-group-item">
+
+                                Continue regular security monitoring.
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                Perform periodic scans.
+
+                            </li>
+
+                        </ul>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header">
+
+                    <h5>
+
+                        Report Summary
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+
+                            <th>Tool</th>
+
+                            <td>{{ scan.tool }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Target</th>
+
+                            <td>{{ scan.target }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Risk</th>
+
+                            <td>{{ scan.risk }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Score</th>
+
+                            <td>{{ scan.score }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Status</th>
+
+                            <td>{{ scan.status }}</td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

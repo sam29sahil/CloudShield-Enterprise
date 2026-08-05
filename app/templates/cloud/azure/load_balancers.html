@@ -1,0 +1,259 @@
+{% extends "cloud/base.html" %}
+
+{% block title %}
+
+Azure Load Balancers
+
+{% endblock %}
+
+{% block cloud_content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-distribute-horizontal text-primary"></i>
+
+                Azure Load Balancers
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Azure Load Balancer inventory.
+
+            </p>
+
+        </div>
+
+        <span class="badge bg-primary fs-6">
+
+            {{ data|length }} Load Balancers
+
+        </span>
+
+    </div>
+
+    <!-- Summary -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total
+
+                    </small>
+
+                    <h2>
+
+                        {{ data|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Frontend IPs
+
+                    </small>
+
+                    <h2>
+
+                        {{ data | sum(attribute='frontend_ips') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Backend Pools
+
+                    </small>
+
+                    <h2>
+
+                        {{ data | sum(attribute='backend_pools') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Rules
+
+                    </small>
+
+                    <h2>
+
+                        {{ data | sum(attribute='rules') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Table -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <strong>
+
+                Load Balancer Inventory
+
+            </strong>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Resource Group</th>
+
+                        <th>Region</th>
+
+                        <th>SKU</th>
+
+                        <th>Frontend IPs</th>
+
+                        <th>Backend Pools</th>
+
+                        <th>Rules</th>
+
+                        <th>Health Probes</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for lb in data %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ lb.name }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ lb.resource_group }}
+
+                        </td>
+
+                        <td>
+
+                            {{ lb.location }}
+
+                        </td>
+
+                        <td>
+
+                            {{ lb.sku }}
+
+                        </td>
+
+                        <td>
+
+                            {{ lb.frontend_ips }}
+
+                        </td>
+
+                        <td>
+
+                            {{ lb.backend_pools }}
+
+                        </td>
+
+                        <td>
+
+                            {{ lb.rules }}
+
+                        </td>
+
+                        <td>
+
+                            {{ lb.probes }}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

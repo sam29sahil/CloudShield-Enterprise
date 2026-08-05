@@ -1,0 +1,264 @@
+{% extends "cloud/base.html" %}
+
+{% block cloud_title %}
+
+<i class="bi bi-database-fill text-success"></i>
+
+S3 Dashboard
+
+{% endblock %}
+
+{% block cloud_subtitle %}
+
+Monitor S3 buckets and storage security.
+
+{% endblock %}
+
+{% block breadcrumb %}
+
+S3
+
+{% endblock %}
+
+{% block content %}
+
+    <!-- KPI Cards -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Total Instances
+
+                    </small>
+
+                    <h2 class="fw-bold text-white">
+
+                        {{ data.total_instances if data.success else 0 }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Running
+
+                    </small>
+
+                    <h2 class="fw-bold text-success">
+
+                        {{ data.running }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Stopped
+
+                    </small>
+
+                    <h2 class="fw-bold text-warning">
+
+                        {{ data.stopped }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Public IPs
+
+                    </small>
+
+                    <h2 class="fw-bold text-info">
+
+                        {{ data.public }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="card dashboard-card border-0 shadow">
+
+    <div class="card-header">
+
+        <h5 class="mb-0 text-white">
+
+            EC2 Instances
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Instance ID</th>
+
+                        <th>Type</th>
+
+                        <th>Status</th>
+
+                        <th>Public IP</th>
+
+                        <th>Region</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+{% if data.success %}
+
+    {% for instance in data.instances %}
+
+    <tr>
+
+        <td>
+
+            {{ instance.instance_id }}
+
+        </td>
+
+        <td>
+
+            {{ instance.instance_type }}
+
+        </td>
+
+        <td>
+
+            {% if instance.state == "running" %}
+
+                <span class="badge bg-success">
+
+                    Running
+
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-secondary">
+
+                    {{ instance.state }}
+
+                </span>
+
+            {% endif %}
+
+        </td>
+
+        <td>
+
+            {{ instance.public_ip or "-" }}
+
+        </td>
+
+        <td>
+
+            {{ instance.private_ip }}
+
+        </td>
+
+        <td>
+
+            {{ instance.launch_time }}
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+{% else %}
+
+<tr>
+
+    <td colspan="6" class="text-center py-5">
+
+        <i class="bi bi-cloud-slash display-4 text-secondary"></i>
+
+        <h5 class="mt-3">
+
+            {{ data.error }}
+
+        </h5>
+
+        <p class="text-secondary">
+
+            Configure your AWS credentials later to view EC2 instances.
+
+        </p>
+
+    </td>
+
+</tr>
+
+{% endif %}
+
+</tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

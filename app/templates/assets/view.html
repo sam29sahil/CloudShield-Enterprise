@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                {{ asset.name }}
+
+            </h2>
+
+            <p class="text-muted">
+
+                {{ asset.target }}
+
+            </p>
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+    <a href="{{ url_for('scanner.home', asset=asset.id) }}"
+       class="btn btn-success">
+
+        <i class="bi bi-play-circle"></i>
+
+        Run Scan
+
+    </a>
+
+    <a href="{{ url_for('assets.edit', asset_id=asset.id) }}"
+       class="btn btn-warning">
+
+        <i class="bi bi-pencil"></i>
+
+        Edit
+
+    </a>
+
+    <a href="{{ url_for('assets.home') }}"
+       class="btn btn-secondary">
+
+        <i class="bi bi-arrow-left"></i>
+
+        Back
+
+    </a>
+
+</div>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">
+
+                        Asset Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+
+                            <th width="220">
+
+                                Name
+
+                            </th>
+
+                            <td>
+
+                                {{ asset.name }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Target
+
+                            </th>
+
+                            <td>
+
+                                {{ asset.target }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Type
+
+                            </th>
+
+                            <td>
+
+                                {{ asset.asset_type }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Project
+
+                            </th>
+
+                            <td>
+
+                                {{ asset.project.name if asset.project else "-" }}
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+                <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">
+
+                        Security Score
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body text-center">
+
+                    <h1 class="display-4 fw-bold text-primary">
+
+                        {{ asset.score }}
+
+                    </h1>
+
+                    <p class="text-muted">
+
+                        Overall Security Score
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">
+
+                        Risk Level
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body text-center">
+
+                    {% if asset.risk=="Critical" %}
+
+                        <span class="badge bg-dark fs-6">
+
+                            Critical
+
+                        </span>
+
+                    {% elif asset.risk=="High" %}
+
+                        <span class="badge bg-danger fs-6">
+
+                            High
+
+                        </span>
+
+                    {% elif asset.risk=="Medium" %}
+
+                        <span class="badge bg-warning text-dark fs-6">
+
+                            Medium
+
+                        </span>
+
+                    {% elif asset.risk=="Low" %}
+
+                        <span class="badge bg-primary fs-6">
+
+                            Low
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-success fs-6">
+
+                            {{ asset.risk }}
+
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">
+
+                        Statistics
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                 <div class="d-flex justify-content-between mb-3">
+
+    <span>Total Scans</span>
+
+    <strong>
+
+        {{ asset.scans|length }}
+
+    </strong>
+
+</div>
+
+<div class="d-flex justify-content-between mb-3">
+
+    <span>Created</span>
+
+    <strong>
+
+        {{ asset.created_at.strftime("%d %b %Y") }}
+
+    </strong>
+
+</div>
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>Created</span>
+
+                        <strong>
+
+                            {{ asset.created_at.strftime("%d %b %Y") }}
+
+                        </strong>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="d-grid gap-2">
+
+                        <a href="{{ url_for('scanner.home',  asset=asset.id) }}"
+                           class="btn btn-primary">
+
+                            <i class="bi bi-play-fill"></i>
+
+                            Run Scan
+
+                        </a>
+
+                        <a href="{{ url_for('reports.index') }}"
+                           class="btn btn-success">
+
+                            <i class="bi bi-file-earmark-text"></i>
+
+                            Reports
+
+                        </a>
+
+                        <a href="{{ url_for('findings_ui.index') }}"
+                           class="btn btn-warning">
+
+                            <i class="bi bi-bug"></i>
+
+                            Findings
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
