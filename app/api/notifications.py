@@ -26,7 +26,6 @@ def get_notifications():
 
     for notification in notifications:
 
-<<<<<<< HEAD
         data.append(
             {
                 "id": notification.id,
@@ -43,35 +42,6 @@ def get_notifications():
         )
 
     return success_response(data=data, message="Notifications retrieved successfully")
-=======
-        data.append({
-
-            "id": notification.id,
-
-            "title": notification.title,
-
-            "message": notification.message,
-
-            "category": notification.category,
-
-            "is_read": notification.is_read,
-
-            "created_at": (
-                notification.created_at.isoformat()
-                if notification.created_at
-                else None
-            )
-
-        })
-
-    return success_response(
-
-        data=data,
-
-        message="Notifications retrieved successfully"
-
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 @api.route("/notifications/unread", methods=["GET"])
@@ -84,7 +54,6 @@ def unread_notifications():
 
     for notification in notifications:
 
-<<<<<<< HEAD
         data.append(
             {
                 "id": notification.id,
@@ -100,33 +69,6 @@ def unread_notifications():
         )
 
     return success_response(data=data, message="Unread notifications")
-=======
-        data.append({
-
-            "id": notification.id,
-
-            "title": notification.title,
-
-            "message": notification.message,
-
-            "category": notification.category,
-
-            "created_at": (
-                notification.created_at.isoformat()
-                if notification.created_at
-                else None
-            )
-
-        })
-
-    return success_response(
-
-        data=data,
-
-        message="Unread notifications"
-
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 @api.route("/notifications", methods=["POST"])
@@ -137,33 +79,14 @@ def create_notification():
 
     if not data:
 
-<<<<<<< HEAD
         return error_response("JSON data required", 400)
 
     required = ["title", "message"]
-=======
-        return error_response(
-
-            "JSON data required",
-
-            400
-
-        )
-
-    required = [
-
-        "title",
-
-        "message"
-
-    ]
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     for field in required:
 
         if field not in data:
 
-<<<<<<< HEAD
             return error_response(f"{field} is required", 400)
 
     notification = notification_service.create(
@@ -176,38 +99,6 @@ def create_notification():
         data={"id": notification.id},
         message="Notification created successfully",
         status_code=201,
-=======
-            return error_response(
-
-                f"{field} is required",
-
-                400
-
-            )
-
-    notification = notification_service.create(
-
-        title=data["title"],
-
-        message=data["message"],
-
-        category=data.get("category", "General")
-
-    )
-
-    return success_response(
-
-        data={
-
-            "id": notification.id
-
-        },
-
-        message="Notification created successfully",
-
-        status_code=201
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     )
 
 
@@ -219,29 +110,11 @@ def mark_read(notification_id):
 
     if not notification:
 
-<<<<<<< HEAD
         return error_response("Notification not found", 404)
 
     notification_service.mark_read(notification)
 
     return success_response(message="Notification marked as read")
-=======
-        return error_response(
-
-            "Notification not found",
-
-            404
-
-        )
-
-    notification_service.mark_read(notification)
-
-    return success_response(
-
-        message="Notification marked as read"
-
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 @api.route("/notifications/read-all", methods=["PUT"])
@@ -250,15 +123,7 @@ def mark_all_read():
 
     notification_service.mark_all_read()
 
-<<<<<<< HEAD
     return success_response(message="All notifications marked as read")
-=======
-    return success_response(
-
-        message="All notifications marked as read"
-
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 @api.route("/notifications/<int:notification_id>", methods=["DELETE"])
@@ -269,22 +134,6 @@ def delete_notification(notification_id):
 
     if not deleted:
 
-<<<<<<< HEAD
         return error_response("Notification not found", 404)
 
     return success_response(message="Notification deleted successfully")
-=======
-        return error_response(
-
-            "Notification not found",
-
-            404
-
-        )
-
-    return success_response(
-
-        message="Notification deleted successfully"
-
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

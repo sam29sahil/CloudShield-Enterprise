@@ -10,7 +10,6 @@ class SecurityAssessment:
 
         self.findings = []
 
-<<<<<<< HEAD
     def add(self, service, severity, title, description, recommendation):
 
         self.findings.append(
@@ -22,37 +21,6 @@ class SecurityAssessment:
                 "recommendation": recommendation,
             }
         )
-=======
-    def add(
-
-        self,
-
-        service,
-
-        severity,
-
-        title,
-
-        description,
-
-        recommendation
-
-    ):
-
-        self.findings.append({
-
-            "service": service,
-
-            "severity": severity,
-
-            "title": title,
-
-            "description": description,
-
-            "recommendation": recommendation
-
-        })
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def summary(self):
 
@@ -78,7 +46,6 @@ class SecurityAssessment:
                 low += 1
 
         return {
-<<<<<<< HEAD
             "total": len(self.findings),
             "critical": critical,
             "high": high,
@@ -86,19 +53,3 @@ class SecurityAssessment:
             "low": low,
             "findings": self.findings,
         }
-=======
-
-            "total": len(self.findings),
-
-            "critical": critical,
-
-            "high": high,
-
-            "medium": medium,
-
-            "low": low,
-
-            "findings": self.findings
-
-        }
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

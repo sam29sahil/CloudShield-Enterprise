@@ -26,7 +26,6 @@ def get_findings():
 
     for finding in findings:
 
-<<<<<<< HEAD
         data.append(
             {
                 "id": finding.id,
@@ -41,35 +40,6 @@ def get_findings():
         )
 
     return success_response(data=data, message="Findings retrieved successfully")
-=======
-        data.append({
-
-            "id": finding.id,
-
-            "scan_id": finding.scan_id,
-
-            "title": finding.title,
-
-            "severity": finding.severity,
-
-            "category": finding.category,
-
-            "source": finding.source,
-
-            "description": finding.description,
-
-            "recommendation": finding.recommendation
-
-        })
-
-    return success_response(
-
-        data=data,
-
-        message="Findings retrieved successfully"
-
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 @api.route("/findings/<int:finding_id>", methods=["GET"])
@@ -83,7 +53,6 @@ def get_finding(finding_id):
 
     if not finding:
 
-<<<<<<< HEAD
         return error_response("Finding not found", 404)
 
     return success_response(
@@ -97,38 +66,6 @@ def get_finding(finding_id):
             "description": finding.description,
             "recommendation": finding.recommendation,
         }
-=======
-        return error_response(
-
-            "Finding not found",
-
-            404
-
-        )
-
-    return success_response(
-
-        data={
-
-            "id": finding.id,
-
-            "scan_id": finding.scan_id,
-
-            "title": finding.title,
-
-            "severity": finding.severity,
-
-            "category": finding.category,
-
-            "source": finding.source,
-
-            "description": finding.description,
-
-            "recommendation": finding.recommendation
-
-        }
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     )
 
 
@@ -143,35 +80,14 @@ def create_finding():
 
     if not data:
 
-<<<<<<< HEAD
         return error_response("JSON data required", 400)
 
     required = ["scan_id", "title", "severity"]
-=======
-        return error_response(
-
-            "JSON data required",
-
-            400
-
-        )
-
-    required = [
-
-        "scan_id",
-
-        "title",
-
-        "severity"
-
-    ]
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     for field in required:
 
         if field not in data:
 
-<<<<<<< HEAD
             return error_response(f"{field} is required", 400)
 
     finding = finding_service.create(
@@ -186,46 +102,6 @@ def create_finding():
 
     return success_response(
         data={"id": finding.id}, message="Finding created successfully", status_code=201
-=======
-            return error_response(
-
-                f"{field} is required",
-
-                400
-
-            )
-
-    finding = finding_service.create(
-
-        scan_id=data["scan_id"],
-
-        title=data["title"],
-
-        severity=data["severity"],
-
-        category=data.get("category"),
-
-        source=data.get("source"),
-
-        description=data.get("description"),
-
-        recommendation=data.get("recommendation")
-
-    )
-
-    return success_response(
-
-        data={
-
-            "id": finding.id
-
-        },
-
-        message="Finding created successfully",
-
-        status_code=201
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     )
 
 
@@ -240,22 +116,6 @@ def delete_finding(finding_id):
 
     if not deleted:
 
-<<<<<<< HEAD
         return error_response("Finding not found", 404)
 
     return success_response(message="Finding deleted successfully")
-=======
-        return error_response(
-
-            "Finding not found",
-
-            404
-
-        )
-
-    return success_response(
-
-        message="Finding deleted successfully"
-
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

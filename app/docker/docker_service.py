@@ -43,7 +43,6 @@ class DockerService:
 
             if container.attrs["HostConfig"].get("Privileged"):
 
-<<<<<<< HEAD
                 findings.append(
                     {
                         "severity": "Critical",
@@ -67,39 +66,6 @@ class DockerService:
                 )
 
         return findings
-=======
-                findings.append({
-
-                    "severity": "Critical",
-
-                    "container": container.name,
-
-                    "title": "Privileged Container",
-
-                    "description": "Container runs with privileged mode.",
-
-                    "recommendation": "Disable privileged mode."
-
-                })
-
-            if container.attrs["Config"].get("User") in ("", "root"):
-
-                findings.append({
-
-                    "severity": "High",
-
-                    "container": container.name,
-
-                    "title": "Running as Root",
-
-                    "description": "Container executes as root user.",
-
-                    "recommendation": "Use a non-root user."
-
-                })
-
-        return findings       
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # ----------------------------------
     # Connection Status
@@ -222,24 +188,9 @@ class DockerService:
         container = self.client.containers.get(container_id)
 
         return {
-<<<<<<< HEAD
             "container": container,
             "stats": container.stats(stream=False),
             "logs": container.logs(tail=200).decode("utf-8", errors="ignore"),
-=======
-
-            "container": container,
-
-            "stats": container.stats(stream=False),
-
-            "logs": container.logs(
-                tail=200
-            ).decode(
-                "utf-8",
-                errors="ignore"
-            )
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # ----------------------------------
@@ -320,19 +271,7 @@ class DockerService:
 
         try:
 
-<<<<<<< HEAD
             return container.logs(tail=tail).decode(errors="ignore")
-=======
-            return container.logs(
-
-                tail=tail
-
-            ).decode(
-
-                errors="ignore"
-
-            )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         except Exception:
 
@@ -352,20 +291,8 @@ class DockerService:
 
         try:
 
-<<<<<<< HEAD
             return container.stats(stream=False)
 
         except Exception:
 
             return {}
-=======
-            return container.stats(
-
-                stream=False
-
-            )
-
-        except Exception:
-
-            return {}
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

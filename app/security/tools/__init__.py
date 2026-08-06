@@ -22,8 +22,4 @@ def get_all_categories():
         "dns": dns_tools,
         "cloud": cloud_tools,
         "wireless": wireless_tools,
-<<<<<<< HEAD
     }
-=======
-    }
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

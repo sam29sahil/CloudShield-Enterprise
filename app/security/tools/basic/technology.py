@@ -4,19 +4,9 @@ Technology Detection
 """
 
 from app.security.constants import (
-<<<<<<< HEAD
     SERVER_SIGNATURES,
     FRAMEWORK_SIGNATURES,
     HTML_SIGNATURES,
-=======
-
-    SERVER_SIGNATURES,
-
-    FRAMEWORK_SIGNATURES,
-
-    HTML_SIGNATURES
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 )
 
 
@@ -31,17 +21,7 @@ class TechnologyScanner:
 
     def scan(self, headers, html):
 
-<<<<<<< HEAD
         return detect_technology(headers, html)
-=======
-        return detect_technology(
-
-            headers,
-
-            html
-
-        )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 def detect_technology(headers, html):
@@ -53,17 +33,7 @@ def detect_technology(headers, html):
 
     html = html.lower()
 
-<<<<<<< HEAD
     server = headers.get("Server", "").lower()
-=======
-    server = headers.get(
-
-        "Server",
-
-        ""
-
-    ).lower()
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     for key, value in SERVER_SIGNATURES.items():
 
@@ -71,17 +41,7 @@ def detect_technology(headers, html):
 
             technologies.append(value)
 
-<<<<<<< HEAD
     powered = headers.get("X-Powered-By", "").lower()
-=======
-    powered = headers.get(
-
-        "X-Powered-By",
-
-        ""
-
-    ).lower()
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     for key, value in FRAMEWORK_SIGNATURES.items():
 
@@ -95,28 +55,6 @@ def detect_technology(headers, html):
 
             technologies.append(value)
 
-<<<<<<< HEAD
     technologies = sorted(list(set(technologies)))
 
     return {"success": True, "count": len(technologies), "technologies": technologies}
-=======
-    technologies = sorted(
-
-        list(
-
-            set(technologies)
-
-        )
-
-    )
-
-    return {
-
-        "success": True,
-
-        "count": len(technologies),
-
-        "technologies": technologies
-
-    }
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

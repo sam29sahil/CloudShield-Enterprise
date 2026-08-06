@@ -20,7 +20,6 @@ class CloudFindingsEngine:
 
         if not ec2.get("success"):
 
-<<<<<<< HEAD
             findings.append(
                 {
                     "severity": "High",
@@ -29,19 +28,6 @@ class CloudFindingsEngine:
                     "status": "Open",
                 }
             )
-=======
-            findings.append({
-
-                "severity": "High",
-
-                "title": "EC2 Scan Failed",
-
-                "service": "EC2",
-
-                "status": "Open"
-
-            })
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         # ---------- S3 ----------
 
@@ -49,7 +35,6 @@ class CloudFindingsEngine:
 
         if not s3.get("success"):
 
-<<<<<<< HEAD
             findings.append(
                 {
                     "severity": "High",
@@ -58,19 +43,6 @@ class CloudFindingsEngine:
                     "status": "Open",
                 }
             )
-=======
-            findings.append({
-
-                "severity": "High",
-
-                "title": "S3 Scan Failed",
-
-                "service": "S3",
-
-                "status": "Open"
-
-            })
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         # ---------- IAM ----------
 
@@ -78,7 +50,6 @@ class CloudFindingsEngine:
 
         if not iam.get("success"):
 
-<<<<<<< HEAD
             findings.append(
                 {
                     "severity": "Medium",
@@ -87,19 +58,6 @@ class CloudFindingsEngine:
                     "status": "Open",
                 }
             )
-=======
-            findings.append({
-
-                "severity": "Medium",
-
-                "title": "IAM Configuration Issue",
-
-                "service": "IAM",
-
-                "status": "Open"
-
-            })
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         # ---------- Security Groups ----------
 
@@ -107,7 +65,6 @@ class CloudFindingsEngine:
 
         if not sg.get("success"):
 
-<<<<<<< HEAD
             findings.append(
                 {
                     "severity": "Medium",
@@ -116,19 +73,6 @@ class CloudFindingsEngine:
                     "status": "Open",
                 }
             )
-=======
-            findings.append({
-
-                "severity": "Medium",
-
-                "title": "Security Groups Unavailable",
-
-                "service": "Security Groups",
-
-                "status": "Open"
-
-            })
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         # ---------- CloudTrail ----------
 
@@ -136,7 +80,6 @@ class CloudFindingsEngine:
 
         if not ct.get("success"):
 
-<<<<<<< HEAD
             findings.append(
                 {
                     "severity": "High",
@@ -145,19 +88,6 @@ class CloudFindingsEngine:
                     "status": "Open",
                 }
             )
-=======
-            findings.append({
-
-                "severity": "High",
-
-                "title": "CloudTrail Not Available",
-
-                "service": "CloudTrail",
-
-                "status": "Open"
-
-            })
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         # ---------- GuardDuty ----------
 
@@ -165,7 +95,6 @@ class CloudFindingsEngine:
 
         if not gd.get("success"):
 
-<<<<<<< HEAD
             findings.append(
                 {
                     "severity": "High",
@@ -174,19 +103,6 @@ class CloudFindingsEngine:
                     "status": "Open",
                 }
             )
-=======
-            findings.append({
-
-                "severity": "High",
-
-                "title": "GuardDuty Not Enabled",
-
-                "service": "GuardDuty",
-
-                "status": "Open"
-
-            })
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         # ---------- Inspector ----------
 
@@ -194,7 +110,6 @@ class CloudFindingsEngine:
 
         if not inspector.get("success"):
 
-<<<<<<< HEAD
             findings.append(
                 {
                     "severity": "Medium",
@@ -205,18 +120,3 @@ class CloudFindingsEngine:
             )
 
         return findings
-=======
-            findings.append({
-
-                "severity": "Medium",
-
-                "title": "Inspector Scan Failed",
-
-                "service": "Inspector",
-
-                "status": "Open"
-
-            })
-
-        return findings
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

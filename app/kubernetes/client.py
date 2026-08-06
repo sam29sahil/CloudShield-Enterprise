@@ -24,15 +24,7 @@ class KubernetesClient:
 
         try:
 
-<<<<<<< HEAD
             config.load_kube_config(config_file=KubernetesConfig.KUBECONFIG)
-=======
-            config.load_kube_config(
-
-                config_file=KubernetesConfig.KUBECONFIG
-
-            )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             self.client = CoreV1Api()
 
@@ -58,8 +50,4 @@ class KubernetesClient:
 
     def core(self):
 
-<<<<<<< HEAD
         return self.client
-=======
-        return self.client
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

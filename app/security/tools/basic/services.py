@@ -2,10 +2,7 @@
 CloudShield Enterprise
 Quick Scan Service
 """
-<<<<<<< HEAD
 
-=======
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 import traceback
 from datetime import datetime
 import json
@@ -24,38 +21,16 @@ from app.security.tools.basic.ports import port_scan
 from app.security.tools.basic.technology import detect_technology
 from app.security.tools.basic.risk import calculate_risk
 
-<<<<<<< HEAD
 
 class BasicSecurityService:
 
     def execute(self, user_id, asset_id, category, tool, target, arguments=None):
-=======
-class BasicSecurityService:
-
-    def execute(
-        self,
-        user_id,
-        asset_id,
-        category,
-        tool,
-        target,
-        arguments=None
-    ):
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         print("\n========== BasicSecurityService Started ==========\n")
 
         started = datetime.utcnow()
 
-<<<<<<< HEAD
         host = target.replace("https://", "").replace("http://", "").split("/")[0]
-=======
-        host = (
-            target.replace("https://", "")
-                  .replace("http://", "")
-                  .split("/")[0]
-        )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         report = {}
 
@@ -72,17 +47,7 @@ class BasicSecurityService:
             print("Website Scan Failed")
             print(website)
 
-<<<<<<< HEAD
             return {"scan": None, "result": website}
-=======
-            return {
-
-                "scan": None,
-
-                "result": website
-
-            }
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         report["website"] = website
 
@@ -100,17 +65,7 @@ class BasicSecurityService:
 
         print("Running Technology Detection...")
 
-<<<<<<< HEAD
         report["technology"] = detect_technology(website["headers"], website["html"])
-=======
-        report["technology"] = detect_technology(
-
-            website["headers"],
-
-            website["html"]
-
-        )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         # -------------------------------------------------
         # DNS
@@ -146,11 +101,7 @@ class BasicSecurityService:
 
         # --------------------------
         # Risk Calculation
-<<<<<<< HEAD
         # --------------------------
-=======
-         # --------------------------
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         risk = calculate_risk(report)
 
@@ -160,7 +111,6 @@ class BasicSecurityService:
 
         completed = datetime.utcnow()
 
-<<<<<<< HEAD
         duration = (completed - started).total_seconds()
 
         scan = SecurityScan(
@@ -178,44 +128,6 @@ class BasicSecurityService:
             started_at=started,
             completed_at=completed,
             duration=duration,
-=======
-        duration = (
-
-            completed - started
-
-        ).total_seconds()
-
-        scan = SecurityScan(
-
-            user_id=user_id,
-            
-            asset_id=asset_id,
-
-            category=category,
-
-            tool="quick_scan",
-
-            target=target,
-
-            arguments=" ".join(arguments) if arguments else "",
-
-            status="Completed",
-
-            score=report["score"],
-
-            risk=report["risk"],
-
-            raw_output=json.dumps(report, indent=4, default=str),
-
-            parsed_output=json.dumps(report, indent=4, default=str),
-
-            started_at=started,
-
-            completed_at=completed,
-
-            duration=duration
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         )
 
         db.session.add(scan)
@@ -230,25 +142,12 @@ class BasicSecurityService:
 
         try:
 
-<<<<<<< HEAD
             findings = FindingGenerator.generate(scan, report)
-=======
-            findings = FindingGenerator.generate(
-
-                scan,
-
-                report
-            )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             print("=" * 60)
             print("FINDINGS CREATED:", findings)
             print("=" * 60)
-<<<<<<< HEAD
 
-=======
-          
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         except Exception as e:
 
             print("=" * 60)
@@ -263,7 +162,6 @@ class BasicSecurityService:
 
             from app.models.finding import Finding
 
-<<<<<<< HEAD
             count = Finding.query.filter_by(asset_id=asset_id).count()
 
             AssetManager().update_scan(
@@ -271,22 +169,6 @@ class BasicSecurityService:
                 score=report["score"],
                 risk=report["risk"],
                 findings=count,
-=======
-            count = Finding.query.filter_by(
-                asset_id=asset_id
-            ).count()
-
-            AssetManager().update_scan(
-
-                asset_id=asset_id,
-
-                score=report["score"],
-
-                risk=report["risk"],
-
-                findings=count
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
             )
 
         # --------------------------
@@ -314,7 +196,6 @@ class BasicSecurityService:
             severity = "Info"
 
         notification_service.create(
-<<<<<<< HEAD
             user_id=user_id,
             title=title,
             message=(
@@ -323,39 +204,8 @@ class BasicSecurityService:
                 f"Security Score: {report['score']}"
             ),
             severity=severity,
-=======
-
-            user_id=user_id,
-
-            title=title,
-
-            message=(
-
-                f"Target: {target}\n"
-
-                f"Risk: {report['risk']}\n"
-
-                f"Security Score: {report['score']}"
-
-            ),
-
-            severity=severity
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         )
 
         print("\n========== Scan Completed ==========\n")
 
-<<<<<<< HEAD
         return {"scan": scan, "result": report}
-=======
-        return {
-
-            "scan": scan,
-
-            "result": report
-
-        }
-
-  
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

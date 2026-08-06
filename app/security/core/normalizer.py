@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 """
 CloudShield Enterprise
 Enterprise Result Parser
@@ -115,12 +114,3 @@ class ResultParser:
         except Exception:
 
             return {}
-=======
-"""Backward-compatible import location for the former result normalizer."""
-
-from app.security.core.parser import Parser
-
-
-class ResultParser(Parser):
-    pass
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

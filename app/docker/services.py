@@ -24,10 +24,6 @@ class DockerDashboardService:
 
         return self.images_service.summary()
 
-<<<<<<< HEAD
-=======
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     # ----------------------------------
     # Docker Benchmark
     # ----------------------------------
@@ -37,7 +33,6 @@ class DockerDashboardService:
         findings = self.security_summary()
 
         return {
-<<<<<<< HEAD
             "score": findings["score"],
             "risk": findings["risk"],
             "critical": sum(
@@ -55,35 +50,6 @@ class DockerDashboardService:
                 1 for f in self.docker.security_findings() if f["severity"] == "Low"
             ),
             "checks": self.docker.security_findings(),
-=======
-
-            "score": findings["score"],
-
-            "risk": findings["risk"],
-
-            "critical": sum(
-                1 for f in self.docker.security_findings()
-                if f["severity"] == "Critical"
-            ),
-
-            "high": sum(
-                1 for f in self.docker.security_findings()
-                if f["severity"] == "High"
-            ),
-
-            "medium": sum(
-                1 for f in self.docker.security_findings()
-                if f["severity"] == "Medium"
-            ),
-
-            "low": sum(
-                1 for f in self.docker.security_findings()
-                if f["severity"] == "Low"
-            ),
-
-            "checks": self.docker.security_findings()
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # ----------------------------------
@@ -92,12 +58,7 @@ class DockerDashboardService:
 
     def findings(self):
 
-<<<<<<< HEAD
         return self.docker.security_findings()
-=======
-        return self.docker.security_findings()   
-      
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # ----------------------------------
     # Dashboard Summary
@@ -108,7 +69,6 @@ class DockerDashboardService:
         if not self.docker.is_running():
 
             return {
-<<<<<<< HEAD
                 "connected": False,
                 "running": 0,
                 "stopped": 0,
@@ -120,26 +80,6 @@ class DockerDashboardService:
         containers = self.docker.containers() or []
 
         running = self.docker.running_containers() or []
-=======
-
-                "connected": False,
-
-                "running": 0,
-
-                "stopped": 0,
-
-                "images": 0,
-
-                "networks": 0,
-
-                "volumes": 0
-
-            }
-
-        containers = self.docker.containers()  or []
-
-        running = self.docker.running_containers()  or []
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         images = self.docker.images() or []
 
@@ -148,28 +88,12 @@ class DockerDashboardService:
         volumes = self.docker.volumes() or []
 
         return {
-<<<<<<< HEAD
             "connected": True,
             "running": len(running),
             "stopped": len(containers) - len(running),
             "images": len(images),
             "networks": len(networks),
             "volumes": len(volumes),
-=======
-
-            "connected": True,
-
-            "running": len(running),
-
-            "stopped": len(containers) - len(running),
-
-            "images": len(images),
-
-            "networks": len(networks),
-
-            "volumes": len(volumes)
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # ----------------------------------
@@ -180,7 +104,6 @@ class DockerDashboardService:
 
         if not self.docker.is_running():
 
-<<<<<<< HEAD
             return {"score": 0, "risk": "Unknown", "findings": 0}
 
         findings = self.docker.security_findings()
@@ -200,74 +123,6 @@ class DockerDashboardService:
     def container_details(self, container_id):
 
         return self.docker.container_details(container_id)
-=======
-            return {
-
-                "score": 0,
-
-                "risk": "Unknown",
-
-                "findings": 0
-
-            }
-
-        findings = self.docker.security_findings()
-
-        critical = sum(
-
-            1
-
-            for finding in findings
-
-            if finding["severity"] == "Critical"
-
-        )
-
-        high = sum(
-
-            1
-
-            for finding in findings
-
-            if finding["severity"] == "High"
-
-        )
-
-        score = max(
-
-            100 - critical * 20 - high * 10,
-
-            0
-
-        )
-
-        return {
-
-            "score": score,
-
-            "risk": (
-
-                "Critical"
-
-                if critical
-
-                else "High"
-
-                if high
-
-                else "Low"
-
-            ),
-
-            "findings": len(findings)
-
-        }   
-
-
-    def container_details(self, container_id):
-
-        return self.docker.container_details(container_id)     
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # ----------------------------------
     # Docker Information
@@ -284,7 +139,6 @@ class DockerDashboardService:
         version = self.docker.version()
 
         return {
-<<<<<<< HEAD
             "engine": version.get("Version"),
             "api": version.get("ApiVersion"),
             "os": info.get("OperatingSystem"),
@@ -296,39 +150,6 @@ class DockerDashboardService:
             "running": info.get("ContainersRunning"),
             "paused": info.get("ContainersPaused"),
             "stopped": info.get("ContainersStopped"),
-=======
-
-            "engine": version.get("Version"),
-
-            "api": version.get("ApiVersion"),
-
-            "os": info.get("OperatingSystem"),
-
-            "kernel": info.get("KernelVersion"),
-
-            "architecture": info.get("Architecture"),
-
-            "cpus": info.get("NCPU"),
-
-            "memory": round(
-
-                info.get("MemTotal", 0)
-
-                / 1024 / 1024 / 1024,
-
-                2
-
-            ),
-
-            "containers": info.get("Containers"),
-
-            "running": info.get("ContainersRunning"),
-
-            "paused": info.get("ContainersPaused"),
-
-            "stopped": info.get("ContainersStopped")
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # ----------------------------------
@@ -376,19 +197,9 @@ class DockerDashboardService:
             return None
 
         return {
-<<<<<<< HEAD
             "container": container,
             "logs": self.docker.logs(container_id),
             "stats": self.docker.stats(container_id),
-=======
-
-            "container": container,
-
-            "logs": self.docker.logs(container_id),
-
-            "stats": self.docker.stats(container_id)
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # ----------------------------------
@@ -418,21 +229,10 @@ class DockerDashboardService:
     def dashboard(self):
 
         return {
-<<<<<<< HEAD
             "summary": self.summary(),
             "information": self.information(),
             "security": self.security_summary(),
         }
-=======
-
-            "summary": self.summary(),
-
-            "information": self.information(),
-
-            "security": self.security_summary()
-
-        }    
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # ----------------------------------
     # Health
@@ -441,30 +241,7 @@ class DockerDashboardService:
     def health(self):
 
         return {
-<<<<<<< HEAD
             "docker_running": self.docker.is_running(),
             "containers": len(self.docker.running_containers() or []),
             "images": len(self.docker.images() or []),
         }
-=======
-
-            "docker_running": self.docker.is_running(),
-
-            "containers": len(
-
-                self.docker.running_containers()
-
-                or []
-
-            ),
-
-            "images": len(
-
-                self.docker.images()
-
-                or []
-
-            )
-
-        }   
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

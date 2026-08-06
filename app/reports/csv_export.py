@@ -33,16 +33,7 @@ class CSVReport:
         except Exception:
             parsed = {}
 
-<<<<<<< HEAD
         with open(filename, "w", newline="", encoding="utf-8") as file:
-=======
-        with open(
-            filename,
-            "w",
-            newline="",
-            encoding="utf-8"
-        ) as file:
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             writer = csv.writer(file)
 
@@ -73,31 +64,14 @@ class CSVReport:
             # PARSED DATA
             # ==================================================
 
-<<<<<<< HEAD
             skip = {"html", "body", "cookies", "response", "raw_html"}
-=======
-            skip = {
-                "html",
-                "body",
-                "cookies",
-                "response",
-                "raw_html"
-            }
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             for key, value in parsed.items():
 
                 if key.lower() in skip:
                     continue
 
-<<<<<<< HEAD
                 self._write_section(writer, key.replace("_", " ").title())
-=======
-                self._write_section(
-                    writer,
-                    key.replace("_", " ").title()
-                )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
                 if isinstance(value, dict):
 
@@ -120,16 +94,7 @@ class CSVReport:
 
                 else:
 
-<<<<<<< HEAD
                     writer.writerow(["Value", value])
-=======
-                    writer.writerow(
-                        [
-                            "Value",
-                            value
-                        ]
-                    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             # ==================================================
             # FOOTER
@@ -140,16 +105,8 @@ class CSVReport:
             writer.writerow(
                 [
                     "Disclaimer",
-<<<<<<< HEAD
                     "For educational and authorized security assessments only.",
                 ]
             )
 
         return filename
-=======
-                    "For educational and authorized security assessments only."
-                ]
-            )
-
-        return filename
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

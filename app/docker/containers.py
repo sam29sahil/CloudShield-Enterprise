@@ -42,8 +42,4 @@ class DockerContainers:
 
     def remove(self, container_id):
 
-<<<<<<< HEAD
         return self.docker.remove(container_id)
-=======
-        return self.docker.remove(container_id)
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

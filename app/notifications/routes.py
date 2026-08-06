@@ -23,11 +23,7 @@ def index():
     return render_template(
         "notifications/index.html",
         notifications=notifications_list,
-<<<<<<< HEAD
         unread_count=unread_count,
-=======
-        unread_count=unread_count
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     )
 
 
@@ -35,20 +31,9 @@ def index():
 @login_required
 def read(id):
 
-<<<<<<< HEAD
     service.mark_read(id, current_user.id)
 
     return redirect(url_for("notifications.index"))
-=======
-    service.mark_read(
-        id,
-        current_user.id
-    )
-
-    return redirect(
-        url_for("notifications.index")
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 @notifications.route("/read-all")
@@ -57,33 +42,16 @@ def read_all():
 
     service.mark_all_read(current_user.id)
 
-<<<<<<< HEAD
     return redirect(url_for("notifications.index"))
-=======
-    return redirect(
-        url_for("notifications.index")
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 @notifications.route("/delete/<int:id>")
 @login_required
 def delete(id):
 
-<<<<<<< HEAD
     service.delete(id, current_user.id)
 
     return redirect(url_for("notifications.index"))
-=======
-    service.delete(
-        id,
-        current_user.id
-    )
-
-    return redirect(
-        url_for("notifications.index")
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 @notifications.route("/delete-all")
@@ -92,10 +60,4 @@ def delete_all():
 
     service.delete_all(current_user.id)
 
-<<<<<<< HEAD
     return redirect(url_for("notifications.index"))
-=======
-    return redirect(
-        url_for("notifications.index")
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

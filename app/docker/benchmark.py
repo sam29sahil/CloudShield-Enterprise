@@ -7,10 +7,6 @@ from app.docker.scanner import DockerScanner
 
 
 class DockerBenchmark:
-<<<<<<< HEAD
-=======
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     """
     CIS Docker Benchmark
     """
@@ -61,7 +57,6 @@ class DockerBenchmark:
 
                 info += 1
 
-<<<<<<< HEAD
         score = max(100 - critical * 20 - high * 10, 0)
 
         return {
@@ -73,30 +68,3 @@ class DockerBenchmark:
             "info": info,
             "findings": findings,
         }
-=======
-        score = max(
-
-            100 - critical * 20 - high * 10,
-
-            0
-
-        )
-
-        return {
-
-            "score": score,
-
-            "critical": critical,
-
-            "high": high,
-
-            "medium": medium,
-
-            "low": low,
-
-            "info": info,
-
-            "findings": findings
-
-        }
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

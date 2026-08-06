@@ -3,13 +3,9 @@ CloudShield Enterprise
 Target Validator
 """
 
-<<<<<<< HEAD
 import ipaddress
 import re
 from urllib.parse import urlparse
-=======
-from app.security.core.target import Target
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 class TargetValidator:
@@ -19,7 +15,6 @@ class TargetValidator:
 
     @staticmethod
     def validate(target: str):
-<<<<<<< HEAD
 
         if not target:
             return False, "Target cannot be empty."
@@ -56,6 +51,3 @@ class TargetValidator:
             return True, "domain"
 
         return False, "Unsupported target."
-=======
-        return Target.validate(target)
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

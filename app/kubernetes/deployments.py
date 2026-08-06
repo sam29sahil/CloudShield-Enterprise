@@ -29,7 +29,6 @@ class KubernetesDeployments:
 
             for deployment in deployments:
 
-<<<<<<< HEAD
                 data.append(
                     {
                         "name": deployment.metadata.name,
@@ -39,21 +38,6 @@ class KubernetesDeployments:
                         "updated": deployment.status.updated_replicas or 0,
                     }
                 )
-=======
-                data.append({
-
-                    "name": deployment.metadata.name,
-
-                    "namespace": deployment.metadata.namespace,
-
-                    "replicas": deployment.spec.replicas,
-
-                    "available": deployment.status.available_replicas or 0,
-
-                    "updated": deployment.status.updated_replicas or 0
-
-                })
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             return data
 
@@ -63,8 +47,4 @@ class KubernetesDeployments:
 
         except Exception:
 
-<<<<<<< HEAD
             return []
-=======
-            return []
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

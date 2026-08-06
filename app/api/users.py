@@ -23,7 +23,6 @@ def get_users():
 
     for user in users:
 
-<<<<<<< HEAD
         data.append(
             {
                 "id": user.id,
@@ -37,23 +36,6 @@ def get_users():
         )
 
     return success_response(data=data, message="Users retrieved successfully")
-=======
-        data.append({
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-            "role": user.role,
-            "created_at": (
-                user.created_at.isoformat()
-                if user.created_at else None
-            )
-        })
-
-    return success_response(
-        data=data,
-        message="Users retrieved successfully"
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
 
 @api.route("/users/<int:user_id>", methods=["GET"])
@@ -63,14 +45,7 @@ def get_user(user_id):
     user = user_service.get(user_id)
 
     if not user:
-<<<<<<< HEAD
         return error_response("User not found", 404)
-=======
-        return error_response(
-            "User not found",
-            404
-        )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     return success_response(
         data={
@@ -78,14 +53,7 @@ def get_user(user_id):
             "username": user.username,
             "email": user.email,
             "role": user.role,
-<<<<<<< HEAD
             "created_at": (user.created_at.isoformat() if user.created_at else None),
-=======
-            "created_at": (
-                user.created_at.isoformat()
-                if user.created_at else None
-            )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
     )
 
@@ -97,56 +65,24 @@ def create_user():
     data = request.get_json()
 
     if not data:
-<<<<<<< HEAD
         return error_response("No JSON data received", 400)
 
     required = ["username", "email", "password"]
-=======
-        return error_response(
-            "No JSON data received",
-            400
-        )
-
-    required = [
-        "username",
-        "email",
-        "password"
-    ]
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     for field in required:
 
         if field not in data:
-<<<<<<< HEAD
             return error_response(f"{field} is required", 400)
-=======
-            return error_response(
-                f"{field} is required",
-                400
-            )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     user = user_service.create(
         username=data["username"],
         email=data["email"],
         password=data["password"],
-<<<<<<< HEAD
         role=data.get("role", "User"),
     )
 
     return success_response(
         data={"id": user.id}, message="User created successfully", status_code=201
-=======
-        role=data.get("role", "User")
-    )
-
-    return success_response(
-        data={
-            "id": user.id
-        },
-        message="User created successfully",
-        status_code=201
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     )
 
 
@@ -157,17 +93,6 @@ def delete_user(user_id):
     deleted = user_service.delete(user_id)
 
     if not deleted:
-<<<<<<< HEAD
         return error_response("User not found", 404)
 
     return success_response(message="User deleted successfully")
-=======
-        return error_response(
-            "User not found",
-            404
-        )
-
-    return success_response(
-        message="User deleted successfully"
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

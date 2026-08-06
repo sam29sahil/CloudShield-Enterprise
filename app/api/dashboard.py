@@ -21,15 +21,7 @@ def dashboard_statistics():
     """
 
     return success_response(
-<<<<<<< HEAD
         data=dashboard_service.statistics(), message="Dashboard statistics"
-=======
-
-        data=dashboard_service.statistics(),
-
-        message="Dashboard statistics"
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     )
 
 
@@ -46,7 +38,6 @@ def latest_scans():
 
     for scan in scans:
 
-<<<<<<< HEAD
         data.append(
             {
                 "id": scan.id,
@@ -62,34 +53,3 @@ def latest_scans():
         )
 
     return success_response(data=data, message="Latest scans")
-=======
-        data.append({
-
-            "id": scan.id,
-
-            "asset_id": scan.asset_id,
-
-            "user_id": scan.user_id,
-
-            "score": scan.score,
-
-            "risk": scan.risk,
-
-            "scan_type": scan.scan_type,
-
-            "started_at": (
-                scan.started_at.isoformat()
-                if scan.started_at
-                else None
-            )
-
-        })
-
-    return success_response(
-
-        data=data,
-
-        message="Latest scans"
-
-    )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

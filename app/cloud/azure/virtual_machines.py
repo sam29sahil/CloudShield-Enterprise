@@ -3,7 +3,6 @@ CloudShield Enterprise
 Azure Virtual Machines
 """
 
-<<<<<<< HEAD
 from __future__ import annotations
 
 import logging
@@ -19,18 +18,11 @@ class AzureVirtualMachines:
     """
     Azure Virtual Machine Inventory Service
     """
-=======
-from azure.mgmt.compute import ComputeManagementClient
-
-
-class AzureVirtualMachines:
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def __init__(self, client):
 
         self.client = client
 
-<<<<<<< HEAD
         self.compute = ComputeManagementClient(
             credential=self.client.get_credential(),
             subscription_id=self.client.subscription(),
@@ -93,17 +85,11 @@ class AzureVirtualMachines:
     # -------------------------------------------------------
     # Inventory
     # -------------------------------------------------------
-=======
-    # -------------------------------------
-    # List Virtual Machines
-    # -------------------------------------
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def list(self):
 
         if not self.client.is_connected():
 
-<<<<<<< HEAD
             return {
                 "success": False,
                 "count": 0,
@@ -329,42 +315,3 @@ class AzureVirtualMachines:
                 "execution_time": round(perf_counter() - started, 3),
                 "error": str(error),
             }
-=======
-            return []
-
-        try:
-
-            compute = ComputeManagementClient(
-
-                credential=self.client.get_credential(),
-
-                subscription_id=self.client.subscription()
-
-            )
-
-            virtual_machines = []
-
-            for vm in compute.virtual_machines.list_all():
-
-                virtual_machines.append(
-
-                    {
-
-                        "name": vm.name,
-
-                        "location": vm.location,
-
-                        "type": vm.type,
-
-                        "id": vm.id
-
-                    }
-
-                )
-
-            return virtual_machines
-
-        except Exception:
-
-            return []
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

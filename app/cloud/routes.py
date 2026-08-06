@@ -11,10 +11,7 @@ from app.cloud.services import CloudService
 
 service = CloudService()
 
-<<<<<<< HEAD
 
-=======
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 @cloud.route("/")
 @login_required
 def dashboard():

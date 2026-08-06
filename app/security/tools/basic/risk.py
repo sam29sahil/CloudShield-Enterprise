@@ -42,13 +42,7 @@ def calculate_risk(report):
 
     if missing:
 
-<<<<<<< HEAD
         findings.append(f"{len(missing)} security headers missing.")
-=======
-        findings.append(
-            f"{len(missing)} security headers missing."
-        )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # --------------------------
     # Open Ports
@@ -64,15 +58,7 @@ def calculate_risk(report):
 
             score -= 10
 
-<<<<<<< HEAD
             findings.append(f"Dangerous port {port['port']} open.")
-=======
-            findings.append(
-
-                f"Dangerous port {port['port']} open."
-
-            )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     if score < 0:
 
@@ -94,16 +80,4 @@ def calculate_risk(report):
 
         risk = "Critical"
 
-<<<<<<< HEAD
     return {"score": score, "risk": risk, "findings": findings}
-=======
-    return {
-
-        "score": score,
-
-        "risk": risk,
-
-        "findings": findings
-
-    }
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

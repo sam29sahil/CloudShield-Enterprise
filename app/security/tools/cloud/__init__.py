@@ -8,25 +8,11 @@ from app.security.tools.cloud.scoutsuite import ScoutSuiteTool
 from app.security.tools.cloud.cloudsplaining import CloudSplainingTool
 from app.security.tools.cloud.trivy import TrivyTool
 
-<<<<<<< HEAD
 CLOUD_TOOLS = {
     "prowler": ProwlerTool(),
     "scoutsuite": ScoutSuiteTool(),
     "cloudsplaining": CloudSplainingTool(),
     "trivy": TrivyTool(),
-=======
-
-CLOUD_TOOLS = {
-
-    "prowler": ProwlerTool(),
-
-    "scoutsuite": ScoutSuiteTool(),
-
-    "cloudsplaining": CloudSplainingTool(),
-
-    "trivy": TrivyTool()
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 }
 
 
@@ -41,7 +27,6 @@ def get_all_tools():
 
 
 __all__ = [
-<<<<<<< HEAD
     "ProwlerTool",
     "ScoutSuiteTool",
     "CloudSplainingTool",
@@ -50,21 +35,3 @@ __all__ = [
     "get_tool",
     "get_all_tools",
 ]
-=======
-
-    "ProwlerTool",
-
-    "ScoutSuiteTool",
-
-    "CloudSplainingTool",
-
-    "TrivyTool",
-
-    "CLOUD_TOOLS",
-
-    "get_tool",
-
-    "get_all_tools"
-
-]
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

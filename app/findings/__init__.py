@@ -15,7 +15,6 @@ from app.findings.filters import FindingFilters
 from app.findings.exporter import FindingExporter
 
 __all__ = [
-<<<<<<< HEAD
     # Existing
     "SeverityEngine",
     "FindingAggregator",
@@ -27,26 +26,3 @@ __all__ = [
     "FindingFilters",
     "FindingExporter",
 ]
-=======
-
-    # Existing
-    "SeverityEngine",
-
-    "FindingAggregator",
-
-    "Deduplicator",
-
-    "ReportBuilder",
-
-    # New
-    "FindingService",
-
-    "FindingStatistics",
-
-    "FindingFilters",
-
-    "FindingExporter"
-
-]
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

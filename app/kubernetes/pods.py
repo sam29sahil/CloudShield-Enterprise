@@ -28,7 +28,6 @@ class KubernetesPods:
 
             for pod in pods:
 
-<<<<<<< HEAD
                 data.append(
                     {
                         "name": pod.metadata.name,
@@ -38,21 +37,6 @@ class KubernetesPods:
                         "ip": pod.status.pod_ip,
                     }
                 )
-=======
-                data.append({
-
-                    "name": pod.metadata.name,
-
-                    "namespace": pod.metadata.namespace,
-
-                    "node": pod.spec.node_name,
-
-                    "status": pod.status.phase,
-
-                    "ip": pod.status.pod_ip
-
-                })
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             return data
 
@@ -62,8 +46,4 @@ class KubernetesPods:
 
         except Exception:
 
-<<<<<<< HEAD
             return []
-=======
-            return []
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

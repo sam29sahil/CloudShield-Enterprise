@@ -21,7 +21,6 @@ class DNSEnumTool(BaseTool):
 
     def scan_all(self, target):
 
-<<<<<<< HEAD
         return self.scan(target, [])
 
     def zone_transfer(self, target):
@@ -35,73 +34,11 @@ class DNSEnumTool(BaseTool):
     def brute_force(self, target):
 
         return self.scan(target, ["--enum"])
-=======
-        return self.scan(
-
-            target,
-
-            []
-
-        )
-
-    def zone_transfer(self, target):
-
-        return self.scan(
-
-            target,
-
-            [
-
-                "--noreverse"
-
-            ]
-
-        )
-
-    def reverse_lookup(self, target):
-
-        return self.scan(
-
-            target,
-
-            [
-
-                "--reverse"
-
-            ]
-
-        )
-
-    def brute_force(self, target):
-
-        return self.scan(
-
-            target,
-
-            [
-
-                "--enum"
-
-            ]
-
-        )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def info(self):
 
         return {
-<<<<<<< HEAD
             "name": self.name,
             "category": "DNS",
             "description": "DNS Enumeration Tool",
         }
-=======
-
-            "name": self.name,
-
-            "category": "DNS",
-
-            "description": "DNS Enumeration Tool"
-
-        }
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
