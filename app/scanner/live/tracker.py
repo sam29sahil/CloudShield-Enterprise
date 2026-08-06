@@ -24,13 +24,7 @@ class ScanTracker:
     def start(self):
 
         live_manager.create(
-
-            scan_id=self.scan.id,
-
-            target=self.scan.target,
-
-            tool=self.scan.tool
-
+            scan_id=self.scan.id, target=self.scan.target, tool=self.scan.tool
         )
 
     # ----------------------------------------------------------
@@ -40,15 +34,10 @@ class ScanTracker:
     def validating(self):
 
         live_manager.update(
-
             self.scan.id,
-
             status=ScanStatus.VALIDATING,
-
             progress=10,
-
-            message="Validating target..."
-
+            message="Validating target...",
         )
 
     # ----------------------------------------------------------
@@ -58,15 +47,10 @@ class ScanTracker:
     def initializing(self):
 
         live_manager.update(
-
             self.scan.id,
-
             status=ScanStatus.INITIALIZING,
-
             progress=20,
-
-            message="Initializing tool..."
-
+            message="Initializing tool...",
         )
 
     # ----------------------------------------------------------
@@ -76,17 +60,11 @@ class ScanTracker:
     def running(self, tool=None):
 
         live_manager.update(
-
             self.scan.id,
-
             status=ScanStatus.RUNNING,
-
             progress=50,
-
             tool=tool or self.scan.tool,
-
-            message=f"Running {tool or self.scan.tool}..."
-
+            message=f"Running {tool or self.scan.tool}...",
         )
 
     # ----------------------------------------------------------
@@ -96,15 +74,10 @@ class ScanTracker:
     def parsing(self):
 
         live_manager.update(
-
             self.scan.id,
-
             status=ScanStatus.PARSING,
-
             progress=70,
-
-            message="Parsing scan results..."
-
+            message="Parsing scan results...",
         )
 
     # ----------------------------------------------------------
@@ -114,15 +87,10 @@ class ScanTracker:
     def findings(self):
 
         live_manager.update(
-
             self.scan.id,
-
             status=ScanStatus.FINDINGS,
-
             progress=85,
-
-            message="Generating findings..."
-
+            message="Generating findings...",
         )
 
     # ----------------------------------------------------------
@@ -132,15 +100,10 @@ class ScanTracker:
     def reporting(self):
 
         live_manager.update(
-
             self.scan.id,
-
             status=ScanStatus.REPORT,
-
             progress=95,
-
-            message="Generating report..."
-
+            message="Generating report...",
         )
 
     # ----------------------------------------------------------
@@ -149,13 +112,7 @@ class ScanTracker:
 
     def complete(self):
 
-        live_manager.complete(
-
-            self.scan.id,
-
-            message="Scan completed."
-
-        )
+        live_manager.complete(self.scan.id, message="Scan completed.")
 
     # ----------------------------------------------------------
     # Fail
@@ -163,13 +120,7 @@ class ScanTracker:
 
     def failed(self, error):
 
-        live_manager.fail(
-
-            self.scan.id,
-
-            message=str(error)
-
-        )
+        live_manager.fail(self.scan.id, message=str(error))
 
     # ----------------------------------------------------------
     # Cancel
@@ -177,7 +128,4 @@ class ScanTracker:
 
     def cancelled(self):
 
-        live_manager.cancel(
-
-            self.scan.id
-        )
+        live_manager.cancel(self.scan.id)

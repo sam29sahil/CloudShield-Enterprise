@@ -8,25 +8,11 @@ from app.security.tools.wireless.airodump import AirodumpTool
 from app.security.tools.wireless.aireplay import AireplayTool
 from app.security.tools.wireless.wifite import WifiteTool
 
-<<<<<<< HEAD
 WIRELESS_TOOLS = {
     "aircrack-ng": AircrackTool(),
     "airodump-ng": AirodumpTool(),
     "aireplay-ng": AireplayTool(),
     "wifite": WifiteTool(),
-=======
-
-WIRELESS_TOOLS = {
-
-    "aircrack-ng": AircrackTool(),
-
-    "airodump-ng": AirodumpTool(),
-
-    "aireplay-ng": AireplayTool(),
-
-    "wifite": WifiteTool()
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 }
 
 
@@ -47,7 +33,6 @@ def get_all_tools():
 
 
 __all__ = [
-<<<<<<< HEAD
     "AircrackTool",
     "AirodumpTool",
     "AireplayTool",
@@ -56,21 +41,3 @@ __all__ = [
     "get_tool",
     "get_all_tools",
 ]
-=======
-
-    "AircrackTool",
-
-    "AirodumpTool",
-
-    "AireplayTool",
-
-    "WifiteTool",
-
-    "WIRELESS_TOOLS",
-
-    "get_tool",
-
-    "get_all_tools"
-
-]
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

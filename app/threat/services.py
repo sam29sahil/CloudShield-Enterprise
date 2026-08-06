@@ -30,7 +30,6 @@ class ThreatService:
         summary = self.cve.summary()
 
         return {
-<<<<<<< HEAD
             "critical_cves": summary["critical"],
             "high_cves": summary["high"],
             "medium_cves": summary["medium"],
@@ -40,27 +39,6 @@ class ThreatService:
             "mitre_techniques": self.mitre_service.count(),
             "score": self.calculate_score(summary),
             "latest_cves": self.cve.latest(5),
-=======
-
-            "critical_cves": summary["critical"],
-
-            "high_cves": summary["high"],
-
-            "medium_cves": summary["medium"],
-
-            "low_cves": summary["low"],
-
-            "ioc_count": self.ioc_service.count(),
-
-            "feeds": self.feed_service.count(),
-
-            "mitre_techniques": self.mitre_service.count(),
-
-            "score": self.calculate_score(summary),
-
-            "latest_cves": self.cve.latest(5)
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
     # ---------------------------------------
@@ -94,11 +72,6 @@ class ThreatService:
     def low_cves(self):
 
         return self.cve.by_severity("Low")
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     def mitre(self):
 
         return self.mitre_service.all()
@@ -106,34 +79,18 @@ class ThreatService:
     def search_mitre(self, keyword):
 
         return self.mitre_service.search(keyword)
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     def iocs(self):
 
         return self.ioc_service.all()
 
-<<<<<<< HEAD
     def search_iocs(self, keyword):
 
         return self.ioc_service.search(keyword)
 
-=======
-
-    def search_iocs(self, keyword):
-
-        return self.ioc_service.search(keyword)
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     def feeds(self):
 
         return self.feed_service.all()
 
-<<<<<<< HEAD
-=======
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     def latest_feeds(self):
 
         return self.feed_service.latest()
@@ -158,8 +115,4 @@ class ThreatService:
 
             score = 0
 
-<<<<<<< HEAD
         return score
-=======
-        return score
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

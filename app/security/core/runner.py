@@ -50,7 +50,6 @@ from typing import Any, Mapping, Sequence
 from app.security.core.command import Command
 from app.security.core.result import Result
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -124,26 +123,25 @@ class Runner:
         binary = config["binary"]
         executable = shutil.which(binary)
         if executable is None:
-            logger.warning("Registered security tool is not installed: %s", normalized_tool)
+            logger.warning(
+                "Registered security tool is not installed: %s", normalized_tool
+            )
             return self._failure(
                 started,
                 command=binary,
                 error=f"{binary} is not installed or is not on PATH.",
             )
 
-        command = Command.build(
-            executable,
-            argv_arguments
-        )
+        command = Command.build(executable, argv_arguments)
         timeout = config["timeout"]
         logger.info("Executing security tool %s", normalized_tool)
 
         try:
-            completed = command.run(
-                timeout=timeout
-            )
+            completed = command.run(timeout=timeout)
         except subprocess.TimeoutExpired as error:
-            logger.warning("Security tool %s timed out after %s seconds", normalized_tool, timeout)
+            logger.warning(
+                "Security tool %s timed out after %s seconds", normalized_tool, timeout
+            )
             return self._failure(
                 started,
                 command=display_command,
@@ -160,8 +158,13 @@ class Runner:
 
         elapsed = self._elapsed(started)
         success = completed.returncode == 0
-        error = "" if success else (
-            completed.stderr.strip() or f"{normalized_tool} exited with code {completed.returncode}."
+        error = (
+            ""
+            if success
+            else (
+                completed.stderr.strip()
+                or f"{normalized_tool} exited with code {completed.returncode}."
+            )
         )
         logger.info(
             "Security tool %s completed with return code %s in %.3fs",
@@ -170,18 +173,16 @@ class Runner:
             elapsed,
         )
         return Result(
-        success=success,
-        tool=normalized_tool,
-        target="",
-        command=command.display,
-        return_code=completed.returncode,
-        stdout=completed.stdout,
-        stderr=completed.stderr,
-        data={
-            "execution_time": elapsed
-        },
-        error=error,
-    ).to_dict()
+            success=success,
+            tool=normalized_tool,
+            target="",
+            command=command.display,
+            return_code=completed.returncode,
+            stdout=completed.stdout,
+            stderr=completed.stderr,
+            data={"execution_time": elapsed},
+            error=error,
+        ).to_dict()
 
     @staticmethod
     def _arguments(arguments: Sequence[str] | None) -> list[str]:
@@ -189,7 +190,10 @@ class Runner:
             return []
         if isinstance(arguments, (str, bytes)) or not isinstance(arguments, Sequence):
             raise TypeError("arguments must be a sequence of argument strings.")
-        if any(not isinstance(argument, str) or "\x00" in argument for argument in arguments):
+        if any(
+            not isinstance(argument, str) or "\x00" in argument
+            for argument in arguments
+        ):
             raise ValueError("arguments must contain only strings without NUL bytes.")
         return list(arguments)
 
@@ -213,14 +217,14 @@ class Runner:
         stderr: str = "",
     ) -> dict[str, Any]:
         return Result(
-        success=False,
-        tool=normalized_tool,
-        target="",
-        command=command.display if command else "",
-        stdout=stdout,
-        stderr=stderr,
-        error=error,
-    ).to_dict()
+            success=False,
+            tool=normalized_tool,
+            target="",
+            command=command.display if command else "",
+            stdout=stdout,
+            stderr=stderr,
+            error=error,
+        ).to_dict()
 
 
 __all__ = ["Runner", "TOOLS"]

@@ -42,4 +42,6 @@ class Command:
         return shlex.join(self.argv)
 
     def run(self, *, timeout: float | None = None) -> subprocess.CompletedProcess[str]:
-        return subprocess.run(self.argv, capture_output=True, text=True, timeout=timeout, check=False)
+        return subprocess.run(
+            self.argv, capture_output=True, text=True, timeout=timeout, check=False
+        )

@@ -14,34 +14,10 @@ class ScanService:
 
         self.manager = IntegrationManager()
 
-    def website(
-
-        self,
-
-        url
-
-    ):
+    def website(self, url):
 
         return scan_website(url)
 
-    def tool(
+    def tool(self, tool, target, arguments=None):
 
-        self,
-
-        tool,
-
-        target,
-
-        arguments=None
-
-    ):
-
-        return self.manager.execute(
-
-            tool,
-
-            target,
-
-            arguments
-
-        )
+        return self.manager.execute(tool, target, arguments)

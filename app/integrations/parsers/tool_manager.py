@@ -17,13 +17,11 @@ class ToolManager:
     def __init__(self):
 
         self.available = {
-<<<<<<< HEAD
             "nmap": shutil.which("nmap"),
             "nikto": shutil.which("nikto"),
             "whatweb": shutil.which("whatweb"),
             "nuclei": shutil.which("nuclei"),
             "wafw00f": shutil.which("wafw00f"),
-=======
 
             "nmap": shutil.which("nmap"),
 
@@ -35,7 +33,6 @@ class ToolManager:
 
             "wafw00f": shutil.which("wafw00f")
 
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         }
 
         self.nmap = NmapScanner()
@@ -50,17 +47,8 @@ class ToolManager:
 
     def installed_tools(self):
 
-<<<<<<< HEAD
         return {tool: bool(path) for tool, path in self.available.items()}
-=======
-        return {
-
-            tool: bool(path)
-
-            for tool, path in self.available.items()
-
-        }
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
+        
 
     def scan_all(self, target):
 
@@ -86,8 +74,5 @@ class ToolManager:
 
             results["waf"] = self.waf.scan(target)
 
-<<<<<<< HEAD
         return results
-=======
-        return results
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
+        

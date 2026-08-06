@@ -2,6 +2,7 @@
 CloudShield Enterprise
 Unified Scanner Routes
 """
+
 from app.extensions import db
 from flask import (
     render_template,
@@ -28,10 +29,10 @@ from app.security.services import SecurityService
 
 from app.models.finding import Finding
 
-
 # ==========================================================
 # Scanner Dashboard
 # ==========================================================
+
 
 @scanner.route("/", methods=["GET", "POST"])
 @login_required
@@ -50,17 +51,11 @@ def home():
     asset_id = None
 
     dashboard = {
-
         "status": "Waiting",
-
         "score": "--",
-
         "duration": 0,
-
         "findings": 0,
-
         "ports": 0,
-
     }
 
     # ==========================================================
@@ -72,15 +67,11 @@ def home():
 
     total_scans = SecurityScan.query.count()
 
-    completed = SecurityScan.query.filter_by(
-        status="Completed"
-    ).count()
+    completed = SecurityScan.query.filter_by(status="Completed").count()
 
     total_findings = Finding.query.count()
 
-    average_score = db.session.query(
-        db.func.avg(SecurityScan.score)
-    ).scalar()
+    average_score = db.session.query(db.func.avg(SecurityScan.score)).scalar()
 
     if average_score is None:
         average_score = 0
@@ -89,21 +80,13 @@ def home():
 
     if total_scans:
 
-        success_rate = round(
-            (completed / total_scans) * 100,
-        1
-        )
+        success_rate = round((completed / total_scans) * 100, 1)
 
     stats = {
-
         "total_scans": total_scans,
-
         "success_rate": success_rate,
-
         "findings": total_findings,
-
-        "security_score": round(average_score, 1)
-
+        "security_score": round(average_score, 1),
     }
 
     #
@@ -132,13 +115,7 @@ def home():
 
     category = form.category.data or "network"
 
-    form.tool.choices = get_tools(
-
-        category,
-
-        mode
-
-    )
+    form.tool.choices = get_tools(category, mode)
 
     #
     # Execute Scan
@@ -152,73 +129,29 @@ def home():
 
         asset_id = form.asset_id.data
 
-        mode = request.form.get(
+        mode = request.form.get("mode", "basic")
 
-            "mode",
+        category = request.form.get("category", "network")
 
-            "basic"
+        form.tool.choices = get_tools(category, mode)
 
-        )
-
-        category = request.form.get(
-
-            "category",
-
-            "network"
-
-        )
-
-        form.tool.choices = get_tools(
-
-            category,
-
-            mode
-
-        )
-
-        tool = (
-
-            form.tool.data or ""
-
-        ).strip()
+        tool = (form.tool.data or "").strip()
 
         if tool == "":
 
             tool = None
 
-        target = (
+        target = (form.target.data or "").strip()
 
-            form.target.data or ""
-
-        ).strip()
-
-        arguments = (
-
-            form.arguments.data or ""
-
-        ).strip()
+        arguments = (form.arguments.data or "").strip()
 
         if not validate_target(target):
 
-            result = {
-
-                "success": False,
-
-                "message": "Invalid Target"
-
-            }
+            result = {"success": False, "message": "Invalid Target"}
 
         else:
 
-            args = (
-
-                arguments.split()
-
-                if arguments
-
-                else []
-
-            )
+            args = arguments.split() if arguments else []
 
             try:
 
@@ -232,20 +165,13 @@ def home():
                 print("=" * 60)
 
                 response = security_service.execute(
-
                     user_id=current_user.id,
-
                     asset_id=asset_id,
-
                     mode=mode,
-
                     category=category,
-
                     tool=tool,
-
                     target=target,
-
-                    arguments=args
+                    arguments=args,
                 )
                 print("=" * 60)
                 print("SERVICE RESPONSE"),
@@ -258,13 +184,7 @@ def home():
 
                 if result is None:
 
-                    result = {
-
-                        "success": False,
-
-                        "message": "No response"
-
-                    }
+                    result = {"success": False, "message": "No response"}
 
                 result["mode"] = mode
 
@@ -282,117 +202,58 @@ def home():
 
                 else:
 
-                    result["message"] = result.get(
-
-                        "error",
-
-                        "Failed"
-
-                    )
+                    result["message"] = result.get("error", "Failed")
 
                 findings = 0
 
                 if scan:
 
-                    findings = Finding.query.filter_by(
-
-                        scan_id=scan.id
-
-                    ).count()
+                    findings = Finding.query.filter_by(scan_id=scan.id).count()
 
                 ports = 0
 
-                if isinstance(
+                if isinstance(result.get("ports"), list):
 
-                    result.get("ports"),
-
-                    list
-
-                ):
-
-                    ports = len(
-
-                        result["ports"]
-
-                    )
+                    ports = len(result["ports"])
 
                 dashboard = {
-
                     "status": result["message"],
-
-                    "score": (
-
-                        scan.score
-
-                        if scan
-
-                        else "--"
-
-                    ),
-
-                    "duration": (
-
-                        round(scan.duration, 2)
-
-                        if scan
-
-                        else 0
-
-                    ),
-
+                    "score": (scan.score if scan else "--"),
+                    "duration": (round(scan.duration, 2) if scan else 0),
                     "findings": findings,
-
                     "ports": ports,
-
                 }
 
             except Exception as e:
 
                 notification_service.create(
-
                     user_id=current_user.id,
-
                     title="Scan Failed",
-
                     message=str(e),
-
                     severity="High",
-
                 )
 
                 result = {
-
                     "success": False,
-
                     "message": str(e),
-
                     "error": str(e),
-
                 }
 
-                
-
     return render_template(
-
         "scanner/dashboard.html",
-
         form=form,
-
         result=result,
-
         dashboard=dashboard,
-
         stats=stats,
-
         asset_id=asset_id,
-
         scan=scan,
-
     )
+
 
 # ==========================================================
 # Tool Loader
 # ==========================================================
+
 
 @scanner.route("/tools/<mode>/<category>")
 @login_required
@@ -401,14 +262,13 @@ def tools(mode, category):
     Return available tools for the selected category/mode.
     """
 
-    return jsonify(
-        get_tools(category, mode)
-    )
+    return jsonify(get_tools(category, mode))
 
 
 # ==========================================================
 # Scan History
 # ==========================================================
+
 
 @scanner.route("/history")
 @login_required
@@ -416,32 +276,15 @@ def history():
 
     from app.models import SecurityScan
 
-    scans = (
+    scans = SecurityScan.query.order_by(SecurityScan.started_at.desc()).all()
 
-        SecurityScan.query
-
-        .order_by(
-
-            SecurityScan.started_at.desc()
-
-        )
-
-        .all()
-
-    )
-
-    return render_template(
-
-        "scanner/history.html",
-
-        scans=scans
-
-    )
+    return render_template("scanner/history.html", scans=scans)
 
 
 # ==========================================================
 # Recent Scan API
 # ==========================================================
+
 
 @scanner.route("/api/recent")
 @login_required
@@ -449,58 +292,31 @@ def recent_scans():
 
     from app.models import SecurityScan
 
-    scans = (
+    scans = SecurityScan.query.order_by(SecurityScan.started_at.desc()).limit(10).all()
 
-        SecurityScan.query
-
-        .order_by(
-
-            SecurityScan.started_at.desc()
-
-        )
-
-        .limit(10)
-
-        .all()
-
+    return jsonify(
+        [
+            {
+                "id": scan.id,
+                "target": scan.target,
+                "category": scan.category,
+                "tool": scan.tool,
+                "status": scan.status,
+                "score": scan.score,
+                "risk": scan.risk,
+                "started_at": (
+                    scan.started_at.isoformat() if scan.started_at else None
+                ),
+            }
+            for scan in scans
+        ]
     )
 
-    return jsonify([
 
-        {
-
-            "id": scan.id,
-
-            "target": scan.target,
-
-            "category": scan.category,
-
-            "tool": scan.tool,
-
-            "status": scan.status,
-
-            "score": scan.score,
-
-            "risk": scan.risk,
-
-            "started_at": (
-
-                scan.started_at.isoformat()
-
-                if scan.started_at
-
-                else None
-
-            )
-
-        }
-
-        for scan in scans
-
-    ])   
 # ==========================================================
 # Scan Details
 # ==========================================================
+
 
 @scanner.route("/details/<int:scan_id>")
 @login_required
@@ -514,21 +330,14 @@ def details(scan_id):
     report = ReportBuilder(scan).build()
 
     return render_template(
-
-        "scanner/details.html",
-
-        scan=scan,
-
-        report=report,
-
-        findings=scan.findings
-
+        "scanner/details.html", scan=scan, report=report, findings=scan.findings
     )
 
 
 # ==========================================================
 # Delete Scan
 # ==========================================================
+
 
 @scanner.route("/delete/<int:scan_id>")
 @login_required
@@ -545,21 +354,13 @@ def delete_scan(scan_id):
     # Delete Findings
     #
 
-    Finding.query.filter_by(
-
-        scan_id=scan.id
-
-    ).delete()
+    Finding.query.filter_by(scan_id=scan.id).delete()
 
     #
     # Delete Reports
     #
 
-    Report.query.filter_by(
-
-        scan_id=scan.id
-
-    ).delete()
+    Report.query.filter_by(scan_id=scan.id).delete()
 
     #
     # Delete Scan
@@ -569,18 +370,13 @@ def delete_scan(scan_id):
 
     db.session.commit()
 
-    return redirect(
+    return redirect(url_for("scanner.history"))
 
-        url_for(
 
-            "scanner.history"
-
-        )
-
-    )   
 # ==========================================================
 # Live Progress
 # ==========================================================
+
 
 @scanner.route("/progress/<int:scan_id>")
 @login_required
@@ -592,26 +388,15 @@ def progress(scan_id):
 
     if progress is None:
 
-        return jsonify({
+        return jsonify({"success": False, "error": "Scan not found"}), 404
 
-            "success": False,
-
-            "error": "Scan not found"
-
-        }), 404
-
-    return jsonify({
-
-        "success": True,
-
-        "data": progress.to_dict()
-
-    })
+    return jsonify({"success": True, "data": progress.to_dict()})
 
 
 # ==========================================================
 # Scan Status
 # ==========================================================
+
 
 @scanner.route("/status/<int:scan_id>")
 @login_required
@@ -623,31 +408,18 @@ def status(scan_id):
 
     if progress is None:
 
-        return jsonify({
+        return jsonify({"status": "Unknown"})
 
-            "status": "Unknown"
-
-        })
-
-    return jsonify({
-
-        "status": progress.status.value
-
-    })
+    return jsonify({"status": progress.status.value})
 
 
 # ==========================================================
 # Live Scanner
 # ==========================================================
 
+
 @scanner.route("/live/<int:scan_id>")
 @login_required
 def live(scan_id):
 
-    return render_template(
-
-        "scanner/live.html",
-
-        scan_id=scan_id
-
-    )   
+    return render_template("scanner/live.html", scan_id=scan_id)

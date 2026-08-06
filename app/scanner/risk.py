@@ -56,30 +56,14 @@ def calculate_risk(score):
                 color = "dark"
 
                 summary = (
-                    "Critical security risk. "
-                    "The target requires urgent attention."
+                    "Critical security risk. " "The target requires urgent attention."
                 )
 
-            return {
-
-                "score": score,
-
-                "level": level,
-
-                "color": color,
-
-                "summary": summary
-
-            }
+            return {"score": score, "level": level, "color": color, "summary": summary}
 
     return {
-
         "score": 0,
-
         "level": "Unknown",
-
         "color": "secondary",
-
-        "summary": "Unable to determine risk."
-
+        "summary": "Unable to determine risk.",
     }

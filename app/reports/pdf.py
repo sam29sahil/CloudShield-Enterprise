@@ -19,11 +19,7 @@ from reportlab.platypus import (
     Table,
     TableStyle,
     PageBreak,
-<<<<<<< HEAD
     KeepTogether,
-=======
-    KeepTogether
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 )
 
 from app.scanner.services.report_builder import ReportBuilder
@@ -44,7 +40,6 @@ class PDFReport:
     def _create_styles(self):
 
         self.title_style = ParagraphStyle(
-<<<<<<< HEAD
             "ReportTitle",
             parent=self.styles["Title"],
             fontName="Helvetica-Bold",
@@ -90,95 +85,6 @@ class PDFReport:
             alignment=TA_CENTER,
             textColor=colors.grey,
             fontSize=9,
-=======
-
-            "ReportTitle",
-
-            parent=self.styles["Title"],
-
-            fontName="Helvetica-Bold",
-
-            fontSize=26,
-
-            alignment=TA_CENTER,
-
-            textColor=colors.HexColor("#1d4ed8"),
-
-            spaceAfter=20
-
-        )
-
-        self.subtitle_style = ParagraphStyle(
-
-            "Subtitle",
-
-            parent=self.styles["Heading2"],
-
-            alignment=TA_CENTER,
-
-            textColor=colors.HexColor("#475569"),
-
-            fontSize=14,
-
-            spaceAfter=25
-
-        )
-
-        self.heading = ParagraphStyle(
-
-            "Heading",
-
-            parent=self.styles["Heading2"],
-
-            fontName="Helvetica-Bold",
-
-            textColor=colors.HexColor("#2563eb"),
-
-            fontSize=17,
-
-            spaceAfter=12,
-
-            spaceBefore=20
-
-        )
-
-        self.label = ParagraphStyle(
-
-            "Label",
-
-            parent=self.styles["BodyText"],
-
-            fontName="Helvetica-Bold",
-
-            textColor=colors.HexColor("#111827")
-
-        )
-
-        self.value = ParagraphStyle(
-
-            "Value",
-
-            parent=self.styles["BodyText"],
-
-            fontSize=10,
-
-            leading=16
-
-        )
-
-        self.footer = ParagraphStyle(
-
-            "Footer",
-
-            parent=self.styles["BodyText"],
-
-            alignment=TA_CENTER,
-
-            textColor=colors.grey,
-
-            fontSize=9
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         )
 
     # --------------------------------------------------
@@ -200,19 +106,7 @@ class PDFReport:
 
             try:
 
-<<<<<<< HEAD
                 value = json.dumps(value, indent=2, default=str)
-=======
-                value = json.dumps(
-
-                    value,
-
-                    indent=2,
-
-                    default=str
-
-                )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             except Exception:
 
@@ -228,35 +122,9 @@ class PDFReport:
 
     def heading_block(self, story, title):
 
-<<<<<<< HEAD
         story.append(Paragraph(title, self.heading))
 
         story.append(Spacer(1, 8))
-=======
-        story.append(
-
-            Paragraph(
-
-                title,
-
-                self.heading
-
-            )
-
-        )
-
-        story.append(
-
-            Spacer(
-
-                1,
-
-                8
-
-            )
-
-        )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     # --------------------------------------------------
 
@@ -264,7 +132,6 @@ class PDFReport:
 
         if widths is None:
 
-<<<<<<< HEAD
             widths = [2.2 * inch, 4.1 * inch]
 
         table = Table(rows, colWidths=widths)
@@ -283,49 +150,12 @@ class PDFReport:
             )
         )
 
-=======
-            widths = [
-
-                2.2 * inch,
-
-                4.1 * inch
-
-            ]
-
-        table = Table(
-
-            rows,
-
-            colWidths=widths
-
-        )
-
-        table.setStyle(TableStyle([
-
-            ("BACKGROUND", (0,0), (-1,0), colors.HexColor("#2563eb")),
-
-            ("TEXTCOLOR", (0,0), (-1,0), colors.white),
-
-            ("GRID", (0,0), (-1,-1), .4, colors.grey),
-
-            ("BOTTOMPADDING", (0,0), (-1,-1), 8),
-
-            ("TOPPADDING", (0,0), (-1,-1), 8),
-
-            ("VALIGN", (0,0), (-1,-1), "TOP"),
-
-            ("FONTNAME", (0,0), (-1,0), "Helvetica-Bold"),
-
-        ]))
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         return table
 
     # --------------------------------------------------
     # Cover Page
     # --------------------------------------------------
 
-<<<<<<< HEAD
     def draw_cover(self, story, report):
 
         summary = report["summary"]
@@ -361,179 +191,10 @@ class PDFReport:
 
         story.append(PageBreak())
 
-=======
-    def draw_cover(
-
-        self,
-
-        story,
-
-        report
-
-    ):
-
-        summary = report["summary"]
-
-        story.append(
-
-            Paragraph(
-
-                "CloudShield Enterprise",
-
-                self.title_style
-
-            )
-
-        )
-
-        story.append(
-
-            Paragraph(
-
-                "Professional Security Assessment Report",
-
-                self.subtitle_style
-
-            )
-
-        )
-
-        story.append(
-
-            Spacer(
-
-                1,
-
-                30
-
-            )
-
-        )
-
-        rows = [
-
-            [
-
-                "Property",
-
-                "Value"
-
-            ],
-
-            [
-
-                "Target",
-
-                self.clean(summary["target"])
-
-            ],
-
-            [
-
-                "Scanner",
-
-                self.clean(summary["tool"])
-
-            ],
-
-            [
-
-                "Category",
-
-                self.clean(summary["category"])
-
-            ],
-
-            [
-
-                "Status",
-
-                self.clean(summary["status"])
-
-            ],
-
-            [
-
-                "Risk",
-
-                self.clean(summary["risk"])
-
-            ],
-
-            [
-
-                "Security Score",
-
-                f'{summary["score"]}/100'
-
-            ],
-
-            [
-
-                "Started",
-
-                self.clean(summary["started"])
-
-            ],
-
-            [
-
-                "Completed",
-
-                self.clean(summary["completed"])
-
-            ],
-
-            [
-
-                "Duration",
-
-                 f'{float(summary.get("duration", 0)):.2f} seconds'
-            ]
-
-        ]
-
-        story.append(
-
-            self.table(rows)
-
-        )
-
-        story.append(
-
-            Spacer(
-
-                1,
-
-                25
-
-            )
-
-        )
-
-        story.append(
-
-            Paragraph(
-
-                "Confidential - Generated by CloudShield Enterprise",
-
-                self.footer
-
-            )
-
-        )
-
-        story.append(
-
-            PageBreak()
-
-        )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     def draw_summary(self, story, report):
 
         summary = report["summary"]
 
-<<<<<<< HEAD
         self.heading_block(story, "Executive Summary")
 
         rows = [
@@ -545,58 +206,16 @@ class PDFReport:
             ["Category", self.clean(summary["category"])],
             ["Duration", f'{float(summary.get("duration",0)):.2f} sec'],
             ["Target", self.clean(summary["target"])],
-=======
-        self.heading_block(
-            story,
-            "Executive Summary"
-        )
-
-        rows = [
-
-            ["Metric", "Value"],
-
-            ["Security Score", f'{summary["score"]}/100'],
-
-            ["Risk Level", self.clean(summary["risk"])],
-
-            ["Scan Status", self.clean(summary["status"])],
-
-            ["Scanner", self.clean(summary["tool"])],
-
-            ["Category", self.clean(summary["category"])],
-
-            ["Duration", f'{float(summary.get("duration",0)):.2f} sec'],
-
-            ["Target", self.clean(summary["target"])]
-
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         ]
 
         story.append(self.table(rows))
 
-<<<<<<< HEAD
-        story.append(Spacer(1, 20))
-=======
         story.append(Spacer(1,20))    
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def draw_website(self, story, report):
 
         website = report.get("website", {})
 
-<<<<<<< HEAD
-        self.heading_block(story, "Website Analysis")
-
-        rows = [
-            ["Property", "Value"],
-            ["Target URL", self.clean(website.get("url"))],
-            ["HTTP Status", self.clean(website.get("status_code"))],
-            ["HTTPS", "Enabled" if website.get("https") else "Disabled"],
-            ["Response Time", self.clean(website.get("response_time"))],
-            ["Redirects", self.clean(website.get("redirects"))],
-            ["Server", self.clean(website.get("server"))],
-            ["Powered By", self.clean(website.get("powered_by"))],
-=======
         self.heading_block(
             story,
             "Website Analysis"
@@ -620,37 +239,19 @@ class PDFReport:
 
             ["Powered By", self.clean(website.get("powered_by"))],
 
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         ]
 
         story.append(self.table(rows))
 
-<<<<<<< HEAD
-        story.append(Spacer(1, 20))
-=======
         story.append(Spacer(1,20))
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def draw_headers(self, story, report):
 
         headers = report.get("headers", [])
 
-<<<<<<< HEAD
         self.heading_block(story, "Security Headers")
 
         rows = [["Header", "Status", "Risk"]]
-=======
-        self.heading_block(
-            story,
-            "Security Headers"
-        )
-
-        rows = [
-
-            ["Header","Status","Risk"]
-
-        ]
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         rows = [["Header", "Status", "Severity"]]
 
@@ -658,7 +259,6 @@ class PDFReport:
 
             for h in headers:
 
-<<<<<<< HEAD
                 rows.append(
                     [
                         self.clean(h.get("header")),
@@ -688,72 +288,11 @@ class PDFReport:
         story.append(table)
 
         story.append(Spacer(1, 20))
-=======
-                rows.append([
-
-                    self.clean(h.get("header")),
-
-                self.clean(h.get("status")),
-
-                    self.clean(h.get("severity"))
-
-                ])
-
-        else:
-
-            rows.append([
-
-                "No Headers",
-
-                "-",
-
-                "-"
-
-            ])
-        
-
-        table = Table(
-
-            rows,
-
-            colWidths=[3*inch,1.4*inch,1.4*inch]
-
-        )
-
-        table.setStyle(TableStyle([
-
-            ("GRID",(0,0),(-1,-1),0.4,colors.grey),
-
-            ("BACKGROUND",(0,0),(-1,0),colors.HexColor("#2563eb")),
-
-            ("TEXTCOLOR",(0,0),(-1,0),colors.white),
-
-            ("BOTTOMPADDING",(0,0),(-1,-1),8),
-
-            ("TOPPADDING",(0,0),(-1,-1),8),
-
-        ]))
-
-        story.append(table)
-
-        story.append(Spacer(1,20))
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def draw_ssl(self, story, report):
 
         ssl = report.get("ssl", {})
 
-<<<<<<< HEAD
-        self.heading_block(story, "SSL Certificate")
-
-        rows = [
-            ["Property", "Value"],
-            ["Issuer", self.clean(ssl.get("issuer"))],
-            ["Issued To", self.clean(ssl.get("issued_to"))],
-            ["Certificate Valid", "Yes" if ssl.get("valid") else "No"],
-            ["Expires", self.clean(ssl.get("expires"))],
-            ["Days Remaining", self.clean(ssl.get("days_left"))],
-=======
         self.heading_block(
             story,
             "SSL Certificate"
@@ -773,28 +312,16 @@ class PDFReport:
 
             ["Days Remaining", self.clean(ssl.get("days_left"))],
 
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         ]
 
         story.append(self.table(rows))
 
-<<<<<<< HEAD
-        story.append(Spacer(1, 20))
-=======
         story.append(Spacer(1,20))
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def draw_dns(self, story, report):
 
         dns = report.get("dns", {})
 
-<<<<<<< HEAD
-        self.heading_block(story, "DNS Records")
-
-        if not dns:
-
-            story.append(Paragraph("No DNS information available.", self.value))
-=======
         self.heading_block(
             story,
             "DNS Records"
@@ -808,7 +335,6 @@ class PDFReport:
                     self.value
                 )
             )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             story.append(Spacer(1, 15))
 
@@ -816,9 +342,7 @@ class PDFReport:
 
         for record, values in dns.items():
 
-<<<<<<< HEAD
             story.append(Paragraph(f"<b>{record} Records</b>", self.label))
-=======
             story.append(
 
                 Paragraph(
@@ -830,7 +354,6 @@ class PDFReport:
                 )
 
             )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             if isinstance(values, list):
 
@@ -838,7 +361,6 @@ class PDFReport:
 
                     for value in values:
 
-<<<<<<< HEAD
                         story.append(Paragraph(f"• {self.clean(value)}", self.value))
 
                 else:
@@ -852,7 +374,6 @@ class PDFReport:
             story.append(Spacer(1, 8))
 
         story.append(Spacer(1, 20))
-=======
                         story.append(
 
                             Paragraph(
@@ -896,13 +417,11 @@ class PDFReport:
             story.append(Spacer(1,8))
 
         story.append(Spacer(1,20))
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def draw_whois(self, story, report):
 
         whois = report.get("whois", {})
 
-<<<<<<< HEAD
         self.heading_block(story, "WHOIS Information")
 
         if not whois:
@@ -932,7 +451,6 @@ class PDFReport:
         if not technologies:
 
             story.append(Paragraph("No technologies detected.", self.value))
-=======
         self.heading_block(
             story,
             "WHOIS Information"
@@ -1015,13 +533,11 @@ class PDFReport:
                 )
 
             )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         else:
 
             for tech in technologies:
 
-<<<<<<< HEAD
                 story.append(Paragraph(f"• {self.clean(tech)}", self.value))
 
         story.append(Spacer(1, 20))
@@ -1037,7 +553,6 @@ class PDFReport:
         if not ports:
 
             rows.append(["No Open Ports", "-", "-", "-"])
-=======
                 story.append(
 
                     Paragraph(
@@ -1113,13 +628,11 @@ class PDFReport:
                 ]
 
             )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         else:
 
             for port in ports:
 
-<<<<<<< HEAD
                 rows.append(
                     [
                         self.clean(port.get("port")),
@@ -1147,7 +660,6 @@ class PDFReport:
         story.append(table)
 
         story.append(Spacer(1, 20))
-=======
                 rows.append([
 
                     self.clean(port.get("port")),
@@ -1211,13 +723,11 @@ class PDFReport:
             )
 
         )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def draw_findings(self, story, report):
 
         findings = report.get("findings", [])
 
-<<<<<<< HEAD
         self.heading_block(story, "Security Findings")
 
         if not findings:
@@ -1226,7 +736,6 @@ class PDFReport:
 
             story.append(Spacer(1, 20))
 
-=======
         self.heading_block(
             story,
             "Security Findings"
@@ -1243,12 +752,10 @@ class PDFReport:
 
             story.append(Spacer(1, 20))
     
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
             return
 
         for finding in findings:
 
-<<<<<<< HEAD
             severity = self.clean(finding.get("severity", "Unknown"))
 
             title = self.clean(finding.get("title", ""))
@@ -1279,7 +786,6 @@ class PDFReport:
             story.append(self.table(data))
 
             story.append(Spacer(1, 15))
-=======
             severity = self.clean(
                 finding.get("severity", "Unknown")
             )
@@ -1339,19 +845,16 @@ class PDFReport:
             story.append(
                 Spacer(1, 15)
             )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def draw_recommendations(self, story, report):
 
         recommendations = report.get("recommendations", [])
 
-<<<<<<< HEAD
         self.heading_block(story, "Recommendations")
 
         if not recommendations:
 
             story.append(Paragraph("No recommendations available.", self.value))
-=======
         self.heading_block(
             story,
             "Recommendations"
@@ -1365,7 +868,6 @@ class PDFReport:
                     self.value
                 )
             )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
             story.append(Spacer(1, 20))
             return
@@ -1373,7 +875,6 @@ class PDFReport:
         for item in recommendations:
 
             rows = [
-<<<<<<< HEAD
                 ["Issue", self.clean(item.get("title"))],
                 ["Severity", self.clean(item.get("severity"))],
                 ["Recommendation", self.clean(item.get("recommendation"))],
@@ -1387,7 +888,6 @@ class PDFReport:
     def draw_appendix(self, story, report):
 
         self.heading_block(story, "Appendix")
-=======
 
                 ["Issue", self.clean(item.get("title"))],
 
@@ -1413,12 +913,10 @@ class PDFReport:
             story,
             "Appendix"
         )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         summary = report.get("summary", {})
 
         rows = [
-<<<<<<< HEAD
             ["Field", "Value"],
             ["Generated By", "CloudShield Enterprise"],
             ["Report Version", "3.0"],
@@ -1442,7 +940,6 @@ class PDFReport:
             raw.pop(key, None)
 
         text = json.dumps(raw, indent=2, default=str)
-=======
 
             ["Field", "Value"],
 
@@ -1495,21 +992,18 @@ class PDFReport:
             default=str
 
         )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         if len(text) > 8000:
 
             text = text[:8000] + "\n\n... Output Truncated ..."
 
         story.append(
-<<<<<<< HEAD
             Paragraph(
                 "<font face='Courier'>" + self.clean(text) + "</font>", self.value
             )
         )
 
         story.append(Spacer(1, 20))
-=======
 
             Paragraph(
 
@@ -1536,13 +1030,11 @@ class PDFReport:
             )
 
         )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def draw_footer(self, canvas, doc):
 
         canvas.saveState()
 
-<<<<<<< HEAD
         width, height = doc.pagesize
 
         canvas.setFont("Helvetica", 9)
@@ -1555,7 +1047,6 @@ class PDFReport:
 
         canvas.restoreState()
 
-=======
         width, height = doc.pagesize    
 
         canvas.setFont(
@@ -1595,7 +1086,6 @@ class PDFReport:
         canvas.restoreState()
 
 
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
     def generate(self, scan):
 
         report = ReportBuilder(scan).build()
@@ -1603,9 +1093,7 @@ class PDFReport:
         buffer = io.BytesIO()
 
         document = SimpleDocTemplate(
-<<<<<<< HEAD
             buffer, leftMargin=30, rightMargin=30, topMargin=30, bottomMargin=30
-=======
 
             buffer,
 
@@ -1617,12 +1105,10 @@ class PDFReport:
 
             bottomMargin=30
 
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         )
 
         story = []
 
-<<<<<<< HEAD
         self.draw_cover(story, report)
 
         self.draw_summary(story, report)
@@ -1651,7 +1137,6 @@ class PDFReport:
 
         document.build(
             story, onFirstPage=self.draw_footer, onLaterPages=self.draw_footer
-=======
         self.draw_cover(
 
             story,
@@ -1764,13 +1249,9 @@ class PDFReport:
 
             onLaterPages=self.draw_footer
 
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         )
 
         buffer.seek(0)
 
-<<<<<<< HEAD
         return buffer
-=======
         return buffer
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

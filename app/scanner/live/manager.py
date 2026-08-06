@@ -24,30 +24,18 @@ class LiveScanManager:
     # Create
     # ==========================================================
 
-    def create(
-        self,
-        scan_id,
-        target,
-        tool
-    ):
+    def create(self, scan_id, target, tool):
         """
         Create a new live scan.
         """
 
         progress = ScanProgress(
-
             scan_id=scan_id,
-
             target=target,
-
             tool=tool,
-
             status=ScanStatus.QUEUED,
-
             progress=0,
-
-            message="Waiting to start..."
-
+            message="Waiting to start...",
         )
 
         with self._lock:
@@ -60,10 +48,7 @@ class LiveScanManager:
     # Get
     # ==========================================================
 
-    def get(
-        self,
-        scan_id
-    ):
+    def get(self, scan_id):
         """
         Return scan progress.
         """
@@ -74,11 +59,7 @@ class LiveScanManager:
     # Update
     # ==========================================================
 
-    def update(
-        self,
-        scan_id,
-        **kwargs
-    ):
+    def update(self, scan_id, **kwargs):
         """
         Update a running scan.
         """
@@ -97,80 +78,44 @@ class LiveScanManager:
     # Complete
     # ==========================================================
 
-    def complete(
-        self,
-        scan_id,
-        message="Scan completed."
-    ):
+    def complete(self, scan_id, message="Scan completed."):
         """
         Mark scan as completed.
         """
 
         return self.update(
-
-            scan_id,
-
-            status=ScanStatus.COMPLETED,
-
-            progress=100,
-
-            message=message
-
+            scan_id, status=ScanStatus.COMPLETED, progress=100, message=message
         )
 
     # ==========================================================
     # Fail
     # ==========================================================
 
-    def fail(
-        self,
-        scan_id,
-        message
-    ):
+    def fail(self, scan_id, message):
         """
         Mark scan as failed.
         """
 
-        return self.update(
-
-            scan_id,
-
-            status=ScanStatus.FAILED,
-
-            message=message
-
-        )
+        return self.update(scan_id, status=ScanStatus.FAILED, message=message)
 
     # ==========================================================
     # Cancel
     # ==========================================================
 
-    def cancel(
-        self,
-        scan_id
-    ):
+    def cancel(self, scan_id):
         """
         Cancel a scan.
         """
 
         return self.update(
-
-            scan_id,
-
-            status=ScanStatus.CANCELLED,
-
-            message="Scan cancelled."
-
+            scan_id, status=ScanStatus.CANCELLED, message="Scan cancelled."
         )
 
     # ==========================================================
     # Remove
     # ==========================================================
 
-    def remove(
-        self,
-        scan_id
-    ):
+    def remove(self, scan_id):
         """
         Remove completed scan.
         """

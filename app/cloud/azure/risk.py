@@ -3,84 +3,53 @@ CloudShield Enterprise
 Azure Risk Engine
 """
 
+from __future__ import annotations
 
-class AzureRiskEngine:
+from app.cloud.azure.findings import count_by_severity
+
+
+class RiskEngine:
     """
-    Calculates CloudShield security score
-    from Azure security findings.
+    Calculate overall Azure security risk.
     """
 
-    WEIGHTS = {
-        "Critical": 25,
-        "High": 15,
-        "Medium": 8,
-        "Low": 3,
-        "Info": 0,
-    }
+    WEIGHTS = {"Critical": 10, "High": 7, "Medium": 4, "Low": 2, "Info": 0}
 
-    def calculate_score(self, findings):
-        """
-        Returns a security score between 0 and 100.
-        """
+    LEVELS = [
+        (80, "Critical"),
+        (60, "High"),
+        (35, "Medium"),
+        (15, "Low"),
+        (0, "Minimal"),
+    ]
 
-        score = 100
+    def calculate(self, findings):
 
-        for finding in findings:
-            severity = finding.get("severity", "Info")
-            score -= self.WEIGHTS.get(severity, 0)
+        severity = count_by_severity(findings)
 
-        return max(score, 0)
+        total_score = 0
 
-    def severity_summary(self, findings):
+        for level, weight in self.WEIGHTS.items():
 
-        summary = {
-            "Critical": 0,
-            "High": 0,
-            "Medium": 0,
-            "Low": 0,
-            "Info": 0,
+            total_score += severity[level] * weight
+
+        return {
+            "total_score": total_score,
+            "risk_level": self.risk_level(total_score),
+            "critical": severity["Critical"],
+            "high": severity["High"],
+            "medium": severity["Medium"],
+            "low": severity["Low"],
+            "info": severity["Info"],
+            "weights": self.WEIGHTS.copy(),
         }
-
-        for finding in findings:
-            severity = finding.get("severity", "Info")
-
-            if severity in summary:
-                summary[severity] += 1
-
-        return summary
 
     def risk_level(self, score):
 
-        if score >= 90:
-            return "Excellent"
+        for minimum, level in self.LEVELS:
 
-        if score >= 75:
-            return "Good"
+            if score >= minimum:
 
-        if score >= 50:
-            return "Moderate"
+                return level
 
-        if score >= 25:
-            return "High Risk"
-
-        return "Critical"
-
-    def dashboard(self, findings):
-        """
-        Returns dashboard metrics.
-        """
-
-        score = self.calculate_score(findings)
-
-        summary = self.severity_summary(findings)
-
-        return {
-            "score": score,
-            "risk_level": self.risk_level(score),
-            "total_findings": len(findings),
-            "critical": summary["Critical"],
-            "high": summary["High"],
-            "medium": summary["Medium"],
-            "low": summary["Low"],
-            "info": summary["Info"],
-        }
+        return "Minimal"

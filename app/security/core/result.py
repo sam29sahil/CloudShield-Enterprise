@@ -20,9 +20,16 @@ class Result:
     error: str = ""
 
     def to_dict(self) -> dict[str, Any]:
-        payload = {"success": self.success, "tool": self.tool, "target": self.target,
-                   "command": self.command, "return_code": self.return_code,
-                   "stdout": self.stdout, "stderr": self.stderr, "findings": self.findings,
-                   "error": self.error or self.stderr}
+        payload = {
+            "success": self.success,
+            "tool": self.tool,
+            "target": self.target,
+            "command": self.command,
+            "return_code": self.return_code,
+            "stdout": self.stdout,
+            "stderr": self.stderr,
+            "findings": self.findings,
+            "error": self.error or self.stderr,
+        }
         payload.update(self.data)
         return payload

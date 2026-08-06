@@ -22,8 +22,4 @@ def get_tool():
     """
     Return XSStrike tool instance.
     """
-<<<<<<< HEAD
     return XSStrikeTool()
-=======
-    return XSStrikeTool()
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

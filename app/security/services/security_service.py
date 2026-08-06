@@ -37,16 +37,7 @@ class SecurityService:
     # Execute Scan
     # =====================================================
 
-    def execute(
-        self,
-        user_id,
-        asset_id,
-        mode,
-        category,
-        tool,
-        target,
-        arguments=None
-    ):
+    def execute(self, user_id, asset_id, mode, category, tool, target, arguments=None):
 
         if arguments is None:
 
@@ -57,17 +48,7 @@ class SecurityService:
         #
 
         result = self.engine.scan(
-
-            target=target,
-
-            category=category,
-
-            mode=mode,
-
-            tool=tool,
-
-            arguments=arguments
-
+            target=target, category=category, mode=mode, tool=tool, arguments=arguments
         )
 
         #
@@ -76,69 +57,33 @@ class SecurityService:
 
         if not result.get("success"):
 
-            return {
-
-                "success": False,
-
-                "result": result
-
-            }
+            return {"success": False, "result": result}
 
         #
         # Create Scan
         #
 
         scan = SecurityScan(
-
             user_id=user_id,
-
             asset_id=asset_id,
-
             category=category,
-
             tool=tool or category,
-
             target=target,
-
             arguments=" ".join(arguments),
-
             status="Completed",
-
-            score=result["risk"].get(
-
-                "score",
-
-                0
-
-            ),
-
-            risk=result["risk"].get(
-
-                "level",
-
-                "Unknown"
-
-            ),
-
-            raw_output=str(
-
-                result["results"]
-
-            ),
-
+            score=result["risk"].get("score", 0),
+            risk=result["risk"].get("level", "Unknown"),
+            raw_output=str(result["results"]),
             started_at=datetime.utcnow(),
-
             completed_at=datetime.utcnow(),
-
-            duration=0
-
+            duration=0,
         )
 
         db.session.add(scan)
 
         db.session.flush()
 
-                # =====================================================
+        # =====================================================
         # Save Findings
         # =====================================================
 
@@ -147,114 +92,32 @@ class SecurityService:
         for item in result.get("findings", []):
 
             finding = Finding(
-
                 project_id=0,
-
                 asset_id=asset_id,
-
                 scan_id=scan.id,
-
-                title=item.get(
-
-                    "title",
-
-                    "Finding"
-
-                ),
-
-                description=item.get(
-
-                    "description",
-
-                    ""
-
-                ),
-
-                severity=item.get(
-
-                    "severity",
-
-                    "Low"
-
-                ),
-
-                category=item.get(
-
-                    "category",
-
-                    category
-
-                ),
-
-                evidence=str(
-
-                    item.get(
-
-                        "raw",
-
-                        ""
-
-                    )
-
-                ),
-
-                recommendation=item.get(
-
-                    "recommendation",
-
-                    ""
-
-                ),
-
-                remediation=item.get(
-
-                    "remediation",
-
-                    ""
-
-                ),
-
-                impact=item.get(
-
-                    "impact",
-
-                    ""
-
-                )
-
+                title=item.get("title", "Finding"),
+                description=item.get("description", ""),
+                severity=item.get("severity", "Low"),
+                category=item.get("category", category),
+                evidence=str(item.get("raw", "")),
+                recommendation=item.get("recommendation", ""),
+                remediation=item.get("remediation", ""),
+                impact=item.get("impact", ""),
             )
 
-            db.session.add(
+            db.session.add(finding)
 
-                finding
-
-            )
-
-            created_findings.append(
-
-                finding
-
-            )
+            created_findings.append(finding)
 
         # =====================================================
         # Create Report
         # =====================================================
 
         report = Report(
-
-            scan_id=scan.id,
-
-            report_type="Enterprise",
-
-            file_name=f"scan_{scan.id}.pdf"
-
+            scan_id=scan.id, report_type="Enterprise", file_name=f"scan_{scan.id}.pdf"
         )
 
-        db.session.add(
-
-            report
-
-        )
+        db.session.add(report)
 
         # =====================================================
         # Commit
@@ -267,15 +130,9 @@ class SecurityService:
         # =====================================================
 
         return {
-
             "success": True,
-
             "scan": scan,
-
             "result": result,
-
             "findings": created_findings,
-
-            "report": report
-
+            "report": report,
         }

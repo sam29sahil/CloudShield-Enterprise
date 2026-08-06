@@ -1242,23 +1242,55 @@ Dashboard
 
                 <tbody>
 
-                    <tr>
+                    <tbody>
 
-                        <{% for vm in virtual_machines %}
+{% for vm in virtual_machines %}
 
-                        <tr>
-                        
-                            <td>{{ vm.name }}</td>
-                        
-                            <td>Virtual Machine</td>
-                        
-                            <td>{{ vm.location }}</td>
-                        
-                            <td>{{ vm.status }}</td>
-                        
-                        </tr>
-                        
-                        {% endfor %}
+<tr>
+
+    <td>{{ vm.name }}</td>
+    <td>Virtual Machine</td>
+    <td>{{ vm.location }}</td>
+    <td>{{ vm.status }}</td>
+
+    <td>
+
+        <span class="badge bg-success">
+
+            Healthy
+
+        </span>
+
+    </td>
+
+    <td>
+
+        <a
+            class="btn btn-sm btn-primary"
+            href="#"
+        >
+
+            View
+
+        </a>
+
+    </td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+    <td colspan="6" class="text-center text-muted">
+        No virtual machines found.
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
 
                         <td>
 
@@ -1289,8 +1321,6 @@ Dashboard
                             </button>
 
                         </td>
-
-                    </tr>
 
                     <tr>
 

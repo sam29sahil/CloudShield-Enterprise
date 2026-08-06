@@ -17,33 +17,9 @@ class ProjectService:
 
         return Project.query.get(project_id)
 
-<<<<<<< HEAD
     def create(self, name, description, owner):
 
         project = Project(name=name, description=description, owner=owner)
-=======
-    def create(
-
-        self,
-
-        name,
-
-        description,
-
-        owner
-
-    ):
-
-        project = Project(
-
-            name=name,
-
-            description=description,
-
-            owner=owner
-
-        )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         db.session.add(project)
 
@@ -59,8 +35,4 @@ class ProjectService:
 
             db.session.delete(project)
 
-<<<<<<< HEAD
             db.session.commit()
-=======
-            db.session.commit()
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

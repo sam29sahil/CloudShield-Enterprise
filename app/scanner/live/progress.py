@@ -33,13 +33,7 @@ class ScanProgress:
 
     completed_at: datetime | None = None
 
-    def update(
-        self,
-        status=None,
-        progress=None,
-        message=None,
-        tool=None
-    ):
+    def update(self, status=None, progress=None, message=None, tool=None):
         """
         Update scan progress.
         """
@@ -48,10 +42,7 @@ class ScanProgress:
             self.status = status
 
         if progress is not None:
-            self.progress = max(
-                0,
-                min(100, progress)
-            )
+            self.progress = max(0, min(100, progress))
 
         if message is not None:
             self.message = message
@@ -73,13 +64,7 @@ class ScanProgress:
 
         end = self.completed_at or datetime.utcnow()
 
-        return round(
-
-            (end - self.started_at).total_seconds(),
-
-            2
-
-        )
+        return round((end - self.started_at).total_seconds(), 2)
 
     def to_dict(self):
         """
@@ -87,29 +72,16 @@ class ScanProgress:
         """
 
         return {
-
             "scan_id": self.scan_id,
-
             "target": self.target,
-
             "tool": self.tool,
-
             "status": self.status.value,
-
             "progress": self.progress,
-
             "message": self.message,
-
             "elapsed": self.elapsed,
-
             "started_at": self.started_at.isoformat(),
-
             "updated_at": self.updated_at.isoformat(),
-
             "completed_at": (
-                self.completed_at.isoformat()
-                if self.completed_at
-                else None
-            )
-
+                self.completed_at.isoformat() if self.completed_at else None
+            ),
         }

@@ -13,15 +13,7 @@ class NotificationService:
         """
         Return all notifications.
         """
-<<<<<<< HEAD
         return Notification.query.order_by(Notification.created_at.desc()).all()
-=======
-        return (
-            Notification.query
-            .order_by(Notification.created_at.desc())
-            .all()
-        )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
     def get(self, notification_id):
         """
@@ -34,53 +26,24 @@ class NotificationService:
         Return unread notifications.
         """
         return (
-<<<<<<< HEAD
             Notification.query.filter_by(is_read=False)
-=======
-            Notification.query
-            .filter_by(is_read=False)
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
             .order_by(Notification.created_at.desc())
             .all()
         )
 
-<<<<<<< HEAD
     def create(self, title, message, category="General"):
-=======
-    def create(
-        self,
-        title,
-        message,
-        category="General"
-    ):
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         """
         Create notification.
         """
 
-<<<<<<< HEAD
         notification = Notification(title=title, message=message, category=category)
-=======
-        notification = Notification(
-            title=title,
-            message=message,
-            category=category
-        )
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         db.session.add(notification)
         db.session.commit()
 
         return notification
 
-<<<<<<< HEAD
     def mark_read(self, notification):
-=======
-    def mark_read(
-        self,
-        notification
-    ):
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         """
         Mark notification as read.
         """
@@ -96,13 +59,7 @@ class NotificationService:
         Mark all notifications as read.
         """
 
-<<<<<<< HEAD
         notifications = Notification.query.filter_by(is_read=False).all()
-=======
-        notifications = Notification.query.filter_by(
-            is_read=False
-        ).all()
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
 
         for notification in notifications:
             notification.is_read = True
@@ -111,14 +68,7 @@ class NotificationService:
 
         return notifications
 
-<<<<<<< HEAD
     def delete(self, notification_id):
-=======
-    def delete(
-        self,
-        notification_id
-    ):
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5
         """
         Delete notification.
         """
@@ -142,8 +92,4 @@ class NotificationService:
 
         db.session.commit()
 
-<<<<<<< HEAD
         return True
-=======
-        return True
->>>>>>> ced70e1725c55fe0379baaf4f6a4ee392ae289d5

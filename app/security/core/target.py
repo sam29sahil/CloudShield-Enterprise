@@ -7,7 +7,6 @@ import ipaddress
 import re
 from urllib.parse import urlparse
 
-
 _HOSTNAME = re.compile(
     r"^(?=.{1,253}$)(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+"
     r"[A-Za-z]{2,63}$"
