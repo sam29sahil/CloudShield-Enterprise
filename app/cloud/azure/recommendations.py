@@ -13,28 +13,37 @@ class RecommendationEngine:
     Groups findings into remediation recommendations.
     """
 
+    def enrich(self, findings):
+        """
+        Backward-compatible wrapper.
+        """
+        return self.generate(findings)
+
     def generate(self, findings):
 
         grouped = defaultdict(
-            lambda: {"severity": "", "recommendation": "", "resources": []}
+            lambda: {
+                "severity": "",
+                "recommendation": "",
+                "resources": []
+            }
         )
 
         for finding in findings:
 
             recommendation = finding.get(
-                "recommendation", "No recommendation available."
+                "recommendation",
+                "No recommendation available."
             )
 
             group = grouped[recommendation]
 
             group["severity"] = finding.get("severity", "Info")
-
             group["recommendation"] = recommendation
 
             resource = finding.get("resource", "Unknown")
 
             if resource not in group["resources"]:
-
                 group["resources"].append(resource)
 
         recommendations = []
@@ -50,10 +59,17 @@ class RecommendationEngine:
                 }
             )
 
-        severity_order = {"Critical": 5, "High": 4, "Medium": 3, "Low": 2, "Info": 1}
+        severity_order = {
+            "Critical": 5,
+            "High": 4,
+            "Medium": 3,
+            "Low": 2,
+            "Info": 1,
+        }
 
         recommendations.sort(
-            key=lambda item: severity_order.get(item["severity"], 0), reverse=True
+            key=lambda x: severity_order.get(x["severity"], 0),
+            reverse=True,
         )
 
         return recommendations

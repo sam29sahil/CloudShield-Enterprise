@@ -22,6 +22,23 @@ class AzureRiskEngine:
         (15, "Low"),
         (0, "Minimal"),
     ]
+    
+    def dashboard(self, findings):
+        """
+        Backward-compatible dashboard wrapper.
+        """
+        result = self.calculate(findings)
+
+        return {
+            "score": result["total_score"],
+            "risk_level": result["risk_level"],
+            "critical": result["critical"],
+            "high": result["high"],
+            "medium": result["medium"],
+            "low": result["low"],
+            "info": result["info"],
+            "findings": len(findings),
+        }
 
     def calculate(self, findings):
 

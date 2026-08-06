@@ -6,7 +6,7 @@ Azure Network Security Groups
 
 {% endblock %}
 
-{% block cloud_content %}
+{% block content %}
 
 <div class="container-fluid">
 
@@ -82,7 +82,7 @@ Azure Network Security Groups
 
                     <h2>
 
-                        {{ data | sum(attribute='rules') }}
+                        {{ data | sum(attribute='rule_count') }}
 
                     </h2>
 

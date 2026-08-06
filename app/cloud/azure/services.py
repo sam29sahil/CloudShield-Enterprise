@@ -16,6 +16,7 @@ from app.cloud.azure.network import AzureNetwork
 from app.cloud.azure.load_balancers import AzureLoadBalancers
 from app.cloud.azure.analyzer import AzureAnalyzer
 from app.cloud.azure.risk import AzureRiskEngine
+from app.cloud.azure.public_ips import AzurePublicIPs
 
 
 class AzureService:
@@ -32,9 +33,11 @@ class AzureService:
         self.defender = AzureDefender(self.client)
         self.identity = AzureIdentity(self.client)
         self.network = AzureNetwork(self.client)
+        self.public_ips_service = AzurePublicIPs(self.client)
         self.load_balancers_service = AzureLoadBalancers(self.client)
         self.security_analyzer = AzureAnalyzer()
         self.risk_engine = AzureRiskEngine()
+        
 
     # -------------------------------------
     # Connection Status
@@ -54,7 +57,7 @@ class AzureService:
 
     def public_ips(self):
 
-        return self.network.public_ips()
+        return self.public_ips_service.list()
 
     def network_interfaces(self):
 
@@ -97,41 +100,45 @@ class AzureService:
 
             return {
                 "connected": False,
-                "score": 0,
+                "virtual_machines": 0,
+                "storage_accounts": 0,
+                "resource_groups": 0,
+                "keyvaults": 0,
+                "virtual_networks": 0,
+                "network_security_groups": 0,
+                "public_ips": 0,
+                "load_balancers": 0,
+                "secure_score": 0,
                 "risk_level": "Unknown",
                 "findings": [],
-                "summary": {},
             }
 
         azure_data = {
-            "virtual_machines": self.virtual_machines.list(),
-            "storage_accounts": self.storage.list(),
-            "network_security_groups": self.network_security_groups(),
-            "keyvaults": self.keyvault.list(),
+            "virtual_machines": self.virtual_machines.list()["data"],
+            "storage_accounts": self.storage.list()["data"],
+            "network_security_groups": self.network_security_groups()["data"],
+            "keyvaults": self.keyvault.list()["data"],
         }
 
         findings = self.security_analyzer.analyze(azure_data)
 
-        dashboard = self.risk_engine.dashboard(findings)
-
-        dashboard["connected"] = True
-
-        dashboard["findings"] = findings
-
-        return dashboard
-
-        dashboard = self.security_dashboard()
+        risk = self.risk_engine.calculate(findings)
 
         return {
             "connected": True,
+
             "virtual_machines": len(self.virtual_machines.list()),
             "storage_accounts": len(self.storage.list()),
             "resource_groups": len(self.resource_groups.list()),
             "keyvaults": len(self.keyvault.list()),
+    
             "virtual_networks": len(self.virtual_networks()),
             "network_security_groups": len(self.network_security_groups()),
             "public_ips": len(self.public_ips()),
             "load_balancers": len(self.load_balancers()),
-            "secure_score": dashboard["score"],
-            "risk_level": dashboard["risk_level"],
+
+            "secure_score": risk["total_score"],
+            "risk_level": risk["risk_level"],
+
+            "findings": findings,
         }

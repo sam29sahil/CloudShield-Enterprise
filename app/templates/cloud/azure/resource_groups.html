@@ -27,16 +27,15 @@ Resource Groups
 
 {% if data %}
 
-<table class="table table-hover">
+<table class="table table-hover table-bordered align-middle">
 
-<thead>
+<thead class="table-dark">
 
 <tr>
-
-<th>Name</th>
-
-<th>Location</th>
-
+    <th>Name</th>
+    <th>Location</th>
+    <th>Managed By</th>
+    <th>Tags</th>
 </tr>
 
 </thead>
@@ -50,6 +49,26 @@ Resource Groups
 <td>{{ group.name }}</td>
 
 <td>{{ group.location }}</td>
+
+<td>{{ group.managed_by }}</td>
+
+<td>
+
+{% if group.tags %}
+
+<span class="badge bg-success">
+{{ group.tags|length }} Tags
+</span>
+
+{% else %}
+
+<span class="badge bg-warning">
+No Tags
+</span>
+
+{% endif %}
+
+</td>
 
 </tr>
 

@@ -19,11 +19,10 @@ class AzureIdentity:
     Azure Identity & Subscription Information
     """
 
-    def __init__(self, subscription_id: str):
+    def __init__(self, client):
 
-        self.client = AzureClient(subscription_id)
-
-        self.subscription_id = subscription_id
+        self.client = client
+        self.subscription_id = client.subscription()
 
     def subscription(self) -> dict:
         """
@@ -32,7 +31,7 @@ class AzureIdentity:
 
         try:
 
-            credential = self.client.credential
+            credential = self.client.get_credential
 
             subscription_client = SubscriptionClient(credential)
 
@@ -55,3 +54,9 @@ class AzureIdentity:
             logger.exception(error)
 
             return {"connected": False, "error": str(error)}
+    
+    def information(self):
+        """
+        Backward-compatible wrapper.
+        """
+        return self.subscription()

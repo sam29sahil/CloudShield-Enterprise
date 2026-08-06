@@ -103,7 +103,7 @@ def azure():
 
     data = service.azure_dashboard()
 
-    return render_template("cloud/azure/dashboard.html", data=data)
+    return render_template("cloud/azure/dashboard.html", data=data, findings=data["findings"],  virtual_machines=service.azure_virtual_machines()["data"],)
 
 
 # --------------------------------------------------
@@ -205,6 +205,20 @@ def azure_network_interfaces():
 
     return render_template("cloud/azure/network_interfaces.html", data=data)
 
+@cloud.route("/azure/network-security-groups")
+@login_required
+def azure_network_security_groups():
+
+    data = service.azure_network_security_groups()
+
+    if isinstance(data, dict):
+        data = data.get("data", [])
+
+    return render_template(
+        "cloud/azure/network_security_groups.html",
+        data=data,
+    )
+
 
 @cloud.route("/azure/load-balancers")
 @login_required
@@ -213,3 +227,14 @@ def azure_load_balancers():
     data = service.load_balancers()
 
     return render_template("cloud/azure/load_balancers.html", data=data)
+
+@cloud.route("/azure/public-ips")
+@login_required
+def azure_public_ips():
+
+    data = service.azure_public_ips()
+
+    return render_template(
+        "cloud/azure/public_ips.html",
+        data=data,
+    )

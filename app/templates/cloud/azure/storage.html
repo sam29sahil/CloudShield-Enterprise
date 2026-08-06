@@ -27,18 +27,19 @@ Storage
 
 {% if data %}
 
-<table class="table table-striped">
+<table class="table table-hover table-bordered align-middle">
 
-<thead>
+<thead class="table-dark">
 
 <tr>
-
-<th>Name</th>
-
-<th>Location</th>
-
-<th>SKU</th>
-
+    <th>Name</th>
+    <th>Resource Group</th>
+    <th>Region</th>
+    <th>SKU</th>
+    <th>HTTPS</th>
+    <th>Public Access</th>
+    <th>TLS</th>
+    <th>Encryption</th>
 </tr>
 
 </thead>
@@ -51,9 +52,43 @@ Storage
 
 <td>{{ storage.name }}</td>
 
+<td>{{ storage.resource_group }}</td>
+
 <td>{{ storage.location }}</td>
 
 <td>{{ storage.sku }}</td>
+
+<td>
+
+{% if storage.https_only %}
+<span class="badge bg-success">Enabled</span>
+{% else %}
+<span class="badge bg-danger">Disabled</span>
+{% endif %}
+
+</td>
+
+<td>
+
+{% if storage.public_access %}
+<span class="badge bg-danger">Enabled</span>
+{% else %}
+<span class="badge bg-success">Disabled</span>
+{% endif %}
+
+</td>
+
+<td>{{ storage.tls }}</td>
+
+<td>
+
+{% if storage.encryption %}
+<span class="badge bg-success">Encrypted</span>
+{% else %}
+<span class="badge bg-danger">Not Encrypted</span>
+{% endif %}
+
+</td>
 
 </tr>
 

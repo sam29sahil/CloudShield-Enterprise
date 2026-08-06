@@ -18,9 +18,9 @@ class AzureResourceGroups:
     Azure Resource Group Inventory
     """
 
-    def __init__(self, subscription_id: str):
+    def __init__(self, client: AzureClient):
 
-        self.client = AzureClient(subscription_id)
+        self.client = client
 
     def list(self) -> dict:
 

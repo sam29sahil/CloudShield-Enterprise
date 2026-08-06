@@ -35,6 +35,9 @@ class AzureAnalyzer:
         """
 
         self.findings = []
+        
+        print("VM DATA TYPE:", type(inventory.get("virtual_machines")))
+        print("VM DATA:", inventory.get("virtual_machines"))
 
         self.analyze_virtual_machines(inventory.get("virtual_machines", []))
 
@@ -89,10 +92,12 @@ class AzureAnalyzer:
     def analyze_virtual_machines(self, virtual_machines):
 
         logger.info("Analyzing %s virtual machines...", len(virtual_machines))
-
+        print(type(virtual_machines))
         for vm in virtual_machines:
-
-            resource = vm.get("name", "Unknown VM")
+            
+            print("ITEM TYPE:", type(vm))
+            print("ITEM:", vm)
+            break
 
             # ------------------------------------------
             # Public IP

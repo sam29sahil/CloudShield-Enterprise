@@ -222,7 +222,7 @@ class CloudService:
         return azure.network.network_security_groups()
 
     def azure_public_ips(self):
-        return azure.network.public_ips()
+        return azure.public_ips()
 
     def azure_network_interfaces(self):
         return azure.network.network_interfaces()

@@ -346,7 +346,74 @@ Dashboard
             </a>
 
         </div>
+<!-- Azure Network Security Groups -->
 
+<div class="col-xl-4">
+
+    <a href="{{ url_for('cloud.azure_network_security_groups') }}"
+       class="service-card large">
+
+        <div class="service-icon bg-danger">
+
+            <i class="bi bi-shield-lock-fill"></i>
+
+        </div>
+
+        <div class="service-content">
+
+            <h4>
+                Network Security Groups
+            </h4>
+
+            <p>
+                Inspect firewall rules, inbound traffic and network security posture.
+            </p>
+
+        </div>
+
+        <div class="service-arrow">
+
+            <i class="bi bi-arrow-right"></i>
+
+        </div>
+
+    </a>
+
+</div>
+<!-- Azure Public IPs -->
+
+<div class="col-xl-4">
+
+    <a href="{{ url_for('cloud.azure_public_ips') }}"
+       class="service-card large">
+
+        <div class="service-icon bg-warning">
+
+            <i class="bi bi-globe2"></i>
+
+        </div>
+
+        <div class="service-content">
+
+            <h4>
+                Public IP Addresses
+            </h4>
+
+            <p>
+                Monitor internet-facing Azure public IP resources.
+            </p>
+
+        </div>
+
+        <div class="service-arrow">
+
+            <i class="bi bi-arrow-right"></i>
+
+        </div>
+
+    </a>
+
+</div>
         <!-- Defender -->
 
         <div class="col-xl-4">
