@@ -20,36 +20,106 @@ class TestSSLTool(BaseTool):
 
     def protocols(self, target):
 
-        return self.scan(target, ["--protocols"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "--protocols"
+
+            ]
+
+        )
 
     def vulnerabilities(self, target):
 
-        return self.scan(target, ["--vulnerable"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "--vulnerable"
+
+            ]
+
+        )
 
     def certificate(self, target):
 
-        return self.scan(target, ["--server-defaults"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "--server-defaults"
+
+            ]
+
+        )
 
     def ciphers(self, target):
 
-        return self.scan(target, ["--cipher-per-proto"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "--cipher-per-proto"
+
+            ]
+
+        )
 
     def hsts(self, target):
 
-        return self.scan(target, ["--hsts"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "--hsts"
+
+            ]
+
+        )
 
     def ocsp(self, target):
 
-        return self.scan(target, ["--ocsp"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "--ocsp"
+
+            ]
+
+        )
 
     def scan_all(self, target):
 
-        return self.scan(target, self.default_arguments)
+        return self.scan(
+
+            target,
+
+            self.default_arguments
+
+        )
 
     def info(self):
 
         return {
+
             "name": self.name,
+
             "category": "SSL",
-            "description": "TestSSL TLS Security Scanner",
+
+            "description": "TestSSL TLS Security Scanner"
+
         }

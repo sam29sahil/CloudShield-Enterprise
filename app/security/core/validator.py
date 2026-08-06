@@ -45,7 +45,11 @@ class TargetValidator:
             pass
 
         # Domain
-        domain_pattern = r"^(?!-)[A-Za-z0-9-]{1,63}" r"(?<!-)" r"(\.[A-Za-z]{2,})+$"
+        domain_pattern = (
+            r"^(?!-)[A-Za-z0-9-]{1,63}"
+            r"(?<!-)"
+            r"(\.[A-Za-z]{2,})+$"
+        )
 
         if re.match(domain_pattern, target):
             return True, "domain"

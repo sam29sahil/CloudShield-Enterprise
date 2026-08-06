@@ -13,20 +13,62 @@ class CloudSplainingTool(BaseTool):
 
     name = "cloudsplaining"
 
-    default_arguments = ["scan"]
+    default_arguments = [
+
+        "scan"
+
+    ]
 
     def iam(self):
 
-        return self.scan("", ["scan"])
+        return self.scan(
+
+            "",
+
+            [
+
+                "scan"
+
+            ]
+
+        )
 
     def permissions(self):
 
-        return self.scan("", ["permissions"])
+        return self.scan(
+
+            "",
+
+            [
+
+                "permissions"
+
+            ]
+
+        )
 
     def report(self):
 
-        return self.scan("", ["report"])
+        return self.scan(
+
+            "",
+
+            [
+
+                "report"
+
+            ]
+
+        )
 
     def info(self):
 
-        return {"name": self.name, "category": "Cloud", "provider": "AWS"}
+        return {
+
+            "name": self.name,
+
+            "category": "Cloud",
+
+            "provider": "AWS"
+
+        }

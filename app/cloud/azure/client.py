@@ -2,9 +2,9 @@
 CloudShield Enterprise
 Azure Client Manager
 """
-
 from __future__ import annotations
 
+import os
 import logging
 
 from azure.identity import DefaultAzureCredential
@@ -19,7 +19,10 @@ logger = logging.getLogger(__name__)
 
 class AzureClient:
 
-    def __init__(self, subscription_id: str):
+    def __init__(self, subscription_id=None):
+
+        if subscription_id is None:
+            subscription_id = os.getenv("AZURE_SUBSCRIPTION_ID")
 
         if not subscription_id:
             raise ValueError("Azure subscription ID is required.")

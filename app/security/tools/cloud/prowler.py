@@ -19,16 +19,62 @@ class ProwlerTool(BaseTool):
 
     def aws(self):
 
-        return self.scan("", ["aws"])
+        return self.scan(
+
+            "",
+
+            [
+
+                "aws"
+
+            ]
+
+        )
 
     def cis(self):
 
-        return self.scan("", ["aws", "--compliance", "cis"])
+        return self.scan(
+
+            "",
+
+            [
+
+                "aws",
+
+                "--compliance",
+
+                "cis"
+
+            ]
+
+        )
 
     def pci(self):
 
-        return self.scan("", ["aws", "--compliance", "pci"])
+        return self.scan(
+
+            "",
+
+            [
+
+                "aws",
+
+                "--compliance",
+
+                "pci"
+
+            ]
+
+        )
 
     def info(self):
 
-        return {"name": self.name, "category": "Cloud", "provider": "AWS"}
+        return {
+
+            "name": self.name,
+
+            "category": "Cloud",
+
+            "provider": "AWS"
+
+        }

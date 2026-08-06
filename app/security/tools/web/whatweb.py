@@ -13,7 +13,13 @@ class WhatWebTool(BaseTool):
 
     name = "whatweb"
 
-    default_arguments = ["--color=never", "--log-json=-"]
+    default_arguments = [
+
+        "--color=never",
+
+        "--log-json=-"
+
+    ]
 
     timeout = 300
 

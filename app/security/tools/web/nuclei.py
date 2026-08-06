@@ -13,7 +13,11 @@ class NucleiTool(BaseTool):
 
     name = "nuclei"
 
-    default_arguments = ["-u"]
+    default_arguments = [
+
+        "-u"
+
+    ]
 
     timeout = 300
 

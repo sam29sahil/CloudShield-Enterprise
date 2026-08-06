@@ -7,7 +7,16 @@ from app.security.tools.ssl.sslyze import SSLyzeTool
 from app.security.tools.ssl.testssl import TestSSLTool
 from app.security.tools.ssl.openssl import OpenSSLTool
 
-SSL_TOOLS = {"sslyze": SSLyzeTool(), "testssl": TestSSLTool(), "openssl": OpenSSLTool()}
+
+SSL_TOOLS = {
+
+    "sslyze": SSLyzeTool(),
+
+    "testssl": TestSSLTool(),
+
+    "openssl": OpenSSLTool()
+
+}
 
 
 def get_tool(name):
@@ -21,10 +30,17 @@ def get_all_tools():
 
 
 __all__ = [
+
     "SSLyzeTool",
+
     "TestSSLTool",
+
     "OpenSSLTool",
+
     "SSL_TOOLS",
+
     "get_tool",
-    "get_all_tools",
+
+    "get_all_tools"
+
 ]

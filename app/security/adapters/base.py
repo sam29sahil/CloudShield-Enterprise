@@ -10,4 +10,6 @@ class BaseAdapter:
     """
 
     def adapt(self, tool, target, result, execution_time=0):
-        raise NotImplementedError("Adapter must implement adapt().")
+        raise NotImplementedError(
+            "Adapter must implement adapt()."
+        )

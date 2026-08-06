@@ -16,11 +16,21 @@ class ToolRegistry:
 
     def unregister(self, name):
 
-        self._tools.pop(name, None)
+        self._tools.pop(
+
+            name,
+
+            None
+
+        )
 
     def get(self, name):
 
-        return self._tools.get(name)
+        return self._tools.get(
+
+            name
+
+        )
 
     def all(self):
 
@@ -28,7 +38,11 @@ class ToolRegistry:
 
     def names(self):
 
-        return list(self._tools.keys())
+        return list(
+
+            self._tools.keys()
+
+        )
 
     def exists(self, name):
 

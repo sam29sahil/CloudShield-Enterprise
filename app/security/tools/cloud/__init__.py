@@ -8,11 +8,17 @@ from app.security.tools.cloud.scoutsuite import ScoutSuiteTool
 from app.security.tools.cloud.cloudsplaining import CloudSplainingTool
 from app.security.tools.cloud.trivy import TrivyTool
 
+
 CLOUD_TOOLS = {
+
     "prowler": ProwlerTool(),
+
     "scoutsuite": ScoutSuiteTool(),
+
     "cloudsplaining": CloudSplainingTool(),
-    "trivy": TrivyTool(),
+
+    "trivy": TrivyTool()
+
 }
 
 
@@ -27,11 +33,19 @@ def get_all_tools():
 
 
 __all__ = [
+
     "ProwlerTool",
+
     "ScoutSuiteTool",
+
     "CloudSplainingTool",
+
     "TrivyTool",
+
     "CLOUD_TOOLS",
+
     "get_tool",
-    "get_all_tools",
+
+    "get_all_tools"
+
 ]

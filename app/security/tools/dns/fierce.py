@@ -18,20 +18,54 @@ class FierceTool(BaseTool):
 
     def scan_all(self, target):
 
-        return self.scan(target, ["--domain"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "--domain"
+
+            ]
+
+        )
 
     def dns_servers(self, target):
 
-        return self.scan(target, ["--dns-servers"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "--dns-servers"
+
+            ]
+
+        )
 
     def range_scan(self, target):
 
-        return self.scan(target, ["--range"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "--range"
+
+            ]
+
+        )
 
     def info(self):
 
         return {
+
             "name": self.name,
+
             "category": "DNS",
-            "description": "DNS Reconnaissance Tool",
+
+            "description": "DNS Reconnaissance Tool"
+
         }

@@ -13,7 +13,11 @@ class NiktoTool(BaseTool):
 
     name = "nikto"
 
-    default_arguments = ["-h"]
+    default_arguments = [
+
+        "-h"
+
+    ]
 
     timeout = 300
 

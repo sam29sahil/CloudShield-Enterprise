@@ -3,22 +3,74 @@ CloudShield Enterprise
 Cloud Security Constants
 """
 
-PROWLER_DEFAULT = ["aws"]
+PROWLER_DEFAULT = [
 
-SCOUTSUITE_DEFAULT = ["aws"]
+    "aws"
 
-CLOUDSPLAINING_DEFAULT = ["scan"]
+]
 
-TRIVY_IMAGE_DEFAULT = ["image"]
+SCOUTSUITE_DEFAULT = [
 
-TRIVY_FILESYSTEM_DEFAULT = ["fs"]
+    "aws"
 
-TRIVY_CONFIG_DEFAULT = ["config"]
+]
 
-TRIVY_KUBERNETES_DEFAULT = ["kubernetes"]
+CLOUDSPLAINING_DEFAULT = [
 
-SUPPORTED_PROVIDERS = ["AWS", "Azure", "GCP", "Kubernetes", "Docker"]
+    "scan"
+
+]
+
+TRIVY_IMAGE_DEFAULT = [
+
+    "image"
+
+]
+
+TRIVY_FILESYSTEM_DEFAULT = [
+
+    "fs"
+
+]
+
+TRIVY_CONFIG_DEFAULT = [
+
+    "config"
+
+]
+
+TRIVY_KUBERNETES_DEFAULT = [
+
+    "kubernetes"
+
+]
+
+SUPPORTED_PROVIDERS = [
+
+    "AWS",
+
+    "Azure",
+
+    "GCP",
+
+    "Kubernetes",
+
+    "Docker"
+
+]
 
 DEFAULT_TIMEOUT = 900
 
-SEVERITY_LEVELS = ["UNKNOWN", "LOW", "MEDIUM", "HIGH", "CRITICAL"]
+SEVERITY_LEVELS = [
+
+    "UNKNOWN",
+
+    "LOW",
+
+    "MEDIUM",
+
+    "HIGH",
+
+    "CRITICAL"
+
+]

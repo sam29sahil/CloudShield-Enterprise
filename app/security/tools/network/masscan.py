@@ -13,7 +13,9 @@ class MasscanTool(BaseTool):
 
     name = "masscan"
 
-    default_arguments = ["-p1-1000"]
+    default_arguments = [
+        "-p1-1000"
+    ]
 
     timeout = 300
 

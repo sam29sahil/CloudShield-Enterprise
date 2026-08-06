@@ -68,7 +68,11 @@ class NmapTool:
     # Execute Scan
     # ==========================================================
 
-    def scan(self, target, arguments=None):
+    def scan(
+        self,
+        target,
+        arguments=None
+    ):
         """
         Execute Nmap scan.
         """
@@ -76,10 +80,15 @@ class NmapTool:
         if self.scanner is None:
 
             return {
+
                 "success": False,
+
                 "tool": self.name,
+
                 "target": target,
-                "error": "Nmap is not installed.",
+
+                "error": "Nmap is not installed."
+
             }
 
         if arguments is None:
@@ -94,28 +103,54 @@ class NmapTool:
 
         try:
 
-            self.scanner.scan(hosts=target, arguments=arguments)
+            self.scanner.scan(
+
+                hosts=target,
+
+                arguments=arguments
+
+            )
 
             self.last_command = self.command()
 
-            execution_time = round(time.perf_counter() - start, 2)
+            execution_time = round(
 
-            return self.parse(target, execution_time)
+                time.perf_counter() - start,
+
+                2
+
+            )
+
+            return self.parse(
+
+                target,
+
+                execution_time
+
+            )
 
         except Exception as e:
 
             return {
+
                 "success": False,
+
                 "tool": self.name,
+
                 "target": target,
-                "error": str(e),
+
+                "error": str(e)
+
             }
         # ==========================================================
-
     # Parse Results
     # ==========================================================
 
-    def parse(self, target, execution_time):
+    def parse(
+        self,
+        target,
+        execution_time
+    ):
         """
         Parse Nmap results into the CloudShield
         Enterprise standard format.
@@ -124,32 +159,51 @@ class NmapTool:
         if self.scanner is None:
 
             return {
+
                 "success": False,
+
                 "tool": self.name,
+
                 "target": target,
-                "error": "Nmap is unavailable.",
+
+                "error": "Nmap is unavailable."
+
             }
 
         if target not in self.scanner.all_hosts():
 
             return {
+
                 "success": False,
+
                 "tool": self.name,
+
                 "target": target,
-                "error": "Host not found.",
+
+                "error": "Host not found."
+
             }
 
         host = self.scanner[target]
 
         raw = {
+
             "hostname": host.hostname(),
+
             "state": host.state(),
+
             "ipv4": host["addresses"].get("ipv4"),
+
             "ipv6": host["addresses"].get("ipv6"),
+
             "mac": host["addresses"].get("mac"),
+
             "vendor": host.get("vendor", {}),
+
             "os": [],
-            "ports": [],
+
+            "ports": []
+
         }
 
         # ------------------------------------------------------
@@ -160,12 +214,13 @@ class NmapTool:
 
             for operating_system in host["osmatch"]:
 
-                raw["os"].append(
-                    {
-                        "name": operating_system.get("name"),
-                        "accuracy": operating_system.get("accuracy"),
-                    }
-                )
+                raw["os"].append({
+
+                    "name": operating_system.get("name"),
+
+                    "accuracy": operating_system.get("accuracy")
+
+                })
 
         # ------------------------------------------------------
         # Ports
@@ -185,24 +240,37 @@ class NmapTool:
 
                     open_ports += 1
 
-                raw["ports"].append(
-                    {
-                        "protocol": protocol,
-                        "port": port,
-                        "state": state,
-                        "service": service.get("name"),
-                        "product": service.get("product"),
-                        "version": service.get("version"),
-                        "reason": service.get("reason"),
-                        "extra_info": service.get("extrainfo"),
-                    }
-                )
+                raw["ports"].append({
+
+                    "protocol": protocol,
+
+                    "port": port,
+
+                    "state": state,
+
+                    "service": service.get("name"),
+
+                    "product": service.get("product"),
+
+                    "version": service.get("version"),
+
+                    "reason": service.get("reason"),
+
+                    "extra_info": service.get("extrainfo")
+
+                })
 
         # ------------------------------------------------------
         # Security Score
         # ------------------------------------------------------
 
-        score = max(0, 100 - (open_ports * 3))
+        score = max(
+
+            0,
+
+            100 - (open_ports * 3)
+
+        )
 
         if open_ports == 0:
 
@@ -225,24 +293,38 @@ class NmapTool:
         # ------------------------------------------------------
 
         return {
+
             "success": True,
+
             "tool": self.name,
+
             "target": target,
+
             "execution_time": execution_time,
+
             "scanner_version": self.version(),
+
             "command": self.last_command,
+
             "raw_output": raw,
+
             "summary": {
+
                 "status": "Completed",
+
                 "score": score,
+
                 "risk": risk,
+
                 "open_ports": open_ports,
-                "hosts": 1,
-            },
+
+                "hosts": 1
+
+            }
+
         }
 
         # ==========================================================
-
     # Helpers
     # ==========================================================
 
@@ -272,7 +354,9 @@ class NmapTool:
 
             version = self.scanner.nmap_version()
 
-            return ".".join(map(str, version))
+            return ".".join(
+                map(str, version)
+            )
 
         except Exception:
 
@@ -302,12 +386,19 @@ class NmapTool:
         """
 
         return {
+
             "name": self.name,
+
             "display_name": self.display_name,
+
             "installed": self.installed(),
+
             "version": self.version(),
+
             "timeout": self.timeout,
-            "default_arguments": self.default_arguments,
+
+            "default_arguments": self.default_arguments
+
         }
 
 
@@ -316,4 +407,5 @@ def get_tool():
     Return Nmap Tool instance.
     """
 
-    return NmapTool()
+    return NmapTool()    
+

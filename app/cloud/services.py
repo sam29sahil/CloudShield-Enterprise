@@ -10,15 +10,15 @@ from app.models.security_scan import SecurityScan
 from app.cloud.aws.services import AWSScanner
 from app.cloud.azure.services import AzureService
 from app.cloud.findings_engine import CloudFindingsEngine
-from app.cloud.azure.analyzer import AzureSecurityAnalyzer
+from app.cloud.azure.analyzer import AzureAnalyzer
 from app.cloud.azure.risk import AzureRiskEngine
-from app.cloud.azure.recommendations import AzureRecommendations
+from app.cloud.azure.recommendations import RecommendationEngine
 
 aws = AWSScanner()
 azure = AzureService()
-analyzer = AzureSecurityAnalyzer()
+analyzer = AzureAnalyzer()
 risk_engine = AzureRiskEngine()
-recommendations = AzureRecommendations()
+recommendations = RecommendationEngine()
 
 
 class CloudService:

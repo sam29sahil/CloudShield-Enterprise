@@ -13,7 +13,11 @@ class GobusterTool(BaseTool):
 
     name = "gobuster"
 
-    default_arguments = ["dir"]
+    default_arguments = [
+
+        "dir"
+
+    ]
 
     timeout = 300
 

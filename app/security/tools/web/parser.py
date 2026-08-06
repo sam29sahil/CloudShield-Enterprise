@@ -9,18 +9,35 @@ class WebParser:
     Standard parser for web security tools.
     """
 
-    def parse(self, tool, target, result):
+    def parse(
+        self,
+        tool,
+        target,
+        result
+    ):
 
         return {
+
             "success": result.get("success", False),
+
             "tool": tool,
+
             "target": target,
+
             "raw_output": result.get("stdout", ""),
+
             "error": result.get("stderr", ""),
-            "findings": self.findings(result.get("stdout", "")),
+
+            "findings": self.findings(
+                result.get("stdout", "")
+            )
+
         }
 
-    def findings(self, output):
+    def findings(
+        self,
+        output
+    ):
 
         findings = []
 

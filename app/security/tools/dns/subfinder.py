@@ -20,20 +20,54 @@ class SubfinderTool(BaseTool):
 
     def passive(self, target):
 
-        return self.scan(target, ["-silent"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "-silent"
+
+            ]
+
+        )
 
     def recursive(self, target):
 
-        return self.scan(target, ["-recursive"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "-recursive"
+
+            ]
+
+        )
 
     def all_sources(self, target):
 
-        return self.scan(target, ["-all"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "-all"
+
+            ]
+
+        )
 
     def info(self):
 
         return {
+
             "name": self.name,
+
             "category": "DNS",
-            "description": "Passive Subdomain Enumeration",
+
+            "description": "Passive Subdomain Enumeration"
+
         }

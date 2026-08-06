@@ -23,8 +23,22 @@ def dns_scan(domain):
 
         ip = socket.gethostbyname(domain)
 
-        return {"success": True, "domain": domain, "ip": ip}
+        return {
+
+            "success": True,
+
+            "domain": domain,
+
+            "ip": ip
+
+        }
 
     except Exception as e:
 
-        return {"success": False, "error": str(e)}
+        return {
+
+            "success": False,
+
+            "error": str(e)
+
+        }

@@ -15,26 +15,65 @@ class ScanMonitor:
 
         self.active_scans = {}
 
-    def start(self, scan_id, tool, target):
+    def start(
+
+        self,
+
+        scan_id,
+
+        tool,
+
+        target
+
+    ):
 
         self.active_scans[scan_id] = {
+
             "tool": tool,
+
             "target": target,
+
             "status": "Running",
-            "started_at": datetime.utcnow(),
+
+            "started_at": datetime.utcnow()
+
         }
 
-    def finish(self, scan_id):
+    def finish(
+
+        self,
+
+        scan_id
+
+    ):
 
         if scan_id in self.active_scans:
 
-            self.active_scans[scan_id]["status"] = "Completed"
+            self.active_scans[scan_id][
 
-            self.active_scans[scan_id]["completed_at"] = datetime.utcnow()
+                "status"
 
-    def status(self, scan_id):
+            ] = "Completed"
 
-        return self.active_scans.get(scan_id)
+            self.active_scans[scan_id][
+
+                "completed_at"
+
+            ] = datetime.utcnow()
+
+    def status(
+
+        self,
+
+        scan_id
+
+    ):
+
+        return self.active_scans.get(
+
+            scan_id
+
+        )
 
     def all(self):
 

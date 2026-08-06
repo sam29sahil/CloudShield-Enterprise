@@ -21,6 +21,7 @@ from wtforms.validators import (
     ValidationError,
 )
 
+
 # ==========================================================
 # Constants
 # ==========================================================
@@ -53,7 +54,6 @@ SCAN_SPEEDS = [
 # Shared Validators
 # ==========================================================
 
-
 def validate_target(form, field):
     """
     Validate scan target.
@@ -73,13 +73,14 @@ def validate_target(form, field):
         and not target.startswith("https://")
         and "." not in target
     ):
-        raise ValidationError("Enter a valid domain or URL.")
+        raise ValidationError(
+            "Enter a valid domain or URL."
+        )
 
 
 # ==========================================================
 # Universal Security Scan Form (Legacy / Generic)
 # ==========================================================
-
 
 class SecurityScanForm(FlaskForm):
     """
@@ -114,9 +115,11 @@ class SecurityScanForm(FlaskForm):
         "Advanced Mode",
         choices=[
             ("", "-- Select Individual Tool --"),
+
             ("nmap", "Nmap"),
             ("rustscan", "RustScan"),
             ("masscan", "Masscan"),
+
             ("whatweb", "WhatWeb"),
             ("nikto", "Nikto"),
             ("nuclei", "Nuclei"),
@@ -124,11 +127,14 @@ class SecurityScanForm(FlaskForm):
             ("ffuf", "FFUF"),
             ("sqlmap", "SQLMap"),
             ("wafw00f", "WAFW00F"),
+
             ("sslyze", "SSLyze"),
             ("testssl", "TestSSL"),
+
             ("amass", "Amass"),
             ("subfinder", "Subfinder"),
             ("dnsrecon", "DNSRecon"),
+
             ("prowler", "Prowler"),
             ("scoutsuite", "ScoutSuite"),
             ("trivy", "Trivy"),
@@ -141,7 +147,6 @@ class SecurityScanForm(FlaskForm):
 # ==========================================================
 # Basic Scanner Form
 # ==========================================================
-
 
 class BasicScannerForm(FlaskForm):
     """
@@ -178,7 +183,6 @@ class BasicScannerForm(FlaskForm):
 # ==========================================================
 # Universal Scanner Form
 # ==========================================================
-
 
 class UniversalScannerForm(FlaskForm):
     """

@@ -13,7 +13,11 @@ class DirsearchTool(BaseTool):
 
     name = "dirsearch"
 
-    default_arguments = ["-u"]
+    default_arguments = [
+
+        "-u"
+
+    ]
 
     timeout = 300
 

@@ -24,22 +24,38 @@ def get_ssl_info(host):
 
         with socket.create_connection((host, 443), timeout=5) as sock:
 
-            with context.wrap_socket(sock, server_hostname=host) as secure:
+            with context.wrap_socket(
+                sock,
+                server_hostname=host
+            ) as secure:
 
                 cert = secure.getpeercert()
 
                 return {
+
                     "success": True,
+
                     "issuer": cert.get("issuer"),
+
                     "subject": cert.get("subject"),
+
                     "version": cert.get("version"),
+
                     "serial": cert.get("serialNumber"),
-                    "expires": cert.get("notAfter"),
+
+                    "expires": cert.get("notAfter")
+
                 }
 
     except Exception as e:
 
-        return {"success": False, "error": str(e)}
+        return {
+
+            "success": False,
+
+            "error": str(e)
+
+        }
 
 
 # Backward compatibility

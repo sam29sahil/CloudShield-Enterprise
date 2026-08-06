@@ -18,7 +18,7 @@ from app.cloud.azure.network import AzureNetwork
 from app.cloud.azure.recommendations import RecommendationEngine
 from app.cloud.azure.report import ReportGenerator
 from app.cloud.azure.resource_groups import AzureResourceGroups
-from app.cloud.azure.risk import RiskEngine
+from app.cloud.azure.risk import AzureRiskEngine
 from app.cloud.azure.score import SecurityScore
 from app.cloud.azure.virtual_machines import AzureVirtualMachines
 
@@ -53,7 +53,7 @@ class AzureSecurityService:
         self.defender = AzureDefender(client)
 
         self.analyzer = AzureAnalyzer()
-        self.risk_engine = RiskEngine()
+        self.risk_engine = AzureRiskEngine()
         self.score_engine = SecurityScore()
         self.recommendation_engine = RecommendationEngine()
         self.report_generator = ReportGenerator()

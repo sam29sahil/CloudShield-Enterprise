@@ -14,7 +14,7 @@ from app.cloud.azure.defender import AzureDefender
 from app.cloud.azure.identity import AzureIdentity
 from app.cloud.azure.network import AzureNetwork
 from app.cloud.azure.load_balancers import AzureLoadBalancers
-from app.cloud.azure.analyzer import AzureSecurityAnalyzer
+from app.cloud.azure.analyzer import AzureAnalyzer
 from app.cloud.azure.risk import AzureRiskEngine
 
 
@@ -33,7 +33,7 @@ class AzureService:
         self.identity = AzureIdentity(self.client)
         self.network = AzureNetwork(self.client)
         self.load_balancers_service = AzureLoadBalancers(self.client)
-        self.security_analyzer = AzureSecurityAnalyzer()
+        self.security_analyzer = AzureAnalyzer()
         self.risk_engine = AzureRiskEngine()
 
     # -------------------------------------

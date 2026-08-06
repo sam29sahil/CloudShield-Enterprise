@@ -6,7 +6,10 @@ Website Scanner
 import time
 import requests
 
-from app.security.constants import HTTP_TIMEOUT, USER_AGENT
+from app.security.constants import (
+    HTTP_TIMEOUT,
+    USER_AGENT
+)
 
 
 class WebsiteScanner:
@@ -37,36 +40,87 @@ def website_scan(url):
             url,
             timeout=HTTP_TIMEOUT,
             allow_redirects=True,
-            headers={"User-Agent": USER_AGENT},
+            headers={
+                "User-Agent": USER_AGENT
+            }
         )
 
         end_time = time.perf_counter()
 
         return {
+
             "success": True,
+
             "url": response.url,
+
             "status_code": response.status_code,
+
             "reason": response.reason,
+
             "https": response.url.startswith("https"),
-            "response_time": round(end_time - start_time, 3),
+
+            "response_time": round(
+                end_time - start_time,
+                3
+            ),
+
             "redirects": len(response.history),
-            "server": response.headers.get("Server", "Unknown"),
-            "content_type": response.headers.get("Content-Type", "Unknown"),
-            "content_length": response.headers.get("Content-Length", "Unknown"),
+
+            "server": response.headers.get(
+                "Server",
+                "Unknown"
+            ),
+
+            "content_type": response.headers.get(
+                "Content-Type",
+                "Unknown"
+            ),
+
+            "content_length": response.headers.get(
+                "Content-Length",
+                "Unknown"
+            ),
+
             "encoding": response.encoding,
-            "cookies": list(response.cookies.keys()),
-            "headers": dict(response.headers),
-            "html": response.text,
+
+            "cookies": list(
+                response.cookies.keys()
+            ),
+
+            "headers": dict(
+                response.headers
+            ),
+
+            "html": response.text
+
         }
 
     except requests.exceptions.Timeout:
 
-        return {"success": False, "error": "Connection timed out."}
+        return {
+
+            "success": False,
+
+            "error": "Connection timed out."
+
+        }
 
     except requests.exceptions.ConnectionError:
 
-        return {"success": False, "error": "Unable to connect."}
+        return {
+
+            "success": False,
+
+            "error": "Unable to connect."
+
+        }
 
     except requests.exceptions.RequestException as e:
 
-        return {"success": False, "error": str(e)}
+        return {
+
+            "success": False,
+
+            "error": str(e)
+
+        }

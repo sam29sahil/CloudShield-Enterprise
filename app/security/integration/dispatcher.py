@@ -15,44 +15,160 @@ class ScanDispatcher:
 
         self.executor = ScanExecutor()
 
-    def dispatch(self, tool, target, arguments=None):
+    def dispatch(
 
-        return self.executor.execute(tool, target, arguments)
+        self,
 
-    def dispatch_all(self, tools, target):
+        tool,
 
-        return self.executor.execute_multiple(tools, target)
+        target,
 
-    def category(self, category, target):
+        arguments=None
+
+    ):
+
+        return self.executor.execute(
+
+            tool,
+
+            target,
+
+            arguments
+
+        )
+
+    def dispatch_all(
+
+        self,
+
+        tools,
+
+        target
+
+    ):
+
+        return self.executor.execute_multiple(
+
+            tools,
+
+            target
+
+        )
+
+    def category(
+
+        self,
+
+        category,
+
+        target
+
+    ):
 
         groups = {
-            "network": ["nmap", "rustscan", "masscan", "netdiscover"],
+
+            "network": [
+
+                "nmap",
+
+                "rustscan",
+
+                "masscan",
+
+                "netdiscover"
+
+            ],
+
             "web": [
+
                 "whatweb",
+
                 "nikto",
+
                 "nuclei",
+
                 "gobuster",
+
                 "ffuf",
+
                 "sqlmap",
+
                 "zap",
+
                 "dalfox",
+
                 "xsstrike",
+
                 "wafw00f",
-                "corsy",
+
+                "corsy"
+
             ],
-            "ssl": ["sslyze", "testssl", "openssl"],
+
+            "ssl": [
+
+                "sslyze",
+
+                "testssl",
+
+                "openssl"
+
+            ],
+
             "dns": [
+
                 "amass",
+
                 "subfinder",
+
                 "assetfinder",
+
                 "dnsrecon",
+
                 "dnsenum",
-                "fierce",
+
+                "fierce"
+
             ],
-            "cloud": ["prowler", "scoutsuite", "cloudsplaining", "trivy"],
-            "wireless": ["aircrack-ng", "airodump-ng", "aireplay-ng", "wifite"],
+
+            "cloud": [
+
+                "prowler",
+
+                "scoutsuite",
+
+                "cloudsplaining",
+
+                "trivy"
+
+            ],
+
+            "wireless": [
+
+                "aircrack-ng",
+
+                "airodump-ng",
+
+                "aireplay-ng",
+
+                "wifite"
+
+            ]
+
         }
 
-        tools = groups.get(category.lower(), [])
+        tools = groups.get(
 
-        return self.dispatch_all(tools, target)
+            category.lower(),
+
+            []
+
+        )
+
+        return self.dispatch_all(
+
+            tools,
+
+            target
+
+        )

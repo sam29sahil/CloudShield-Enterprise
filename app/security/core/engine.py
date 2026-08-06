@@ -31,9 +31,16 @@ class UniversalScannerEngine:
         valid, target_type = TargetValidator.validate(target)
 
         if not valid:
-            return {"success": False, "error": target_type}
+            return {
+                "success": False,
+                "error": target_type
+            }
 
-        result = self.manager.run_tool(tool=tool, target=target, arguments=arguments)
+        result = self.manager.run_tool(
+            tool=tool,
+            target=target,
+            arguments=arguments
+        )
 
         result["target"] = target
         result["target_type"] = target_type
@@ -45,7 +52,12 @@ class UniversalScannerEngine:
     # Profile Scan
     # ==========================================================
 
-    def scan_profile(self, target, profile, arguments=None):
+    def scan_profile(
+        self,
+        target,
+        profile,
+        arguments=None
+    ):
         """
         Execute all tools registered in a scan profile.
         """
@@ -53,12 +65,18 @@ class UniversalScannerEngine:
         valid, target_type = TargetValidator.validate(target)
 
         if not valid:
-            return {"success": False, "error": target_type}
+            return {
+                "success": False,
+                "error": target_type
+            }
 
         tools = SCAN_PROFILES.get(profile)
 
         if not tools:
-            return {"success": False, "error": "Unknown scan profile."}
+            return {
+                "success": False,
+                "error": "Unknown scan profile."
+            }
 
         findings = []
         results = []
@@ -66,7 +84,9 @@ class UniversalScannerEngine:
         for tool in tools:
 
             result = self.manager.run_tool(
-                tool=tool, target=target, arguments=arguments
+                tool=tool,
+                target=target,
+                arguments=arguments
             )
 
             results.append(result)
@@ -88,7 +108,7 @@ class UniversalScannerEngine:
                         if not result.get("success")
                         else f"{tool} scan completed successfully."
                     ),
-                    raw=result,
+                    raw=result
                 )
             )
 
@@ -101,7 +121,7 @@ class UniversalScannerEngine:
             "target_type": target_type,
             "results": results,
             "findings": findings,
-            "risk": risk,
+            "risk": risk
         }
 
     # ==========================================================

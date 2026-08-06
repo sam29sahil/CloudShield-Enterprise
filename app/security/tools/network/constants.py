@@ -7,23 +7,45 @@ Nmap Constants
 # Scan Types
 # -------------------------
 
-PING_SCAN = ["-sn"]
+PING_SCAN = [
+    "-sn"
+]
 
-TCP_SCAN = ["-sT"]
+TCP_SCAN = [
+    "-sT"
+]
 
-SYN_SCAN = ["-sS"]
+SYN_SCAN = [
+    "-sS"
+]
 
-UDP_SCAN = ["-sU"]
+UDP_SCAN = [
+    "-sU"
+]
 
-SERVICE_SCAN = ["-sV"]
+SERVICE_SCAN = [
+    "-sV"
+]
 
-OS_SCAN = ["-O"]
+OS_SCAN = [
+    "-O"
+]
 
-AGGRESSIVE_SCAN = ["-A"]
+AGGRESSIVE_SCAN = [
+    "-A"
+]
 
-VERSION_SCAN = ["-sV"]
+VERSION_SCAN = [
+    "-sV"
+]
 
-DEFAULT_SCAN = ["-sV", "-T4"]
+DEFAULT_SCAN = [
+
+    "-sV",
+
+    "-T4"
+
+]
 
 # -------------------------
 # Timing
@@ -55,14 +77,26 @@ GREP_OUTPUT = "-oG"
 # NSE
 # -------------------------
 
-DEFAULT_SCRIPT = ["-sC"]
+DEFAULT_SCRIPT = [
+    "-sC"
+]
 
-VULN_SCRIPT = ["--script=vuln"]
+VULN_SCRIPT = [
+    "--script=vuln"
+]
 
-HTTP_SCRIPT = ["--script=http-*"]
+HTTP_SCRIPT = [
+    "--script=http-*"
+]
 
-SMB_SCRIPT = ["--script=smb-*"]
+SMB_SCRIPT = [
+    "--script=smb-*"
+]
 
-FTP_SCRIPT = ["--script=ftp-*"]
+FTP_SCRIPT = [
+    "--script=ftp-*"
+]
 
-SSH_SCRIPT = ["--script=ssh-*"]
+SSH_SCRIPT = [
+    "--script=ssh-*"
+]

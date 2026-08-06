@@ -11,19 +11,33 @@ class DNSParser:
     Parse DNS enumeration results.
     """
 
-    def parse(self, tool, target, result):
+    def parse(
+        self,
+        tool,
+        target,
+        result
+    ):
 
         output = result.get("stdout", "")
 
         return {
+
             "success": result.get("success", False),
+
             "tool": tool,
+
             "target": target,
+
             "subdomains": self.subdomains(output),
+
             "records": self.records(output),
+
             "findings": self.findings(output),
+
             "raw_output": output,
-            "error": result.get("stderr", ""),
+
+            "error": result.get("stderr", "")
+
         }
 
     def subdomains(self, output):
@@ -56,4 +70,12 @@ class DNSParser:
 
     def findings(self, output):
 
-        return [line.strip() for line in output.splitlines() if line.strip()]
+        return [
+
+            line.strip()
+
+            for line in output.splitlines()
+
+            if line.strip()
+
+        ]

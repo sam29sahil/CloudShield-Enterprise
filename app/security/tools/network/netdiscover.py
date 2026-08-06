@@ -13,7 +13,9 @@ class NetdiscoverTool(BaseTool):
 
     name = "netdiscover"
 
-    default_arguments = ["-r"]
+    default_arguments = [
+        "-r"
+    ]
 
     timeout = 300
 

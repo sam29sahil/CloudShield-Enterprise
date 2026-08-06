@@ -13,7 +13,9 @@ class RustScanTool(BaseTool):
 
     name = "rustscan"
 
-    default_arguments = ["-a"]
+    default_arguments = [
+        "-a"
+    ]
 
     timeout = 300
 

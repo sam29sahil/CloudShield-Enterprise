@@ -40,5 +40,5 @@ class FindingsEngine:
             "recommendation": recommendation,
             "references": references,
             "raw": raw,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.utcnow().isoformat()
         }

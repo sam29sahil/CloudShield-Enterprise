@@ -36,19 +36,6 @@ def index():
 
     return render_template("cloud/azure/index.html")
 
-
-# --------------------------------------------------
-# Azure Home
-# --------------------------------------------------
-
-
-@azure_bp.route("/")
-@login_required
-def index():
-
-    return render_template("cloud/azure/index.html")
-
-
 # --------------------------------------------------
 # Dashboard
 # --------------------------------------------------

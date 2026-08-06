@@ -10,13 +10,21 @@ from app.security.tools.dns.dnsrecon import DNSReconTool
 from app.security.tools.dns.dnsenum import DNSEnumTool
 from app.security.tools.dns.fierce import FierceTool
 
+
 DNS_TOOLS = {
+
     "amass": AmassTool(),
+
     "subfinder": SubfinderTool(),
+
     "assetfinder": AssetFinderTool(),
+
     "dnsrecon": DNSReconTool(),
+
     "dnsenum": DNSEnumTool(),
-    "fierce": FierceTool(),
+
+    "fierce": FierceTool()
+
 }
 
 
@@ -31,13 +39,23 @@ def get_all_tools():
 
 
 __all__ = [
+
     "AmassTool",
+
     "SubfinderTool",
+
     "AssetFinderTool",
+
     "DNSReconTool",
+
     "DNSEnumTool",
+
     "FierceTool",
+
     "DNS_TOOLS",
+
     "get_tool",
-    "get_all_tools",
+
+    "get_all_tools"
+
 ]

@@ -11,20 +11,46 @@ class SSLParser:
     SSL Result Parser
     """
 
-    def parse(self, tool, target, result):
+    def parse(
 
-        output = result.get("stdout", "")
+        self,
+
+        tool,
+
+        target,
+
+        result
+
+    ):
+
+        output = result.get(
+
+            "stdout",
+
+            ""
+
+        )
 
         return {
+
             "success": result.get("success", False),
+
             "tool": tool,
+
             "target": target,
+
             "certificate": self.certificate(output),
+
             "tls_versions": self.protocols(output),
+
             "vulnerabilities": self.vulnerabilities(output),
+
             "findings": self.findings(output),
+
             "raw_output": output,
-            "error": result.get("stderr", ""),
+
+            "error": result.get("stderr", "")
+
         }
 
     def certificate(self, output):
@@ -51,7 +77,21 @@ class SSLParser:
 
         versions = []
 
-        for version in ["SSLv2", "SSLv3", "TLS1.0", "TLS1.1", "TLS1.2", "TLS1.3"]:
+        for version in [
+
+            "SSLv2",
+
+            "SSLv3",
+
+            "TLS1.0",
+
+            "TLS1.1",
+
+            "TLS1.2",
+
+            "TLS1.3"
+
+        ]:
 
             if version in output:
 
@@ -63,11 +103,35 @@ class SSLParser:
 
         findings = []
 
-        checks = ["Heartbleed", "POODLE", "BEAST", "FREAK", "LOGJAM", "ROBOT", "DROWN"]
+        checks = [
+
+            "Heartbleed",
+
+            "POODLE",
+
+            "BEAST",
+
+            "FREAK",
+
+            "LOGJAM",
+
+            "ROBOT",
+
+            "DROWN"
+
+        ]
 
         for check in checks:
 
-            if re.search(check, output, re.IGNORECASE):
+            if re.search(
+
+                check,
+
+                output,
+
+                re.IGNORECASE
+
+            ):
 
                 findings.append(check)
 
@@ -75,4 +139,12 @@ class SSLParser:
 
     def findings(self, output):
 
-        return [line.strip() for line in output.splitlines() if line.strip()]
+        return [
+
+            line.strip()
+
+            for line in output.splitlines()
+
+            if line.strip()
+
+        ]

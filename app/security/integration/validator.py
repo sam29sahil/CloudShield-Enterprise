@@ -46,7 +46,17 @@ class ScanValidator:
 
         pattern = r"^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$"
 
-        return bool(re.match(pattern, target))
+        return bool(
+
+            re.match(
+
+                pattern,
+
+                target
+
+            )
+
+        )
 
     @staticmethod
     def validate_tool(tool, manager):
@@ -60,4 +70,10 @@ class ScanValidator:
 
             return True
 
-        return isinstance(arguments, list)
+        return isinstance(
+
+            arguments,
+
+            list
+
+        )

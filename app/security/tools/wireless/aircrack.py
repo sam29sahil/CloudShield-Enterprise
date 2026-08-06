@@ -17,16 +17,38 @@ class AircrackTool(BaseTool):
 
     def crack(self, capture_file):
 
-        return self.scan(capture_file, [])
+        return self.scan(
+
+            capture_file,
+
+            []
+
+        )
 
     def wordlist(self, capture_file, wordlist):
 
-        return self.scan(capture_file, ["-w", wordlist])
+        return self.scan(
+
+            capture_file,
+
+            [
+
+                "-w",
+
+                wordlist
+
+            ]
+
+        )
 
     def info(self):
 
         return {
+
             "name": self.name,
+
             "category": "Wireless",
-            "description": "WEP/WPA Password Recovery",
+
+            "description": "WEP/WPA Password Recovery"
+
         }

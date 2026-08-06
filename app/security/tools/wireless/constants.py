@@ -37,25 +37,53 @@ WIFITE_DEFAULT = []
 # Wireless Security
 # ------------------------------------------------
 
-SECURITY_TYPES = ["OPEN", "WEP", "WPA", "WPA2", "WPA3"]
+SECURITY_TYPES = [
+
+    "OPEN",
+
+    "WEP",
+
+    "WPA",
+
+    "WPA2",
+
+    "WPA3"
+
+]
 
 # ------------------------------------------------
 # Attack Types
 # ------------------------------------------------
 
 ATTACK_TYPES = [
+
     "Handshake Capture",
+
     "PMKID Capture",
+
     "Deauthentication",
+
     "Fake Authentication",
-    "Packet Injection",
+
+    "Packet Injection"
+
 ]
 
 # ------------------------------------------------
 # Capture Files
 # ------------------------------------------------
 
-CAPTURE_EXTENSIONS = [".cap", ".pcap", ".pcapng", ".ivs"]
+CAPTURE_EXTENSIONS = [
+
+    ".cap",
+
+    ".pcap",
+
+    ".pcapng",
+
+    ".ivs"
+
+]
 
 # ------------------------------------------------
 # Risk Levels

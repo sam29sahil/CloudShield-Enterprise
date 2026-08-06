@@ -76,10 +76,6 @@ def create_app():
 
     app.register_blueprint(admin)
 
-    from app.cloud import cloud
-
-    app.register_blueprint(cloud)
-
     from app.threat import threat
 
     app.register_blueprint(threat)
@@ -119,6 +115,12 @@ def create_app():
     from app.cloud.azure.routes import azure_bp
 
     app.register_blueprint(azure_bp)
+    
+    from app.cloud import cloud
+    app.register_blueprint(
+        cloud,
+        url_prefix="/cloud"
+    )
 
     # -------------------------------
     # Jinja Filter

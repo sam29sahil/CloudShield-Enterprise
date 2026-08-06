@@ -20,24 +20,72 @@ class AmassTool(BaseTool):
 
     def passive(self, target):
 
-        return self.scan(target, ["enum", "-passive"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "enum",
+
+                "-passive"
+
+            ]
+
+        )
 
     def active(self, target):
 
-        return self.scan(target, ["enum", "-active"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "enum",
+
+                "-active"
+
+            ]
+
+        )
 
     def intel(self, target):
 
-        return self.scan(target, ["intel"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "intel"
+
+            ]
+
+        )
 
     def enum(self, target):
 
-        return self.scan(target, ["enum"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "enum"
+
+            ]
+
+        )
 
     def info(self):
 
         return {
+
             "name": self.name,
+
             "category": "DNS",
-            "description": "OWASP Amass Subdomain Enumeration",
+
+            "description": "OWASP Amass Subdomain Enumeration"
+
         }

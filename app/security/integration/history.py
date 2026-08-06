@@ -12,15 +12,38 @@ class ScanHistory:
     Store and retrieve scan history.
     """
 
-    def save(self, tool, target, status, execution_time, raw_output, parsed_output):
+    def save(
+
+        self,
+
+        tool,
+
+        target,
+
+        status,
+
+        execution_time,
+
+        raw_output,
+
+        parsed_output
+
+    ):
 
         scan = SecurityScan(
+
             tool=tool,
+
             target=target,
+
             status=status,
+
             execution_time=execution_time,
+
             raw_output=raw_output,
-            parsed_output=parsed_output,
+
+            parsed_output=parsed_output
+
         )
 
         db.session.add(scan)
@@ -31,13 +54,41 @@ class ScanHistory:
 
     def all(self):
 
-        return SecurityScan.query.order_by(SecurityScan.created_at.desc()).all()
+        return (
 
-    def get(self, scan_id):
+            SecurityScan.query
 
-        return SecurityScan.query.get(scan_id)
+            .order_by(
 
-    def delete(self, scan_id):
+                SecurityScan.created_at.desc()
+
+            )
+
+            .all()
+
+        )
+
+    def get(
+
+        self,
+
+        scan_id
+
+    ):
+
+        return SecurityScan.query.get(
+
+            scan_id
+
+        )
+
+    def delete(
+
+        self,
+
+        scan_id
+
+    ):
 
         scan = self.get(scan_id)
 

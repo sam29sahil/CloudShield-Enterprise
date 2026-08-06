@@ -13,7 +13,11 @@ class FFUFTool(BaseTool):
 
     name = "ffuf"
 
-    default_arguments = ["-u"]
+    default_arguments = [
+
+        "-u"
+
+    ]
 
     timeout = 300
 

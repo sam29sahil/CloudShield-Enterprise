@@ -32,7 +32,10 @@ def calculate_security_score(
 
         website_score = 100
 
-    total_score += (website_score * SCORE_WEIGHTS["website"]) / 100
+    total_score += (
+        website_score *
+        SCORE_WEIGHTS["website"]
+    ) / 100
 
     details["website"] = website_score
 
@@ -40,9 +43,15 @@ def calculate_security_score(
     # Headers
     # ---------------------------------
 
-    header_score = headers.get("score", 0)
+    header_score = headers.get(
+        "score",
+        0
+    )
 
-    total_score += (header_score * SCORE_WEIGHTS["headers"]) / 100
+    total_score += (
+        header_score *
+        SCORE_WEIGHTS["headers"]
+    ) / 100
 
     details["headers"] = header_score
 
@@ -62,7 +71,10 @@ def calculate_security_score(
 
             ssl_score = 40
 
-    total_score += (ssl_score * SCORE_WEIGHTS["ssl"]) / 100
+    total_score += (
+        ssl_score *
+        SCORE_WEIGHTS["ssl"]
+    ) / 100
 
     details["ssl"] = ssl_score
 
@@ -82,9 +94,15 @@ def calculate_security_score(
 
                 records += 1
 
-        dns_score = min(records * 20, 100)
+        dns_score = min(
+            records * 20,
+            100
+        )
 
-    total_score += (dns_score * SCORE_WEIGHTS["dns"]) / 100
+    total_score += (
+        dns_score *
+        SCORE_WEIGHTS["dns"]
+    ) / 100
 
     details["dns"] = dns_score
 
@@ -100,7 +118,10 @@ def calculate_security_score(
 
             whois_score = 100
 
-    total_score += (whois_score * SCORE_WEIGHTS["whois"]) / 100
+    total_score += (
+        whois_score *
+        SCORE_WEIGHTS["whois"]
+    ) / 100
 
     details["whois"] = whois_score
 
@@ -116,7 +137,10 @@ def calculate_security_score(
 
             tech_score = 100
 
-    total_score += (tech_score * SCORE_WEIGHTS["technology"]) / 100
+    total_score += (
+        tech_score *
+        SCORE_WEIGHTS["technology"]
+    ) / 100
 
     details["technology"] = tech_score
 
@@ -126,8 +150,17 @@ def calculate_security_score(
 
     recommendation_score = header_score
 
-    total_score += (recommendation_score * SCORE_WEIGHTS["recommendations"]) / 100
+    total_score += (
+        recommendation_score *
+        SCORE_WEIGHTS["recommendations"]
+    ) / 100
 
     details["recommendations"] = recommendation_score
 
-    return {"overall_score": round(total_score), "details": details}
+    return {
+
+        "overall_score": round(total_score),
+
+        "details": details
+
+    }

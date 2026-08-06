@@ -5,7 +5,7 @@ Cloud Security Module
 
 from flask import Blueprint
 
-cloud_bp = Blueprint(
+cloud = Blueprint(
     "cloud", __name__, template_folder="templates", static_folder="static"
 )
 

@@ -20,24 +20,76 @@ class DNSReconTool(BaseTool):
 
     def standard(self, target):
 
-        return self.scan(target, ["-t", "std"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "-t",
+
+                "std"
+
+            ]
+
+        )
 
     def zone_transfer(self, target):
 
-        return self.scan(target, ["-t", "axfr"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "-t",
+
+                "axfr"
+
+            ]
+
+        )
 
     def brute_force(self, target):
 
-        return self.scan(target, ["-t", "brt"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "-t",
+
+                "brt"
+
+            ]
+
+        )
 
     def reverse_lookup(self, target):
 
-        return self.scan(target, ["-t", "rvl"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "-t",
+
+                "rvl"
+
+            ]
+
+        )
 
     def info(self):
 
         return {
+
             "name": self.name,
+
             "category": "DNS",
-            "description": "DNS Enumeration and Zone Transfer Testing",
+
+            "description": "DNS Enumeration and Zone Transfer Testing"
+
         }

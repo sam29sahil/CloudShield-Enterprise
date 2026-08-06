@@ -95,7 +95,12 @@ class SecurityManager:
     # Tool Execution
     # ==========================================================
 
-    def run_tool(self, tool, target, arguments=None):
+    def run_tool(
+        self,
+        tool,
+        target,
+        arguments=None
+    ):
         """
         Execute a registered tool.
         """
@@ -107,18 +112,26 @@ class SecurityManager:
             return {
                 "success": False,
                 "tool": tool,
-                "error": f"'{tool}' is not registered.",
+                "error": f"'{tool}' is not registered."
             }
 
         start = perf_counter()
 
         try:
 
-            raw = scanner.scan(target=target, arguments=arguments)
+            raw = scanner.scan(
+                target=target,
+                arguments=arguments
+            )
 
         except Exception as e:
 
-            raw = {"success": False, "tool": tool, "target": target, "error": str(e)}
+            raw = {
+                "success": False,
+                "tool": tool,
+                "target": target,
+                "error": str(e)
+            }
 
         elapsed = round(perf_counter() - start, 2)
 
@@ -131,7 +144,10 @@ class SecurityManager:
         print("=" * 60 + "\n")
 
         parsed = self.parser.parse(
-            tool=tool, target=target, result=raw, execution_time=elapsed
+            tool=tool,
+            target=target,
+            result=raw,
+            execution_time=elapsed
         )
 
         return parsed
@@ -140,7 +156,12 @@ class SecurityManager:
     # Future Extensions
     # ==========================================================
 
-    def run_category(self, category, target, arguments=None):
+    def run_category(
+        self,
+        category,
+        target,
+        arguments=None
+    ):
         """
         Placeholder for future category execution.
 
@@ -150,4 +171,6 @@ class SecurityManager:
         This will execute every registered web tool.
         """
 
-        raise NotImplementedError("Category execution is not implemented yet.")
+        raise NotImplementedError(
+            "Category execution is not implemented yet."
+        )

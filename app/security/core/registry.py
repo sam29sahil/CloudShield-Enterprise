@@ -15,10 +15,10 @@ from app.security.tools.dns import get_all_tools as dns_tools
 from app.security.tools.cloud import get_all_tools as cloud_tools
 from app.security.tools.wireless import get_all_tools as wireless_tools
 
+
 # ==========================================================
 # Registry Loader
 # ==========================================================
-
 
 def load_registry():
     """
@@ -64,7 +64,6 @@ def get_categories():
 # ==========================================================
 # Helper Functions
 # ==========================================================
-
 
 def get_tools(category):
     """

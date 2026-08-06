@@ -9,37 +9,76 @@ class NmapParser:
     Parse Nmap Results
     """
 
-    def summary(self, result):
+    def summary(
+
+        self,
+
+        result
+
+    ):
 
         if not result.get("success"):
 
             return {}
 
-        ports = result.get("ports", [])
+        ports = result.get(
 
-        open_ports = [p for p in ports if p["state"] == "open"]
+            "ports",
+
+            []
+
+        )
+
+        open_ports = [
+
+            p for p in ports
+
+            if p["state"] == "open"
+
+        ]
 
         return {
+
             "target": result["target"],
+
             "hostname": result["hostname"],
+
             "state": result["state"],
+
             "total_ports": len(ports),
+
             "open_ports": len(open_ports),
-            "os": result["os"],
+
+            "os": result["os"]
+
         }
 
-    def services(self, result):
+    def services(
+
+        self,
+
+        result
+
+    ):
 
         services = []
 
-        for port in result.get("ports", []):
+        for port in result.get(
 
-            services.append(
-                {
-                    "port": port["port"],
-                    "service": port["service"],
-                    "version": port["version"],
-                }
-            )
+            "ports",
+
+            []
+
+        ):
+
+            services.append({
+
+                "port": port["port"],
+
+                "service": port["service"],
+
+                "version": port["version"]
+
+            })
 
         return services

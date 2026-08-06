@@ -8,12 +8,27 @@ Scanner Constants
 # ==========================================================
 
 QUICK_TOOLS = {
-    "network": ["quick_scan"],
-    "web": ["quick_scan"],
-    "ssl": ["quick_scan"],
-    "dns": ["quick_scan"],
+
+    "network": [
+        "quick_scan"
+    ],
+
+    "web": [
+        "quick_scan"
+    ],
+
+    "ssl": [
+        "quick_scan"
+    ],
+
+    "dns": [
+        "quick_scan"
+    ],
+
     "cloud": [],
-    "wireless": [],
+
+    "wireless": []
+
 }
 
 # ==========================================================
@@ -21,7 +36,14 @@ QUICK_TOOLS = {
 # ==========================================================
 
 DEEP_TOOLS = {
-    "network": ["nmap", "rustscan", "masscan", "netdiscover"],
+
+    "network": [
+        "nmap",
+        "rustscan",
+        "masscan",
+        "netdiscover"
+    ],
+
     "web": [
         "whatweb",
         "nikto",
@@ -34,19 +56,55 @@ DEEP_TOOLS = {
         "dalfox",
         "xsstrike",
         "wafw00f",
-        "corsy",
+        "corsy"
     ],
-    "ssl": ["sslyze", "testssl", "openssl"],
-    "dns": ["amass", "subfinder", "assetfinder", "dnsrecon", "dnsenum", "fierce"],
-    "cloud": ["prowler", "scoutsuite", "cloudsplaining", "trivy"],
-    "wireless": ["aircrack-ng", "airodump-ng", "aireplay-ng", "wifite"],
+
+    "ssl": [
+        "sslyze",
+        "testssl",
+        "openssl"
+    ],
+
+    "dns": [
+        "amass",
+        "subfinder",
+        "assetfinder",
+        "dnsrecon",
+        "dnsenum",
+        "fierce"
+    ],
+
+    "cloud": [
+        "prowler",
+        "scoutsuite",
+        "cloudsplaining",
+        "trivy"
+    ],
+
+    "wireless": [
+        "aircrack-ng",
+        "airodump-ng",
+        "aireplay-ng",
+        "wifite"
+    ]
+
 }
 
 # ==========================================================
 # DNS
 # ==========================================================
 
-DNS_RECORDS = ["A", "AAAA", "CNAME", "MX", "NS", "TXT", "SOA"]
+DNS_RECORDS = [
+
+    "A",
+    "AAAA",
+    "CNAME",
+    "MX",
+    "NS",
+    "TXT",
+    "SOA"
+
+]
 
 # ==========================================================
 # WEBSITE
@@ -63,55 +121,83 @@ USER_AGENT = "CloudShield/1.0"
 OWASP_REFERENCE = "https://owasp.org/www-project-secure-headers/"
 
 SECURITY_HEADERS = {
+
     "Content-Security-Policy": {
         "severity": "High",
-        "description": "Protects against XSS attacks.",
+        "description": "Protects against XSS attacks."
     },
-    "Strict-Transport-Security": {"severity": "High", "description": "Forces HTTPS."},
-    "X-Frame-Options": {"severity": "Medium", "description": "Prevents clickjacking."},
+
+    "Strict-Transport-Security": {
+        "severity": "High",
+        "description": "Forces HTTPS."
+    },
+
+    "X-Frame-Options": {
+        "severity": "Medium",
+        "description": "Prevents clickjacking."
+    },
+
     "X-Content-Type-Options": {
         "severity": "Medium",
-        "description": "Stops MIME sniffing.",
+        "description": "Stops MIME sniffing."
     },
-    "Referrer-Policy": {"severity": "Low", "description": "Controls referrer leakage."},
+
+    "Referrer-Policy": {
+        "severity": "Low",
+        "description": "Controls referrer leakage."
+    },
+
     "Permissions-Policy": {
         "severity": "Low",
-        "description": "Restricts browser features.",
-    },
+        "description": "Restricts browser features."
+    }
+
 }
 
-# ==========================================
-# Technology Detection
-# ==========================================
+# ==========================================================
+# TECHNOLOGY DETECTION
+# ==========================================================
 
 SERVER_SIGNATURES = {
-    "apache": "Apache",
-    "nginx": "Nginx",
-    "iis": "Microsoft IIS",
-    "cloudflare": "Cloudflare",
-    "openresty": "OpenResty",
-    "caddy": "Caddy",
-}
 
+    "apache": "Apache",
+
+    "nginx": "Nginx",
+
+    "iis": "Microsoft IIS",
+
+    "cloudflare": "Cloudflare"
+
+}
 
 FRAMEWORK_SIGNATURES = {
+
     "php": "PHP",
-    "express": "Express.js",
+
     "asp.net": "ASP.NET",
+
+    "express": "Express.js",
+
     "django": "Django",
-    "flask": "Flask",
-    "laravel": "Laravel",
-    "wordpress": "WordPress",
+
+    "flask": "Flask"
+
 }
 
-
 HTML_SIGNATURES = {
+
     "wp-content": "WordPress",
-    "drupal.settings": "Drupal",
-    "__next": "Next.js",
-    "react": "React",
-    "vue": "Vue.js",
-    "angular": "Angular",
+
+    "drupal": "Drupal",
+
+    "joomla": "Joomla",
+
     "bootstrap": "Bootstrap",
-    "jquery": "jQuery",
+
+    "react": "React",
+
+    "angular": "Angular",
+
+    "vue": "Vue.js"
+
 }

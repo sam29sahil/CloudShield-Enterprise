@@ -17,24 +17,64 @@ class WifiteTool(BaseTool):
 
     def automatic(self):
 
-        return self.scan("", [])
+        return self.scan(
+
+            "",
+
+            []
+
+        )
 
     def wep(self):
 
-        return self.scan("", ["--wep"])
+        return self.scan(
+
+            "",
+
+            [
+
+                "--wep"
+
+            ]
+
+        )
 
     def wpa(self):
 
-        return self.scan("", ["--wpa"])
+        return self.scan(
+
+            "",
+
+            [
+
+                "--wpa"
+
+            ]
+
+        )
 
     def pmkid(self):
 
-        return self.scan("", ["--pmkid"])
+        return self.scan(
+
+            "",
+
+            [
+
+                "--pmkid"
+
+            ]
+
+        )
 
     def info(self):
 
         return {
+
             "name": self.name,
+
             "category": "Wireless",
-            "description": "Automated Wireless Security Testing",
+
+            "description": "Automated Wireless Security Testing"
+
         }

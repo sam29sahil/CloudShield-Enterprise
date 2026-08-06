@@ -20,24 +20,68 @@ class OpenSSLTool(BaseTool):
 
     def certificate(self, target):
 
-        return self.scan(target, ["s_client", "-connect"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "s_client",
+
+                "-connect"
+
+            ]
+
+        )
 
     def show_certificate(self, target):
 
-        return self.scan(target, ["s_client", "-showcerts", "-connect"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "s_client",
+
+                "-showcerts",
+
+                "-connect"
+
+            ]
+
+        )
 
     def cipher(self, target):
 
-        return self.scan(target, ["ciphers"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "ciphers"
+
+            ]
+
+        )
 
     def version(self):
 
-        return self.runner.version("openssl")
+        return self.runner.version(
+
+            "openssl"
+
+        )
 
     def info(self):
 
         return {
+
             "name": self.name,
+
             "category": "SSL",
-            "description": "OpenSSL Security Toolkit",
+
+            "description": "OpenSSL Security Toolkit"
+
         }

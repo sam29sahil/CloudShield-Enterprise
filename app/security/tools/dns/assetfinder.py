@@ -20,12 +20,26 @@ class AssetFinderTool(BaseTool):
 
     def scan_all(self, target):
 
-        return self.scan(target, ["--subs-only"])
+        return self.scan(
+
+            target,
+
+            [
+
+                "--subs-only"
+
+            ]
+
+        )
 
     def info(self):
 
         return {
+
             "name": self.name,
+
             "category": "DNS",
-            "description": "Assetfinder Subdomain Enumeration",
+
+            "description": "Assetfinder Subdomain Enumeration"
+
         }

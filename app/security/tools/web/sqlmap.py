@@ -13,7 +13,11 @@ class SQLMapTool(BaseTool):
 
     name = "sqlmap"
 
-    default_arguments = ["--batch"]
+    default_arguments = [
+
+        "--batch"
+
+    ]
 
     timeout = 300
 

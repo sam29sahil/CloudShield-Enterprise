@@ -17,20 +17,54 @@ class AirodumpTool(BaseTool):
 
     def monitor(self, interface):
 
-        return self.scan(interface, [])
+        return self.scan(
+
+            interface,
+
+            []
+
+        )
 
     def capture(self, interface, channel):
 
-        return self.scan(interface, ["-c", str(channel)])
+        return self.scan(
+
+            interface,
+
+            [
+
+                "-c",
+
+                str(channel)
+
+            ]
+
+        )
 
     def bssid(self, interface, bssid):
 
-        return self.scan(interface, ["--bssid", bssid])
+        return self.scan(
+
+            interface,
+
+            [
+
+                "--bssid",
+
+                bssid
+
+            ]
+
+        )
 
     def info(self):
 
         return {
+
             "name": self.name,
+
             "category": "Wireless",
-            "description": "Wireless Packet Capture",
+
+            "description": "Wireless Packet Capture"
+
         }

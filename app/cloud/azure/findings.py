@@ -8,11 +8,7 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
-import statistics
 from typing import Dict, Any
-
-from app.findings import statistics
-from app.docker.services import findings
 
 
 @dataclass
@@ -54,132 +50,130 @@ class Finding:
             "metadata": self.metadata,
         }
 
-    SEVERITY_ORDER = {"Critical": 5, "High": 4, "Medium": 3, "Low": 2, "Info": 1}
+SEVERITY_ORDER = {"Critical": 5, "High": 4, "Medium": 3, "Low": 2, "Info": 1}
 
-    def sort_findings(findings):
+def sort_findings(findings):
 
-        return sorted(
-            findings,
-            key=lambda finding: SEVERITY_ORDER.get(finding.get("severity", "Info"), 0),
-            reverse=True,
-        )
+    return sorted(
+        findings,
+        key=lambda finding: SEVERITY_ORDER.get(finding.get("severity", "Info"), 0),
+        reverse=True,
+    )
 
-    from collections import defaultdict
+def count_by_severity(findings):
 
-    def count_by_severity(findings):
+    counts = {"Critical": 0, "High": 0, "Medium": 0, "Low": 0, "Info": 0}
 
-        counts = {"Critical": 0, "High": 0, "Medium": 0, "Low": 0, "Info": 0}
+    for finding in findings:
 
-        for finding in findings:
+        severity = finding.get("severity", "Info")
 
-            severity = finding.get("severity", "Info")
+        counts[severity] = counts.get(severity, 0) + 1
 
-            counts[severity] = counts.get(severity, 0) + 1
+    return counts
 
-        return counts
+def group_by_category(findings):
 
-    def group_by_category(findings):
+    groups = defaultdict(list)
 
-        groups = defaultdict(list)
+    for finding in findings:
 
-        for finding in findings:
+        groups[finding.get("category", "Other")].append(finding)
 
-            groups[finding.get("category", "Other")].append(finding)
+    return dict(groups)
 
-        return dict(groups)
+def group_by_resource(findings):
 
-    def group_by_resource(findings):
+    groups = defaultdict(list)
 
-        groups = defaultdict(list)
+    for finding in findings:
 
-        for finding in findings:
+        groups[finding.get("resource", "Unknown")].append(finding)
 
-            groups[finding.get("resource", "Unknown")].append(finding)
+    return dict(groups)
 
-        return dict(groups)
+def group_by_severity(findings):
 
-    def group_by_severity(findings):
+    groups = defaultdict(list)
 
-        groups = defaultdict(list)
+    for finding in findings:
 
-        for finding in findings:
+        groups[finding.get("severity", "Info")].append(finding)
 
-            groups[finding.get("severity", "Info")].append(finding)
+    return dict(groups)
 
-        return dict(groups)
+# --------------------------------------------------
 
-    # --------------------------------------------------
+# Finding Statistics
+# --------------------------------------------------
 
-    # Finding Statistics
-    # --------------------------------------------------
+def finding_statistics(findings):
 
-    def statistics(findings):
+    severity = count_by_severity(findings)
 
-        severity = count_by_severity(findings)
+    return {
+        "total": len(findings),
+        "critical": severity["Critical"],
+        "high": severity["High"],
+        "medium": severity["Medium"],
+        "low": severity["Low"],
+        "info": severity["Info"],
+    }
 
-        return {
-            "total": len(findings),
-            "critical": severity["Critical"],
-            "high": severity["High"],
-            "medium": severity["Medium"],
-            "low": severity["Low"],
-            "info": severity["Info"],
-        }
+# --------------------------------------------------
+# Filter by Severity
+# --------------------------------------------------
 
-    # --------------------------------------------------
-    # Filter by Severity
-    # --------------------------------------------------
+def filter_by_severity(findings, severity):
 
-    def filter_by_severity(findings, severity):
+    return [finding for finding in findings if finding.get("severity") == severity]
 
-        return [finding for finding in findings if finding.get("severity") == severity]
+# --------------------------------------------------
+# Filter by Category
+# --------------------------------------------------
 
-    # --------------------------------------------------
-    # Filter by Category
-    # --------------------------------------------------
+def filter_by_category(findings, category):
 
-    def filter_by_category(findings, category):
+    return [finding for finding in findings if finding.get("category") == category]
 
-        return [finding for finding in findings if finding.get("category") == category]
+# --------------------------------------------------
+# Filter by Status
+# --------------------------------------------------
 
-    # --------------------------------------------------
-    # Filter by Status
-    # --------------------------------------------------
+def filter_by_status(findings, status):
 
-    def filter_by_status(findings, status):
+    return [
+        finding for finding in findings if finding.get("status", "Open") == status
+    ]
 
-        return [
-            finding for finding in findings if finding.get("status", "Open") == status
-        ]
+# --------------------------------------------------
+# Finding Summary
+# --------------------------------------------------
 
-    # --------------------------------------------------
-    # Finding Summary
-    # --------------------------------------------------
+def finding_summary(findings):
 
-    def finding_summary(findings):
+    stats = finding_statistics(findings)
 
-        stats = statistics(findings)
+    return {
+        "total_findings": stats["total"],
+        "critical": stats["critical"],
+        "high": stats["high"],
+        "medium": stats["medium"],
+        "low": stats["low"],
+        "info": stats["info"],
+        "categories": {
+            category: len(items)
+            for category, items in group_by_category(findings).items()
+        },
+    }
 
-        return {
-            "total_findings": stats["total"],
-            "critical": stats["critical"],
-            "high": stats["high"],
-            "medium": stats["medium"],
-            "low": stats["low"],
-            "info": stats["info"],
-            "categories": {
-                category: len(items)
-                for category, items in group_by_category(findings).items()
-            },
-        }
+# --------------------------------------------------
+# Export Ready
+# --------------------------------------------------
 
-    # --------------------------------------------------
-    # Export Ready
-    # --------------------------------------------------
+def export_ready(findings):
 
-    def export_ready(findings):
-
-        return [
-            finding if isinstance(finding, dict) else finding.to_dict()
-            for finding in findings
-        ]
+    return [
+        finding if isinstance(finding, dict) else finding.to_dict()
+        for finding in findings
+    ]

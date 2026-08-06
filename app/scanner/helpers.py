@@ -16,4 +16,22 @@ def get_tools(category, mode="quick"):
 
         tools = DEEP_TOOLS
 
-    return tools.get(category, [])
+    return [
+
+        (
+
+            tool,
+
+            tool.replace("_", " ").title()
+
+        )
+
+        for tool in tools.get(
+
+            category,
+
+            []
+
+        )
+
+    ]

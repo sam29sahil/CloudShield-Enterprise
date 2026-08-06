@@ -8,7 +8,7 @@ from __future__ import annotations
 from app.cloud.azure.findings import count_by_severity
 
 
-class RiskEngine:
+class AzureRiskEngine:
     """
     Calculate overall Azure security risk.
     """

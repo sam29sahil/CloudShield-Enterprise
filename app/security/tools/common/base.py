@@ -29,7 +29,11 @@ class BaseTool(ABC):
     # Execute
     # ==========================================================
 
-    def scan(self, target, arguments=None):
+    def scan(
+        self,
+        target,
+        arguments=None
+    ):
         """
         Execute the security tool.
         """
@@ -42,7 +46,15 @@ class BaseTool(ABC):
 
             arguments = arguments.split()
 
-        result = self.runner.execute(tool=self.name, target=target, arguments=arguments)
+        result = self.runner.execute(
+
+            tool=self.name,
+
+            target=target,
+
+            arguments=arguments
+
+        )
 
         return result
 
@@ -55,14 +67,22 @@ class BaseTool(ABC):
         Return installed tool version.
         """
 
-        return self.runner.version(self.name)
+        return self.runner.version(
+
+            self.name
+
+        )
 
     def installed(self):
         """
         Check whether the tool exists.
         """
 
-        return self.runner.is_installed(self.name)
+        return self.runner.is_installed(
+
+            self.name
+
+        )
 
     # ==========================================================
     # Metadata
@@ -74,12 +94,19 @@ class BaseTool(ABC):
         """
 
         return {
+
             "name": self.name,
+
             "display_name": self.display_name or self.name.title(),
+
             "installed": self.installed(),
+
             "version": self.version(),
+
             "timeout": self.timeout,
-            "default_arguments": self.default_arguments,
+
+            "default_arguments": self.default_arguments
+
         }
 
     # ==========================================================
@@ -96,7 +123,11 @@ class BaseTool(ABC):
     def __repr__(self):
 
         return (
+
             f"<{self.__class__.__name__}"
+
             f" name='{self.name}'"
+
             f" installed={self.installed()}>"
+
         )

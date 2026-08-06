@@ -17,30 +17,78 @@ class ScanExecutor:
 
         self.manager = SecurityManager()
 
-    def execute(self, tool, target, arguments=None):
+    def execute(
+
+        self,
+
+        tool,
+
+        target,
+
+        arguments=None
+
+    ):
 
         started = datetime.utcnow()
 
-        result = self.manager.run_tool(tool, target, arguments)
+        result = self.manager.run_tool(
+
+            tool,
+
+            target,
+
+            arguments
+
+        )
 
         finished = datetime.utcnow()
 
         return {
+
             "success": result.get("success", False),
+
             "tool": tool,
+
             "target": target,
+
             "started_at": started,
+
             "completed_at": finished,
-            "duration": (finished - started).total_seconds(),
-            "result": result,
+
+            "duration": (
+
+                finished - started
+
+            ).total_seconds(),
+
+            "result": result
+
         }
 
-    def execute_multiple(self, tools, target):
+    def execute_multiple(
+
+        self,
+
+        tools,
+
+        target
+
+    ):
 
         results = []
 
         for tool in tools:
 
-            results.append(self.execute(tool, target))
+            results.append(
+
+                self.execute(
+
+                    tool,
+
+                    target
+
+                )
+
+            )
 
         return results

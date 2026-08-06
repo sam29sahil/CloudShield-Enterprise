@@ -10,6 +10,7 @@ from app.security import security
 from app.security.forms import SecurityScanForm
 from app.security.services import SecurityService
 
+
 service = SecurityService()
 
 
@@ -22,8 +23,11 @@ def home():
 
     form = SecurityScanForm()
 
-    form.tool.choices = [("", "-- Select Individual Tool --")] + [
-        (tool, tool.title()) for tool in service.available_tools()
+    form.tool.choices = [
+        ("", "-- Select Individual Tool --")
+    ] + [
+        (tool, tool.title())
+        for tool in service.available_tools()
     ]
 
     result = None
@@ -32,16 +36,28 @@ def home():
 
         if form.tool.data:
 
-            result = service.scan(target=form.target.data, tool=form.tool.data)
+            result = service.scan(
+                target=form.target.data,
+                tool=form.tool.data
+            )
 
         else:
 
-            result = service.scan(target=form.target.data, profile=form.profile.data)
+            result = service.scan(
+                target=form.target.data,
+                profile=form.profile.data
+            )
 
     return render_template(
+
         "security/dashboard.html",
+
         form=form,
+
         result=result,
+
         tools=service.available_tools(),
-        categories=service.categories(),
+
+        categories=service.categories()
+
     )

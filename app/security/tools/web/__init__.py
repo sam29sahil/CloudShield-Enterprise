@@ -31,7 +31,11 @@ def _safe_create(tool_class):
 
     except Exception as e:
 
-        logger.exception("Failed to initialize %s: %s", tool_class.__name__, e)
+        logger.exception(
+            "Failed to initialize %s: %s",
+            tool_class.__name__,
+            e
+        )
 
         return None
 
@@ -76,7 +80,11 @@ def get_all_tools():
     Return all successfully initialized tools.
     """
 
-    return {name: tool for name, tool in WEB_TOOLS.items() if tool is not None}
+    return {
+        name: tool
+        for name, tool in WEB_TOOLS.items()
+        if tool is not None
+    }
 
 
 def tool_names():

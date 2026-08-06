@@ -19,16 +19,54 @@ class ScoutSuiteTool(BaseTool):
 
     def aws(self):
 
-        return self.scan("", ["aws"])
+        return self.scan(
+
+            "",
+
+            [
+
+                "aws"
+
+            ]
+
+        )
 
     def azure(self):
 
-        return self.scan("", ["azure"])
+        return self.scan(
+
+            "",
+
+            [
+
+                "azure"
+
+            ]
+
+        )
 
     def gcp(self):
 
-        return self.scan("", ["gcp"])
+        return self.scan(
+
+            "",
+
+            [
+
+                "gcp"
+
+            ]
+
+        )
 
     def info(self):
 
-        return {"name": self.name, "category": "Cloud", "provider": "AWS/Azure/GCP"}
+        return {
+
+            "name": self.name,
+
+            "category": "Cloud",
+
+            "provider": "AWS/Azure/GCP"
+
+        }

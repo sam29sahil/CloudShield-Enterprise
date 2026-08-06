@@ -3,24 +3,86 @@ CloudShield Enterprise
 Web Tool Constants
 """
 
-WHATWEB_DEFAULT = ["--color=never", "--log-json=-"]
+WHATWEB_DEFAULT = [
 
-NIKTO_DEFAULT = ["-ask", "no"]
+    "--color=never",
 
-NUCLEI_DEFAULT = ["-severity", "low,medium,high,critical"]
+    "--log-json=-"
 
-GOBUSTER_DEFAULT = ["dir", "-w", "/usr/share/wordlists/dirb/common.txt"]
+]
 
-FFUF_DEFAULT = ["-w", "/usr/share/wordlists/dirb/common.txt", "-mc", "200"]
+NIKTO_DEFAULT = [
 
-DIRSEARCH_DEFAULT = ["-w", "/usr/share/wordlists/dirb/common.txt"]
+    "-ask",
 
-SQLMAP_DEFAULT = ["--batch"]
+    "no"
 
-ZAP_DEFAULT = ["-cmd"]
+]
 
-DALFOX_DEFAULT = ["url"]
+NUCLEI_DEFAULT = [
 
-XSSTRIKE_DEFAULT = ["--crawl"]
+    "-severity",
 
-WAFW00F_DEFAULT = ["-a"]
+    "low,medium,high,critical"
+
+]
+
+GOBUSTER_DEFAULT = [
+
+    "dir",
+
+    "-w",
+
+    "/usr/share/wordlists/dirb/common.txt"
+
+]
+
+FFUF_DEFAULT = [
+
+    "-w",
+
+    "/usr/share/wordlists/dirb/common.txt",
+
+    "-mc",
+
+    "200"
+
+]
+
+DIRSEARCH_DEFAULT = [
+
+    "-w",
+
+    "/usr/share/wordlists/dirb/common.txt"
+
+]
+
+SQLMAP_DEFAULT = [
+
+    "--batch"
+
+]
+
+ZAP_DEFAULT = [
+
+    "-cmd"
+
+]
+
+DALFOX_DEFAULT = [
+
+    "url"
+
+]
+
+XSSTRIKE_DEFAULT = [
+
+    "--crawl"
+
+]
+
+WAFW00F_DEFAULT = [
+
+    "-a"
+
+]

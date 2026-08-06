@@ -9,14 +9,26 @@ class RiskEngine:
     Calculates overall risk score and security grade.
     """
 
-    SEVERITY_SCORES = {"Critical": 10, "High": 7, "Medium": 4, "Low": 2, "Info": 1}
+    SEVERITY_SCORES = {
+        "Critical": 10,
+        "High": 7,
+        "Medium": 4,
+        "Low": 2,
+        "Info": 1
+    }
 
     @classmethod
     def calculate(cls, findings):
 
         total_score = 0
 
-        summary = {"Critical": 0, "High": 0, "Medium": 0, "Low": 0, "Info": 0}
+        summary = {
+            "Critical": 0,
+            "High": 0,
+            "Medium": 0,
+            "Low": 0,
+            "Info": 0
+        }
 
         for finding in findings:
 
@@ -34,7 +46,7 @@ class RiskEngine:
             "risk_score": total_score,
             "grade": grade,
             "summary": summary,
-            "total_findings": len(findings),
+            "total_findings": len(findings)
         }
 
     @staticmethod
