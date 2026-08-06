@@ -30,8 +30,11 @@ class AzureClient:
         self._subscription = subscription_id
 
         self._credential = DefaultAzureCredential(
-            exclude_interactive_browser_credential=False
-        )
+        exclude_environment_credential=True,
+        exclude_managed_identity_credential=True,
+        exclude_visual_studio_code_credential=True,
+        exclude_interactive_browser_credential=False,
+    )
 
     # --------------------------------------------------
     # Helpers

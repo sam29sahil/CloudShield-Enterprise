@@ -1,61 +1,38 @@
-{% extends "cloud/base.html" %}
+{% extends "cloud/azure/base.html" %}
 
-{% block title %}
-
+{% block azure_title %}
+<i class="bi bi-globe2 text-warning"></i>
 Azure Public IP Addresses
-
 {% endblock %}
 
-{% block content %}
+{% block azure_subtitle %}
+Monitor internet-facing Azure Public IP resources.
+{% endblock %}
+
+{% block breadcrumb %}
+Public IPs
+{% endblock %}
+
+{% block azure_content %}
 
 <div class="container-fluid">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- Statistics -->
 
-        <div>
+    <div class="row g-4 mb-4">
 
-            <h2 class="fw-bold">
+        <div class="col-xl-3">
 
-                <i class="bi bi-globe2 text-primary"></i>
-
-                Public IP Addresses
-
-            </h2>
-
-            <p class="text-muted">
-
-                Azure Public IP inventory.
-
-            </p>
-
-        </div>
-
-        <span class="badge bg-primary fs-6">
-
-            {{ data|length }} Public IPs
-
-        </span>
-
-    </div>
-
-    <div class="row mb-4">
-
-        <div class="col-md-4">
-
-            <div class="card shadow-sm">
+            <div class="card shadow-sm border-0">
 
                 <div class="card-body">
 
                     <small class="text-muted">
-
                         Total Public IPs
-
                     </small>
 
-                    <h2>
-
+                    <h2 class="fw-bold">
                         {{ data|length }}
-
                     </h2>
 
                 </div>
@@ -64,22 +41,18 @@ Azure Public IP Addresses
 
         </div>
 
-        <div class="col-md-4">
+        <div class="col-xl-3">
 
-            <div class="card shadow-sm">
+            <div class="card shadow-sm border-0">
 
                 <div class="card-body">
 
                     <small class="text-muted">
-
                         Static Allocation
-
                     </small>
 
-                    <h2>
-
-                        {{ data | selectattr('allocation','equalto','Static') | list | length }}
-
+                    <h2 class="fw-bold">
+                        {{ data | selectattr("allocation","equalto","Static") | list | length }}
                     </h2>
 
                 </div>
@@ -88,22 +61,38 @@ Azure Public IP Addresses
 
         </div>
 
-        <div class="col-md-4">
+        <div class="col-xl-3">
 
-            <div class="card shadow-sm">
+            <div class="card shadow-sm border-0">
 
                 <div class="card-body">
 
                     <small class="text-muted">
-
-                        IPv4
-
+                        Attached
                     </small>
 
-                    <h2>
+                    <h2 class="fw-bold">
+                        {{ data | selectattr("attached") | list | length }}
+                    </h2>
 
-                        {{ data | selectattr('version','equalto','IPv4') | list | length }}
+                </div>
 
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        IPv4
+                    </small>
+
+                    <h2 class="fw-bold">
+                        {{ data | selectattr("version","equalto","IPv4") | list | length }}
                     </h2>
 
                 </div>
@@ -114,11 +103,23 @@ Azure Public IP Addresses
 
     </div>
 
-    <div class="card shadow-sm">
+    <!-- Inventory -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <strong>
+
+                Azure Public IP Inventory
+
+            </strong>
+
+        </div>
 
         <div class="table-responsive">
 
-            <table class="table table-hover">
+            <table class="table table-hover align-middle mb-0">
 
                 <thead class="table-dark">
 
@@ -128,11 +129,17 @@ Azure Public IP Addresses
 
                         <th>IP Address</th>
 
-                        <th>Allocation</th>
-
                         <th>Version</th>
 
+                        <th>Allocation</th>
+
+                        <th>SKU</th>
+
+                        <th>DNS</th>
+
                         <th>Resource Group</th>
+
+                        <th>Status</th>
 
                     </tr>
 
@@ -144,15 +151,115 @@ Azure Public IP Addresses
 
                     <tr>
 
-                        <td>{{ ip.name }}</td>
+                        <td>
 
-                        <td>{{ ip.ip }}</td>
+                            <strong>
 
-                        <td>{{ ip.allocation }}</td>
+                                {{ ip.name }}
 
-                        <td>{{ ip.version }}</td>
+                            </strong>
 
-                        <td>{{ ip.resource_group }}</td>
+                        </td>
+
+                        <td>
+
+                            {{ ip.ip_address or "-" }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-info">
+
+                                {{ ip.version }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {% if ip.allocation=="Static" %}
+
+                                <span class="badge bg-success">
+
+                                    Static
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    Dynamic
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ ip.sku }}
+
+                        </td>
+
+                        <td>
+
+                            {% if ip.dns and ip.dns != "-" %}
+
+                                {{ ip.dns }}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ ip.resource_group }}
+
+                        </td>
+
+                        <td>
+
+                            {% if ip.attached %}
+
+                                <span class="badge bg-success">
+
+                                    Attached
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Unused
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="8" class="text-center py-5 text-muted">
+
+                            <i class="bi bi-globe2 fs-1 d-block mb-3"></i>
+
+                            No Azure Public IP Addresses Found.
+
+                        </td>
 
                     </tr>
 

@@ -5,6 +5,8 @@ Azure Services
 
 from app.cloud.azure.client import AzureClient
 
+from app.cloud.azure.firewall import AzureFirewall
+from app.cloud.azure.route_tables import AzureRouteTables
 from app.cloud.azure.virtual_machines import AzureVirtualMachines
 from app.cloud.azure.storage import AzureStorage
 from app.cloud.azure.resource_groups import AzureResourceGroups
@@ -34,7 +36,9 @@ class AzureService:
         self.identity = AzureIdentity(self.client)
         self.network = AzureNetwork(self.client)
         self.public_ips_service = AzurePublicIPs(self.client)
+        self.route_tables_service = AzureRouteTables(self.client)
         self.load_balancers_service = AzureLoadBalancers(self.client)
+        self.firewall_service = AzureFirewall(self.client)
         self.security_analyzer = AzureAnalyzer()
         self.risk_engine = AzureRiskEngine()
         
@@ -66,6 +70,14 @@ class AzureService:
     def load_balancers(self):
 
         return self.load_balancers_service.list()
+    
+    def route_tables(self):
+
+        return self.route_tables_service.list()
+    
+    def firewalls(self):
+
+        return self.firewall_service.list()
 
     # -------------------------------------
     # Dashboard Summary

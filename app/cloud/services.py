@@ -223,6 +223,10 @@ class CloudService:
 
     def azure_public_ips(self):
         return azure.public_ips()
+    
+    def azure_route_tables(self):
+
+        return azure.route_tables()
 
     def azure_network_interfaces(self):
         return azure.network.network_interfaces()

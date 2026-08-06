@@ -1,16 +1,16 @@
 {% extends "cloud/azure/base.html" %}
 
 {% block azure_title %}
-<i class="bi bi-diagram-3-fill text-success"></i>
-Azure Virtual Networks
+<i class="bi bi-signpost-split-fill text-primary"></i>
+Azure Route Tables
 {% endblock %}
 
 {% block azure_subtitle %}
-Monitor Azure Virtual Networks, address spaces, peerings and network security.
+Inspect Azure Route Tables, routes, subnet associations and routing configuration.
 {% endblock %}
 
 {% block breadcrumb %}
-Virtual Networks
+Route Tables
 {% endblock %}
 
 {% block azure_content %}
@@ -28,15 +28,11 @@ Virtual Networks
                 <div class="card-body">
 
                     <small class="text-muted">
-
-                        Total VNets
-
+                        Route Tables
                     </small>
 
                     <h2 class="fw-bold">
-
                         {{ data|length }}
-
                     </h2>
 
                 </div>
@@ -52,15 +48,31 @@ Virtual Networks
                 <div class="card-body">
 
                     <small class="text-muted">
-
-                        Total Subnets
-
+                        Total Routes
                     </small>
 
                     <h2 class="fw-bold">
+                        {{ data | sum(attribute='route_count') }}
+                    </h2>
 
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Associated Subnets
+                    </small>
+
+                    <h2 class="fw-bold">
                         {{ data | sum(attribute='subnets') }}
-
                     </h2>
 
                 </div>
@@ -76,39 +88,11 @@ Virtual Networks
                 <div class="card-body">
 
                     <small class="text-muted">
-
-                        Network Peerings
-
+                        BGP Enabled
                     </small>
 
                     <h2 class="fw-bold">
-
-                        {{ data | sum(attribute='peerings') }}
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-xl-3">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body">
-
-                    <small class="text-muted">
-
-                        DDoS Protected
-
-                    </small>
-
-                    <h2 class="fw-bold">
-
-                        {{ data | selectattr("ddos_protection") | list | length }}
-
+                        {{ data | rejectattr("disable_bgp") | list | length }}
                     </h2>
 
                 </div>
@@ -126,9 +110,7 @@ Virtual Networks
         <div class="card-header bg-white">
 
             <strong>
-
-                Azure Virtual Network Inventory
-
+                Azure Route Table Inventory
             </strong>
 
         </div>
@@ -142,21 +124,11 @@ Virtual Networks
                     <tr>
 
                         <th>Name</th>
-
                         <th>Resource Group</th>
-
                         <th>Region</th>
-
-                        <th>Address Space</th>
-
+                        <th>Routes</th>
                         <th>Subnets</th>
-
-                        <th>Peerings</th>
-
-                        <th>DDoS</th>
-
-                        <th>Encryption</th>
-
+                        <th>BGP</th>
                         <th>Status</th>
 
                     </tr>
@@ -165,51 +137,27 @@ Virtual Networks
 
                 <tbody>
 
-                {% for vnet in data %}
+                {% for table in data %}
 
                     <tr>
 
                         <td>
 
                             <strong>
-
-                                {{ vnet.name }}
-
+                                {{ table.name }}
                             </strong>
 
                         </td>
 
                         <td>
 
-                            {{ vnet.resource_group }}
+                            {{ table.resource_group }}
 
                         </td>
 
                         <td>
 
-                            {{ vnet.location }}
-
-                        </td>
-
-                        <td>
-
-                            {% if vnet.address_space %}
-
-                                {% for cidr in vnet.address_space %}
-
-                                    <span class="badge bg-secondary">
-
-                                        {{ cidr }}
-
-                                    </span>
-
-                                {% endfor %}
-
-                            {% else %}
-
-                                -
-
-                            {% endif %}
+                            {{ table.location }}
 
                         </td>
 
@@ -217,7 +165,7 @@ Virtual Networks
 
                             <span class="badge bg-primary">
 
-                                {{ vnet.subnets }}
+                                {{ table.route_count }}
 
                             </span>
 
@@ -227,7 +175,7 @@ Virtual Networks
 
                             <span class="badge bg-info">
 
-                                {{ vnet.peerings }}
+                                {{ table.subnets }}
 
                             </span>
 
@@ -235,19 +183,19 @@ Virtual Networks
 
                         <td>
 
-                            {% if vnet.ddos_protection %}
+                            {% if table.disable_bgp %}
 
-                                <span class="badge bg-success">
+                                <span class="badge bg-danger">
 
-                                    Enabled
+                                    Disabled
 
                                 </span>
 
                             {% else %}
 
-                                <span class="badge bg-danger">
+                                <span class="badge bg-success">
 
-                                    Disabled
+                                    Enabled
 
                                 </span>
 
@@ -257,17 +205,23 @@ Virtual Networks
 
                         <td>
 
-                            {{ vnet.encryption }}
+                            {% if table.route_count > 0 %}
 
-                        </td>
+                                <span class="badge bg-success">
 
-                        <td>
+                                    Healthy
 
-                            <span class="badge bg-success">
+                                </span>
 
-                                {{ vnet.provisioning_state }}
+                            {% else %}
 
-                            </span>
+                                <span class="badge bg-warning text-dark">
+
+                                    Empty
+
+                                </span>
+
+                            {% endif %}
 
                         </td>
 
@@ -277,11 +231,11 @@ Virtual Networks
 
                     <tr>
 
-                        <td colspan="9" class="text-center py-5 text-muted">
+                        <td colspan="7" class="text-center py-5 text-muted">
 
-                            <i class="bi bi-diagram-3-fill fs-1 d-block mb-3"></i>
+                            <i class="bi bi-signpost-split-fill fs-1 d-block mb-3"></i>
 
-                            No Virtual Networks Found.
+                            No Azure Route Tables Found.
 
                         </td>
 

@@ -238,3 +238,25 @@ def azure_public_ips():
         "cloud/azure/public_ips.html",
         data=data,
     )
+
+@cloud.route("/azure/route-tables")
+@login_required
+def azure_route_tables():
+
+    data = service.azure_route_tables()
+
+    return render_template(
+        "cloud/azure/route_tables.html",
+        data=data["data"],
+    )
+    
+@cloud.route("/azure/firewalls")
+@login_required
+def azure_firewalls():
+
+    data = service.azure_firewalls()
+
+    return render_template(
+        "cloud/azure/firewall.html",
+        data=data["data"],
+    )    
