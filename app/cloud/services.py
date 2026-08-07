@@ -242,6 +242,10 @@ class CloudService:
     def azure_application_gateways(self):
 
         return azure.application_gateways()
+    
+    def azure_vpn_gateways(self):
+
+        return azure.vpn_gateways()
 
     # ==================================================
     # Azure Security

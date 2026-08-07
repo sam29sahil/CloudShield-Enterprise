@@ -281,4 +281,15 @@ def azure_application_gateways():
     return render_template(
         "cloud/azure/application_gateway.html",
         data=result["data"],
-    )       
+    )  
+    
+@cloud.route("/azure/vpn-gateways")
+@login_required
+def azure_vpn_gateways():
+
+    result = service.azure_vpn_gateways()
+
+    return render_template(
+        "cloud/azure/vpn_gateway.html",
+        data=result["data"],
+    )         

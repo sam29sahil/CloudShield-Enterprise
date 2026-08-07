@@ -21,7 +21,7 @@ from app.cloud.azure.risk import AzureRiskEngine
 from app.cloud.azure.public_ips import AzurePublicIPs
 from app.cloud.azure.nat_gateway import AzureNATGateway
 from app.cloud.azure.application_gateway import AzureApplicationGateway
-
+from app.cloud.azure.vpn_gateway import AzureVPNGateway
 
 class AzureService:
 
@@ -42,6 +42,7 @@ class AzureService:
         self.load_balancers_service = AzureLoadBalancers(self.client)
         self.firewall_service = AzureFirewall(self.client)
         self.application_gateway_service = AzureApplicationGateway(self.client)
+        self.vpn_gateway_service = AzureVPNGateway(self.client)
         self.security_analyzer = AzureAnalyzer()
         self.risk_engine = AzureRiskEngine()
         self.nat_gateway_service = AzureNATGateway(self.client)
@@ -89,6 +90,10 @@ class AzureService:
     def application_gateways(self):
 
         return self.application_gateway_service.list()
+    
+    def vpn_gateways(self):
+
+        return self.vpn_gateway_service.list()
 
     # -------------------------------------
     # Dashboard Summary
