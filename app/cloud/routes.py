@@ -292,4 +292,26 @@ def azure_vpn_gateways():
     return render_template(
         "cloud/azure/vpn_gateway.html",
         data=result["data"],
+    )      
+    
+@cloud.route("/azure/expressroute")
+@login_required
+def azure_express_routes():
+
+    result = service.azure_express_routes()
+
+    return render_template(
+        "cloud/azure/expressroute.html",
+        data=result["data"],
+    )  
+    
+@cloud.route("/azure/private-endpoints")
+@login_required
+def azure_private_endpoints():
+
+    result = service.azure_private_endpoints()
+
+    return render_template(
+        "cloud/azure/private_endpoints.html",
+        data=result["data"],
     )         

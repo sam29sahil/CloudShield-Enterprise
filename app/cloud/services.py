@@ -246,6 +246,14 @@ class CloudService:
     def azure_vpn_gateways(self):
 
         return azure.vpn_gateways()
+    
+    def azure_express_routes(self):
+
+        return azure.express_routes()
+    
+    def azure_private_endpoints(self):
+
+        return azure.private_endpoints()
 
     # ==================================================
     # Azure Security

@@ -22,6 +22,8 @@ from app.cloud.azure.public_ips import AzurePublicIPs
 from app.cloud.azure.nat_gateway import AzureNATGateway
 from app.cloud.azure.application_gateway import AzureApplicationGateway
 from app.cloud.azure.vpn_gateway import AzureVPNGateway
+from app.cloud.azure.expressroute import AzureExpressRoute
+from app.cloud.azure.private_endpoints import AzurePrivateEndpoints
 
 class AzureService:
 
@@ -46,7 +48,8 @@ class AzureService:
         self.security_analyzer = AzureAnalyzer()
         self.risk_engine = AzureRiskEngine()
         self.nat_gateway_service = AzureNATGateway(self.client)
-
+        self.expressroute_service = AzureExpressRoute(self.client)
+        self.private_endpoint_service = AzurePrivateEndpoints(self.client)
     # -------------------------------------
     # Connection Status
     # -------------------------------------
@@ -95,6 +98,13 @@ class AzureService:
 
         return self.vpn_gateway_service.list()
 
+    def express_routes(self):
+
+        return self.expressroute_service.list()
+    
+    def private_endpoints(self):
+
+        return self.private_endpoint_service.list()
     # -------------------------------------
     # Dashboard Summary
     # -------------------------------------
