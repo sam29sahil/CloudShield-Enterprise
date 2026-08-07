@@ -24,6 +24,12 @@ from app.cloud.azure.application_gateway import AzureApplicationGateway
 from app.cloud.azure.vpn_gateway import AzureVPNGateway
 from app.cloud.azure.expressroute import AzureExpressRoute
 from app.cloud.azure.private_endpoints import AzurePrivateEndpoints
+from app.cloud.azure.bastion import AzureBastion
+from app.cloud.azure.vm_scale_sets import AzureVMScaleSets
+from app.cloud.azure.managed_disks import AzureManagedDisks
+from app.cloud.azure.snapshots import AzureSnapshots
+from app.cloud.azure.images import AzureImages
+from app.cloud.azure.availability_sets import AzureAvailabilitySets
 
 class AzureService:
 
@@ -44,9 +50,15 @@ class AzureService:
         self.load_balancers_service = AzureLoadBalancers(self.client)
         self.firewall_service = AzureFirewall(self.client)
         self.application_gateway_service = AzureApplicationGateway(self.client)
+        self.bastion_service = AzureBastion(self.client)
         self.vpn_gateway_service = AzureVPNGateway(self.client)
         self.security_analyzer = AzureAnalyzer()
         self.risk_engine = AzureRiskEngine()
+        self.image_service = AzureImages(self.client)
+        self.availability_set_service = AzureAvailabilitySets(self.client)
+        self.snapshot_service = AzureSnapshots(self.client)
+        self.managed_disk_service = AzureManagedDisks(self.client)
+        self.vm_scale_set_service = AzureVMScaleSets(self.client)
         self.nat_gateway_service = AzureNATGateway(self.client)
         self.expressroute_service = AzureExpressRoute(self.client)
         self.private_endpoint_service = AzurePrivateEndpoints(self.client)
@@ -105,6 +117,30 @@ class AzureService:
     def private_endpoints(self):
 
         return self.private_endpoint_service.list()
+    
+    def bastion_hosts(self):
+
+        return self.bastion_service.list()
+    
+    def vm_scale_sets(self):
+
+        return self.vm_scale_set_service.list()
+    
+    def managed_disks(self):
+
+        return self.managed_disk_service.list()
+    
+    def snapshots(self):
+
+        return self.snapshot_service.list()
+    
+    def images(self):
+
+        return self.image_service.list()
+    
+    def availability_sets(self):
+
+        return self.availability_set_service.list()
     # -------------------------------------
     # Dashboard Summary
     # -------------------------------------

@@ -1,0 +1,267 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-pc-display text-dark"></i>
+Azure Bastion
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure Bastion Hosts, secure browser-based RDP/SSH access and deployment status.
+{% endblock %}
+
+{% block breadcrumb %}
+Azure Bastion
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+    <!-- Summary -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Bastion Hosts
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Scale Units
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|sum(attribute='scale_units') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        IP Configurations
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|sum(attribute='ip_configurations') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Healthy Hosts
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|selectattr('provisioning_state','equalto','Succeeded')|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Inventory -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <strong>
+
+                Azure Bastion Inventory
+
+            </strong>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Name</th>
+                        <th>Resource Group</th>
+                        <th>Region</th>
+                        <th>SKU</th>
+                        <th>Scale Units</th>
+                        <th>IP Configurations</th>
+                        <th>DNS Name</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for bastion in data %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ bastion.name }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ bastion.resource_group }}
+
+                        </td>
+
+                        <td>
+
+                            {{ bastion.location }}
+
+                        </td>
+
+                        <td>
+
+                            {{ bastion.sku }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                {{ bastion.scale_units }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-info">
+
+                                {{ bastion.ip_configurations }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {{ bastion.dns_name }}
+
+                        </td>
+
+                        <td>
+
+                            {% if bastion.provisioning_state == "Succeeded" %}
+
+                                <span class="badge bg-success">
+
+                                    Healthy
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    {{ bastion.provisioning_state }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="8" class="text-center py-5 text-muted">
+
+                            <i class="bi bi-pc-display fs-1 d-block mb-3"></i>
+
+                            No Azure Bastion Hosts Found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

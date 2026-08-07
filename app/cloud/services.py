@@ -254,7 +254,30 @@ class CloudService:
     def azure_private_endpoints(self):
 
         return azure.private_endpoints()
+    
+    def azure_bastion_hosts(self):
 
+        return azure.bastion_hosts()
+    
+    def azure_vm_scale_sets(self):
+
+        return azure.vm_scale_sets()
+    
+    def azure_managed_disks(self):
+
+        return azure.managed_disks()
+    
+    def azure_snapshots(self):
+
+        return azure.snapshots()
+    
+    def azure_images(self):
+
+        return azure.images()
+
+    def azure_availability_sets(self):
+
+        return azure.availability_sets()
     # ==================================================
     # Azure Security
     # ==================================================

@@ -314,4 +314,70 @@ def azure_private_endpoints():
     return render_template(
         "cloud/azure/private_endpoints.html",
         data=result["data"],
-    )         
+    ) 
+    
+@cloud.route("/azure/bastion")
+@login_required
+def azure_bastion_hosts():
+
+    result = service.azure_bastion_hosts()
+
+    return render_template(
+        "cloud/azure/bastion.html",
+        data=result["data"],
+    ) 
+    
+@cloud.route("/azure/vm-scale-sets")
+@login_required
+def azure_vm_scale_sets():
+
+    result = service.azure_vm_scale_sets()
+
+    return render_template(
+        "cloud/azure/vm_scale_sets.html",
+        data=result["data"],
+    )
+    
+@cloud.route("/azure/managed-disks")
+@login_required
+def azure_managed_disks():
+
+    result = service.azure_managed_disks()
+
+    return render_template(
+        "cloud/azure/managed_disks.html",
+        data=result["data"],
+    )
+    
+@cloud.route("/azure/snapshots")
+@login_required
+def azure_snapshots():
+
+    result = service.azure_snapshots()
+
+    return render_template(
+        "cloud/azure/snapshots.html",
+        data=result["data"],
+    ) 
+    
+@cloud.route("/azure/images")
+@login_required
+def azure_images():
+
+    result = service.azure_images()
+
+    return render_template(
+        "cloud/azure/images.html",
+        data=result["data"],
+    ) 
+    
+@cloud.route("/azure/availability-sets")
+@login_required
+def azure_availability_sets():
+
+    result = service.azure_availability_sets()
+
+    return render_template(
+        "cloud/azure/availability_sets.html",
+        data=result["data"],
+    )                             
