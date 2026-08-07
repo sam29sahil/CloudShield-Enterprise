@@ -1,5 +1,14 @@
 {% extends "cloud/base.html" %}
 
+{% block styles %}
+{{ super() }}
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/cloud.css') }}">
+
+{% endblock %}
+
+
 {% block azure_title %}
 
 <i class="bi bi-microsoft text-primary"></i>
@@ -415,6 +424,45 @@ Dashboard
 
 </div>
 
+<!-- Azure Application Gateway -->
+
+<div class="col-xl-4">
+
+    <a href="{{ url_for('cloud.azure_application_gateways') }}"
+       class="service-card large">
+
+        <div class="service-icon bg-primary">
+
+            <i class="bi bi-diagram-3-fill"></i>
+
+        </div>
+
+        <div class="service-content">
+
+            <h4>
+
+                Application Gateway
+
+            </h4>
+
+            <p>
+
+                Inspect WAF, listeners, backend pools and routing rules.
+
+            </p>
+
+        </div>
+
+        <div class="service-arrow">
+
+            <i class="bi bi-arrow-right"></i>
+
+        </div>
+
+    </a>
+
+</div>
+
 <!-- Azure Route Tables -->
 
 <div class="col-xl-4">
@@ -477,6 +525,44 @@ Dashboard
             <p>
 
                 Inspect firewall policies, threat intelligence and rule collections.
+
+            </p>
+
+        </div>
+
+        <div class="service-arrow">
+
+            <i class="bi bi-arrow-right"></i>
+
+        </div>
+
+    </a>
+
+</div>
+<!-- Azure NAT Gateway -->
+
+<div class="col-xl-4">
+
+    <a href="{{ url_for('cloud.azure_nat_gateways') }}"
+       class="service-card large">
+
+        <div class="service-icon bg-warning">
+
+            <i class="bi bi-router-fill"></i>
+
+        </div>
+
+        <div class="service-content">
+
+            <h4>
+
+                NAT Gateway
+
+            </h4>
+
+            <p>
+
+                Monitor outbound internet connectivity, public IPs and subnet associations.
 
             </p>
 

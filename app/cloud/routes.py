@@ -259,4 +259,26 @@ def azure_firewalls():
     return render_template(
         "cloud/azure/firewall.html",
         data=data["data"],
-    )    
+    )  
+    
+@cloud.route("/azure/nat-gateways")
+@login_required
+def azure_nat_gateways():
+
+    data = service.azure_nat_gateways()
+
+    return render_template(
+        "cloud/azure/nat_gateway.html",
+        data=data["data"],
+    )   
+    
+@cloud.route("/azure/application-gateways")
+@login_required
+def azure_application_gateways():
+
+    result = service.azure_application_gateways()
+
+    return render_template(
+        "cloud/azure/application_gateway.html",
+        data=result["data"],
+    )       

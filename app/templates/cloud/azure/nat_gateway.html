@@ -1,0 +1,266 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-router-fill text-warning"></i>
+Azure NAT Gateway
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure NAT Gateway resources and outbound connectivity.
+{% endblock %}
+
+{% block breadcrumb %}
+NAT Gateway
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+<div class="row g-4 mb-4">
+
+<div class="col-xl-3">
+
+<div class="card shadow-sm border-0">
+
+<div class="card-body">
+
+<small class="text-muted">
+NAT Gateways
+</small>
+
+<h2 class="fw-bold">
+{{ data|length }}
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-xl-3">
+
+<div class="card shadow-sm border-0">
+
+<div class="card-body">
+
+<small class="text-muted">
+Public IPs
+</small>
+
+<h2 class="fw-bold">
+{{ data|sum(attribute='public_ips') }}
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-xl-3">
+
+<div class="card shadow-sm border-0">
+
+<div class="card-body">
+
+<small class="text-muted">
+IP Prefixes
+</small>
+
+<h2 class="fw-bold">
+{{ data|sum(attribute='public_ip_prefixes') }}
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-xl-3">
+
+<div class="card shadow-sm border-0">
+
+<div class="card-body">
+
+<small class="text-muted">
+Subnets
+</small>
+
+<h2 class="fw-bold">
+{{ data|sum(attribute='subnets') }}
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow-sm border-0">
+
+<div class="card-header bg-white">
+
+<strong>
+
+Azure NAT Gateway Inventory
+
+</strong>
+
+</div>
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Name</th>
+
+<th>Resource Group</th>
+
+<th>Region</th>
+
+<th>SKU</th>
+
+<th>Public IPs</th>
+
+<th>Prefixes</th>
+
+<th>Subnets</th>
+
+<th>Idle Timeout</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for nat in data %}
+
+<tr>
+
+<td>
+
+<strong>
+
+{{ nat.name }}
+
+</strong>
+
+</td>
+
+<td>
+
+{{ nat.resource_group }}
+
+</td>
+
+<td>
+
+{{ nat.location }}
+
+</td>
+
+<td>
+
+{{ nat.sku }}
+
+</td>
+
+<td>
+
+<span class="badge bg-primary">
+
+{{ nat.public_ips }}
+
+</span>
+
+</td>
+
+<td>
+
+<span class="badge bg-info">
+
+{{ nat.public_ip_prefixes }}
+
+</span>
+
+</td>
+
+<td>
+
+<span class="badge bg-success">
+
+{{ nat.subnets }}
+
+</span>
+
+</td>
+
+<td>
+
+{{ nat.idle_timeout }} min
+
+</td>
+
+<td>
+
+{% if nat.provisioning_state=="Succeeded" %}
+
+<span class="badge bg-success">
+
+Healthy
+
+</span>
+
+{% else %}
+
+<span class="badge bg-warning text-dark">
+
+{{ nat.provisioning_state }}
+
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+<td colspan="9" class="text-center py-5 text-muted">
+
+<i class="bi bi-router-fill fs-1 d-block mb-3"></i>
+
+No Azure NAT Gateways Found.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

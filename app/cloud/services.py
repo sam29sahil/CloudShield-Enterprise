@@ -151,6 +151,7 @@ class CloudService:
     def config(self):
         return aws.scan_config()
 
+
     # ==================================================
     # Full AWS Scan
     # ==================================================
@@ -233,6 +234,14 @@ class CloudService:
 
     def azure_load_balancers(self):
         return azure.load_balancers.list()
+    
+    def azure_nat_gateways(self):
+
+        return azure.nat_gateways()
+    
+    def azure_application_gateways(self):
+
+        return azure.application_gateways()
 
     # ==================================================
     # Azure Security

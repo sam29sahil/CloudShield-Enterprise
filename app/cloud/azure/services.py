@@ -19,6 +19,8 @@ from app.cloud.azure.load_balancers import AzureLoadBalancers
 from app.cloud.azure.analyzer import AzureAnalyzer
 from app.cloud.azure.risk import AzureRiskEngine
 from app.cloud.azure.public_ips import AzurePublicIPs
+from app.cloud.azure.nat_gateway import AzureNATGateway
+from app.cloud.azure.application_gateway import AzureApplicationGateway
 
 
 class AzureService:
@@ -39,9 +41,10 @@ class AzureService:
         self.route_tables_service = AzureRouteTables(self.client)
         self.load_balancers_service = AzureLoadBalancers(self.client)
         self.firewall_service = AzureFirewall(self.client)
+        self.application_gateway_service = AzureApplicationGateway(self.client)
         self.security_analyzer = AzureAnalyzer()
         self.risk_engine = AzureRiskEngine()
-        
+        self.nat_gateway_service = AzureNATGateway(self.client)
 
     # -------------------------------------
     # Connection Status
@@ -78,6 +81,14 @@ class AzureService:
     def firewalls(self):
 
         return self.firewall_service.list()
+    
+    def nat_gateways(self):
+
+        return self.nat_gateway_service.list()
+    
+    def application_gateways(self):
+
+        return self.application_gateway_service.list()
 
     # -------------------------------------
     # Dashboard Summary
