@@ -1,871 +1,1164 @@
-# 🛡️ CloudShield Enterprise
+# CloudShield Enterprise
 
-> Enterprise Cybersecurity, Cloud Security and Infrastructure Management Platform built with Flask.
+> **Enterprise Cloud & Web Security Assessment Platform**
 
-![Python](https://img.shields.io/badge/Python-3.12+-blue)
-![Flask](https://img.shields.io/badge/Flask-3.x-black)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple)
-![SQLite](https://img.shields.io/badge/SQLite-Database-blue)
-![Docker](https://img.shields.io/badge/Docker-Supported-2496ED)
-![AWS](https://img.shields.io/badge/AWS-Cloud-orange)
-![License](https://img.shields.io/badge/License-MIT-green)
+CloudShield Enterprise is a Flask-based cybersecurity platform designed to bring website security assessment, Azure cloud security assessment, centralized findings management, risk scoring, recommendations, dashboards, and security reporting into a single application.
+
+The project is designed as a **BTech final-year cybersecurity project** and follows a modular architecture so additional cloud providers, scanners, and security capabilities can be integrated later.
 
 ---
 
-# 📖 Overview
+## Table of Contents
 
-CloudShield Enterprise is an enterprise-grade cybersecurity and cloud security platform developed using **Python**, **Flask**, and **Bootstrap**.
-
-The platform centralizes cybersecurity operations into a single dashboard by combining:
-
-- Vulnerability Assessment
-- Asset Management
-- Findings Management
-- Docker Management
-- Cloud Security
-- Security Analytics
-- Executive Reporting
-- Notification Center
-- PDF/CSV/JSON Reporting
-
-CloudShield is designed as a modular security platform suitable for enterprise environments, educational projects, and cybersecurity research.
-
----
-
-# 🎯 Objectives
-
-The project aims to:
-
-- Simplify vulnerability assessment
-- Centralize security monitoring
-- Improve asset visibility
-- Provide executive-level reporting
-- Integrate cloud security services
-- Support Docker infrastructure management
-- Deliver a professional enterprise dashboard
+- [Overview](#overview)
+- [Project Objectives](#project-objectives)
+- [Key Features](#key-features)
+- [Architecture](#architecture)
+- [Technology Stack](#technology-stack)
+- [Project Modules](#project-modules)
+- [Security Assessment Workflow](#security-assessment-workflow)
+- [Azure Security Assessment](#azure-security-assessment)
+- [Findings Engine](#findings-engine)
+- [Risk and Security Score](#risk-and-security-score)
+- [Reporting](#reporting)
+- [Dashboard](#dashboard)
+- [Project Structure](#project-structure)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Running the Application](#running-the-application)
+- [Azure Configuration](#azure-configuration)
+- [Database](#database)
+- [Git and GitHub](#git-and-github)
+- [Security Considerations](#security-considerations)
+- [Testing](#testing)
+- [Limitations](#limitations)
+- [Future Enhancements](#future-enhancements)
+- [Academic Project Information](#academic-project-information)
+- [License](#license)
 
 ---
 
-# ✨ Key Features
+## Overview
 
-## 🔐 Authentication
+CloudShield Enterprise provides a centralized interface for performing security assessments and managing their results.
 
-- Secure Login
-- User Registration
-- Password Hashing
-- Session Management
-- Protected Routes
+The platform currently combines two primary assessment paths:
 
----
+### 1. Website Security Assessment
 
-## 📊 Dashboard
+The basic scanner evaluates a web target and can provide information related to:
 
-- Security Overview
-- Live Statistics
-- Recent Activity
-- Security Score
-- Quick Navigation
+- Website analysis
+- HTTP security headers
+- SSL/TLS
+- DNS
+- WHOIS
+- Technology detection
+- Open ports
+- Security findings
+- Recommendations
 
----
+### 2. Azure Cloud Security Assessment
 
-## 🔍 Security Scanner
+The Azure Basic Security Scanner connects to Microsoft Azure and evaluates the available Azure environment information.
 
-- Universal Scanner
-- Basic Scanner
-- Multiple Security Tools
-- Scan History
-- Detailed Scan Reports
-- Security Score Calculation
+The Azure assessment includes:
 
----
+- Resource Groups
+- Virtual Machines
+- Virtual Networks
+- Subnets
+- Network Security Groups
+- Network Interfaces
+- Key Vaults
+- Microsoft Defender information
+- Security findings
+- Risk assessment
+- Security score
+- Recommendations
+- Azure-specific reporting
 
-## 🖥 Asset Management
-
-- Add Assets
-- Edit Assets
-- Delete Assets
-- Asset Categories
-- Asset Tracking
-
----
-
-## 🚨 Findings Management
-
-- Security Findings
-- Severity Classification
-- Filtering
-- Search
-- Status Tracking
+The Azure scanner is intentionally scoped as a **basic Azure security assessment** rather than a complete replacement for enterprise cloud security products.
 
 ---
 
-## 📈 Analytics
+# Project Objectives
 
-- Security Statistics
-- Charts
-- Severity Distribution
-- Trends
-- Top Assets
-- Scanner Usage
+The primary objectives of CloudShield Enterprise are:
 
----
-
-## 📄 Reports
-
-- PDF Reports
-- CSV Export
-- JSON Export
-- Report Viewer
-- Report Management
-
----
-
-## 🔔 Notifications
-
-- Scan Notifications
-- Security Alerts
-- Mark as Read
-- Delete Notifications
-- Global Notification Badge
+1. Build a centralized cybersecurity assessment platform.
+2. Provide a web-based security assessment workflow.
+3. Analyze website security configuration.
+4. Integrate Azure cloud security assessment.
+5. Centralize security findings.
+6. Assign severity to findings.
+7. Calculate security risk.
+8. Generate security scores.
+9. Provide remediation recommendations.
+10. Generate professional security reports.
+11. Provide a dashboard for security visibility.
+12. Maintain scan and asset history.
+13. Create a modular foundation for future security integrations.
 
 ---
 
-## ⚙ Settings
+# Key Features
 
-CloudShield includes a centralized settings module for user preferences and application configuration.
+## Authentication
 
-Features:
+- User registration
+- User login
+- Password hashing
+- Logout
+- Protected application routes
 
-- Profile Management
-- Password Change
-- Scanner Preferences
-- Report Preferences
-- Security Preferences
-- System Information
+## Dashboard
 
----
+The dashboard provides centralized visibility into:
 
-## 🐳 Docker Management
-
-The Docker module provides enterprise container management directly from the dashboard.
-
-Features:
-
-- Docker Dashboard
-- Running Containers
-- Container Details
-- Container Logs
-- Container Statistics
-- Images
-- Networks
-- Volumes
-- Start Container
-- Stop Container
-- Restart Container
-- Remove Container
-
----
-
-## ☁ Cloud Security
-
-CloudShield integrates cloud security monitoring for Amazon Web Services (AWS).
-
-Modules:
-
-- AWS Dashboard
-- EC2 Monitoring
-- Amazon S3
-- IAM
-- Security Groups
-- CloudTrail
-- GuardDuty
-- Inspector
-
-Cloud services are designed to support real AWS accounts while also functioning gracefully when no AWS credentials are configured.
-
----
-
-## 👨‍💼 Executive Dashboard
-
-The Executive Dashboard provides high-level security insights for managers and decision-makers.
-
-Includes:
-
-- Security KPIs
-- Executive Summary
-- Security Trends
-- Asset Overview
-- Vulnerability Distribution
-- Overall Security Score
-
----
-
-## 🌐 REST API
-
-CloudShield exposes REST APIs for integration with external tools.
-
-Current API capabilities include:
-
-- Dashboard Information
+- Projects
 - Assets
-- Reports
-- Security Findings
-- Scanner Data
-- Notifications
+- Scans
+- Findings
+- Security status
+- Cloud/security information
+- Recent activity
+- Security metrics
 
-The API is designed for future integration with automation platforms and SIEM solutions.
+## Project Management
+
+- Create projects
+- View projects
+- Edit projects
+- Delete projects
+- Associate assets and scans with projects
+
+## Asset Management
+
+Assets can be associated with projects and security assessments.
+
+Examples include:
+
+- Website targets
+- Azure subscriptions
+- Cloud resources
+
+## Website Scanner
+
+The basic scanner supports security assessment areas such as:
+
+- HTTP security headers
+- SSL/TLS
+- DNS
+- WHOIS
+- Technology detection
+- Port information
+- Website analysis
+
+## Findings Management
+
+Security findings are centralized through the findings engine.
+
+Each finding can contain information such as:
+
+- Title
+- Severity
+- Description
+- Recommendation
+- Evidence
+- CVSS
+- CWE
+- OWASP information
+- Reference
+- Status
+- Asset
+- Scan
+
+## Azure Security Scanner
+
+The Azure scanner collects and analyzes cloud information including:
+
+- Resource Groups
+- Virtual Machines
+- Virtual Networks
+- Subnets
+- Network Security Groups
+- Network Interfaces
+- Key Vaults
+- Microsoft Defender information
+
+## Risk Assessment
+
+Findings are passed through the risk engine to determine an overall risk level.
+
+## Security Score
+
+The security assessment produces a security score that can be displayed on dashboards and reports.
+
+## Recommendations
+
+The platform generates remediation recommendations from detected security findings.
+
+## Reporting
+
+CloudShield Enterprise supports report generation for security assessments.
+
+Normal website reports contain website-oriented sections.
+
+Azure reports contain Azure-specific sections.
 
 ---
 
-# 🛠 Technology Stack
+# Architecture
 
-## Backend
-
-- Python
-- Flask
-- SQLAlchemy
-- Flask-Login
-- Flask-Bcrypt
-- Flask-Migrate
-- WTForms
-
----
-
-## Frontend
-
-- HTML5
-- CSS3
-- Bootstrap 5
-- JavaScript
-- Jinja2
-- Bootstrap Icons
-
----
-
-## Database
-
-Development
-
-- SQLite
-
-Production
-
-- PostgreSQL
-
----
-
-## Security Tools
-
-- Nmap
-- Custom Scanner Engine
-- Docker SDK
-- Boto3 (AWS)
-
----
-
-## Cloud Services
-
-- Amazon EC2
-- Amazon S3
-- IAM
-- CloudTrail
-- GuardDuty
-- Inspector
-
----
-
-## Infrastructure
-
-- Docker
-- Gunicorn
-- Nginx
-- Linux
-- Windows
-
----
-
-# 📁 Project Structure
+CloudShield Enterprise follows a modular Flask architecture.
 
 ```text
-CloudShield/
+                    CloudShield Enterprise
+                              |
+             +----------------+----------------+
+             |                                 |
+       Web Security                      Cloud Security
+             |                                 |
+      Basic Scanner                    Azure Scanner
+             |                                 |
+             +----------------+----------------+
+                              |
+                       Findings Engine
+                              |
+                +-------------+-------------+
+                |             |             |
+              Risk          Score      Recommendations
+                |             |             |
+                +-------------+-------------+
+                              |
+                         Reporting
+                              |
+                    +---------+---------+
+                    |                   |
+                 Dashboard           PDF/JSON
+```
+
+---
+
+# Security Assessment Workflow
+
+The general assessment workflow is:
+
+```text
+Target / Cloud
+      |
+      v
+Scanner
+      |
+      v
+Inventory / Assessment Data
+      |
+      v
+Analyzer
+      |
+      v
+Security Findings
+      |
+      v
+Findings Engine
+      |
+      v
+Risk Assessment
+      |
+      v
+Security Score
+      |
+      v
+Recommendations
+      |
+      v
+Dashboard / Reports
+```
+
+---
+
+# Azure Security Assessment
+
+The Azure scanner is designed around the following pipeline:
+
+```text
+Azure Authentication
+        |
+        v
+Azure Resource Inventory
+        |
+        +---- Resource Groups
+        |
+        +---- Virtual Machines
+        |
+        +---- Virtual Networks
+        |
+        +---- Subnets
+        |
+        +---- Network Security Groups
+        |
+        +---- Network Interfaces
+        |
+        +---- Key Vaults
+        |
+        +---- Defender
+        |
+        v
+Azure Analyzer
+        |
+        v
+Security Findings
+        |
+        v
+Risk Engine
+        |
+        v
+Security Score
+        |
+        v
+Recommendations
+        |
+        v
+Azure Report
+```
+
+## Azure Network Assessment
+
+The network component can inspect information such as:
+
+- Virtual networks
+- Subnets
+- Network Security Groups
+- Security rules
+- Network interfaces
+- IP configuration
+- Network exposure
+
+Security rules can contain information such as:
+
+- Rule name
+- Priority
+- Direction
+- Allow/Deny
+- Protocol
+- Source
+- Source port
+- Destination
+- Destination port
+
+## Virtual Machine Assessment
+
+The Azure assessment can collect VM information such as:
+
+- VM name
+- Resource group
+- Location
+- Operating system
+- Size
+- Network interfaces
+- Public exposure information
+
+## Key Vault Assessment
+
+The scanner inventories Key Vault resources and provides the collected information to the security analysis pipeline.
+
+## Microsoft Defender
+
+The Azure security pipeline includes Microsoft Defender information such as:
+
+- Secure score
+- Alerts
+- Recommendations
+
+These results can contribute to the security assessment and findings.
+
+---
+
+# Findings Engine
+
+The findings engine provides a common security finding model across assessment types.
+
+A finding can contain:
+
+```text
+Finding
+├── ID
+├── Title
+├── Severity
+├── Description
+├── Recommendation
+├── Evidence
+├── CVSS
+├── CWE
+├── OWASP
+├── Reference
+├── Status
+├── Asset
+└── Scan
+```
+
+This allows findings from the Azure scanner to be connected to the same application-wide findings pipeline used by the rest of CloudShield Enterprise.
+
+---
+
+# Risk and Security Score
+
+The assessment pipeline calculates:
+
+```text
+Findings
+   |
+   v
+Risk Engine
+   |
+   v
+Risk Level
+   |
+   v
+Security Score
+```
+
+Typical severity categories include:
+
+- Critical
+- High
+- Medium
+- Low
+- Info
+
+The final score and risk level are surfaced through the dashboard and reports.
+
+> The exact score is produced by the application's implemented scoring engine; it should not be interpreted as an official Microsoft Azure security score unless explicitly identified as such.
+
+---
+
+# Reporting
+
+CloudShield Enterprise uses different report sections depending on the assessment type.
+
+## Website Report
+
+Normal/basic website reports can contain:
+
+```text
+Cover
+Executive Summary
+Website Analysis
+Security Headers
+SSL/TLS
+DNS
+WHOIS
+Technology
+Ports
+Findings
+Recommendations
+Appendix
+Raw Output
+```
+
+## Azure Cloud Report
+
+Azure reports can contain:
+
+```text
+Cover
+Executive Summary
+Cloud Security Assessment
+Security Score
+Risk Level
+Azure Resource Inventory
+Resource Groups
+Virtual Machines
+Virtual Networks
+Subnets
+Network Security Groups
+Network Interfaces
+Key Vaults
+Microsoft Defender
+Cloud Security Findings
+Cloud Recommendations
+Azure Inventory Details
+Findings
+Recommendations
+Appendix
+Raw Output
+```
+
+The PDF generator detects whether the scan is a cloud/Azure assessment and selects the appropriate report sections.
+
+---
+
+# Dashboard
+
+The dashboard is the central monitoring interface of CloudShield Enterprise.
+
+It can present:
+
+- Project statistics
+- Asset information
+- Deployment information
+- Scan information
+- Findings
+- Security scores
+- Risk information
+- Cloud information
+- Recent activity
+- System status
+
+The Azure dashboard can expose the results of the Azure security assessment without requiring users to inspect raw Azure API output.
+
+---
+
+# Project Modules
+
+The major application areas include:
+
+```text
+app/
+├── auth/
+├── dashboard/
+├── projects/
+├── assets/
+├── findings/
+├── scanner/
+├── cloud/
+├── analytics/
+├── reports/
+├── monitoring/
+├── settings/
+├── models/
+├── services/
+├── api/
+├── templates/
+├── static/
+└── extensions.py
+```
+
+The exact project tree can evolve as modules are added or reorganized.
+
+---
+
+# Project Structure
+
+A representative structure is:
+
+```text
+CloudShield-Enterprise/
 │
 ├── app/
 │   ├── auth/
 │   ├── dashboard/
-│   ├── scanner/
-│   ├── reports/
-│   ├── analytics/
-│   ├── findings/
-│   ├── notifications/
-│   ├── settings/
+│   ├── projects/
 │   ├── assets/
+│   ├── findings/
+│   ├── scanner/
+│   │   └── services/
 │   ├── cloud/
-│   ├── docker/
-│   ├── executive/
-│   ├── api/
+│   │   └── azure/
+│   │       ├── security/
+│   │       ├── network.py
+│   │       ├── defender.py
+│   │       ├── keyvault.py
+│   │       ├── virtual_machines.py
+│   │       ├── resource_groups.py
+│   │       ├── analyzer.py
+│   │       ├── risk.py
+│   │       ├── score.py
+│   │       ├── recommendations.py
+│   │       └── report.py
+│   ├── analytics/
+│   ├── reports/
+│   ├── models/
+│   ├── services/
 │   ├── templates/
 │   ├── static/
-│   └── models/
+│   ├── extensions.py
+│   └── __init__.py
 │
-├── docs/
-├── migrations/
-├── instance/
-├── requirements.txt
 ├── run.py
+├── requirements.txt
+├── .env
+├── .gitignore
 └── README.md
 ```
 
 ---
 
-# 🏗 Application Architecture
+# Technology Stack
 
-```
-                    Users
-                      │
-                      ▼
-               Flask Application
-                      │
-      ┌───────────────┼───────────────┐
-      ▼               ▼               ▼
- Authentication   Business Logic    REST API
-      │               │
-      ▼               ▼
-   SQLAlchemy      Services Layer
-      │               │
-      └──────► SQLite / PostgreSQL
-                      │
-          ┌───────────┴───────────┐
-          ▼                       ▼
-      Docker SDK              AWS (Boto3)
-```
+## Backend
+
+- Python
+- Flask
+- Flask-Login
+- Flask-WTF
+- Flask-SQLAlchemy
+- Flask-Migrate
+
+## Database
+
+Development can use:
+
+- SQLite
+
+Production can use:
+
+- PostgreSQL
+
+## Frontend
+
+- HTML
+- CSS
+- JavaScript
+- Bootstrap
+- Jinja2
+
+## Cloud
+
+Azure integration uses the Microsoft Azure Python SDK / management libraries.
+
+## Security Tooling
+
+Depending on the configured scanner modules, the platform can integrate security tools and utilities such as:
+
+- Nmap
+- Nikto
+- WhatWeb
+- Nuclei
+- WAFW00F
+- testssl.sh
+- dnsrecon
+- subfinder
+
+Not every external tool is required for the currently completed Basic Azure scope.
+
+## Reporting
+
+- ReportLab
+- JSON
+- CSV/export functionality where implemented
+
 ---
 
-# 🚀 Installation
+# Requirements
 
-## 1. Clone the Repository
+Recommended environment:
 
-```bash
-git clone https://github.com/yourusername/CloudShield.git
+- Python 3.11+ compatible environment
+- pip
+- Git
+- Microsoft Azure account for Azure scanning
+- Appropriate Azure permissions for the resources being assessed
 
-cd CloudShield
+For Windows PowerShell:
+
+```powershell
+python --version
+pip --version
 ```
 
 ---
 
-## 2. Create a Virtual Environment
+# Installation
 
-### Windows
+## 1. Clone the repository
 
-```bash
-python -m venv .venv
-
-.venv\Scripts\activate
+```powershell
+git clone https://github.com/sam29sahil/CloudShield-Enterprise.git
+cd CloudShield-Enterprise
 ```
 
-### Linux / macOS
+## 2. Create a virtual environment
 
-```bash
-python3 -m venv .venv
-
-source .venv/bin/activate
+```powershell
+python -m venv venv
 ```
 
----
+## 3. Activate the virtual environment
 
-## 3. Install Dependencies
+Windows PowerShell:
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+Windows CMD:
+
+```cmd
+venv\Scripts\activate
+```
+
+Linux/macOS:
 
 ```bash
+source venv/bin/activate
+```
+
+## 4. Install dependencies
+
+```powershell
 pip install -r requirements.txt
 ```
 
----
+If dependencies are being installed manually during development, install the packages listed by the application's import errors and then update `requirements.txt`.
 
-## 4. Configure Environment Variables
+## 5. Configure environment variables
 
-Create a `.env` file in the project root.
+Create:
+
+```text
+.env
+```
 
 Example:
 
 ```env
-SECRET_KEY=your_secret_key
-
+SECRET_KEY=replace-with-a-random-secret
 DATABASE_URL=sqlite:///cloudshield.db
-
-FLASK_ENV=development
-
-AWS_REGION=ap-south-1
-
-AWS_ACCESS_KEY_ID=
-
-AWS_SECRET_ACCESS_KEY=
 ```
+
+Azure variables should be configured according to the authentication method implemented in the project.
+
+**Never commit real secrets to GitHub.**
 
 ---
 
-## 5. Initialize the Database
+# Configuration
 
-```bash
-flask db init
+The application configuration is managed through the project's Flask configuration.
 
-flask db migrate
+Typical configuration areas include:
 
-flask db upgrade
+```text
+Flask
+Database
+Secret Key
+Azure
+Mail
+Security
+Application settings
 ```
 
-If migrations already exist, run only:
+For production deployments:
 
-```bash
-flask db upgrade
-```
+- Use a strong random secret key.
+- Use PostgreSQL where appropriate.
+- Store secrets in environment variables or a secret manager.
+- Disable Flask debug mode.
+- Use HTTPS.
+- Restrict cloud credentials to the minimum required permissions.
 
 ---
 
-## 6. Start the Application
+# Running the Application
 
-```bash
+Activate the virtual environment first.
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+Then:
+
+```powershell
 python run.py
 ```
 
-Open:
+The Flask development server should start.
 
-```
-http://127.0.0.1:5000
-```
+Open the local application URL shown by Flask in the terminal.
 
 ---
 
-# ⚙ Configuration
+# Azure Configuration
 
-CloudShield supports multiple configurations.
+The Azure scanner requires valid Azure authentication and appropriate permissions.
 
-## Development
+Before running an Azure assessment, verify:
 
-- SQLite
-- Debug Mode
-- Local Scanner
-- Local Docker
+1. Azure credentials are available.
+2. The subscription is accessible.
+3. The application has permission to read the required Azure resources.
+4. Required Azure management packages are installed.
+5. The selected subscription is correct.
 
----
-
-## Production
-
-Recommended:
-
-- PostgreSQL
-- Gunicorn
-- Nginx
-- Linux Server
-- HTTPS
-- Environment Variables
+The scanner is intended for authorized Azure environments only.
 
 ---
 
-# 🐳 Docker Support
+# Database
 
-CloudShield can communicate with Docker Desktop.
+CloudShield Enterprise uses database models for application data such as:
 
-Requirements:
+- Users
+- Projects
+- Assets
+- Security scans
+- Findings
+- Reports
+- Notifications
 
-- Docker Desktop Installed
-- Docker Engine Running
-- Docker Python SDK
+Database migrations should be used when the project's model schema changes.
 
-Install SDK:
+Typical development commands may include:
 
-```bash
-pip install docker
+```powershell
+flask db migrate -m "description"
+flask db upgrade
 ```
 
-Verify Docker:
+Use the migration workflow appropriate to the current project configuration.
 
-```bash
-docker version
+---
+
+# Git and GitHub
+
+Initialize Git if the project is not already a repository:
+
+```powershell
+git init
+```
+
+Set the remote:
+
+```powershell
+git remote add origin https://github.com/sam29sahil/CloudShield-Enterprise.git
+```
+
+Check:
+
+```powershell
+git remote -v
+```
+
+Create the main branch:
+
+```powershell
+git branch -M main
+```
+
+Stage:
+
+```powershell
+git add .
+```
+
+Commit:
+
+```powershell
+git commit -m "Initial CloudShield Enterprise release"
+```
+
+Push:
+
+```powershell
+git push -u origin main
 ```
 
 ---
 
-# ☁ AWS Integration
+# Security Considerations
 
-AWS integration is optional.
+CloudShield Enterprise is a security assessment platform and should itself be operated securely.
 
-Supported Services:
+## Never expose secrets
 
-- EC2
-- S3
-- IAM
-- Security Groups
-- CloudTrail
-- GuardDuty
-- Inspector
+Do not commit:
 
-Before connecting AWS:
-
-1. Create an IAM User.
-2. Generate Access Keys.
-3. Configure credentials in `.env`.
-4. Restart CloudShield.
-
-CloudShield continues to function normally even if AWS credentials are not configured.
-
----
-
-# 📦 Project Requirements
-
-Minimum:
-
-- Python 3.12+
-- 8 GB RAM
-- 2 GB Free Disk Space
-- Windows 10 / 11 or Linux
-
-Recommended:
-
-- 16 GB RAM
-- PostgreSQL
-- Docker Desktop
-- AWS Account (optional)
-
----
-
-# 📋 Requirements
-
-Python Packages:
-
-- Flask
-- Flask-Login
-- Flask-Bcrypt
-- Flask-Migrate
-- SQLAlchemy
-- WTForms
-- boto3
-- docker
-- reportlab
-- requests
-- python-dotenv
-
-Install all packages:
-
-```bash
-pip install -r requirements.txt
+```text
+.env
+Azure credentials
+Passwords
+API keys
+Private keys
+Production database credentials
 ```
----
 
-# 📖 Usage Guide
+## Authorization
 
-After logging into CloudShield Enterprise, the sidebar provides access to all available modules.
+Only scan systems and cloud resources for which you have explicit authorization.
 
-## Dashboard
+## Azure permissions
 
-The Dashboard provides a real-time overview of the platform.
+Use least-privilege Azure permissions.
 
-Features:
+The scanner should not receive unnecessary write permissions when read-only assessment is sufficient.
 
-- Security Statistics
-- Recent Activity
-- Overall Security Score
-- Quick Navigation
-- Executive Summary
+## Production deployment
 
----
+For production:
 
-## Security Scanner
-
-Use the Scanner module to perform vulnerability assessments.
-
-Workflow:
-
-1. Select Scan Mode
-2. Enter Target
-3. Choose Scanner
-4. Start Scan
-5. View Findings
-6. Export Report
+- Disable debug mode.
+- Use HTTPS.
+- Use a production WSGI server.
+- Protect the database.
+- Protect environment variables.
+- Restrict administrative access.
+- Rotate credentials when necessary.
+- Monitor application logs.
 
 ---
 
-## Asset Management
+# Testing
 
-The Asset module helps manage infrastructure assets.
+Before a release, perform at least the following checks.
 
-Functions:
+## Python syntax
 
-- Add Assets
-- Edit Assets
-- Delete Assets
-- Categorize Assets
-- Track Asset Status
+```powershell
+python -m py_compile app\scanner\services\report_builder.py
+python -m py_compile app\scanner\services\report_generator.py
+python -m py_compile app\cloud\azure\security_service.py
+```
+
+## Application startup
+
+```powershell
+python run.py
+```
+
+## Website scan
+
+Verify:
+
+```text
+Website scan
+    ↓
+Findings
+    ↓
+Risk
+    ↓
+Score
+    ↓
+Report
+```
+
+## Azure scan
+
+Verify:
+
+```text
+Azure authentication
+    ↓
+Inventory
+    ↓
+Analysis
+    ↓
+Findings
+    ↓
+Risk
+    ↓
+Score
+    ↓
+Recommendations
+    ↓
+Dashboard
+    ↓
+PDF
+```
+
+## PDF verification
+
+Verify that:
+
+### Website scan
+
+Uses:
+
+- Website Analysis
+- Headers
+- SSL
+- DNS
+- WHOIS
+- Technology
+- Ports
+
+### Azure scan
+
+Uses:
+
+- Azure Security Assessment
+- Azure inventory
+- Defender
+- Cloud findings
+- Cloud recommendations
 
 ---
 
-## Findings
+# Limitations
 
-Security findings generated by scans are stored here.
+The current Azure implementation is a **Basic Azure Security Assessment**.
 
-Features:
+It should not be described as:
 
-- Severity Levels
-- Search
-- Filters
-- Status Tracking
-- Report Generation
+- A complete Azure Security Center replacement
+- A complete Microsoft Defender for Cloud replacement
+- A full enterprise CSPM product
+- A full penetration-testing platform
+- A complete compliance auditing platform
 
----
+The scanner evaluates the Azure data and security checks implemented by CloudShield Enterprise.
 
-## Analytics
+Coverage can vary depending on:
 
-The Analytics Dashboard provides security insights.
-
-Includes:
-
-- Scan Statistics
-- Severity Distribution
-- Scanner Usage
-- Trend Analysis
-- Top Vulnerabilities
+- Azure permissions
+- Available resources
+- SDK/API availability
+- Scanner implementation
+- Subscription configuration
 
 ---
 
-## Reports
+# Future Enhancements
 
-Generate professional reports in multiple formats.
-
-Supported Formats:
-
-- PDF
-- CSV
-- JSON
-
----
-
-## Notifications
-
-Receive alerts for important security events.
-
-Examples:
-
-- Scan Completed
-- High-Risk Findings
-- Docker Alerts
-- Cloud Alerts
-
----
-
-## Docker
-
-Manage Docker resources directly within CloudShield.
-
-Available Features:
-
-- Dashboard
-- Containers
-- Images
-- Networks
-- Volumes
-- Logs
-- Container Details
-
----
+Potential future versions can include:
 
 ## Cloud
 
-Monitor AWS cloud infrastructure.
+- AWS security assessment
+- Google Cloud security assessment
+- Multi-subscription Azure assessment
+- Multi-account cloud assessment
+- Cloud compliance frameworks
+- CIS benchmark mapping
+- Continuous cloud monitoring
 
-Available Services:
+## Security
 
-- EC2
-- Amazon S3
-- IAM
-- Security Groups
-- CloudTrail
-- GuardDuty
-- Inspector
+- Advanced CSPM
+- Vulnerability correlation
+- Threat intelligence
+- Attack-path analysis
+- Security posture history
+- Automated remediation
 
----
+## Reporting
 
-# 📸 Screenshots
+- Advanced PDF templates
+- Executive reports
+- Compliance reports
+- Scheduled reports
+- Report comparison
+- Historical trend analysis
 
-Add screenshots after completing deployment.
+## Platform
 
-Recommended screenshots:
+- REST API expansion
+- Background scan workers
+- Job queues
+- Notification integrations
+- Email alerts
+- SIEM integration
+- SOC/XDR integration
 
-```
-Login Page
-
-Dashboard
-
-Scanner
-
-Scan Results
-
-Findings
-
-Analytics
-
-Reports
-
-Docker Dashboard
-
-Cloud Dashboard
-
-Settings
-```
-
-Create a folder:
-
-```
-screenshots/
-```
-
-Example:
-
-```
-screenshots/
-
-login.png
-
-dashboard.png
-
-scanner.png
-
-reports.png
-
-docker.png
-
-cloud.png
-```
+These are future enhancements and are not required for the current Basic Azure scope.
 
 ---
 
-# 🔒 Security Features
+# Academic Project Information
 
-CloudShield includes multiple security mechanisms.
+## Project Name
 
-Authentication
+**CloudShield Enterprise**
 
-- Password Hashing
-- Session Management
-- Login Protection
+## Project Type
 
-Application Security
+**BTech Final-Year Cybersecurity Project**
 
-- CSRF Protection
-- Input Validation
-- Secure Routing
+## Domain
 
-Infrastructure Security
+**Cybersecurity / Cloud Security / Web Security**
 
-- Docker Integration
-- AWS Integration
-- Vulnerability Assessment
+## Primary Goal
 
-Reporting
+To develop a centralized security assessment platform capable of analyzing website and Azure cloud security information and presenting the results through findings, risk scores, recommendations, dashboards, and reports.
 
-- PDF Reports
-- CSV Export
-- JSON Export
+## Major Learning Areas
 
----
+The project demonstrates practical knowledge of:
 
-# 🚀 Future Roadmap
-
-CloudShield Enterprise v2 will introduce:
-
-- AI Threat Detection
-- SIEM Integration
-- XDR Dashboard
-- Kubernetes Security
-- Azure Integration
-- Google Cloud Integration
-- Compliance Dashboard
-- Threat Intelligence
-- CVE Feed Integration
-- Real-Time Monitoring
-- WebSocket Live Dashboard
-- AI Security Assistant
+- Python
+- Flask
+- Web application development
+- Database management
+- Authentication
+- Cybersecurity assessment
+- Vulnerability/finding management
+- Cloud security
+- Azure SDK integration
+- Risk analysis
+- Security scoring
+- Report generation
+- Git/GitHub
+- Software architecture
 
 ---
 
-# 🤝 Contributing
+# Project Status
 
-Contributions are welcome.
+## CloudShield Enterprise v1
 
-Workflow:
+**Status: Completed for the defined project scope**
 
-1. Fork Repository
-2. Create Feature Branch
-3. Commit Changes
-4. Submit Pull Request
+Completed core areas include:
 
-Please follow the project's coding standards and documentation guidelines.
+- Authentication
+- Dashboard
+- Projects
+- Assets
+- Website security scanner
+- Findings engine
+- Risk engine
+- Security scoring
+- Recommendations
+- Reporting
+- Azure Basic Security Scanner
+- Azure inventory
+- Azure network assessment
+- Azure VM assessment
+- Key Vault inventory
+- Defender information
+- Azure findings integration
+- Azure-specific reporting
+- Cloud-aware PDF reporting
+
+The backend should be treated as **frozen for the v1 release** unless a bug or security issue requires a change.
 
 ---
 
-# 📄 License
+# Responsible Use
 
-This project is licensed under the MIT License.
+CloudShield Enterprise is intended for **authorized security assessment and defensive security purposes**.
 
-See the LICENSE file for additional details.
+Only scan:
+
+- Systems you own
+- Cloud subscriptions you control
+- Systems where you have explicit authorization to perform security testing
+
+Do not use the platform to access, scan, disrupt, or test unauthorized systems.
 
 ---
 
-# 👨‍💻 Author
+# License
+
+This project is an academic/personal cybersecurity project.
+
+Add an appropriate open-source license before publicly distributing the project if required.
+
+---
+
+# Author
 
 **Sahil Samyal**
 
-B.Tech Student
-
+BTech Student  
 Cybersecurity Enthusiast
 
-Cloud & Infrastructure Security
-
-Enterprise Security Platform Developer
-
 ---
 
-# ⭐ Acknowledgements
+## Acknowledgement
 
-Special thanks to the open-source community and the developers of:
-
-- Flask
-- SQLAlchemy
-- Bootstrap
-- Docker SDK
-- boto3
-- ReportLab
-- Python Community
-
----
-
-# 📌 Project Status
-
-Current Version
-
-```
-CloudShield Enterprise v1.0
-```
-
-Development Status
-
-```
-Production Ready (Educational Project)
-```
-
-Current Completion
-
-```
-≈ 98%
-```
-
----
-
-# 🌟 Support
-
-If you found this project helpful:
-
-⭐ Star the repository
-
-🐛 Report bugs
-
-💡 Suggest new features
-
-🤝 Contribute improvements
+CloudShield Enterprise was developed as a practical project to explore the integration of web security assessment, cloud security, security findings management, risk analysis, and security reporting into a unified platform.
