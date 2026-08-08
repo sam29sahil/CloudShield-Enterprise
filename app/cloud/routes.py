@@ -192,9 +192,12 @@ def azure_defender():
 @login_required
 def azure_identity():
 
-    data = service.azure_identity()
+    result = service.azure_identity()
 
-    return render_template("cloud/azure/identity.html", data=data)
+    return render_template(
+        "cloud/azure/identity.html",
+        data=result["data"],
+    )
 
 
 @cloud.route("/azure/network-interfaces")
@@ -270,7 +273,22 @@ def azure_nat_gateways():
     return render_template(
         "cloud/azure/nat_gateway.html",
         data=data["data"],
-    )   
+    )  
+    
+# --------------------------------------------------
+# Azure Managed Identity
+# --------------------------------------------------
+
+@cloud.route("/azure/managed-identity")
+@login_required
+def azure_managed_identity():
+
+    result = service.azure_managed_identity()
+
+    return render_template(
+        "cloud/azure/managed_identity.html",
+        data=result["data"],
+    )     
     
 @cloud.route("/azure/application-gateways")
 @login_required
@@ -380,4 +398,127 @@ def azure_availability_sets():
     return render_template(
         "cloud/azure/availability_sets.html",
         data=result["data"],
-    )                             
+    ) 
+    
+@cloud.route("/azure/blob-containers")
+@login_required
+def azure_blob_containers():
+
+    result = service.azure_blob_containers()
+
+    return render_template(
+        "cloud/azure/blob_containers.html",
+        data=result["data"],
+    )    
+    
+@cloud.route("/azure/file-shares")
+@login_required
+def azure_file_shares():
+
+    result = service.azure_file_shares()
+
+    return render_template(
+        "cloud/azure/file_shares.html",
+        data=result["data"],
+    )                                
+    
+@cloud.route("/azure/queues")
+@login_required
+def azure_queues():
+
+    result = service.azure_queues()
+
+    return render_template(
+        "cloud/azure/queues.html",
+        data=result["data"],
+    )  
+    
+@cloud.route("/azure/tables")
+@login_required
+def azure_tables():
+
+    result = service.azure_tables()
+
+    return render_template(
+        "cloud/azure/tables.html",
+        data=result["data"],
+    )   
+    
+@cloud.route("/azure/policies")
+@login_required
+def azure_policies():
+
+    result = service.azure_policies()
+
+    return render_template(
+        "cloud/azure/policies.html",
+        data=result["data"],
+    )
+    
+@cloud.route("/azure/rbac")
+@login_required
+def azure_rbac():
+
+    result = service.azure_rbac()
+
+    return render_template(
+        "cloud/azure/rbac.html",
+        data=result["data"],
+    )
+    
+@cloud.route("/azure/advisor")
+@login_required
+def azure_advisor():
+
+    result = service.azure_advisor()
+
+    return render_template(
+        "cloud/azure/advisor.html",
+        data=result["data"],
+    )
+    
+@cloud.route("/azure/log-analytics")
+@login_required
+def azure_log_analytics():
+
+    result = service.azure_log_analytics()
+
+    return render_template(
+        "cloud/azure/log_analytics.html",
+        data=result["data"],
+    ) 
+    
+@cloud.route("/azure/sql")
+@login_required
+def azure_sql():
+
+    result = service.azure_sql_databases()
+
+    return render_template(
+        "cloud/azure/sql_database.html",
+        data=result["data"],
+    ) 
+    
+@cloud.route("/azure/cosmos-db")
+@login_required
+def azure_cosmos_db():
+
+    result = service.azure_cosmos_db()
+
+    return render_template(
+        "cloud/azure/cosmos_db.html",
+        data=result["data"],
+    )  
+    
+@cloud.route("/azure/postgresql")
+@login_required
+def azure_postgresql():
+
+    result = service.azure_postgresql()
+
+    return render_template(
+        "cloud/azure/postgresql.html",
+        data=result["data"],
+    ) 
+    
+                              

@@ -1,0 +1,132 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-lightbulb-fill text-warning"></i>
+Azure Advisor
+{% endblock %}
+
+{% block azure_subtitle %}
+Review Azure Advisor optimization and security recommendations.
+{% endblock %}
+
+{% block breadcrumb %}
+Azure Advisor
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+<div class="row g-4 mb-4">
+
+<div class="col-xl-4">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">Recommendations</small>
+<h2 class="fw-bold">{{ data|length }}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-xl-4">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">High Impact</small>
+<h2 class="fw-bold">
+{{ data|selectattr('impact','equalto','High')|list|length }}
+</h2>
+</div>
+</div>
+</div>
+
+<div class="col-xl-4">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">Security</small>
+<h2 class="fw-bold">
+{{ data|selectattr('category','equalto','Security')|list|length }}
+</h2>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="card shadow-sm border-0">
+
+<div class="card-header bg-white">
+
+<strong>Azure Advisor Recommendations</strong>
+
+</div>
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle mb-0">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Recommendation</th>
+<th>Category</th>
+<th>Impact</th>
+<th>Suggested Solution</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for rec in data %}
+
+<tr>
+
+<td><strong>{{ rec.name }}</strong></td>
+
+<td>{{ rec.category }}</td>
+
+<td>
+
+{% if rec.impact=="High" %}
+<span class="badge bg-danger">High</span>
+{% elif rec.impact=="Medium" %}
+<span class="badge bg-warning text-dark">Medium</span>
+{% else %}
+<span class="badge bg-success">Low</span>
+{% endif %}
+
+</td>
+
+<td>{{ rec.solution }}</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+<td colspan="4" class="text-center py-5 text-muted">
+
+<i class="bi bi-lightbulb-fill fs-1 d-block mb-3"></i>
+
+No Azure Advisor Recommendations Found.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

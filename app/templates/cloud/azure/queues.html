@@ -1,0 +1,177 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-list-task text-warning"></i>
+Azure Storage Queues
+{% endblock %}
+
+{% block azure_subtitle %}
+Browse Azure Storage Queues across all storage accounts.
+{% endblock %}
+
+{% block breadcrumb %}
+Storage Queues
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+    <!-- Summary -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total Queues
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Storage Accounts
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|map(attribute='storage_account')|unique|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Queue Resources
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Inventory -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <strong>
+
+                Azure Queue Inventory
+
+            </strong>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Queue Name</th>
+                        <th>Storage Account</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for queue in data %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ queue.name }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ queue.storage_account }}
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="2" class="text-center py-5 text-muted">
+
+                            <i class="bi bi-list-task fs-1 d-block mb-3"></i>
+
+                            No Azure Storage Queues Found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

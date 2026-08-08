@@ -30,7 +30,19 @@ from app.cloud.azure.managed_disks import AzureManagedDisks
 from app.cloud.azure.snapshots import AzureSnapshots
 from app.cloud.azure.images import AzureImages
 from app.cloud.azure.availability_sets import AzureAvailabilitySets
-
+from app.cloud.azure.blob_containers import AzureBlobContainers
+from app.cloud.azure.file_shares import AzureFileShares
+from app.cloud.azure.queues import AzureQueues
+from app.cloud.azure.tables import AzureTables
+from app.cloud.azure.policy import AzurePolicy
+from app.cloud.azure.rbac import AzureRBAC
+from app.cloud.azure.advisor import AzureAdvisor
+from app.cloud.azure.log_analytics import AzureLogAnalytics
+from app.cloud.azure.managed_identity import AzureManagedIdentity
+from app.cloud.azure.sql_database import AzureSQL
+from app.cloud.azure.cosmos_db import AzureCosmosDB
+#from app.cloud.azure.postgresql import AzurePostgreSQL
+#from app.cloud.azure.mysql import AzureMySQL
 class AzureService:
 
     def __init__(self):
@@ -41,11 +53,21 @@ class AzureService:
         self.storage = AzureStorage(self.client)
         self.resource_groups = AzureResourceGroups(self.client)
         self.keyvault = AzureKeyVault(self.client)
+        # self.mysql_service = AzureMySQL(self.client)
+        self.sql_service = AzureSQL(self.client)
+        self.cosmos_db_service = AzureCosmosDB(self.client)
+        # self.postgresql_service = AzurePostgreSQL(self.client)
         self.monitor = AzureMonitor(self.client)
+        self.advisor_service = AzureAdvisor(self.client)
+        self.policy_service = AzurePolicy(self.client)
         self.defender = AzureDefender(self.client)
+        self.table_service = AzureTables(self.client)
         self.identity = AzureIdentity(self.client)
         self.network = AzureNetwork(self.client)
+        self.queue_service = AzureQueues(self.client)
+        self.file_share_service = AzureFileShares(self.client)
         self.public_ips_service = AzurePublicIPs(self.client)
+        self.blob_container_service = AzureBlobContainers(self.client)
         self.route_tables_service = AzureRouteTables(self.client)
         self.load_balancers_service = AzureLoadBalancers(self.client)
         self.firewall_service = AzureFirewall(self.client)
@@ -54,7 +76,9 @@ class AzureService:
         self.vpn_gateway_service = AzureVPNGateway(self.client)
         self.security_analyzer = AzureAnalyzer()
         self.risk_engine = AzureRiskEngine()
+        self.rbac_service = AzureRBAC(self.client)
         self.image_service = AzureImages(self.client)
+        self.managed_identity_service = AzureManagedIdentity(self.client)
         self.availability_set_service = AzureAvailabilitySets(self.client)
         self.snapshot_service = AzureSnapshots(self.client)
         self.managed_disk_service = AzureManagedDisks(self.client)
@@ -62,6 +86,7 @@ class AzureService:
         self.nat_gateway_service = AzureNATGateway(self.client)
         self.expressroute_service = AzureExpressRoute(self.client)
         self.private_endpoint_service = AzurePrivateEndpoints(self.client)
+        self.log_analytics_service = AzureLogAnalytics(self.client)
     # -------------------------------------
     # Connection Status
     # -------------------------------------
@@ -69,14 +94,54 @@ class AzureService:
     def connected(self):
 
         return self.client.is_connected()
+    
+    def advisor(self):
+
+        return self.advisor_service.list()
 
     def virtual_networks(self):
 
         return self.network.virtual_networks()
+    
+    def policies(self):
+
+        return self.policy_service.list()
+    
+    def rbac(self):
+
+        return self.rbac_service.list()
+    
+    def managed_identity(self):
+
+        return self.managed_identity_service.list()
+    
+    #def mysql(self):
+
+        #return self.mysql_service.list()
+    
+    #def postgresql(self):
+
+        #return self.postgresql_service.list()
+    
+    def file_shares(self):
+
+        return self.file_share_service.list()
 
     def network_security_groups(self):
 
         return self.network.network_security_groups()
+    
+    def log_analytics(self):
+
+        return self.log_analytics_service.list()
+    
+    def managed_identity(self):
+
+        return self.managed_identity_service.list()
+    
+    def sql_databases(self):
+
+        return self.sql_service.list()
 
     def public_ips(self):
 
@@ -89,6 +154,14 @@ class AzureService:
     def load_balancers(self):
 
         return self.load_balancers_service.list()
+    
+    def tables(self):
+
+        return self.table_service.list()
+    
+    def cosmos_db(self):
+
+        return self.cosmos_db_service.list()
     
     def route_tables(self):
 
@@ -109,6 +182,10 @@ class AzureService:
     def vpn_gateways(self):
 
         return self.vpn_gateway_service.list()
+    
+    def queues(self):
+
+        return self.queue_service.list()
 
     def express_routes(self):
 
@@ -141,6 +218,10 @@ class AzureService:
     def availability_sets(self):
 
         return self.availability_set_service.list()
+    
+    def blob_containers(self):
+
+        return self.blob_container_service.list()
     # -------------------------------------
     # Dashboard Summary
     # -------------------------------------

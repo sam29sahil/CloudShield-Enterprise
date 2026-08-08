@@ -1,0 +1,238 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-box-seam text-primary"></i>
+Azure Blob Containers
+{% endblock %}
+
+{% block azure_subtitle %}
+Browse Azure Blob Storage containers across all storage accounts.
+{% endblock %}
+
+{% block breadcrumb %}
+Blob Containers
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+    <!-- Summary -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total Containers
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Public Containers
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|rejectattr('public_access','equalto','Private')|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Private Containers
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|selectattr('public_access','equalto','Private')|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Inventory -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <strong>
+
+                Azure Blob Container Inventory
+
+            </strong>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Container</th>
+                        <th>Storage Account</th>
+                        <th>Public Access</th>
+                        <th>Immutability</th>
+                        <th>Legal Hold</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for container in data %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ container.name }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ container.storage_account }}
+
+                        </td>
+
+                        <td>
+
+                            {% if container.public_access == "Private" %}
+
+                                <span class="badge bg-success">
+
+                                    Private
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    {{ container.public_access }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if container.has_immutability_policy %}
+
+                                <span class="badge bg-info">
+
+                                    Enabled
+
+                                </span>
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if container.has_legal_hold %}
+
+                                <span class="badge bg-danger">
+
+                                    Enabled
+
+                                </span>
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="5" class="text-center py-5 text-muted">
+
+                            <i class="bi bi-box-seam fs-1 d-block mb-3"></i>
+
+                            No Blob Containers Found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

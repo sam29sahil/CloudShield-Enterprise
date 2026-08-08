@@ -263,6 +263,10 @@ class CloudService:
 
         return azure.vm_scale_sets()
     
+    def azure_managed_identity(self):
+
+        return self.azure.managed_identity()
+    
     def azure_managed_disks(self):
 
         return azure.managed_disks()
@@ -278,6 +282,42 @@ class CloudService:
     def azure_availability_sets(self):
 
         return azure.availability_sets()
+    
+    def azure_blob_containers(self):
+
+        return azure.blob_containers()
+    
+    def azure_file_shares(self):
+
+        return azure.file_shares()
+    
+    def azure_queues(self):
+
+        return azure.queues()
+    
+    def azure_tables(self):
+
+        return azure.tables()
+    
+    def azure_policies(self):
+
+        return azure.policies()
+    
+    def azure_rbac(self):
+
+        return azure.rbac()
+    
+    def azure_advisor(self):
+
+        return azure.advisor()
+    
+    def azure_log_analytics(self):
+
+        return azure.log_analytics()
+    
+    def azure_sql_databases(self):
+
+        return azure.sql_databases()
     # ==================================================
     # Azure Security
     # ==================================================
@@ -293,6 +333,18 @@ class CloudService:
 
     def azure_identity(self):
         return azure.identity.information()
+    
+    def azure_cosmos_db(self):
+
+        return azure.cosmos_db_service.list()
+    
+    #def azure_postgresql(self):
+
+        #return azure.postgresql()
+    
+    #def azure_mysql(self):
+
+        #return azure.mysql()
 
     # ==================================================
     # Enterprise Cloud Security Score

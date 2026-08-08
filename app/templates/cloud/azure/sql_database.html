@@ -1,0 +1,136 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-database-fill text-primary"></i>
+Azure SQL Database
+{% endblock %}
+
+{% block azure_subtitle %}
+Browse Azure SQL Databases across your subscription.
+{% endblock %}
+
+{% block breadcrumb %}
+Azure SQL
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+<div class="row g-4 mb-4">
+
+<div class="col-xl-4">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">Databases</small>
+<h2 class="fw-bold">{{ data|length }}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-xl-4">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">Servers</small>
+<h2 class="fw-bold">
+{{ data|map(attribute='server')|unique|list|length }}
+</h2>
+</div>
+</div>
+</div>
+
+<div class="col-xl-4">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">Online</small>
+<h2 class="fw-bold">
+{{ data|selectattr('status','equalto','Online')|list|length }}
+</h2>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="card shadow-sm border-0">
+
+<div class="card-header bg-white">
+
+<strong>Azure SQL Database Inventory</strong>
+
+</div>
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle mb-0">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Database</th>
+<th>Server</th>
+<th>Resource Group</th>
+<th>Edition</th>
+<th>Status</th>
+<th>Max Size (GB)</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for db in data %}
+
+<tr>
+
+<td><strong>{{ db.name }}</strong></td>
+
+<td>{{ db.server }}</td>
+
+<td>{{ db.resource_group }}</td>
+
+<td>{{ db.edition }}</td>
+
+<td>
+
+{% if db.status=="Online" %}
+<span class="badge bg-success">Online</span>
+{% else %}
+<span class="badge bg-warning text-dark">{{ db.status }}</span>
+{% endif %}
+
+</td>
+
+<td>{{ db.max_size_gb }}</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+<td colspan="6" class="text-center py-5 text-muted">
+
+<i class="bi bi-database-fill fs-1 d-block mb-3"></i>
+
+No Azure SQL Databases Found.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
