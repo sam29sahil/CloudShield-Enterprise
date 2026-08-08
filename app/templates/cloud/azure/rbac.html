@@ -1,0 +1,128 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-people-fill text-primary"></i>
+Azure RBAC
+{% endblock %}
+
+{% block azure_subtitle %}
+Browse Azure Role-Based Access Control (RBAC) role definitions.
+{% endblock %}
+
+{% block breadcrumb %}
+Azure RBAC
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <small class="text-muted">Total Roles</small>
+                    <h2 class="fw-bold">{{ data|length }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <small class="text-muted">Built-in Roles</small>
+                    <h2 class="fw-bold">
+                        {{ data|selectattr('type','equalto','BuiltInRole')|list|length }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <small class="text-muted">Custom Roles</small>
+                    <h2 class="fw-bold">
+                        {{ data|selectattr('type','equalto','CustomRole')|list|length }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <strong>Azure RBAC Role Definitions</strong>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+                        <th>Role Name</th>
+                        <th>Role Type</th>
+                        <th>Assignable Scopes</th>
+                        <th>Description</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for role in data %}
+
+                    <tr>
+
+                        <td><strong>{{ role.name }}</strong></td>
+
+                        <td>
+
+                            {% if role.type == "BuiltInRole" %}
+                                <span class="badge bg-primary">Built-in</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">{{ role.type }}</span>
+                            {% endif %}
+
+                        </td>
+
+                        <td>{{ role.assignable_scopes }}</td>
+
+                        <td>{{ role.description }}</td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center py-5 text-muted">
+
+                            <i class="bi bi-people-fill fs-1 d-block mb-3"></i>
+
+                            No Azure RBAC Roles Found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-pc-display text-primary"></i>
+Virtual Machines
+{% endblock %}
+
+{% block azure_subtitle %}
+Manage Microsoft Azure Virtual Machines.
+{% endblock %}
+
+{% block breadcrumb %}
+Virtual Machines
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+
+        <strong>Azure Virtual Machines</strong>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if data %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Location</th>
+
+                    <th>Type</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for vm in data %}
+
+                <tr>
+
+                    <td>{{ vm.name }}</td>
+
+                    <td>{{ vm.location }}</td>
+
+                    <td>{{ vm.type }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="alert alert-warning">
+
+            No Virtual Machines Found.
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

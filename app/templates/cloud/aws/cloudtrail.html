@@ -1,0 +1,251 @@
+{% extends "cloud/base.html" %}
+
+{% block cloud_title %}
+
+<i class="bi bi-clock-history text-info"></i>
+
+CloudTrail Dashboard
+
+{% endblock %}
+
+{% block cloud_subtitle %}
+
+Monitor AWS CloudTrail audit logging.
+
+{% endblock %}
+
+{% block breadcrumb %}
+
+CloudTrail
+
+{% endblock %}
+
+{% block content %}
+
+<!-- KPI Cards -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+
+                    Total Trails
+
+                </small>
+
+                <h2 class="fw-bold text-white">
+
+                    {{ data.total_trails if data.success else 0 }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+
+                    Multi-Region
+
+                </small>
+
+                <h2 class="fw-bold text-info">
+
+                    {{ data.multi_region }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+
+                    Logging
+
+                </small>
+
+                <h2 class="fw-bold text-success">
+
+                    {{ data.logging }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+
+                    Encryption
+
+                </small>
+
+                <h2 class="fw-bold text-warning">
+
+                    {{ data.encryption }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Trails Table -->
+
+<div class="card dashboard-card border-0 shadow">
+
+    <div class="card-header">
+
+        <h5 class="mb-0 text-white">
+
+            CloudTrail Trails
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Home Region</th>
+
+                        <th>S3 Bucket</th>
+
+                        <th>Multi Region</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% if data.success %}
+
+                    {% for trail in data.trails %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ trail.Name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ trail.HomeRegion }}
+
+                        </td>
+
+                        <td>
+
+                            {{ trail.S3BucketName }}
+
+                        </td>
+
+                        <td>
+
+                            {% if trail.IsMultiRegionTrail %}
+
+                                <span class="badge bg-success">
+
+                                    Yes
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    No
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center py-5">
+
+                            <i class="bi bi-clock-history display-4 text-secondary"></i>
+
+                            <h5 class="mt-3">
+
+                                {{ data.error }}
+
+                            </h5>
+
+                            <p class="text-secondary">
+
+                                Configure AWS credentials to display CloudTrail information.
+
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

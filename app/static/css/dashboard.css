@@ -1,0 +1,1184 @@
+/* ===================================================================
+   CloudShield Enterprise
+   Dashboard Styles
+=================================================================== */
+
+
+/* ==========================================================
+   DASHBOARD WRAPPER
+========================================================== */
+
+.dashboard{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:32px;
+
+}
+
+/* ==========================================================
+   HERO
+========================================================== */
+
+.dashboard-hero{
+
+    position:relative;
+
+    overflow:hidden;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    min-height:300px;
+
+    padding:48px;
+
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #16233c,
+            #0d1728
+        );
+
+    border:1px solid var(--border-color);
+
+}
+
+.dashboard-hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    right:-120px;
+
+    top:-120px;
+
+    width:420px;
+
+    height:420px;
+
+    border-radius:50%;
+
+    background:rgba(47,128,237,.08);
+
+}
+
+.hero-left{
+
+    max-width:650px;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.hero-title{
+
+    font-size:46px;
+
+    font-weight:700;
+
+    margin-bottom:18px;
+
+}
+
+.hero-text{
+
+    color:var(--text-secondary);
+
+    line-height:1.8;
+
+    margin-bottom:28px;
+
+}
+
+.hero-buttons{
+
+    display:flex;
+
+    gap:16px;
+
+    flex-wrap:wrap;
+
+}
+
+.hero-right{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.hero-shield{
+
+    width:190px;
+
+    height:190px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+/* ==========================================================
+   STATS GRID
+========================================================== */
+
+.stats-grid{
+
+    display:grid;
+
+    gap:24px;
+
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+}
+
+/* ==========================================================
+   QUICK ACTIONS
+========================================================== */
+
+.quick-actions{
+
+    display:grid;
+
+    gap:18px;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+}
+
+.quick-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:16px;
+
+    min-height:150px;
+
+    border-radius:18px;
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border-color);
+
+    transition:var(--transition-normal);
+
+    cursor:pointer;
+
+}
+
+.quick-card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:var(--color-primary);
+
+}
+
+.quick-icon{
+
+    width:64px;
+
+    height:64px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:18px;
+
+    background:var(--color-primary-light);
+
+}
+
+.quick-title{
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+/* ===================================================================
+   RECENT ACTIVITY
+=================================================================== */
+
+.activity-panel{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.activity-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.activity-item{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:18px;
+
+    padding:18px;
+
+    border-radius:16px;
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border-color);
+
+    transition:var(--transition-fast);
+
+}
+
+.activity-item:hover{
+
+    border-color:var(--color-primary);
+
+    transform:translateX(4px);
+
+}
+
+.activity-icon{
+
+    width:48px;
+
+    height:48px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:14px;
+
+    background:var(--color-primary-light);
+
+    flex-shrink:0;
+
+}
+
+.activity-content{
+
+    flex:1;
+
+}
+
+.activity-title{
+
+    font-size:16px;
+
+    font-weight:600;
+
+    margin-bottom:6px;
+
+}
+
+.activity-description{
+
+    color:var(--text-secondary);
+
+    line-height:1.6;
+
+    margin-bottom:8px;
+
+}
+
+.activity-time{
+
+    font-size:13px;
+
+    color:var(--text-muted);
+
+}
+
+/* ===================================================================
+   LIVE SCAN PANEL
+=================================================================== */
+
+.live-scan{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+.scan-status{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.scan-target{
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+.scan-progress{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.scan-progress-value{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:14px;
+
+    color:var(--text-secondary);
+
+}
+
+.scan-log{
+
+    max-height:260px;
+
+    overflow-y:auto;
+
+    background:var(--bg-secondary);
+
+    border-radius:14px;
+
+    padding:18px;
+
+    font-family:var(--font-mono);
+
+    font-size:13px;
+
+}
+
+.scan-log-entry{
+
+    padding:6px 0;
+
+    color:var(--text-secondary);
+
+}
+
+/* ===================================================================
+   SYSTEM HEALTH
+=================================================================== */
+
+.health-grid{
+
+    display:grid;
+
+    gap:20px;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+}
+
+.health-card{
+
+    padding:24px;
+
+    border-radius:18px;
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border-color);
+
+}
+
+.health-title{
+
+    color:var(--text-muted);
+
+    font-size:14px;
+
+    margin-bottom:12px;
+
+}
+
+.health-value{
+
+    font-size:32px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.health-status{
+
+    font-size:14px;
+
+    color:var(--color-success);
+
+}
+
+/* ===================================================================
+   DOCKER STATUS
+=================================================================== */
+
+.docker-status{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:16px;
+
+}
+
+.docker-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:16px;
+
+    border-radius:14px;
+
+    background:var(--bg-secondary);
+
+}
+
+/* ===================================================================
+   AWS STATUS
+=================================================================== */
+
+.aws-status{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:16px;
+
+}
+
+.aws-service{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:16px;
+
+    border-radius:14px;
+
+    background:var(--bg-secondary);
+
+}
+/* ===================================================================
+   CHART SECTION
+=================================================================== */
+
+.chart-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(420px,1fr));
+
+    gap:24px;
+
+}
+
+.chart-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border-color);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+.chart-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:22px 24px;
+
+    border-bottom:1px solid var(--border-color);
+
+}
+
+.chart-title{
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+.chart-actions{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.chart-body{
+
+    padding:24px;
+
+    min-height:340px;
+
+}
+
+.chart-placeholder{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:100%;
+
+    height:100%;
+
+    color:var(--text-muted);
+
+    border:2px dashed var(--border-color);
+
+    border-radius:16px;
+
+}
+
+/* ===================================================================
+   RISK SCORE
+=================================================================== */
+
+.risk-widget{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:18px;
+
+}
+
+.risk-circle{
+
+    width:190px;
+
+    height:190px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        radial-gradient(circle,var(--bg-card) 58%,transparent 59%),
+        conic-gradient(
+            var(--color-success) 0deg,
+            var(--color-warning) 220deg,
+            var(--color-danger) 360deg
+        );
+
+}
+
+.risk-score{
+
+    font-size:42px;
+
+    font-weight:700;
+
+}
+
+.risk-label{
+
+    color:var(--text-muted);
+
+    font-size:15px;
+
+}
+
+.risk-summary{
+
+    max-width:320px;
+
+    text-align:center;
+
+    color:var(--text-secondary);
+
+    line-height:1.7;
+
+}
+
+/* ===================================================================
+   FINDINGS SUMMARY
+=================================================================== */
+
+.findings-grid{
+
+    display:grid;
+
+    gap:20px;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+}
+
+.finding-card{
+
+    padding:24px;
+
+    border-radius:18px;
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border-color);
+
+    transition:var(--transition-normal);
+
+}
+
+.finding-card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:var(--color-primary);
+
+}
+
+.finding-number{
+
+    font-size:38px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.finding-title{
+
+    color:var(--text-secondary);
+
+    margin-bottom:12px;
+
+}
+
+.finding-critical{
+
+    color:var(--color-danger);
+
+}
+
+.finding-high{
+
+    color:#ff8c42;
+
+}
+
+.finding-medium{
+
+    color:var(--color-warning);
+
+}
+
+.finding-low{
+
+    color:var(--color-success);
+
+}
+
+/* ===================================================================
+   RECOMMENDATIONS
+=================================================================== */
+
+.recommendation-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.recommendation-card{
+
+    display:flex;
+
+    gap:18px;
+
+    padding:22px;
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border-color);
+
+    border-left:5px solid var(--color-primary);
+
+    border-radius:18px;
+
+}
+
+.recommendation-icon{
+
+    width:54px;
+
+    height:54px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:14px;
+
+    background:var(--color-primary-light);
+
+    flex-shrink:0;
+
+}
+
+.recommendation-content{
+
+    flex:1;
+
+}
+
+.recommendation-title{
+
+    font-size:17px;
+
+    font-weight:600;
+
+    margin-bottom:8px;
+
+}
+
+.recommendation-text{
+
+    color:var(--text-secondary);
+
+    line-height:1.7;
+
+}
+/* ===================================================================
+   DASHBOARD WIDGETS
+=================================================================== */
+
+.widget-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+
+    gap:24px;
+
+}
+
+.widget{
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border-color);
+
+    border-radius:20px;
+
+    padding:24px;
+
+    transition:var(--transition-normal);
+
+}
+
+.widget:hover{
+
+    border-color:var(--color-primary);
+
+    transform:translateY(-4px);
+
+}
+
+.widget-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.widget-title{
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+.widget-body{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:16px;
+
+}
+
+/* ===================================================================
+   METRIC LIST
+=================================================================== */
+
+.metric{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:14px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+.metric:last-child{
+
+    border-bottom:none;
+
+}
+
+.metric-label{
+
+    color:var(--text-secondary);
+
+}
+
+.metric-value{
+
+    font-weight:700;
+
+}
+
+/* ===================================================================
+   EMPTY DASHBOARD STATE
+=================================================================== */
+
+.dashboard-empty{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    padding:80px 32px;
+
+}
+
+.dashboard-empty svg{
+
+    width:96px;
+
+    height:96px;
+
+    margin-bottom:24px;
+
+    opacity:.5;
+
+}
+
+.dashboard-empty h3{
+
+    font-size:28px;
+
+    margin-bottom:12px;
+
+}
+
+.dashboard-empty p{
+
+    max-width:520px;
+
+    color:var(--text-muted);
+
+    line-height:1.8;
+
+    margin-bottom:28px;
+
+}
+
+/* ===================================================================
+   DASHBOARD DIVIDER
+=================================================================== */
+
+.dashboard-divider{
+
+    width:100%;
+
+    height:1px;
+
+    background:var(--border-color);
+
+    margin:32px 0;
+
+}
+
+/* ===================================================================
+   DASHBOARD RESPONSIVE
+=================================================================== */
+
+@media (max-width:1200px){
+
+    .dashboard-hero{
+
+        flex-direction:column;
+
+        text-align:center;
+
+        gap:40px;
+
+    }
+
+    .hero-left{
+
+        max-width:100%;
+
+    }
+
+    .chart-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media (max-width:992px){
+
+    .stats-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .quick-actions{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .health-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .dashboard{
+
+        gap:24px;
+
+    }
+
+    .dashboard-hero{
+
+        padding:28px;
+
+        min-height:auto;
+
+    }
+
+    .hero-title{
+
+        font-size:34px;
+
+    }
+
+    .hero-text{
+
+        font-size:15px;
+
+    }
+
+    .stats-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .quick-actions{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .health-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .findings-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .widget-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+/* ===================================================================
+   PRINT
+=================================================================== */
+
+@media print{
+
+    .dashboard-hero{
+
+        background:#ffffff;
+
+        color:#000000;
+
+        border:1px solid #cccccc;
+
+    }
+
+    .chart-card,
+    .widget,
+    .health-card,
+    .finding-card{
+
+        break-inside:avoid;
+
+        box-shadow:none;
+
+    }
+
+}
+
+/* ===================================================================
+   DASHBOARD HELPERS
+=================================================================== */
+
+.dashboard-spacing{
+
+    margin-top:32px;
+
+}
+
+.dashboard-center{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+.dashboard-right{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+}
+
+.dashboard-grow{
+
+    flex:1;
+
+}
+
+.dashboard-scroll{
+
+    overflow-y:auto;
+
+    max-height:500px;
+
+}

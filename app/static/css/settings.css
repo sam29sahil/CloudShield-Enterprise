@@ -1,0 +1,295 @@
+/*
+=========================================
+CloudShield Enterprise
+Settings Module
+=========================================
+*/
+
+:root{
+
+    --primary:#2563eb;
+    --success:#16a34a;
+    --warning:#f59e0b;
+    --danger:#dc2626;
+    --light:#f8fafc;
+    --border:#e5e7eb;
+
+}
+
+/* =====================================
+Page
+===================================== */
+
+body{
+
+    background:#f5f7fb;
+
+}
+
+/* =====================================
+Cards
+===================================== */
+
+.card{
+
+    border:none;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    transition:.25s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 18px 40px rgba(0,0,0,.08);
+
+}
+
+.card-header{
+
+    background:#fff;
+
+    border-bottom:1px solid var(--border);
+
+    font-weight:600;
+
+}
+
+.card-body{
+
+    padding:24px;
+
+}
+
+/* =====================================
+Navigation
+===================================== */
+
+.nav-pills{
+
+    gap:10px;
+
+}
+
+.nav-pills .nav-link{
+
+    border-radius:10px;
+
+    color:#6b7280;
+
+    font-weight:600;
+
+    padding:10px 18px;
+
+    transition:.25s;
+
+}
+
+.nav-pills .nav-link:hover{
+
+    background:#eef4ff;
+
+    color:var(--primary);
+
+}
+
+.nav-pills .nav-link.active{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+/* =====================================
+Forms
+===================================== */
+
+.form-label{
+
+    font-weight:600;
+
+    margin-bottom:6px;
+
+}
+
+.form-control,
+
+.form-select{
+
+    border-radius:10px;
+
+    min-height:45px;
+
+}
+
+.form-control:focus,
+
+.form-select:focus{
+
+    box-shadow:none;
+
+    border-color:var(--primary);
+
+}
+
+/* =====================================
+Checkboxes
+===================================== */
+
+.form-check{
+
+    padding-left:2rem;
+
+}
+
+.form-check-input{
+
+    width:20px;
+
+    height:20px;
+
+}
+
+.form-check-label{
+
+    font-weight:500;
+
+}
+
+/* =====================================
+Buttons
+===================================== */
+
+.btn{
+
+    border-radius:10px;
+
+    padding:10px 18px;
+
+}
+
+.btn-primary{
+
+    background:var(--primary);
+
+}
+
+.btn-success{
+
+    background:var(--success);
+
+}
+
+.btn-warning{
+
+    background:var(--warning);
+
+}
+
+.btn-danger{
+
+    background:var(--danger);
+
+}
+
+/* =====================================
+Statistics Cards
+===================================== */
+
+.card h2{
+
+    font-size:2rem;
+
+    font-weight:700;
+
+}
+
+/* =====================================
+Tables
+===================================== */
+
+.table th{
+
+    width:260px;
+
+    background:#f8fafc;
+
+}
+
+.table td,
+
+.table th{
+
+    padding:14px;
+
+    vertical-align:middle;
+
+}
+
+/* =====================================
+Alert
+===================================== */
+
+.alert{
+
+    border:none;
+
+    border-radius:10px;
+
+}
+
+/* =====================================
+Animations
+===================================== */
+
+.tab-pane{
+
+    animation:fade .35s;
+
+}
+
+@keyframes fade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* =====================================
+Responsive
+===================================== */
+
+@media(max-width:768px){
+
+    .card-body{
+
+        padding:18px;
+
+    }
+
+    .nav-pills{
+
+        flex-wrap:wrap;
+
+    }
+
+}

@@ -1,0 +1,80 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-person-badge text-primary"></i>
+Azure Identity
+{% endblock %}
+
+{% block azure_subtitle %}
+Azure Subscription & Identity Information.
+{% endblock %}
+
+{% block breadcrumb %}
+Identity
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="card shadow-sm">
+
+<div class="card-header">
+
+<strong>Azure Identity</strong>
+
+</div>
+
+<div class="card-body">
+
+<table class="table">
+
+<tr>
+
+<th>Tenant</th>
+
+<td>{{ data.tenant }}</td>
+
+</tr>
+
+<tr>
+
+<th>Subscription</th>
+
+<td>{{ data.subscription }}</td>
+
+</tr>
+
+<tr>
+
+<th>Status</th>
+
+<td>
+
+{% if data.connected %}
+
+<span class="badge bg-success">
+
+Connected
+
+</span>
+
+{% else %}
+
+<span class="badge bg-warning">
+
+Not Connected
+
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+{% endblock %}

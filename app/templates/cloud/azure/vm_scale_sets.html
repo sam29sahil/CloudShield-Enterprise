@@ -1,0 +1,168 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-server text-primary"></i>
+Azure VM Scale Sets
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure Virtual Machine Scale Sets, capacity, orchestration and upgrade policies.
+{% endblock %}
+
+{% block breadcrumb %}
+VM Scale Sets
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+<div class="row g-4 mb-4">
+
+<div class="col-xl-3">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">Scale Sets</small>
+<h2 class="fw-bold">{{ data|length }}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-xl-3">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">VM Capacity</small>
+<h2 class="fw-bold">{{ data|sum(attribute='capacity') }}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-xl-3">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">Healthy</small>
+<h2 class="fw-bold">
+{{ data|selectattr('provisioning_state','equalto','Succeeded')|list|length }}
+</h2>
+</div>
+</div>
+</div>
+
+<div class="col-xl-3">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">SKU Types</small>
+<h2 class="fw-bold">
+{{ data|map(attribute='sku')|unique|list|length }}
+</h2>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="card shadow-sm border-0">
+
+<div class="card-header bg-white">
+<strong>Azure VM Scale Sets Inventory</strong>
+</div>
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle mb-0">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Name</th>
+<th>Resource Group</th>
+<th>Region</th>
+<th>SKU</th>
+<th>Capacity</th>
+<th>Tier</th>
+<th>Upgrade Policy</th>
+<th>Orchestration</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for vmss in data %}
+
+<tr>
+
+<td><strong>{{ vmss.name }}</strong></td>
+
+<td>{{ vmss.resource_group }}</td>
+
+<td>{{ vmss.location }}</td>
+
+<td>{{ vmss.sku }}</td>
+
+<td>
+
+<span class="badge bg-primary">
+
+{{ vmss.capacity }}
+
+</span>
+
+</td>
+
+<td>{{ vmss.tier }}</td>
+
+<td>{{ vmss.upgrade_policy }}</td>
+
+<td>{{ vmss.orchestration_mode }}</td>
+
+<td>
+
+{% if vmss.provisioning_state=="Succeeded" %}
+
+<span class="badge bg-success">Healthy</span>
+
+{% else %}
+
+<span class="badge bg-warning text-dark">
+
+{{ vmss.provisioning_state }}
+
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+<td colspan="9" class="text-center py-5 text-muted">
+
+<i class="bi bi-server fs-1 d-block mb-3"></i>
+
+No VM Scale Sets Found.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

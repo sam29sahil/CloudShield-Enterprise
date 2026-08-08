@@ -1,0 +1,141 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+
+Kubernetes
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ====================================== -->
+    <!-- Header -->
+    <!-- ====================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-diagram-3-fill text-primary"></i>
+
+                Kubernetes
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                CloudShield Enterprise Kubernetes Security Platform
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <span class="badge bg-success">
+
+                Connected
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- ====================================== -->
+    <!-- Navigation -->
+    <!-- ====================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <div class="btn-group flex-wrap">
+
+                <a href="{{ url_for('kubernetes.index') }}"
+                   class="btn btn-outline-primary">
+
+                    Dashboard
+
+                </a>
+
+                <a href="{{ url_for('kubernetes.cluster') }}"
+                   class="btn btn-outline-primary">
+
+                    Cluster
+
+                </a>
+
+                <a href="{{ url_for('kubernetes.nodes') }}"
+                   class="btn btn-outline-primary">
+
+                    Nodes
+
+                </a>
+
+                <a href="{{ url_for('kubernetes.pods') }}"
+                   class="btn btn-outline-primary">
+
+                    Pods
+
+                </a>
+
+                <a href="{{ url_for('kubernetes.deployments') }}"
+                   class="btn btn-outline-primary">
+
+                    Deployments
+
+                </a>
+
+                <a href="{{ url_for('kubernetes.services') }}"
+                   class="btn btn-outline-primary">
+
+                    Services
+
+                </a>
+
+                <a href="{{ url_for('kubernetes.namespaces') }}"
+                   class="btn btn-outline-primary">
+
+                    Namespaces
+
+                </a>
+
+                <a href="{{ url_for('kubernetes.ingress') }}"
+                   class="btn btn-outline-primary">
+
+                    Ingress
+
+                </a>
+
+                <a href="{{ url_for('kubernetes.secuurity') }}"
+                   class="btn btn-outline-primary">
+
+                    Security
+
+                </a>
+
+                <a href="{{ url_for('kubernetes.health') }}"
+                   class="btn btn-outline-primary">
+
+                    Health
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% block kubernetes_content %}
+
+    {% endblock %}
+
+</div>
+
+{% endblock %}

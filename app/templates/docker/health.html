@@ -1,0 +1,473 @@
+{% extends "docker/base.html" %}
+
+{% block title %}
+Docker Health
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ===================================== -->
+    <!-- Hero -->
+    <!-- ===================================== -->
+
+    <div class="card border-0 shadow-lg bg-dark text-white mb-4">
+
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-8">
+
+                    <span class="badge bg-info mb-3">
+
+                        Docker Runtime Health
+
+                    </span>
+
+                    <h2 class="fw-bold">
+
+                        Docker Engine Health Dashboard
+
+                    </h2>
+
+                    <p class="text-light mb-0">
+
+                        Monitor Docker Engine health, runtime status,
+                        resources and infrastructure.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-4 text-center">
+
+                    {% if health.docker_running %}
+
+                        <span class="badge bg-success fs-4">
+
+                            Healthy
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-danger fs-4">
+
+                            Offline
+
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Health Cards -->
+    <!-- ===================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>
+
+                        Running Containers
+
+                    </h6>
+
+                    <h2 class="text-success">
+
+                        {{ health.containers }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>
+
+                        Images
+
+                    </h6>
+
+                    <h2 class="text-primary">
+
+                        {{ health.images }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>
+
+                        Networks
+
+                    </h6>
+
+                    <h2 class="text-warning">
+
+                        {{ summary.networks }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>
+
+                        Volumes
+
+                    </h6>
+
+                    <h2 class="text-danger">
+
+                        {{ summary.volumes }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Engine Information -->
+    <!-- ===================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5 class="mb-0">
+
+                Docker Engine Status
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tbody>
+
+                    <tr>
+
+                        <th width="250">
+
+                            Engine Status
+
+                        </th>
+
+                        <td>
+
+                            {% if health.docker_running %}
+
+                                Running
+
+                            {% else %}
+
+                                Offline
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Running Containers
+
+                        </th>
+
+                        <td>
+
+                            {{ health.containers }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Images
+
+                        </th>
+
+                        <td>
+
+                            {{ health.images }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Networks
+
+                        </th>
+
+                        <td>
+
+                            {{ summary.networks }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Volumes
+
+                        </th>
+
+                        <td>
+
+                            {{ summary.volumes }}
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+        <!-- ===================================== -->
+    <!-- Runtime Status -->
+    <!-- ===================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5 class="mb-0">
+
+                Runtime Status
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row text-center">
+
+                <div class="col-lg-4">
+
+                    <i class="bi bi-check-circle-fill text-success display-5"></i>
+
+                    <h5 class="mt-3">
+
+                        Docker Daemon
+
+                    </h5>
+
+                    <span class="badge bg-success">
+
+                        {% if health.docker_running %}
+
+                            Running
+
+                        {% else %}
+
+                            Offline
+
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <i class="bi bi-box-seam text-primary display-5"></i>
+
+                    <h5 class="mt-3">
+
+                        Containers
+
+                    </h5>
+
+                    <span class="badge bg-primary">
+
+                        {{ health.containers }}
+
+                    </span>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <i class="bi bi-hdd-stack text-info display-5"></i>
+
+                    <h5 class="mt-3">
+
+                        Images
+
+                    </h5>
+
+                    <span class="badge bg-info">
+
+                        {{ health.images }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Health Recommendations -->
+    <!-- ===================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5 class="mb-0">
+
+                Recommendations
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <ul class="list-group">
+
+                {% if health.docker_running %}
+
+                <li class="list-group-item">
+
+                    <i class="bi bi-check-circle-fill text-success"></i>
+
+                    Docker Engine is running normally.
+
+                </li>
+
+                {% else %}
+
+                <li class="list-group-item">
+
+                    <i class="bi bi-x-circle-fill text-danger"></i>
+
+                    Start the Docker daemon before performing security scans.
+
+                </li>
+
+                {% endif %}
+
+                <li class="list-group-item">
+
+                    <i class="bi bi-shield-check text-primary"></i>
+
+                    Review privileged containers regularly.
+
+                </li>
+
+                <li class="list-group-item">
+
+                    <i class="bi bi-arrow-repeat text-info"></i>
+
+                    Keep Docker Engine updated.
+
+                </li>
+
+                <li class="list-group-item">
+
+                    <i class="bi bi-hdd text-warning"></i>
+
+                    Remove unused images and volumes.
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Footer -->
+    <!-- ===================================== -->
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body text-center">
+
+            <small class="text-muted">
+
+                CloudShield Enterprise • Docker Health Monitor
+
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

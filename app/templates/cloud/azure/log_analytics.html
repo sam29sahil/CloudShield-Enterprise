@@ -1,0 +1,122 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-graph-up text-info"></i>
+Azure Log Analytics
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure Log Analytics workspaces.
+{% endblock %}
+
+{% block breadcrumb %}
+Log Analytics
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+<div class="row g-4 mb-4">
+
+<div class="col-xl-4">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">Workspaces</small>
+<h2 class="fw-bold">{{ data|length }}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-xl-4">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">Regions</small>
+<h2 class="fw-bold">
+{{ data|map(attribute='location')|unique|list|length }}
+</h2>
+</div>
+</div>
+</div>
+
+<div class="col-xl-4">
+<div class="card shadow-sm border-0">
+<div class="card-body">
+<small class="text-muted">Avg. Retention</small>
+<h2 class="fw-bold">
+{{ (data|sum(attribute='retention') / data|length)|round(0) if data else 0 }}
+Days
+</h2>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="card shadow-sm border-0">
+
+<div class="card-header bg-white">
+<strong>Log Analytics Workspaces</strong>
+</div>
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle mb-0">
+
+<thead class="table-dark">
+
+<tr>
+<th>Name</th>
+<th>Resource Group</th>
+<th>Region</th>
+<th>SKU</th>
+<th>Retention</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for ws in data %}
+
+<tr>
+
+<td><strong>{{ ws.name }}</strong></td>
+
+<td>{{ ws.resource_group }}</td>
+
+<td>{{ ws.location }}</td>
+
+<td>{{ ws.sku }}</td>
+
+<td>{{ ws.retention }} Days</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+<td colspan="5" class="text-center py-5 text-muted">
+
+<i class="bi bi-graph-up fs-1 d-block mb-3"></i>
+
+No Log Analytics Workspaces Found.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

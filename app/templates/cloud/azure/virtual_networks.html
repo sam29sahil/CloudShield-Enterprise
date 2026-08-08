@@ -1,0 +1,302 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-diagram-3-fill text-success"></i>
+Azure Virtual Networks
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure Virtual Networks, address spaces, peerings and network security.
+{% endblock %}
+
+{% block breadcrumb %}
+Virtual Networks
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+    <!-- Summary -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total VNets
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total Subnets
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data | sum(attribute='subnets') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Network Peerings
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data | sum(attribute='peerings') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        DDoS Protected
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data | selectattr("ddos_protection") | list | length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Inventory -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <strong>
+
+                Azure Virtual Network Inventory
+
+            </strong>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Resource Group</th>
+
+                        <th>Region</th>
+
+                        <th>Address Space</th>
+
+                        <th>Subnets</th>
+
+                        <th>Peerings</th>
+
+                        <th>DDoS</th>
+
+                        <th>Encryption</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for vnet in data %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ vnet.name }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ vnet.resource_group }}
+
+                        </td>
+
+                        <td>
+
+                            {{ vnet.location }}
+
+                        </td>
+
+                        <td>
+
+                            {% if vnet.address_space %}
+
+                                {% for cidr in vnet.address_space %}
+
+                                    <span class="badge bg-secondary">
+
+                                        {{ cidr }}
+
+                                    </span>
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                {{ vnet.subnets }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-info">
+
+                                {{ vnet.peerings }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {% if vnet.ddos_protection %}
+
+                                <span class="badge bg-success">
+
+                                    Enabled
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Disabled
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ vnet.encryption }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                {{ vnet.provisioning_state }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="9" class="text-center py-5 text-muted">
+
+                            <i class="bi bi-diagram-3-fill fs-1 d-block mb-3"></i>
+
+                            No Virtual Networks Found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

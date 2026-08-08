@@ -1,0 +1,302 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-fire text-danger"></i>
+Azure Firewall
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure Firewall inventory, firewall policies and threat intelligence.
+{% endblock %}
+
+{% block breadcrumb %}
+Firewall
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+    <!-- Summary -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Firewalls
+                    </small>
+
+                    <h2 class="fw-bold">
+                        {{ data|length }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Network Rules
+                    </small>
+
+                    <h2 class="fw-bold">
+                        {{ data | sum(attribute='network_rule_collections') }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Application Rules
+                    </small>
+
+                    <h2 class="fw-bold">
+                        {{ data | sum(attribute='application_rule_collections') }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        NAT Rules
+                    </small>
+
+                    <h2 class="fw-bold">
+                        {{ data | sum(attribute='nat_rule_collections') }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Inventory -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <strong>
+
+                Azure Firewall Inventory
+
+            </strong>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Resource Group</th>
+
+                        <th>Region</th>
+
+                        <th>SKU</th>
+
+                        <th>Tier</th>
+
+                        <th>Threat Intelligence</th>
+
+                        <th>Network Rules</th>
+
+                        <th>Application Rules</th>
+
+                        <th>NAT Rules</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for firewall in data %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ firewall.name }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ firewall.resource_group }}
+
+                        </td>
+
+                        <td>
+
+                            {{ firewall.location }}
+
+                        </td>
+
+                        <td>
+
+                            {{ firewall.sku }}
+
+                        </td>
+
+                        <td>
+
+                            {{ firewall.tier }}
+
+                        </td>
+
+                        <td>
+
+                            {% if firewall.threat_intelligence == "Alert" %}
+
+                                <span class="badge bg-success">
+
+                                    Alert
+
+                                </span>
+
+                            {% elif firewall.threat_intelligence == "Deny" %}
+
+                                <span class="badge bg-danger">
+
+                                    Deny
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    {{ firewall.threat_intelligence }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                {{ firewall.network_rule_collections }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-info">
+
+                                {{ firewall.application_rule_collections }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-warning text-dark">
+
+                                {{ firewall.nat_rule_collections }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {% if firewall.provisioning_state == "Succeeded" %}
+
+                                <span class="badge bg-success">
+
+                                    Healthy
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    {{ firewall.provisioning_state }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="10" class="text-center py-5 text-muted">
+
+                            <i class="bi bi-fire fs-1 d-block mb-3"></i>
+
+                            No Azure Firewalls Found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

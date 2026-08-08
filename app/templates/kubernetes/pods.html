@@ -1,0 +1,314 @@
+{% extends "kubernetes/base.html" %}
+
+{% block kubernetes_content %}
+
+<div class="card border-0 shadow-lg bg-dark text-white mb-4">
+
+    <div class="card-body">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-8">
+
+                <span class="badge bg-success mb-3">
+
+                    Kubernetes Pods
+
+                </span>
+
+                <h2 class="fw-bold">
+
+                    Pod Management
+
+                </h2>
+
+                <p class="text-light mb-0">
+
+                    Monitor Kubernetes Pods across all namespaces including
+                    status, node assignment, networking and health.
+
+                </p>
+
+            </div>
+
+            <div class="col-lg-4 text-center">
+
+                <h1 class="display-2">
+
+                    {{ pods|length }}
+
+                </h1>
+
+                <span class="badge bg-success fs-5">
+
+                    Pods
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="card-header bg-dark text-white">
+
+        <h5 class="mb-0">
+
+            Kubernetes Pods
+
+        </h5>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle mb-0">
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Namespace</th>
+
+                    <th>Node</th>
+
+                    <th>IP Address</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for pod in pods %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ pod.name }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {{ pod.namespace }}
+
+                    </td>
+
+                    <td>
+
+                        {{ pod.node }}
+
+                    </td>
+
+                    <td>
+
+                        {{ pod.ip }}
+
+                    </td>
+
+                    <td>
+
+                        {% if pod.status=="Running" %}
+
+                            <span class="badge bg-success">
+
+                                Running
+
+                            </span>
+
+                        {% elif pod.status=="Pending" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                Pending
+
+                            </span>
+
+                        {% elif pod.status=="Failed" %}
+
+                            <span class="badge bg-danger">
+
+                                Failed
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+
+                                {{ pod.status }}
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+            {% else %}
+
+                <tr>
+
+                    <td colspan="5" class="text-center py-5">
+
+                        <i class="bi bi-box-seam display-3 text-secondary"></i>
+
+                        <h5 class="mt-3">
+
+                            No Pods Found
+
+                        </h5>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="row mt-4">
+
+    <div class="col-lg-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-box display-5 text-primary"></i>
+
+                <h3>
+
+                    {{ pods|length }}
+
+                </h3>
+
+                <small>
+
+                    Total Pods
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-check-circle-fill display-5 text-success"></i>
+
+                <h3>
+
+                    {{ pods|selectattr("status","equalto","Running")|list|length }}
+
+                </h3>
+
+                <small>
+
+                    Running
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-clock-fill display-5 text-warning"></i>
+
+                <h3>
+
+                    {{ pods|selectattr("status","equalto","Pending")|list|length }}
+
+                </h3>
+
+                <small>
+
+                    Pending
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center">
+
+                <i class="bi bi-x-circle-fill display-5 text-danger"></i>
+
+                <h3>
+
+                    {{ pods|rejectattr("status","equalto","Running")|list|length }}
+
+                </h3>
+
+                <small>
+
+                    Non-Running
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm mt-4">
+
+    <div class="card-body text-center">
+
+        <small class="text-muted">
+
+            CloudShield Enterprise • Kubernetes Pod Management
+
+        </small>
+
+    </div>
+
+</div>
+
+{% endblock %}

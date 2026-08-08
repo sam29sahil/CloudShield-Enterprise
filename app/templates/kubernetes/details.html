@@ -1,0 +1,184 @@
+{% extends "kubernetes/base.html" %}
+
+{% block kubernetes_content %}
+
+<div class="container-fluid">
+
+    <div class="card border-0 shadow-lg bg-dark text-white mb-4">
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-lg-8">
+
+                    <h2 class="fw-bold">
+
+                        Kubernetes Resource Details
+
+                    </h2>
+
+                    <p class="mb-0">
+
+                        Detailed information for the selected Kubernetes resource.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-4 text-end">
+
+                    <a href="{{ url_for('kubernetes.index') }}"
+                       class="btn btn-light">
+
+                        Back
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            General Information
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tr>
+
+                    <th width="250">Name</th>
+
+                    <td>{{ resource.name }}</td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Namespace</th>
+
+                    <td>{{ resource.namespace }}</td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Kind</th>
+
+                    <td>{{ resource.kind }}</td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Status</th>
+
+                    <td>{{ resource.status }}</td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Created</th>
+
+                    <td>{{ resource.created }}</td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            Labels
+
+        </div>
+
+        <div class="card-body">
+
+            {% if resource.labels %}
+
+                {% for key,value in resource.labels.items() %}
+
+                    <span class="badge bg-primary">
+
+                        {{ key }}={{ value }}
+
+                    </span>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="alert alert-secondary">
+
+                    No labels available.
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            Annotations
+
+        </div>
+
+        <div class="card-body">
+
+            {% if resource.annotations %}
+
+                <pre>{{ resource.annotations }}</pre>
+
+            {% else %}
+
+                <div class="alert alert-secondary">
+
+                    No annotations.
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body text-center">
+
+            <small class="text-muted">
+
+                CloudShield Enterprise • Kubernetes Resource Details
+
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

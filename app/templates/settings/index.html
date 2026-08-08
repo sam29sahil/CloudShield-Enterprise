@@ -1,0 +1,767 @@
+{% extends "base.html" %}
+
+{% block title %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/settings.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ========================================= -->
+    <!-- Page Header -->
+    <!-- ========================================= -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                <i class="bi bi-gear-fill text-primary"></i>
+
+                Settings
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Manage your CloudShield Enterprise preferences.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- Statistics -->
+    <!-- ========================================= -->
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Assets
+
+                    </h6>
+
+                    <h2>
+
+                        {{ system.assets }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Scans
+
+                    </h6>
+
+                    <h2>
+
+                        {{ system.scans }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Findings
+
+                    </h6>
+
+                    <h2>
+
+                        {{ system.findings }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Users
+
+                    </h6>
+
+                    <h2>
+
+                        {{ system.users }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- Navigation -->
+    <!-- ========================================= -->
+
+    <ul class="nav nav-pills mb-4" id="settingsTabs">
+
+        <li class="nav-item">
+
+            <a class="nav-link active"
+               data-bs-toggle="pill"
+               href="#profile">
+
+                <i class="bi bi-person"></i>
+
+                Profile
+
+            </a>
+
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link"
+               data-bs-toggle="pill"
+               href="#security">
+
+                <i class="bi bi-shield-lock"></i>
+
+                Security
+
+            </a>
+
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link"
+               data-bs-toggle="pill"
+               href="#scanner">
+
+                <i class="bi bi-search"></i>
+
+                Scanner
+
+            </a>
+
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link"
+               data-bs-toggle="pill"
+               href="#reports">
+
+                <i class="bi bi-file-earmark-pdf"></i>
+
+                Reports
+
+            </a>
+
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link"
+               data-bs-toggle="pill"
+               href="#notifications">
+
+                <i class="bi bi-bell"></i>
+
+                Notifications
+
+            </a>
+
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link"
+               data-bs-toggle="pill"
+               href="#system">
+
+                <i class="bi bi-cpu"></i>
+
+                System
+
+            </a>
+
+        </li>
+
+    </ul>
+
+    <div class="tab-content">
+        <!-- ========================================= -->
+<!-- Profile -->
+<!-- ========================================= -->
+
+<div class="tab-pane fade show active"
+     id="profile">
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                <i class="bi bi-person-circle text-primary"></i>
+
+                Profile Information
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {{ profile_form.hidden_tag() }}
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        {{ profile_form.full_name.label(class="form-label") }}
+
+                        {{ profile_form.full_name(class="form-control") }}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        {{ profile_form.username.label(class="form-label") }}
+
+                        {{ profile_form.username(class="form-control") }}
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12 mb-3">
+
+                        {{ profile_form.email.label(class="form-label") }}
+
+                        {{ profile_form.email(class="form-control") }}
+
+                    </div>
+
+                </div>
+
+                <div class="text-end">
+
+                    {{ profile_form.submit(
+                        class="btn btn-primary"
+                    ) }}
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ========================================= -->
+<!-- Security -->
+<!-- ========================================= -->
+
+<div class="tab-pane fade"
+     id="security">
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                <i class="bi bi-shield-lock-fill text-danger"></i>
+
+                Change Password
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {{ password_form.hidden_tag() }}
+
+                <div class="row">
+
+                    <div class="col-md-12 mb-3">
+
+                        {{ password_form.current_password.label(class="form-label") }}
+
+                        {{ password_form.current_password(class="form-control") }}
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        {{ password_form.new_password.label(class="form-label") }}
+
+                        {{ password_form.new_password(class="form-control") }}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        {{ password_form.confirm_password.label(class="form-label") }}
+
+                        {{ password_form.confirm_password(class="form-control") }}
+
+                    </div>
+
+                </div>
+
+                <div class="alert alert-info">
+
+                    <i class="bi bi-info-circle-fill"></i>
+
+                    Password requirements:
+
+                    <ul class="mb-0 mt-2">
+
+                        <li>Minimum 8 characters</li>
+
+                        <li>Use uppercase and lowercase letters</li>
+
+                        <li>Include at least one number</li>
+
+                        <li>Use a special character for better security</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="text-end">
+
+                    {{ password_form.submit(
+                        class="btn btn-danger"
+                    ) }}
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ========================================= -->
+<!-- Scanner Settings -->
+<!-- ========================================= -->
+
+<div class="tab-pane fade"
+     id="scanner">
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                <i class="bi bi-search text-primary"></i>
+
+                Scanner Preferences
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {{ scanner_form.hidden_tag() }}
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        {{ scanner_form.default_mode.label(class="form-label") }}
+
+                        {{ scanner_form.default_mode(class="form-select") }}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        {{ scanner_form.default_category.label(class="form-label") }}
+
+                        {{ scanner_form.default_category(class="form-select") }}
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        {{ scanner_form.timeout.label(class="form-label") }}
+
+                        {{ scanner_form.timeout(class="form-control") }}
+
+                    </div>
+
+                    <div class="col-md-6 d-flex align-items-center">
+
+                        <div class="form-check mt-4">
+
+                            {{ scanner_form.save_history(class="form-check-input") }}
+
+                            {{ scanner_form.save_history.label(class="form-check-label") }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="text-end">
+
+                    {{ scanner_form.submit(class="btn btn-primary") }}
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- Report Settings -->
+<!-- ========================================= -->
+
+<div class="tab-pane fade"
+     id="reports">
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                <i class="bi bi-file-earmark-pdf text-success"></i>
+
+                Report Preferences
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {{ report_form.hidden_tag() }}
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        {{ report_form.company_name.label(class="form-label") }}
+
+                        {{ report_form.company_name(class="form-control") }}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        {{ report_form.company_email.label(class="form-label") }}
+
+                        {{ report_form.company_email(class="form-control") }}
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    {{ report_form.company_website.label(class="form-label") }}
+
+                    {{ report_form.company_website(class="form-control") }}
+
+                </div>
+
+                <div class="mb-3">
+
+                    {{ report_form.default_format.label(class="form-label") }}
+
+                    {{ report_form.default_format(class="form-select") }}
+
+                </div>
+
+                <hr>
+
+                <div class="form-check mb-2">
+
+                    {{ report_form.include_summary(class="form-check-input") }}
+
+                    {{ report_form.include_summary.label(class="form-check-label") }}
+
+                </div>
+
+                <div class="form-check mb-2">
+
+                    {{ report_form.include_recommendations(class="form-check-input") }}
+
+                    {{ report_form.include_recommendations.label(class="form-check-label") }}
+
+                </div>
+
+                <div class="form-check mb-4">
+
+                    {{ report_form.include_raw(class="form-check-input") }}
+
+                    {{ report_form.include_raw.label(class="form-check-label") }}
+
+                </div>
+
+                <div class="text-end">
+
+                    {{ report_form.submit(class="btn btn-success") }}
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ========================================= -->
+<!-- Notification Settings -->
+<!-- ========================================= -->
+
+<div class="tab-pane fade"
+     id="notifications">
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                <i class="bi bi-bell-fill text-warning"></i>
+
+                Notification Preferences
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {{ notification_form.hidden_tag() }}
+
+                <div class="form-check mb-3">
+
+                    {{ notification_form.enable_notifications(class="form-check-input") }}
+
+                    {{ notification_form.enable_notifications.label(class="form-check-label") }}
+
+                </div>
+
+                <div class="form-check mb-3">
+
+                    {{ notification_form.notify_scan_complete(class="form-check-input") }}
+
+                    {{ notification_form.notify_scan_complete.label(class="form-check-label") }}
+
+                </div>
+
+                <div class="form-check mb-3">
+
+                    {{ notification_form.notify_scan_failed(class="form-check-input") }}
+
+                    {{ notification_form.notify_scan_failed.label(class="form-check-label") }}
+
+                </div>
+
+                <div class="form-check mb-3">
+
+                    {{ notification_form.notify_critical(class="form-check-input") }}
+
+                    {{ notification_form.notify_critical.label(class="form-check-label") }}
+
+                </div>
+
+                <div class="form-check mb-4">
+
+                    {{ notification_form.notify_reports(class="form-check-input") }}
+
+                    {{ notification_form.notify_reports.label(class="form-check-label") }}
+
+                </div>
+
+                <div class="text-end">
+
+                    {{ notification_form.submit(class="btn btn-warning") }}
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- System Information -->
+<!-- ========================================= -->
+
+<div class="tab-pane fade"
+     id="system">
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                <i class="bi bi-cpu-fill text-info"></i>
+
+                System Information
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover align-middle">
+
+                <tbody>
+
+                    <tr>
+                        <th>CloudShield Version</th>
+                        <td>{{ system.cloudshield }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Python</th>
+                        <td>{{ system.python }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Flask</th>
+                        <td>{{ system.flask }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Operating System</th>
+                        <td>{{ system.platform }} {{ system.platform_release }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Database</th>
+                        <td>{{ system.database }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Total Assets</th>
+                        <td>{{ system.assets }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Total Scans</th>
+                        <td>{{ system.scans }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Total Findings</th>
+                        <td>{{ system.findings }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Total Users</th>
+                        <td>{{ system.users }}</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<div class="text-center text-muted mt-5">
+
+    <small>
+
+        CloudShield Enterprise v1.0 • Settings Module
+
+    </small>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+
+{% endblock %}

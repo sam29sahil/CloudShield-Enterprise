@@ -1,0 +1,125 @@
+"""
+CloudShield Enterprise
+TestSSL Tool
+"""
+
+from app.security.tools.common.base import BaseTool
+
+from app.security.tools.ssl.constants import TESTSSL_DEFAULT
+
+
+class TestSSLTool(BaseTool):
+    """
+    TestSSL Scanner
+    """
+
+    name = "testssl"
+
+    default_arguments = TESTSSL_DEFAULT
+    timeout = 300
+
+    def protocols(self, target):
+
+        return self.scan(
+
+            target,
+
+            [
+
+                "--protocols"
+
+            ]
+
+        )
+
+    def vulnerabilities(self, target):
+
+        return self.scan(
+
+            target,
+
+            [
+
+                "--vulnerable"
+
+            ]
+
+        )
+
+    def certificate(self, target):
+
+        return self.scan(
+
+            target,
+
+            [
+
+                "--server-defaults"
+
+            ]
+
+        )
+
+    def ciphers(self, target):
+
+        return self.scan(
+
+            target,
+
+            [
+
+                "--cipher-per-proto"
+
+            ]
+
+        )
+
+    def hsts(self, target):
+
+        return self.scan(
+
+            target,
+
+            [
+
+                "--hsts"
+
+            ]
+
+        )
+
+    def ocsp(self, target):
+
+        return self.scan(
+
+            target,
+
+            [
+
+                "--ocsp"
+
+            ]
+
+        )
+
+    def scan_all(self, target):
+
+        return self.scan(
+
+            target,
+
+            self.default_arguments
+
+        )
+
+    def info(self):
+
+        return {
+
+            "name": self.name,
+
+            "category": "SSL",
+
+            "description": "TestSSL TLS Security Scanner"
+
+        }

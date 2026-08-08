@@ -1,0 +1,54 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-shield-check text-danger"></i>
+Azure Defender
+{% endblock %}
+
+{% block azure_subtitle %}
+Microsoft Defender for Cloud.
+{% endblock %}
+
+{% block breadcrumb %}
+Defender
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="card shadow-sm">
+
+<div class="card-body text-center">
+
+<h5>Recommendations</h5>
+
+<h2>{{ data.recommendations }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card shadow-sm">
+
+<div class="card-body text-center">
+
+<h5>Security Alerts</h5>
+
+<h2>{{ data.alerts }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

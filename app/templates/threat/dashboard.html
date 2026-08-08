@@ -1,0 +1,1118 @@
+{% extends "threat/base.html" %}
+
+{% block threat_content %}
+
+<div class="container-fluid py-4">
+
+    <!-- =========================================== -->
+    <!-- HERO -->
+    <!-- =========================================== -->
+
+    <div class="card dashboard-card border-0 shadow mb-4">
+
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-8">
+
+                    <h2 class="fw-bold text-white">
+
+                        <i class="bi bi-shield-lock-fill text-danger me-2"></i>
+
+                        Enterprise Threat Intelligence
+
+                    </h2>
+
+                    <p class="text-secondary mb-0">
+
+                        Centralized visibility into vulnerabilities,
+                        MITRE ATT&CK techniques, Indicators of Compromise,
+                        malware intelligence and threat feeds.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-4 text-end">
+
+                    <a href="{{ url_for('threat.cve') }}"
+                       class="btn btn-danger">
+
+                        <i class="bi bi-bug-fill me-2"></i>
+
+                        CVE Explorer
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =========================================== -->
+    <!-- THREAT SCORE -->
+    <!-- =========================================== -->
+
+    <div class="card dashboard-card border-0 shadow mb-4">
+
+        <div class="card-body text-center">
+
+            <small class="text-secondary">
+
+                Threat Intelligence Score
+
+            </small>
+
+            <h1 class="display-3 fw-bold text-success">
+
+                {{ data.score }}%
+
+            </h1>
+
+            <p class="text-secondary">
+
+                Overall Security Intelligence Rating
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- =========================================== -->
+    <!-- KPI CARDS -->
+    <!-- =========================================== -->
+
+    <div class="row g-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Critical CVEs
+
+                    </small>
+
+                    <h2 class="fw-bold text-danger">
+
+                        {{ data.critical_cves }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        High CVEs
+
+                    </small>
+
+                    <h2 class="fw-bold text-warning">
+
+                        {{ data.high_cves }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Medium CVEs
+
+                    </small>
+
+                    <h2 class="fw-bold text-info">
+
+                        {{ data.medium_cves }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Low CVEs
+
+                    </small>
+
+                    <h2 class="fw-bold text-success">
+
+                        {{ data.low_cves }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        IOC Database
+
+                    </small>
+
+                    <h2 class="fw-bold text-info">
+
+                        {{ data.ioc_count }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Threat Feeds
+
+                    </small>
+
+                    <h2 class="fw-bold text-primary">
+
+                        {{ data.feeds }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        MITRE Techniques
+
+                    </small>
+
+                    <h2 class="fw-bold text-warning">
+
+                        {{ data.mitre_techniques }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-body">
+
+                    <small class="text-secondary">
+
+                        Active Alerts
+
+                    </small>
+
+                    <h2 class="fw-bold text-danger">
+
+                        0
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+        <!-- =========================================== -->
+    <!-- QUICK ACTIONS -->
+    <!-- =========================================== -->
+
+    <div class="row g-4 mt-4">
+
+        <div class="col-lg-4">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-header">
+
+                    <h4 class="mb-0 text-white">
+
+                        <i class="bi bi-lightning-fill text-warning me-2"></i>
+
+                        Quick Actions
+
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="d-grid gap-3">
+
+                        <a href="{{ url_for('threat.cve') }}"
+                           class="btn btn-danger">
+
+                            <i class="bi bi-bug-fill me-2"></i>
+
+                            CVE Explorer
+
+                        </a>
+
+                        <a href="{{ url_for('threat.mitre') }}"
+                           class="btn btn-warning">
+
+                            <i class="bi bi-diagram-3-fill me-2"></i>
+
+                            MITRE ATT&CK
+
+                        </a>
+
+                        <a href="{{ url_for('threat.ioc') }}"
+                           class="btn btn-info">
+
+                            <i class="bi bi-search me-2"></i>
+
+                            IOC Lookup
+
+                        </a>
+
+                        <a href="{{ url_for('threat.feeds') }}"
+                           class="btn btn-success">
+
+                            <i class="bi bi-rss-fill me-2"></i>
+
+                            Threat Feeds
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ======================================= -->
+        <!-- LATEST CVEs -->
+        <!-- ======================================= -->
+
+        <div class="col-lg-8">
+
+            <div class="card dashboard-card border-0 shadow h-100">
+
+                <div class="card-header d-flex justify-content-between align-items-center">
+
+                    <h4 class="mb-0 text-white">
+
+                        <i class="bi bi-bug-fill text-danger me-2"></i>
+
+                        Latest Critical CVEs
+
+                    </h4>
+
+                    <a href="{{ url_for('threat.cve') }}"
+                       class="btn btn-sm btn-outline-danger">
+
+                        View All
+
+                    </a>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th class="text-light">
+
+                                        CVE
+
+                                    </th>
+
+                                    <th class="text-light">
+
+                                        Severity
+
+                                    </th>
+
+                                    <th class="text-light">
+
+                                        CVSS
+
+                                    </th>
+
+                                    <th class="text-light">
+
+                                        Published
+
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td colspan="4" class="text-center py-5">
+
+                                        <i class="bi bi-search display-5 text-secondary"></i>
+
+                                        <h5 class="mt-3 text-white">
+
+                                            No CVEs Available
+
+                                        </h5>
+
+                                        <p class="text-secondary">
+
+                                            Connect a threat feed or search for vulnerabilities.
+
+                                        </p>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =========================================== -->
+    <!-- THREAT STATISTICS -->
+    <!-- =========================================== -->
+
+    <div class="row g-4 mt-4">
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card border-0 shadow">
+
+                <div class="card-body text-center">
+
+                    <h5 class="text-danger">
+
+                        0
+
+                    </h5>
+
+                    <small class="text-secondary">
+
+                        Critical Threats
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card border-0 shadow">
+
+                <div class="card-body text-center">
+
+                    <h5 class="text-warning">
+
+                        0
+
+                    </h5>
+
+                    <small class="text-secondary">
+
+                        High Risk Assets
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card border-0 shadow">
+
+                <div class="card-body text-center">
+
+                    <h5 class="text-info">
+
+                        0
+
+                    </h5>
+
+                    <small class="text-secondary">
+
+                        Active IOCs
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card border-0 shadow">
+
+                <div class="card-body text-center">
+
+                    <h5 class="text-success">
+
+                        100%
+
+                    </h5>
+
+                    <small class="text-secondary">
+
+                        Intelligence Coverage
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- =========================================== -->
+<!-- MITRE ATT&CK -->
+<!-- =========================================== -->
+
+<div class="row g-4 mt-4">
+
+    <div class="col-lg-6">
+
+        <div class="card dashboard-card border-0 shadow h-100">
+
+            <div class="card-header">
+
+                <h4 class="mb-0 text-white">
+
+                    <i class="bi bi-diagram-3-fill text-warning me-2"></i>
+
+                    MITRE ATT&CK Overview
+
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <div class="card bg-dark border border-danger">
+
+                            <div class="card-body text-center">
+
+                                <h6 class="text-white">
+
+                                    Initial Access
+
+                                </h6>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="card bg-dark border border-warning">
+
+                            <div class="card-body text-center">
+
+                                <h6 class="text-white">
+
+                                    Execution
+
+                                </h6>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="card bg-dark border border-info">
+
+                            <div class="card-body text-center">
+
+                                <h6 class="text-white">
+
+                                    Persistence
+
+                                </h6>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="card bg-dark border border-success">
+
+                            <div class="card-body text-center">
+
+                                <h6 class="text-white">
+
+                                    Privilege Escalation
+
+                                </h6>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="card bg-dark border border-primary">
+
+                            <div class="card-body text-center">
+
+                                <h6 class="text-white">
+
+                                    Defense Evasion
+
+                                </h6>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="card bg-dark border border-secondary">
+
+                            <div class="card-body text-center">
+
+                                <h6 class="text-white">
+
+                                    Credential Access
+
+                                </h6>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ======================================= -->
+    <!-- THREAT FEEDS -->
+    <!-- ======================================= -->
+
+    <div class="col-lg-6">
+
+        <div class="card dashboard-card border-0 shadow h-100">
+
+            <div class="card-header">
+
+                <h4 class="mb-0 text-white">
+
+                    <i class="bi bi-rss-fill text-success me-2"></i>
+
+                    Threat Feed
+
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="list-group list-group-flush">
+
+                    <div class="list-group-item bg-transparent border-secondary">
+
+                        <strong class="text-danger">
+
+                            Ransomware
+
+                        </strong>
+
+                        <small class="d-block text-secondary">
+
+                            No recent alerts
+
+                        </small>
+
+                    </div>
+
+                    <div class="list-group-item bg-transparent border-secondary">
+
+                        <strong class="text-warning">
+
+                            Malware
+
+                        </strong>
+
+                        <small class="d-block text-secondary">
+
+                            Feed awaiting synchronization
+
+                        </small>
+
+                    </div>
+
+                    <div class="list-group-item bg-transparent border-secondary">
+
+                        <strong class="text-info">
+
+                            Zero-Day
+
+                        </strong>
+
+                        <small class="d-block text-secondary">
+
+                            No active vulnerabilities
+
+                        </small>
+
+                    </div>
+
+                    <div class="list-group-item bg-transparent border-secondary">
+
+                        <strong class="text-success">
+
+                            Phishing
+
+                        </strong>
+
+                        <small class="d-block text-secondary">
+
+                            No campaigns detected
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================== -->
+<!-- IOC ACTIVITY -->
+<!-- =========================================== -->
+
+<div class="card dashboard-card border-0 shadow mt-4">
+
+    <div class="card-header">
+
+        <h4 class="mb-0 text-white">
+
+            <i class="bi bi-search text-info me-2"></i>
+
+            Indicator of Compromise Activity
+
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Indicator</th>
+
+                        <th>Type</th>
+
+                        <th>Source</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td colspan="4" class="text-center py-5">
+
+                            <i class="bi bi-shield-check display-5 text-success"></i>
+
+                            <h5 class="mt-3 text-white">
+
+                                No IOC Activity
+
+                            </h5>
+
+                            <p class="text-secondary">
+
+                                Threat intelligence feeds are awaiting synchronization.
+
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- =========================================== -->
+<!-- RECENT INTELLIGENCE -->
+<!-- =========================================== -->
+
+<div class="row g-4 mt-4">
+
+    <div class="col-lg-8">
+
+        <div class="card dashboard-card border-0 shadow">
+
+            <div class="card-header">
+
+                <h4 class="mb-0 text-white">
+
+                    <i class="bi bi-clock-history text-info me-2"></i>
+
+                    Recent Intelligence
+
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="mb-4">
+
+                    <h6 class="text-success">
+
+                        <i class="bi bi-check-circle-fill me-2"></i>
+
+                        Threat Intelligence Module Initialized
+
+                    </h6>
+
+                    <small class="text-secondary">
+
+                        Threat dashboard successfully loaded.
+
+                    </small>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <h6 class="text-warning">
+
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                        Waiting for Threat Feed
+
+                    </h6>
+
+                    <small class="text-secondary">
+
+                        External intelligence sources are not yet connected.
+
+                    </small>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <h6 class="text-info">
+
+                        <i class="bi bi-bug-fill me-2"></i>
+
+                        CVE Database Ready
+
+                    </h6>
+
+                    <small class="text-secondary">
+
+                        Ready for NVD API integration.
+
+                    </small>
+
+                </div>
+
+                <div>
+
+                    <h6 class="text-primary">
+
+                        <i class="bi bi-diagram-3-fill me-2"></i>
+
+                        MITRE ATT&CK Framework Ready
+
+                    </h6>
+
+                    <small class="text-secondary">
+
+                        Waiting for ATT&CK dataset integration.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ======================================= -->
+    <!-- THREAT SUMMARY -->
+    <!-- ======================================= -->
+
+    <div class="col-lg-4">
+
+        <div class="card dashboard-card border-0 shadow h-100">
+
+            <div class="card-header">
+
+                <h4 class="mb-0 text-white">
+
+                    <i class="bi bi-bar-chart-fill text-success me-2"></i>
+
+                    Threat Summary
+
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="mb-4">
+
+                    <h2 class="text-success fw-bold">
+
+                        {{ data.score }}%
+
+                    </h2>
+
+                    <small class="text-secondary">
+
+                        Intelligence Score
+
+                    </small>
+
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="text-light">
+
+                        Threat Sources
+
+                    </span>
+
+                    <strong class="text-info">
+
+                        {{ data.feeds }}
+
+                    </strong>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="text-light">
+
+                        CVEs
+
+                    </span>
+
+                    <strong class="text-danger">
+
+                        {{ data.critical_cves }}
+
+                    </strong>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="text-light">
+
+                        MITRE
+
+                    </span>
+
+                    <strong class="text-warning">
+
+                        {{ data.mitre_techniques }}
+
+                    </strong>
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <span class="text-light">
+
+                        IOCs
+
+                    </span>
+
+                    <strong class="text-primary">
+
+                        {{ data.ioc_count }}
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================== -->
+<!-- FOOTER -->
+<!-- =========================================== -->
+
+<div class="card dashboard-card border-0 shadow mt-4 mb-5">
+
+    <div class="card-body text-center">
+
+        <h5 class="text-white">
+
+            Threat Intelligence Center
+
+        </h5>
+
+        <p class="text-secondary mb-2">
+
+            Enterprise Threat Intelligence & Vulnerability Management
+
+        </p>
+
+        <small class="text-secondary">
+
+            CVE • MITRE ATT&CK • IOC • Malware • Threat Feeds
+
+        </small>
+
+    </div>
+
+</div>
+
+{% endblock %}

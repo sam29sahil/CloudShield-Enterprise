@@ -1,0 +1,479 @@
+{% extends "base.html" %}
+
+{% block title %}
+Reports
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Reports Center
+            </h2>
+
+            <p class="text-muted">
+                View and manage all completed security scans.
+            </p>
+
+        </div>
+
+        <div>
+
+            <a href="{{ url_for('scanner.home') }}"
+               class="btn btn-primary">
+
+                <i class="bi bi-search"></i>
+
+                New Scan
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row mb-4">
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Total Reports
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ scans|length }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Completed
+                    </h6>
+
+                    <h2 class="fw-bold text-success">
+                        {{ scans|selectattr('status','equalto','Completed')|list|length }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Failed
+                    </h6>
+
+                    <h2 class="fw-bold text-danger">
+                        {{ scans|selectattr('status','equalto','Failed')|list|length }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        High Risk
+                    </h6>
+
+                    <h2 class="fw-bold text-warning">
+                        {{ scans|selectattr('risk','equalto','High')|list|length }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Reports Table -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+                Security Reports
+            </h5>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Tool</th>
+                            <th>Category</th>
+                            <th>Target</th>
+                            <th>Status</th>
+                            <th>Risk</th>
+                            <th>Score</th>
+                            <th>Started</th>
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% if scans %}
+
+                        {% for scan in scans %}
+
+                        <tr>
+
+                            <td>#{{ scan.id }}</td>
+
+                            <td>{{ scan.tool }}</td>
+
+                            <td>{{ scan.category }}</td>
+
+                            <td>{{ scan.target }}</td>
+
+                            <td>
+
+                                {% if scan.status == "Completed" %}
+
+                                    <span class="badge bg-success">
+
+                                        {{ scan.status }}
+
+                                    </span>
+
+                                {% elif scan.status == "Running" %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        {{ scan.status }}
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-danger">
+
+                                        {{ scan.status }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if scan.risk == "Critical" %}
+
+                                    <span class="badge bg-dark">
+
+                                        Critical
+
+                                    </span>
+
+                                {% elif scan.risk == "High" %}
+
+                                    <span class="badge bg-danger">
+
+                                        High
+
+                                    </span>
+
+                                {% elif scan.risk == "Medium" %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        Medium
+
+                                    </span>
+
+                                {% elif scan.risk == "Low" %}
+
+                                    <span class="badge bg-success">
+
+                                        Low
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+
+                                        Unknown
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ scan.score }}
+
+                            </td>
+
+                            <td>
+
+                                {% if scan.started_at %}
+
+                                    {{ scan.started_at.strftime("%d %b %Y %H:%M") }}
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <div class="btn-group btn-group-sm">
+
+                                    <a href="{{ url_for('reports.view', scan_id=scan.id) }}"
+                                       class="btn btn-primary">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </a>
+
+                                    <a href="{{ url_for('reports.pdf', scan_id=scan.id) }}"
+                                       class="btn btn-success">
+
+                                        <i class="bi bi-file-earmark-pdf"></i>
+
+                                </a>
+
+                                    <a href="{{ url_for('reports.download', scan_id=scan.id) }}"
+                                       class="btn btn-info text-white">
+
+                                        <i class="bi bi-download"></i>
+
+                                    </a>
+
+                                    <a href="{{ url_for('reports.delete', scan_id=scan.id) }}"
+                                       class="btn btn-danger">
+
+
+                                        <i class="bi bi-trash"></i>
+
+                                </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                                                {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="9" class="text-center py-5">
+
+                                <i class="bi bi-file-earmark-text display-4 text-secondary"></i>
+
+                                <h5 class="mt-3">
+
+                                    No Reports Found
+
+                                </h5>
+
+                                <p class="text-muted">
+
+                                    Run a security scan to generate your first report.
+                                </p>
+
+                                <a href="{{ url_for('scanner.home') }}"
+                                   class="btn btn-primary">
+
+                                    Start Scan
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Summary Cards -->
+
+    <div class="row mt-4">
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-bar-chart display-5 text-primary"></i>
+
+                    <h5 class="mt-3">
+
+                        Average Risk Score
+
+                    </h5>
+
+                    <h2 class="fw-bold">
+
+                        {{ "%.1f"|format((scans|sum(attribute='score') if scans else 0) / (scans|length if scans else 1)) }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-shield-check display-5 text-success"></i>
+
+                    <h5 class="mt-3">
+
+                        Successful Scans
+
+                    </h5>
+
+                    <h2 class="fw-bold text-success">
+
+                        {{ scans|selectattr('status','equalto','Completed')|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-clock-history display-5 text-warning"></i>
+
+                    <h5 class="mt-3">
+
+                        Latest Scan
+
+                    </h5>
+
+                    {% if scans %}
+
+                        <p class="fw-bold">
+
+                            {{ scans[0].started_at.strftime("%d %b %Y") }}
+
+                        </p>
+
+                    {% else %}
+
+                        <p>N/A</p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const input = document.getElementById("searchInput");
+
+    if (!input) return;
+
+    input.addEventListener("keyup", function () {
+
+        const value = this.value.toLowerCase();
+
+        document.querySelectorAll("tbody tr").forEach(function (row) {
+
+            row.style.display = row.innerText.toLowerCase().includes(value)
+
+                ? ""
+
+                : "none";
+
+        });
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

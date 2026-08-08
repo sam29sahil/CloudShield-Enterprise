@@ -1,0 +1,21 @@
+.timeline-item{
+
+    padding:12px;
+    
+    margin-bottom:10px;
+    
+    border-left:4px solid #d1d5db;
+    
+    transition:.3s;
+    
+    }
+    
+    .timeline-item.active{
+    
+    border-left:4px solid #0d6efd;
+    
+    background:#eef5ff;
+    
+    font-weight:600;
+    
+    }

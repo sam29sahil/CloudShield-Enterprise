@@ -1,0 +1,376 @@
+{% extends "kubernetes/base.html" %}
+
+{% block kubernetes_content %}
+
+<div class="container-fluid">
+
+    <!-- ===================================== -->
+    <!-- Hero -->
+    <!-- ===================================== -->
+
+    <div class="card border-0 shadow-lg bg-dark text-white mb-4">
+
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-8">
+
+                    <span class="badge bg-success mb-3">
+
+                        Kubernetes Health
+
+                    </span>
+
+                    <h2 class="fw-bold">
+
+                        Cluster Health Dashboard
+
+                    </h2>
+
+                    <p class="text-light mb-0">
+
+                        Monitor cluster availability, nodes, workloads,
+                        services and overall Kubernetes health.
+
+                    </p>
+
+                </div>
+
+                <div class="col-lg-4 text-center">
+
+                    {% if health.healthy %}
+
+                        <span class="badge bg-success fs-4">
+
+                            Healthy
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-danger fs-4">
+
+                            Unhealthy
+
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- KPI Cards -->
+    <!-- ===================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-hdd-network-fill display-5 text-primary"></i>
+
+                    <h3 class="mt-3">
+
+                        {{ health.nodes }}
+
+                    </h3>
+
+                    <small class="text-muted">
+
+                        Nodes
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-box-seam-fill display-5 text-success"></i>
+
+                    <h3 class="mt-3">
+
+                        {{ health.pods }}
+
+                    </h3>
+
+                    <small class="text-muted">
+
+                        Pods
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-layers-fill display-5 text-warning"></i>
+
+                    <h3 class="mt-3">
+
+                        {{ health.deployments }}
+
+                    </h3>
+
+                    <small class="text-muted">
+
+                        Deployments
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-diagram-3-fill display-5 text-info"></i>
+
+                    <h3 class="mt-3">
+
+                        {{ health.services }}
+
+                    </h3>
+
+                    <small class="text-muted">
+
+                        Services
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Cluster Status -->
+    <!-- ===================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5 class="mb-0">
+
+                Cluster Status
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tbody>
+
+                    <tr>
+
+                        <th width="250">
+
+                            API Connection
+
+                        </th>
+
+                        <td>
+
+                            {% if health.connected %}
+
+                                <span class="badge bg-success">
+
+                                    Connected
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Offline
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Namespaces
+
+                        </th>
+
+                        <td>
+
+                            {{ health.namespaces }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Ingress Resources
+
+                        </th>
+
+                        <td>
+
+                            {{ health.ingress }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+
+                            Overall Health
+
+                        </th>
+
+                        <td>
+
+                            {% if health.healthy %}
+
+                                Healthy
+
+                            {% else %}
+
+                                Attention Required
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Recommendations -->
+    <!-- ===================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5 class="mb-0">
+
+                Health Recommendations
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <ul class="list-group">
+
+                <li class="list-group-item">
+
+                    <i class="bi bi-check-circle-fill text-success"></i>
+
+                    Monitor node resource utilization.
+
+                </li>
+
+                <li class="list-group-item">
+
+                    <i class="bi bi-check-circle-fill text-success"></i>
+
+                    Ensure all deployments have healthy replicas.
+
+                </li>
+
+                <li class="list-group-item">
+
+                    <i class="bi bi-check-circle-fill text-success"></i>
+
+                    Review failed or pending pods regularly.
+
+                </li>
+
+                <li class="list-group-item">
+
+                    <i class="bi bi-check-circle-fill text-success"></i>
+
+                    Keep Kubernetes components updated.
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Footer -->
+    <!-- ===================================== -->
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body text-center">
+
+            <small class="text-muted">
+
+                CloudShield Enterprise • Kubernetes Health Monitor
+
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

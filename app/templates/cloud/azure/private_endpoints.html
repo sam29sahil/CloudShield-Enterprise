@@ -1,0 +1,255 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-diagram-2-fill text-secondary"></i>
+Azure Private Endpoints
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure Private Endpoints, Private Link connections and subnet integration.
+{% endblock %}
+
+{% block breadcrumb %}
+Private Endpoints
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+    <!-- Summary Cards -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Private Endpoints
+                    </small>
+
+                    <h2 class="fw-bold">
+                        {{ data|length }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Private Link Connections
+                    </small>
+
+                    <h2 class="fw-bold">
+                        {{ data|sum(attribute='private_connections') }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Network Interfaces
+                    </small>
+
+                    <h2 class="fw-bold">
+                        {{ data|sum(attribute='network_interfaces') }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Manual Connections
+                    </small>
+
+                    <h2 class="fw-bold">
+                        {{ data|sum(attribute='manual_connections') }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Inventory -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <strong>
+
+                Azure Private Endpoint Inventory
+
+            </strong>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Name</th>
+                        <th>Resource Group</th>
+                        <th>Region</th>
+                        <th>Subnet</th>
+                        <th>Private Link</th>
+                        <th>NICs</th>
+                        <th>Manual</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for endpoint in data %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ endpoint.name }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ endpoint.resource_group }}
+
+                        </td>
+
+                        <td>
+
+                            {{ endpoint.location }}
+
+                        </td>
+
+                        <td>
+
+                            {{ endpoint.subnet }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                {{ endpoint.private_connections }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-info">
+
+                                {{ endpoint.network_interfaces }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-warning text-dark">
+
+                                {{ endpoint.manual_connections }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {% if endpoint.provisioning_state == "Succeeded" %}
+
+                                <span class="badge bg-success">
+
+                                    Healthy
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    {{ endpoint.provisioning_state }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="8" class="text-center py-5 text-muted">
+
+                            <i class="bi bi-diagram-2-fill fs-1 d-block mb-3"></i>
+
+                            No Azure Private Endpoints Found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

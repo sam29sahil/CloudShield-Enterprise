@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- Cloud Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold text-white">
+
+                {% block cloud_title %}
+                Cloud Security
+                {% endblock %}
+
+            </h2>
+
+            <p class="text-secondary">
+
+                {% block cloud_subtitle %}
+                Cloud Security Dashboard
+                {% endblock %}
+
+            </p>
+
+        </div>
+
+        <a href="#"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-arrow-clockwise"></i>
+
+            Refresh
+
+        </a>
+
+    </div>
+
+   <div class="row">
+
+    <div class="col-12">
+
+        {% block cloud_content %}{% endblock %}
+
+    </div>
+
+</div>
+
+</div>
+
+{% endblock %}

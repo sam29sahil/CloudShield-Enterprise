@@ -1,0 +1,394 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+User Management
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                User Management
+
+            </h2>
+
+            <p class="text-muted">
+
+                Manage all CloudShield users.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row mb-4">
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-people display-5 text-primary"></i>
+
+                    <h6 class="mt-3">
+
+                        Total Users
+
+                    </h6>
+
+                    <h2>
+
+                        {{ users|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-person-check display-5 text-success"></i>
+
+                    <h6 class="mt-3">
+
+                        Active Users
+
+                    </h6>
+
+                    <h2>
+
+                        {{ users|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <input
+                        type="text"
+                        id="userSearch"
+                        class="form-control"
+                        placeholder="Search users...">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Users Table -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+
+                Registered Users
+
+            </h5>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Username</th>
+
+                            <th>Email</th>
+
+                            <th>Role</th>
+
+                            <th>Status</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% if users %}
+
+                    {% for user in users %}
+                                            <tr>
+
+                            <td>
+
+                                #{{ user.id }}
+
+                            </td>
+
+                            <td>
+
+                                <strong>
+
+                                    {{ user.username }}
+
+                                </strong>
+
+                            </td>
+
+                            <td>
+
+                                {{ user.email }}
+
+                            </td>
+
+                            <td>
+
+                                {% if user.is_admin %}
+
+                                    <span class="badge bg-danger">
+
+                                        Admin
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-primary">
+
+                                        User
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+
+                                    Active
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <div class="btn-group btn-group-sm">
+
+                                    <button
+                                        class="btn btn-primary">
+
+                                        <i class="bi bi-eye"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="btn btn-warning">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="btn btn-secondary">
+
+                                        <i class="bi bi-lock"></i>
+
+                                    </button>
+
+                                    <button
+                                        class="btn btn-danger">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="6"
+                                class="text-center py-5">
+
+                                <i class="bi bi-people display-3 text-secondary"></i>
+
+                                <h4 class="mt-3">
+
+                                    No Users Found
+
+                                </h4>
+
+                                <p class="text-muted">
+
+                                    No registered users are available.
+
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row mt-4">
+                <div class="col-lg-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-person-check display-5 text-success"></i>
+
+                    <h5 class="mt-3">
+
+                        Active Accounts
+
+                    </h5>
+
+                    <h2>
+
+                        {{ users|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-shield-lock display-5 text-danger"></i>
+
+                    <h5 class="mt-3">
+
+                        Administrators
+
+                    </h5>
+
+                    <h2>
+
+                        {{ users|selectattr("is_admin")|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-person-plus display-5 text-primary"></i>
+
+                    <h5 class="mt-3">
+
+                        Total Registered
+
+                    </h5>
+
+                    <h2>
+
+                        {{ users|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("userSearch").addEventListener(
+
+"keyup",
+
+function(){
+
+let value=this.value.toLowerCase();
+
+document.querySelectorAll("tbody tr").forEach(function(row){
+
+row.style.display=row.innerText.toLowerCase().includes(value)
+
+? ""
+
+: "none";
+
+});
+
+});
+
+</script>
+
+{% endblock %}

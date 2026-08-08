@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                Edit Finding
+
+            </h2>
+
+            <p class="text-muted">
+
+                Update vulnerability information.
+
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('findings_ui.view', finding_id=finding.id) }}"
+           class="btn btn-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back
+
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Title
+
+                        </label>
+
+                        <input
+                            type="text"
+                            name="title"
+                            class="form-control"
+                            value="{{ finding.title }}">
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+
+                            Severity
+
+                        </label>
+
+                        <select
+                            name="severity"
+                            class="form-select">
+
+                            {% for level in ["Critical","High","Medium","Low"] %}
+
+                            <option
+                                value="{{ level }}"
+                                {% if finding.severity==level %}selected{% endif %}>
+
+                                {{ level }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+
+                            Status
+
+                        </label>
+
+                        <select
+                            name="status"
+                            class="form-select">
+
+                            {% for s in ["Open","In Progress","Resolved","False Positive"] %}
+
+                            <option
+                                value="{{ s }}"
+                                {% if finding.status==s %}selected{% endif %}>
+
+                                {{ s }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+
+                            CVSS
+
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.1"
+                            name="cvss"
+                            class="form-control"
+                            value="{{ finding.cvss }}">
+
+                    </div>
+
+                    <div class="col-md-9 mb-3">
+
+                        <label class="form-label">
+
+                            Category
+
+                        </label>
+
+                        <input
+                            type="text"
+                            name="category"
+                            class="form-control"
+                            value="{{ finding.category }}">
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Description
+
+                    </label>
+
+                    <textarea
+                        name="description"
+                        rows="5"
+                        class="form-control">{{ finding.description }}</textarea>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Evidence
+
+                    </label>
+
+                    <textarea
+                        name="evidence"
+                        rows="4"
+                        class="form-control">{{ finding.evidence }}</textarea>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Recommendation
+
+                    </label>
+
+                    <textarea
+                        name="recommendation"
+                        rows="4"
+                        class="form-control">{{ finding.recommendation }}</textarea>
+
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a href="{{ url_for('findings_ui.view', finding_id=finding.id) }}"
+                       class="btn btn-outline-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        Save Changes
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

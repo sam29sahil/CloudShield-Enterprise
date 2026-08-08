@@ -1,0 +1,221 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-stack text-warning"></i>
+Azure Images
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure custom virtual machine images and provisioning status.
+{% endblock %}
+
+{% block breadcrumb %}
+Images
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+    <!-- Summary -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total Images
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Windows Images
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|selectattr('os_type','equalto','Windows')|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Healthy Images
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|selectattr('provisioning_state','equalto','Succeeded')|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Inventory -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <strong>
+
+                Azure Image Inventory
+
+            </strong>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Name</th>
+                        <th>Resource Group</th>
+                        <th>Region</th>
+                        <th>OS Type</th>
+                        <th>Hyper-V Generation</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for image in data %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ image.name }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ image.resource_group }}
+
+                        </td>
+
+                        <td>
+
+                            {{ image.location }}
+
+                        </td>
+
+                        <td>
+
+                            {{ image.os_type }}
+
+                        </td>
+
+                        <td>
+
+                            {{ image.hyper_v_generation }}
+
+                        </td>
+
+                        <td>
+
+                            {% if image.provisioning_state == "Succeeded" %}
+
+                                <span class="badge bg-success">
+
+                                    Healthy
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    {{ image.provisioning_state }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="6" class="text-center py-5 text-muted">
+
+                            <i class="bi bi-stack fs-1 d-block mb-3"></i>
+
+                            No Azure Images Found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

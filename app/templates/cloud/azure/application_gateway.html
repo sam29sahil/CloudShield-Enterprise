@@ -1,0 +1,298 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-diagram-3-fill text-primary"></i>
+Azure Application Gateway
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure Application Gateways, listeners, backend pools and routing configuration.
+{% endblock %}
+
+{% block breadcrumb %}
+Application Gateway
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+    <!-- Summary -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Application Gateways
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Backend Pools
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|sum(attribute='backend_pools') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        HTTP Listeners
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|sum(attribute='listeners') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Routing Rules
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|sum(attribute='routing_rules') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Inventory -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <strong>
+
+                Azure Application Gateway Inventory
+
+            </strong>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Resource Group</th>
+
+                        <th>Region</th>
+
+                        <th>SKU</th>
+
+                        <th>Tier</th>
+
+                        <th>Backend Pools</th>
+
+                        <th>Listeners</th>
+
+                        <th>Routing Rules</th>
+
+                        <th>SSL Certificates</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for gateway in data %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ gateway.name }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ gateway.resource_group }}
+
+                        </td>
+
+                        <td>
+
+                            {{ gateway.location }}
+
+                        </td>
+
+                        <td>
+
+                            {{ gateway.sku }}
+
+                        </td>
+
+                        <td>
+
+                            {{ gateway.tier }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                {{ gateway.backend_pools }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-info">
+
+                                {{ gateway.listeners }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                {{ gateway.routing_rules }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-warning text-dark">
+
+                                {{ gateway.ssl_certificates }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {% if gateway.provisioning_state == "Succeeded" %}
+
+                                <span class="badge bg-success">
+
+                                    Healthy
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    {{ gateway.provisioning_state }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="10" class="text-center py-5 text-muted">
+
+                            <i class="bi bi-diagram-3-fill fs-1 d-block mb-3"></i>
+
+                            No Azure Application Gateways Found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

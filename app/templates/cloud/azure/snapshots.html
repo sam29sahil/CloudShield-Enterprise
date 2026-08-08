@@ -1,0 +1,248 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-camera-fill text-info"></i>
+Azure Snapshots
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure managed disk snapshots and recovery points.
+{% endblock %}
+
+{% block breadcrumb %}
+Snapshots
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="container-fluid">
+
+    <!-- Summary Cards -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total Snapshots
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total Size (GB)
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|sum(attribute='size_gb') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Healthy Snapshots
+
+                    </small>
+
+                    <h2 class="fw-bold">
+
+                        {{ data|selectattr('provisioning_state','equalto','Succeeded')|list|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Inventory -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <strong>
+
+                Azure Snapshot Inventory
+
+            </strong>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Name</th>
+                        <th>Resource Group</th>
+                        <th>Region</th>
+                        <th>Size</th>
+                        <th>SKU</th>
+                        <th>Incremental</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for snapshot in data %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ snapshot.name }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ snapshot.resource_group }}
+
+                        </td>
+
+                        <td>
+
+                            {{ snapshot.location }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                {{ snapshot.size_gb }} GB
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {{ snapshot.sku }}
+
+                        </td>
+
+                        <td>
+
+                            {% if snapshot.incremental %}
+
+                                <span class="badge bg-info">
+
+                                    Yes
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    No
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if snapshot.provisioning_state == "Succeeded" %}
+
+                                <span class="badge bg-success">
+
+                                    Healthy
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    {{ snapshot.provisioning_state }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="7" class="text-center py-5 text-muted">
+
+                            <i class="bi bi-camera-fill fs-1 d-block mb-3"></i>
+
+                            No Azure Snapshots Found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

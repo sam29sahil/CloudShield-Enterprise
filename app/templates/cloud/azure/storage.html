@@ -1,0 +1,115 @@
+{% extends "cloud/azure/base.html" %}
+
+{% block azure_title %}
+<i class="bi bi-hdd-stack text-info"></i>
+Storage Accounts
+{% endblock %}
+
+{% block azure_subtitle %}
+Monitor Azure Storage Accounts.
+{% endblock %}
+
+{% block breadcrumb %}
+Storage
+{% endblock %}
+
+{% block azure_content %}
+
+<div class="card shadow-sm">
+
+<div class="card-header">
+
+<strong>Storage Accounts</strong>
+
+</div>
+
+<div class="card-body">
+
+{% if data %}
+
+<table class="table table-hover table-bordered align-middle">
+
+<thead class="table-dark">
+
+<tr>
+    <th>Name</th>
+    <th>Resource Group</th>
+    <th>Region</th>
+    <th>SKU</th>
+    <th>HTTPS</th>
+    <th>Public Access</th>
+    <th>TLS</th>
+    <th>Encryption</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for storage in data %}
+
+<tr>
+
+<td>{{ storage.name }}</td>
+
+<td>{{ storage.resource_group }}</td>
+
+<td>{{ storage.location }}</td>
+
+<td>{{ storage.sku }}</td>
+
+<td>
+
+{% if storage.https_only %}
+<span class="badge bg-success">Enabled</span>
+{% else %}
+<span class="badge bg-danger">Disabled</span>
+{% endif %}
+
+</td>
+
+<td>
+
+{% if storage.public_access %}
+<span class="badge bg-danger">Enabled</span>
+{% else %}
+<span class="badge bg-success">Disabled</span>
+{% endif %}
+
+</td>
+
+<td>{{ storage.tls }}</td>
+
+<td>
+
+{% if storage.encryption %}
+<span class="badge bg-success">Encrypted</span>
+{% else %}
+<span class="badge bg-danger">Not Encrypted</span>
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% else %}
+
+<div class="alert alert-warning">
+
+No Storage Accounts Found.
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+{% endblock %}

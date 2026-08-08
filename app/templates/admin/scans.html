@@ -1,0 +1,517 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Scan Management
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                Scan Management
+
+            </h2>
+
+            <p class="text-muted">
+
+                Monitor and manage all security scans.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row mb-4">
+
+        <div class="col-lg-2 col-md-4 mb-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>Total</h6>
+
+                    <h2>{{ total_scans }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-2 col-md-4 mb-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>Completed</h6>
+
+                    <h2 class="text-success">
+
+                        {{ completed }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-2 col-md-4 mb-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>Running</h6>
+
+                    <h2 class="text-warning">
+
+                        {{ running }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-2 col-md-4 mb-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>Failed</h6>
+
+                    <h2 class="text-danger">
+
+                        {{ failed }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-2 col-md-4 mb-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>Critical</h6>
+
+                    <h2 class="text-dark">
+
+                        {{ critical_risk }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-2 col-md-4 mb-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>High Risk</h6>
+
+                    <h2 class="text-danger">
+
+                        {{ high_risk }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Search -->
+
+    <div class="card shadow-sm mb-3">
+
+        <div class="card-body">
+
+            <input
+
+                type="text"
+
+                id="scanSearch"
+
+                class="form-control"
+
+                placeholder="Search scans...">
+
+        </div>
+
+    </div>
+
+    <!-- Table -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+
+            <h5>
+
+                Security Scans
+
+            </h5>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Tool</th>
+
+                            <th>Target</th>
+
+                            <th>Status</th>
+
+                            <th>Risk</th>
+
+                            <th>Score</th>
+
+                            <th>Started</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% if scans %}
+
+                    {% for scan in scans %}
+
+                    <tr>
+
+                        <td>#{{ scan.id }}</td>
+
+                        <td>{{ scan.tool }}</td>
+
+                        <td>{{ scan.target }}</td>
+
+                        <td>
+
+                            {% if scan.status=="Completed" %}
+
+                                <span class="badge bg-success">
+
+                                    Completed
+
+                                </span>
+
+                            {% elif scan.status=="Running" %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Running
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Failed
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if scan.risk=="Critical" %}
+
+                                <span class="badge bg-dark">
+
+                                    Critical
+
+                                </span>
+
+                            {% elif scan.risk=="High" %}
+
+                                <span class="badge bg-danger">
+
+                                    High
+
+                                </span>
+
+                            {% elif scan.risk=="Medium" %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Medium
+
+                                </span>
+
+                            {% elif scan.risk=="Low" %}
+
+                                <span class="badge bg-success">
+
+                                    Low
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    Unknown
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>{{ scan.score }}</td>
+
+                        <td>{{ scan.started_at.strftime("%d %b %Y %H:%M") }}</td>
+
+                        <td>
+
+                            <div class="btn-group btn-group-sm">
+
+                                <a href="{{ url_for('reports.view', scan_id=scan.id) }}"
+
+                                   class="btn btn-primary">
+
+                                    <i class="bi bi-eye"></i>
+
+                                </a>
+
+                                <button class="btn btn-danger">
+
+                                    <i class="bi bi-trash"></i>
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                                        {% endfor %}
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="8" class="text-center py-5">
+
+                            <i class="bi bi-search display-3 text-secondary"></i>
+
+                            <h4 class="mt-3">
+
+                                No Security Scans Found
+
+                            </h4>
+
+                            <p class="text-muted">
+
+                                Run a security scan to generate results.
+
+                            </p>
+
+                            <a href="{{ url_for('scanner.home') }}"
+                               class="btn btn-primary">
+
+                                Start New Scan
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endif %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Summary -->
+
+    <div class="row mt-4">
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-graph-up-arrow display-5 text-success"></i>
+
+                    <h6 class="mt-3">
+
+                        Completed
+
+                    </h6>
+
+                    <h2>
+
+                        {{ completed }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-exclamation-triangle display-5 text-danger"></i>
+
+                    <h6 class="mt-3">
+
+                        High Risk
+
+                    </h6>
+
+                    <h2>
+
+                        {{ high_risk }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-shield-x display-5 text-dark"></i>
+
+                    <h6 class="mt-3">
+
+                        Critical
+
+                    </h6>
+
+                    <h2>
+
+                        {{ critical_risk }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-database-check display-5 text-primary"></i>
+
+                    <h6 class="mt-3">
+
+                        Total Scans
+
+                    </h6>
+
+                    <h2>
+
+                        {{ total_scans }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("scanSearch").addEventListener(
+
+"keyup",
+
+function(){
+
+let value=this.value.toLowerCase();
+
+document.querySelectorAll("tbody tr").forEach(function(row){
+
+row.style.display=row.innerText.toLowerCase().includes(value)
+
+? ""
+
+: "none";
+
+});
+
+});
+
+</script>
+
+{% endblock %}

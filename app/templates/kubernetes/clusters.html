@@ -1,0 +1,214 @@
+{% extends "kubernetes/base.html" %}
+
+{% block kubernetes_content %}
+
+<div class="card border-0 shadow-lg bg-dark text-white mb-4">
+
+    <div class="card-body">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-8">
+
+                <span class="badge bg-primary mb-3">
+
+                    Kubernetes Cluster
+
+                </span>
+
+                <h2 class="fw-bold">
+
+                    Cluster Information
+
+                </h2>
+
+                <p class="text-light mb-0">
+
+                    View Kubernetes cluster version, platform information,
+                    build details and overall cluster configuration.
+
+                </p>
+
+            </div>
+
+            <div class="col-lg-4 text-center">
+
+                <i class="bi bi-diagram-3-fill display-1"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header bg-dark text-white">
+
+        <h5 class="mb-0">
+
+            Cluster Details
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-bordered">
+
+            <tbody>
+
+                <tr>
+
+                    <th width="260">
+
+                        Platform
+
+                    </th>
+
+                    <td>
+
+                        {{ cluster.platform }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Kubernetes Version
+
+                    </th>
+
+                    <td>
+
+                        {{ cluster.git_version }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Major Version
+
+                    </th>
+
+                    <td>
+
+                        {{ cluster.major }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Minor Version
+
+                    </th>
+
+                    <td>
+
+                        {{ cluster.minor }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Operating System
+
+                    </th>
+
+                    <td>
+
+                        {{ cluster.os }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Go Version
+
+                    </th>
+
+                    <td>
+
+                        {{ cluster.go_version }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Compiler
+
+                    </th>
+
+                    <td>
+
+                        {{ cluster.compiler }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Build Date
+
+                    </th>
+
+                    <td>
+
+                        {{ cluster.build_date }}
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body text-center">
+
+        <small class="text-muted">
+
+            CloudShield Enterprise • Kubernetes Cluster Information
+
+        </small>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+{% block styles %}
+{{ super() }}
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/cloud.css') }}">
+
+{% endblock %}
+
+{% block title %}
+Azure Cloud
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                <i class="bi bi-microsoft text-primary"></i>
+
+                {% block azure_title %}
+
+                Azure Dashboard
+
+                {% endblock %}
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                {% block azure_subtitle %}
+
+                Microsoft Azure Cloud Management
+
+                {% endblock %}
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <span class="badge bg-primary">
+
+                Azure
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- Breadcrumb -->
+
+    <nav class="mb-4">
+
+        <ol class="breadcrumb">
+
+            <li class="breadcrumb-item">
+
+                <a href="{{ url_for('dashboard.home') }}">
+
+                    Dashboard
+
+                </a>
+
+            </li>
+
+            <li class="breadcrumb-item">
+
+                <a href="{{ url_for('cloud.dashboard') }}">
+
+                    Cloud
+
+                </a>
+
+            </li>
+
+            <li class="breadcrumb-item active">
+
+                {% block breadcrumb %}
+
+                Azure
+
+                {% endblock %}
+
+            </li>
+
+        </ol>
+
+    </nav>
+
+    <!-- Azure Navigation -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <div class="btn-group flex-wrap">
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure') }}">
+
+                    Dashboard
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_virtual_machines') }}">
+
+                    Virtual Machines
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_storage') }}">
+
+                    Storage
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_resource_groups') }}">
+
+                    Resource Groups
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_keyvault') }}">
+
+                    Key Vault
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_monitor') }}">
+
+                    Monitor
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_network_security_groups') }}">
+
+                    Network Security Groups
+
+                </a>
+                 <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_route_tables') }}">
+
+                    Route Tables
+
+                </a>
+                 <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_application_gateways') }}">
+
+                    Application Gateways
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_nat_gateways') }}">
+
+                    Nat Gateway
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_vpn_gateways') }}">
+
+                    VPN Gateway
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_vpn_gateways') }}">
+
+                    VPN Gateway
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_express_routes') }}">
+
+                    ExpressRoute
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_private_endpoints') }}">
+
+                    Private Endpoints
+                </a>
+
+                 <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_bastion_hosts') }}">
+
+                    Bastion
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_vm_scale_sets') }}">
+
+                    VM Scale Sets
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_managed_disks') }}">
+
+                    Managed Disks
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_managed_identity') }}">
+
+                    Managed identity Service
+                </a>
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_defender') }}">
+
+                    Defender
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_identity') }}">
+
+                     Identity
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_snapshots') }}">
+
+                    Snapshots
+
+                </a>
+
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_images') }}">
+
+                    Images
+
+                </a>
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_availability_sets') }}">
+
+                    Availability Sets
+
+                </a>
+                <a class="btn btn-outline-primary"
+
+                   href="{{ url_for('cloud.azure_public_ips') }}">
+
+                    Public IP Addresses
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% block azure_content %}
+
+    {% endblock %}
+
+</div>
+
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+
+<script src="{{ url_for('static', filename='js/cloud.js') }}"></script>
+
+{% endblock %}
