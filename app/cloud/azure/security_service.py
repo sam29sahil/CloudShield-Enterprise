@@ -140,12 +140,9 @@ class AzureSecurityService:
         summary = finding_summary(findings)
 
         report = self.report_generator.generate(
-            inventory=inventory,
             findings=findings,
-            summary=summary,
-            risk=risk,
-            score=score,
-            recommendations=recommendations,
+            summary=summary
+            
         )
 
         persisted = {

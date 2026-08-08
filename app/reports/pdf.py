@@ -781,6 +781,650 @@ class PDFReport:
 
         canvas.restoreState()
 
+
+    # --------------------------------------------------
+    # Cloud / Azure Security Report
+    # --------------------------------------------------
+
+    def draw_cloud(self, story, report):
+
+        # Azure data can arrive from ReportBuilder in different shapes.
+        # Prefer the explicit cloud/azure section, then fall back to
+        # the top-level Azure fields, and finally the raw scan output.
+
+        cloud = report.get("cloud")
+
+        if not isinstance(cloud, dict):
+            cloud = report.get("azure")
+
+        if not isinstance(cloud, dict):
+            cloud = {}
+
+        # If ReportBuilder did not create a dedicated cloud/azure block,
+        # collect the Azure Basic ReportGenerator fields from the report.
+        if not cloud:
+
+            azure_keys = {
+                "provider",
+                "report_type",
+                "scanner",
+                "summary",
+                "executive_summary",
+                "score",
+                "security_score",
+                "risk",
+                "risk_level",
+                "inventory",
+                "inventory_summary",
+                "findings",
+                "total_findings",
+                "severity",
+                "recommendations",
+                "recommendation_count",
+                "status",
+            }
+
+            cloud = {
+                key: report[key]
+                for key in azure_keys
+                if key in report
+            }
+
+        # Some ReportBuilder versions keep the original Azure scan result
+        # inside raw. Extract it when the normalized fields are unavailable.
+        raw = report.get("raw", {})
+
+        if isinstance(raw, dict):
+
+            raw_cloud = raw.get("cloud")
+
+            if not isinstance(raw_cloud, dict):
+                raw_cloud = raw.get("azure")
+
+            if isinstance(raw_cloud, dict):
+
+                merged = dict(raw_cloud)
+                merged.update(cloud)
+                cloud = merged
+
+            else:
+
+                # Azure Basic ReportGenerator may have returned its data
+                # directly inside raw.
+                raw_azure_keys = {
+                    "provider",
+                    "report_type",
+                    "scanner",
+                    "security_score",
+                    "risk_level",
+                    "inventory",
+                    "inventory_summary",
+                    "findings",
+                    "recommendations",
+                    "status",
+                }
+
+                for key in raw_azure_keys:
+                    if key not in cloud and key in raw:
+                        cloud[key] = raw[key]
+
+        if not isinstance(cloud, dict):
+            cloud = {}
+
+        self.heading_block(
+            story,
+            "Cloud Security Assessment",
+        )
+
+        rows = [
+            ["Property", "Value"],
+            [
+                "Provider",
+                self.clean(
+                    cloud.get(
+                        "provider",
+                        "Microsoft Azure",
+                    )
+                ),
+            ],
+            [
+                "Security Score",
+                f"{cloud.get('security_score', cloud.get('score', 0))}/100",
+            ],
+            [
+                "Risk Level",
+                self.clean(
+                    cloud.get(
+                        "risk_level",
+                        cloud.get(
+                            "risk",
+                            "Unknown",
+                        ),
+                    )
+                ),
+            ],
+            [
+                "Status",
+                self.clean(
+                    cloud.get(
+                        "status",
+                        "Completed",
+                    )
+                ),
+            ],
+        ]
+
+        story.append(self.table(rows))
+        story.append(Spacer(1, 20))
+
+        # ------------------------------------------
+        # Azure Resource Inventory
+        # ------------------------------------------
+
+        self.heading_block(
+            story,
+            "Azure Resource Inventory",
+        )
+
+        inventory_summary = cloud.get(
+            "inventory_summary",
+            {},
+        )
+
+        if not isinstance(inventory_summary, dict):
+            inventory_summary = {}
+
+        # Build a basic inventory summary if the scanner supplied only
+        # the full inventory.
+        if not inventory_summary:
+
+            inventory = cloud.get(
+                "inventory",
+                {},
+            )
+
+            if isinstance(inventory, dict):
+
+                def count_items(value):
+                    if isinstance(value, list):
+                        return len(value)
+
+                    if isinstance(value, dict):
+                        data = value.get("data")
+
+                        if isinstance(data, list):
+                            return len(data)
+
+                        if isinstance(value.get("count"), int):
+                            return value["count"]
+
+                    return 0
+
+                network = inventory.get(
+                    "network",
+                    {},
+                )
+
+                if not isinstance(network, dict):
+                    network = {}
+
+                inventory_summary = {
+                    "resource_groups": count_items(
+                        inventory.get("resource_groups")
+                    ),
+                    "virtual_machines": count_items(
+                        inventory.get("virtual_machines")
+                    ),
+                    "virtual_networks": count_items(
+                        network.get("virtual_networks")
+                    ),
+                    "subnets": count_items(
+                        network.get("subnets")
+                    ),
+                    "network_security_groups": count_items(
+                        network.get("network_security_groups")
+                    ),
+                    "network_interfaces": count_items(
+                        network.get("network_interfaces")
+                    ),
+                    "keyvaults": count_items(
+                        inventory.get("keyvault")
+                    ),
+                    "defender": inventory.get(
+                        "defender",
+                        {},
+                    ),
+                }
+
+        rows = [
+            ["Resource", "Count"],
+            [
+                "Resource Groups",
+                self.clean(
+                    inventory_summary.get(
+                        "resource_groups",
+                        0,
+                    )
+                ),
+            ],
+            [
+                "Virtual Machines",
+                self.clean(
+                    inventory_summary.get(
+                        "virtual_machines",
+                        0,
+                    )
+                ),
+            ],
+            [
+                "Virtual Networks",
+                self.clean(
+                    inventory_summary.get(
+                        "virtual_networks",
+                        0,
+                    )
+                ),
+            ],
+            [
+                "Subnets",
+                self.clean(
+                    inventory_summary.get(
+                        "subnets",
+                        0,
+                    )
+                ),
+            ],
+            [
+                "Network Security Groups",
+                self.clean(
+                    inventory_summary.get(
+                        "network_security_groups",
+                        0,
+                    )
+                ),
+            ],
+            [
+                "Network Interfaces",
+                self.clean(
+                    inventory_summary.get(
+                        "network_interfaces",
+                        0,
+                    )
+                ),
+            ],
+            [
+                "Key Vaults",
+                self.clean(
+                    inventory_summary.get(
+                        "keyvaults",
+                        0,
+                    )
+                ),
+            ],
+        ]
+
+        story.append(self.table(rows))
+        story.append(Spacer(1, 20))
+
+        # ------------------------------------------
+        # Defender
+        # ------------------------------------------
+
+        defender = inventory_summary.get(
+            "defender",
+            {},
+        )
+
+        if not isinstance(defender, dict):
+            defender = {}
+
+        self.heading_block(
+            story,
+            "Microsoft Defender",
+        )
+
+        rows = [
+            ["Property", "Value"],
+            [
+                "Secure Score",
+                self.clean(
+                    defender.get(
+                        "secure_score",
+                        0,
+                    )
+                ),
+            ],
+            [
+                "Active Alerts",
+                self.clean(
+                    defender.get(
+                        "alerts",
+                        0,
+                    )
+                ),
+            ],
+            [
+                "Recommendations",
+                self.clean(
+                    defender.get(
+                        "recommendations",
+                        0,
+                    )
+                ),
+            ],
+        ]
+
+        story.append(self.table(rows))
+        story.append(Spacer(1, 20))
+
+        # ------------------------------------------
+        # Cloud Findings
+        # ------------------------------------------
+
+        self.heading_block(
+            story,
+            "Cloud Security Findings",
+        )
+
+        findings = cloud.get(
+            "findings",
+            [],
+        )
+
+        if not isinstance(findings, list):
+            findings = []
+
+        if not findings:
+
+            story.append(
+                Paragraph(
+                    "No cloud security findings detected.",
+                    self.value,
+                )
+            )
+
+        else:
+
+            for finding in findings:
+
+                if not isinstance(finding, dict):
+                    continue
+
+                rows = [
+                    [
+                        "Severity",
+                        self.clean(
+                            finding.get(
+                                "severity",
+                                "Info",
+                            )
+                        ),
+                    ],
+                    [
+                        "Rule ID",
+                        self.clean(
+                            finding.get(
+                                "rule_id",
+                                "",
+                            )
+                        ),
+                    ],
+                    [
+                        "Category",
+                        self.clean(
+                            finding.get(
+                                "category",
+                                "Azure",
+                            )
+                        ),
+                    ],
+                    [
+                        "Resource",
+                        self.clean(
+                            finding.get(
+                                "resource",
+                                finding.get(
+                                    "resource_name",
+                                    "Unknown",
+                                ),
+                            )
+                        ),
+                    ],
+                    [
+                        "Title",
+                        self.clean(
+                            finding.get(
+                                "title",
+                                "Azure Security Finding",
+                            )
+                        ),
+                    ],
+                    [
+                        "Description",
+                        self.clean(
+                            finding.get(
+                                "description",
+                                "",
+                            )
+                        ),
+                    ],
+                    [
+                        "Recommendation",
+                        self.clean(
+                            finding.get(
+                                "recommendation",
+                                "",
+                            )
+                        ),
+                    ],
+                    [
+                        "Evidence",
+                        self.clean(
+                            finding.get(
+                                "evidence",
+                                finding.get(
+                                    "metadata",
+                                    {},
+                                ),
+                            )
+                        ),
+                    ],
+                ]
+
+                story.append(self.table(rows))
+                story.append(Spacer(1, 15))
+
+        story.append(Spacer(1, 5))
+
+        # ------------------------------------------
+        # Cloud Recommendations
+        # ------------------------------------------
+
+        self.heading_block(
+            story,
+            "Cloud Recommendations",
+        )
+
+        recommendations = cloud.get(
+            "recommendations",
+            [],
+        )
+
+        if not isinstance(recommendations, list):
+            recommendations = []
+
+        if not recommendations:
+
+            story.append(
+                Paragraph(
+                    "No cloud recommendations available.",
+                    self.value,
+                )
+            )
+
+        else:
+
+            for item in recommendations:
+
+                if isinstance(item, dict):
+
+                    title = item.get(
+                        "title",
+                        "Recommendation",
+                    )
+
+                    severity = item.get(
+                        "severity",
+                        "",
+                    )
+
+                    recommendation = item.get(
+                        "recommendation",
+                        item.get(
+                            "description",
+                            "",
+                        ),
+                    )
+
+                    evidence = item.get(
+                        "evidence",
+                        "",
+                    )
+
+                    rows = [
+                        [
+                            "Issue",
+                            self.clean(title),
+                        ],
+                        [
+                            "Severity",
+                            self.clean(severity),
+                        ],
+                        [
+                            "Recommendation",
+                            self.clean(
+                                recommendation
+                            ),
+                        ],
+                        [
+                            "Evidence",
+                            self.clean(evidence),
+                        ],
+                    ]
+
+                    story.append(self.table(rows))
+                    story.append(Spacer(1, 15))
+
+                else:
+
+                    story.append(
+                        Paragraph(
+                            f"• {self.clean(item)}",
+                            self.value,
+                        )
+                    )
+
+        story.append(Spacer(1, 20))
+
+        # ------------------------------------------
+        # Full Azure Inventory
+        # ------------------------------------------
+
+        inventory = cloud.get(
+            "inventory",
+            {},
+        )
+
+        if isinstance(inventory, dict) and inventory:
+
+            self.heading_block(
+                story,
+                "Azure Inventory Details",
+            )
+
+            for section_name, section_data in inventory.items():
+
+                title = str(
+                    section_name
+                ).replace(
+                    "_",
+                    " ",
+                ).title()
+
+                story.append(
+                    Paragraph(
+                        f"<b>{self.clean(title)}</b>",
+                        self.label,
+                    )
+                )
+
+                if isinstance(section_data, list):
+
+                    if not section_data:
+
+                        story.append(
+                            Paragraph(
+                                "No resources found.",
+                                self.value,
+                            )
+                        )
+
+                    else:
+
+                        for item in section_data:
+
+                            story.append(
+                                Paragraph(
+                                    self.clean(item),
+                                    self.value,
+                                )
+                            )
+
+                            story.append(
+                                Spacer(1, 5)
+                            )
+
+                elif isinstance(section_data, dict):
+
+                    rows = [
+                        ["Property", "Value"]
+                    ]
+
+                    for key, value in section_data.items():
+
+                        rows.append(
+                            [
+                                self.clean(
+                                    str(key)
+                                    .replace(
+                                        "_",
+                                        " ",
+                                    )
+                                    .title()
+                                ),
+                                self.clean(value),
+                            ]
+                        )
+
+                    story.append(
+                        self.table(rows)
+                    )
+
+                else:
+
+                    story.append(
+                        Paragraph(
+                            self.clean(section_data),
+                            self.value,
+                        )
+                    )
+
+                story.append(
+                    Spacer(1, 12)
+                )
+
+        story.append(Spacer(1, 10))
+
     # --------------------------------------------------
     # Generate
     # --------------------------------------------------
@@ -801,19 +1445,147 @@ class PDFReport:
 
         story = []
 
+        # ------------------------------------------
+        # Common Cover
+        # ------------------------------------------
+
         self.draw_cover(story, report)
         self.draw_summary(story, report)
-        self.draw_website(story, report)
-        self.draw_headers(story, report)
-        self.draw_ssl(story, report)
-        self.draw_dns(story, report)
-        self.draw_whois(story, report)
-        self.draw_technology(story, report)
-        self.draw_ports(story, report)
-        self.draw_findings(story, report)
-        self.draw_recommendations(story, report)
-        self.draw_appendix(story, report)
-        self.draw_raw_output(story, report)
+
+        # ------------------------------------------
+        # Detect Scan Type
+        # ------------------------------------------
+
+        summary = report.get(
+            "summary",
+            {},
+        )
+
+        if not isinstance(summary, dict):
+            summary = {}
+
+        category = str(
+            summary.get(
+                "category",
+                "",
+            )
+        ).lower()
+
+        tool = str(
+            summary.get(
+                "tool",
+                "",
+            )
+        ).lower()
+
+        target = str(
+            summary.get(
+                "target",
+                "",
+            )
+        ).lower()
+
+        is_cloud = (
+            category in {
+                "cloud",
+                "azure",
+                "aws",
+                "gcp",
+            }
+            or "cloud" in category
+            or "azure" in category
+            or "azure" in tool
+            or target.startswith("azure:")
+            or "microsoft azure" in target
+            or isinstance(
+                report.get("cloud"),
+                dict,
+            )
+            or isinstance(
+                report.get("azure"),
+                dict,
+            )
+        )
+
+        # ------------------------------------------
+        # Cloud / Azure Report
+        # ------------------------------------------
+
+        if is_cloud:
+
+            self.draw_cloud(
+                story,
+                report,
+            )
+
+        # ------------------------------------------
+        # Normal Basic / Website Report
+        # ------------------------------------------
+
+        else:
+
+            self.draw_website(
+                story,
+                report,
+            )
+
+            self.draw_headers(
+                story,
+                report,
+            )
+
+            self.draw_ssl(
+                story,
+                report,
+            )
+
+            self.draw_dns(
+                story,
+                report,
+            )
+
+            self.draw_whois(
+                story,
+                report,
+            )
+
+            self.draw_technology(
+                story,
+                report,
+            )
+
+            self.draw_ports(
+                story,
+                report,
+            )
+
+        # ------------------------------------------
+        # Common Security Sections
+        # ------------------------------------------
+
+        self.draw_findings(
+            story,
+            report,
+        )
+
+        self.draw_recommendations(
+            story,
+            report,
+        )
+
+        self.draw_appendix(
+            story,
+            report,
+        )
+
+        self.draw_raw_output(
+            story,
+            report,
+        )
+
+        # ------------------------------------------
+        # Build PDF
+        # ------------------------------------------
 
         document.build(
             story,
@@ -824,3 +1596,4 @@ class PDFReport:
         buffer.seek(0)
 
         return buffer
+    
