@@ -122,7 +122,6 @@ class CloudService:
             "findings_count": Finding.query.count(),
             "scans": SecurityScan.query.count(),
             "cloud_findings": cloud_findings,
-
             "aws": {
                 "ec2": ec2.get("total_instances", 0),
                 "s3": s3.get("total_buckets", 0),
