@@ -1,3 +1,4 @@
+from sqlalchemy.exc import IntegrityError
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user
 
@@ -14,16 +15,19 @@ def register():
 
     if form.validate_on_submit():
 
-        existing_username = User.query.filter_by(username=form.username.data).first()
+        username = form.username.data.strip()
+        email = form.email.data.strip().lower()
+
+        existing_username = User.query.filter_by(username=username).first()
 
         if existing_username:
-            flash("Username already exists!", "danger")
+            flash("That username is already in use.", "danger")
             return redirect(url_for("auth.register"))
 
-        existing_email = User.query.filter_by(email=form.email.data).first()
+        existing_email = User.query.filter_by(email=email).first()
 
         if existing_email:
-            flash("Email already registered!", "danger")
+            flash("An account with this email already exists.", "danger")
             return redirect(url_for("auth.register"))
 
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
@@ -31,11 +35,20 @@ def register():
         )
 
         new_user = User(
-            username=form.username.data, email=form.email.data, password=hashed_password
+            username=username, email=email, password=hashed_password
         )
 
-        db.session.add(new_user)
-        db.session.commit()
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            flash("An account with those details already exists.", "danger")
+            return redirect(url_for("auth.register"))
+        except Exception:
+            db.session.rollback()
+            flash("We could not create your account. Please try again.", "danger")
+            return redirect(url_for("auth.register"))
 
         flash("Registration successful! Please login.", "success")
 

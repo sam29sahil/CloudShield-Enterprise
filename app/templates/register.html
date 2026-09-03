@@ -18,6 +18,12 @@
 
             {{ form.username(class="form-control") }}
 
+            {% for error in form.username.errors %}
+
+                <div class="text-danger small">{{ error }}</div>
+
+            {% endfor %}
+
         </div>
 
         <div class="mb-3">
@@ -25,6 +31,12 @@
             {{ form.email.label }}
 
             {{ form.email(class="form-control") }}
+
+            {% for error in form.email.errors %}
+
+                <div class="text-danger small">{{ error }}</div>
+
+            {% endfor %}
 
         </div>
 
@@ -34,6 +46,12 @@
 
             {{ form.password(class="form-control") }}
 
+            {% for error in form.password.errors %}
+
+                <div class="text-danger small">{{ error }}</div>
+
+            {% endfor %}
+
         </div>
 
         <div class="mb-3">
@@ -42,9 +60,21 @@
 
             {{ form.confirm_password(class="form-control") }}
 
+            {% for error in form.confirm_password.errors %}
+
+                <div class="text-danger small">{{ error }}</div>
+
+            {% endfor %}
+
         </div>
 
         {{ form.submit(class="btn btn-primary w-100") }}
+
+        <p class="text-center mt-3 mb-0">
+
+            Already have an account? <a href="{{ url_for('auth.login') }}">Login</a>
+
+        </p>
 
     </form>
 
