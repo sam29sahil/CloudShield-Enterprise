@@ -14,7 +14,14 @@ class AnalyticsService:
 
     def __init__(self):
 
-        self.azure = AzureService()
+        self.azure = None
+
+    def _azure(self):
+
+        if self.azure is None:
+            self.azure = AzureService()
+
+        return self.azure
 
     # ------------------------------------------
     # Cloud Analytics
@@ -22,7 +29,7 @@ class AnalyticsService:
 
     def cloud(self):
 
-        return self.azure.summary()
+        return self._azure().summary()
 
     # ------------------------------------------
     # Dashboard Statistics
@@ -240,7 +247,7 @@ class AnalyticsService:
 
         average = db.session.query(func.avg(SecurityScan.score)).scalar() or 0
 
-        cloud = self.azure.summary()
+        cloud = self._azure().summary()
 
         azure_score = cloud.get("secure_score", average)
 

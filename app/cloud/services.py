@@ -13,6 +13,7 @@ from app.cloud.findings_engine import CloudFindingsEngine
 from app.cloud.azure.analyzer import AzureAnalyzer
 from app.cloud.azure.risk import AzureRiskEngine
 from app.cloud.azure.recommendations import RecommendationEngine
+from app.cloud.azure.client import AzureConfigurationError
 
 
 # ==================================================
@@ -20,7 +21,22 @@ from app.cloud.azure.recommendations import RecommendationEngine
 # ==================================================
 
 aws = AWSScanner()
-azure = AzureService()
+
+class LazyAzureService:
+
+    def __init__(self):
+        self._service = None
+
+    def _get_service(self):
+        if self._service is None:
+            self._service = AzureService()
+        return self._service
+
+    def __getattr__(self, name):
+        return getattr(self._get_service(), name)
+
+
+azure = LazyAzureService()
 
 analyzer = AzureAnalyzer()
 risk_engine = AzureRiskEngine()
@@ -217,6 +233,9 @@ class CloudService:
         the existing Azure security scanner.
         """
 
+        if azure.configuration_error():
+            return azure.summary()
+
         summary = azure.summary()
 
         security_scan = azure.security_scan()
@@ -403,6 +422,9 @@ class CloudService:
         user_id=None,
         project_id=None,
     ):
+        if azure.configuration_error():
+            raise AzureConfigurationError(azure.configuration_error())
+
         return azure.security_scan(
             user_id=user_id,
             project_id=project_id,

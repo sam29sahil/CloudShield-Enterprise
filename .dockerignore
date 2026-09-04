@@ -1,7 +1,11 @@
 venv/
 .venv/
 .env
+.env.*
+!.env.example
 *.db
+*.sqlite
+*.sqlite3
 __pycache__/
 *.pyc
 *.pyo
@@ -12,3 +16,5 @@ __pycache__/
 .mypy_cache/
 .vscode/
 .idea/
+instance/
+static/uploads/

@@ -69,6 +69,11 @@ def scan():
 
         client = AzureClient(subscription_id)
 
+        if client.configuration_error:
+            flash(client.configuration_error, "danger")
+
+            return redirect(url_for("azure.index"))
+
         if not client.test_connection():
 
             flash("Unable to connect to Azure.", "danger")

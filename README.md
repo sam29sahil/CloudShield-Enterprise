@@ -1162,3 +1162,154 @@ Cybersecurity Enthusiast
 ## Acknowledgement
 
 CloudShield Enterprise was developed as a practical project to explore the integration of web security assessment, cloud security, security findings management, risk analysis, and security reporting into a unified platform.
+
+---
+
+# Deployment
+
+## Local Development
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python run.py
+```
+
+Copy `.env.example` to `.env` and set local values. The development server listens on `0.0.0.0:${PORT:-5000}`.
+
+## Docker
+
+```bash
+docker build -t cloudshield-enterprise .
+docker run --name cloudshield-enterprise --env-file .env -p 5000:5000 cloudshield-enterprise
+```
+
+## Docker Compose
+
+```bash
+docker compose up --build
+```
+
+Compose is for local development. Docker management/scanning routes require access to a Docker daemon; the web container does not mount a Docker socket by default.
+
+## Render
+
+Render is the recommended deployment target for this Flask web service. Connect the GitHub repository as a Docker Web Service, or use the included `render.yaml` Blueprint. The service uses:
+
+```text
+Gunicorn -> 0.0.0.0:$PORT -> Flask run:app -> application routes
+```
+
+Render settings:
+
+- Runtime: Docker
+- Dockerfile: `./Dockerfile`
+- Health check path: `/health`
+- Pre-deploy command: `flask --app run db upgrade`
+- The Docker image uses one Gunicorn worker and a 300-second timeout for synchronous scanner requests.
+- Set `DATABASE_URL` to a Render PostgreSQL connection string. Do not use SQLite for production persistence.
+- Set `SECRET_KEY` to a long random value. The production app refuses to start without it.
+
+After deployment, verify `/health`, login, registration, `/scanner/`, findings, PDF downloads, and Azure inventory.
+
+## Environment Variables
+
+Required in production:
+
+```env
+APP_ENV=production
+FLASK_ENV=production
+SECRET_KEY=generate-a-long-random-value
+DATABASE_URL=postgresql://...
+```
+
+Optional integrations:
+
+```env
+AWS_REGION=ap-south-1
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+MAIL_SERVER=
+MAIL_PORT=
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_USE_TLS=True
+MAIL_USE_SSL=False
+AZURE_TENANT_ID=
+AZURE_CLIENT_ID=
+AZURE_CLIENT_SECRET=
+AZURE_SUBSCRIPTION_ID=
+KUBECONFIG=
+K8S_NAMESPACE=default
+```
+
+Azure production authentication uses the service-principal environment variables above. Azure CLI login is supported for local development only and is not required in Render.
+
+## Persistence and Runtime Limitations
+
+- Render web-service filesystems are ephemeral. Evidence uploads and CSV/JSON temporary exports do not persist across deploys or restarts.
+- PDF reports are generated in memory and downloaded immediately.
+- Use PostgreSQL for users, findings, scans, and application records.
+- Persistent evidence/report history requires object storage or a persistent disk; this repository does not silently add that storage backend.
+- Docker SDK features require a separate Docker-capable worker/service. Render should not be assumed to provide `/var/run/docker.sock`.
+- External scanner binaries are not installed by the current image. Verify each tool is available before enabling tool-specific scans.
+- Synchronous scans run in the web request and are bounded by the 300-second Gunicorn timeout. A background worker is a future option if scan duration or volume requires it.
+
+## Azure Permissions
+
+Basic subscription inventory uses read-only management APIs and normally requires the service principal to have the **Reader** role at subscription scope. Security-related APIs may additionally require **Security Reader** or service-specific read permissions. No Owner or Contributor permission is required by the inspected inventory code.
+
+## Deployment Checklist
+
+- [ ] GitHub repository contains no secrets
+- [ ] `.env` is ignored and `.env.example` contains placeholders only
+- [ ] Dockerfile builds and Gunicorn binds to `$PORT`
+- [ ] `/health` returns HTTP 200
+- [ ] Production `SECRET_KEY` is configured
+- [ ] Render PostgreSQL is configured through `DATABASE_URL`
+- [ ] `flask --app run db upgrade` succeeds
+- [ ] Azure service principal and Reader permission are configured
+- [ ] Authentication and registration tested
+- [ ] Basic scanner, findings, and PDF tested
+- [ ] Docker routes treated as unavailable unless a daemon-capable service is provided
+
+## Deployment Alternatives
+
+- **Render:** recommended for the existing Flask/Docker/Gunicorn architecture and simple PostgreSQL integration.
+- **Railway:** workable alternative with similar environment and PostgreSQL configuration.
+- **Fly.io:** workable when more control over networking and persistent volumes is required.
+- **Azure App Service:** strong Azure integration, but requires more Azure-specific operational setup.
+- **VPS:** most control, including a Docker daemon and persistent disks, but requires operating-system and security maintenance.
+
+Vercel is not recommended for the complete application because synchronous security scans, Docker-daemon features, PDF/file workflows, and persistent server-side state do not match its serverless execution model. Use Render for the backend.
+
+## Production Architecture
+
+```text
+GitHub
+    -> Render Docker Web Service
+    -> Gunicorn (one worker, PORT, 300s timeout)
+    -> Flask application
+    -> Render PostgreSQL
+    -> Azure service principal (optional)
+
+Docker scanning, if required:
+    Flask API -> separate Docker-capable scanning worker/service
+```
+
+## Useful Commands
+
+```bash
+flask --app run db upgrade
+gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 300 run:app
+curl http://127.0.0.1:5000/health
+```
+
+Do not commit `.env`, database files, uploads, credentials, or private keys. Typical Git setup is:
+
+```bash
+git add Dockerfile docker-compose.yml .dockerignore .env.example config.py run.py render.yaml requirements.txt README.md app tests
+git commit -m "Prepare CloudShield for Render deployment"
+git push origin main
+```

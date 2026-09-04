@@ -12,7 +12,22 @@ from app.cloud.aws.services import AWSScanner
 from app.cloud.azure.services import AzureService
 
 aws = AWSScanner()
-azure = AzureService()
+
+class LazyAzureService:
+
+    def __init__(self):
+        self._service = None
+
+    def _get_service(self):
+        if self._service is None:
+            self._service = AzureService()
+        return self._service
+
+    def __getattr__(self, name):
+        return getattr(self._get_service(), name)
+
+
+azure = LazyAzureService()
 
 
 # =====================================================
@@ -120,7 +135,11 @@ def azure_dashboard():
 
     if not azure.connected():
 
-        return error_response("Azure is not connected.", 400)
+        return error_response(
+            azure.configuration_error()
+            or "Azure is not connected.",
+            400,
+        )
 
     return success_response(
         data=azure.summary(), message="Azure dashboard retrieved successfully"

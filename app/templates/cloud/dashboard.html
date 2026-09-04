@@ -281,6 +281,12 @@ Cloud Dashboard
 
                     {% endif %}
 
+                    {% if cloud.azure.error %}
+
+                    <small class="text-muted">{{ cloud.azure.error }}</small>
+
+                    {% endif %}
+
                 </div>
 
                 <i class="bi bi-arrow-right-circle-fill provider-arrow"></i>

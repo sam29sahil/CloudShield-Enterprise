@@ -3,7 +3,9 @@ CloudShield Enterprise
 Azure Services
 """
 
-from app.cloud.azure.client import AzureClient
+from typing import Any
+
+from app.cloud.azure.client import AzureClient, AzureConfigurationError
 
 from app.cloud.azure.firewall import AzureFirewall
 from app.cloud.azure.route_tables import AzureRouteTables
@@ -155,6 +157,9 @@ class AzureService:
     def connected(self):
         return self.client.is_connected()
 
+    def configuration_error(self):
+        return self.client.configuration_error
+
     # ==========================================
     # Advisor
     # ==========================================
@@ -288,24 +293,61 @@ class AzureService:
     # Dashboard Summary
     # ==========================================
 
-    def summary(self):
+    def summary(self) -> dict[str, Any]:
 
-        if not self.connected():
+        connection: dict[str, Any] = self.client.connection_status()
+
+        if not connection["connected"]:
             return {
                 "connected": False,
-                "virtual_machines": 0,
-                "storage_accounts": 0,
-                "resource_groups": 0,
-                "keyvaults": 0,
+                "status": connection["status"],
+                "error": connection["error"],
+                "virtual_machines": "-",
+                "storage_accounts": "-",
+                "resource_groups": "-",
+                "keyvaults": "-",
             }
 
-        return {
-            "connected": True,
-            "virtual_machines": len(self.virtual_machines.list()),
-            "storage_accounts": len(self.storage.list()),
-            "resource_groups": len(self.resource_groups.list()),
-            "keyvaults": len(self.keyvault.list()),
-        }
+        try:
+            virtual_machines: dict[str, Any] = self.virtual_machines.list()
+            resource_groups: dict[str, Any] = self.resource_groups.list()
+            keyvaults: dict[str, Any] = self.keyvault.list()
+            storage_accounts: list[Any] = list(
+                self.client.storage_client().storage_accounts.list()
+            )
+
+            results = {
+                "virtual_machines": virtual_machines,
+                "resource_groups": resource_groups,
+                "keyvaults": keyvaults,
+            }
+            if any(not result.get("success") for result in results.values()):
+                failed = next(
+                    result for result in results.values() if not result.get("success")
+                )
+                raise RuntimeError(failed.get("error", "Azure resource access failed."))
+
+            return {
+                "connected": True,
+                "status": "connected",
+                "error": "",
+                "virtual_machines": virtual_machines["count"],
+                "storage_accounts": len(storage_accounts),
+                "resource_groups": resource_groups["count"],
+                "keyvaults": keyvaults["count"],
+            }
+
+        except Exception as error:
+            status, message = self.client._error_status(error)
+            return {
+                "connected": False,
+                "status": status,
+                "error": message,
+                "virtual_machines": "-",
+                "storage_accounts": "-",
+                "resource_groups": "-",
+                "keyvaults": "-",
+            }
 
     # ==========================================
     # Security Dashboard

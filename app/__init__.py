@@ -1,6 +1,7 @@
-from flask import Flask, app, json
+from flask import Flask, jsonify, json
 from flask_migrate import Migrate
 from flask_login import current_user
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from config import Config
 from app.extensions import db, login_manager, bcrypt
@@ -17,6 +18,18 @@ def create_app():
 
     # Load Config
     app.config.from_object(Config)
+    app.wsgi_app = ProxyFix(
+        app.wsgi_app,
+        x_for=1,
+        x_proto=1,
+        x_host=1,
+        x_port=1,
+        x_prefix=1,
+    )
+
+    @app.route("/health")
+    def health():
+        return jsonify({"status": "ok"})
 
     # Initialize Extensions
     db.init_app(app)
