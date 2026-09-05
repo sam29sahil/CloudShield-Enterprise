@@ -21,15 +21,16 @@ class AWSScanner:
     def __init__(self):
 
         self.scanners = {
-            "ec2": EC2Scanner(),
-            "s3": S3Scanner(),
-            "iam": IAMScanner(),
-            "security_groups": SecurityGroupScanner(),
-            "cloudtrail": CloudTrailScanner(),
-            "guardduty": GuardDutyScanner(),
-            "inspector": InspectorScanner(),
-            "config": ConfigScanner(),
+            "ec2": EC2Scanner,
+            "s3": S3Scanner,
+            "iam": IAMScanner,
+            "security_groups": SecurityGroupScanner,
+            "cloudtrail": CloudTrailScanner,
+            "guardduty": GuardDutyScanner,
+            "inspector": InspectorScanner,
+            "config": ConfigScanner,
         }
+        self._instances = {}
 
     # --------------------------------------------------
     # Run Every Scanner
@@ -39,11 +40,11 @@ class AWSScanner:
 
         results = {}
 
-        for name, scanner in self.scanners.items():
+        for name in self.scanners:
 
             try:
 
-                results[name] = scanner.scan()
+                results[name] = self.scan_service(name)
 
             except Exception as e:
 
@@ -57,9 +58,9 @@ class AWSScanner:
 
     def scan_service(self, service):
 
-        scanner = self.scanners.get(service)
+        scanner_class = self.scanners.get(service)
 
-        if scanner is None:
+        if scanner_class is None:
 
             return {
                 "success": False,
@@ -69,6 +70,7 @@ class AWSScanner:
 
         try:
 
+            scanner = self._instances.setdefault(service, scanner_class())
             return scanner.scan()
 
         except Exception as e:

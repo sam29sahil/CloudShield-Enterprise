@@ -26,9 +26,24 @@ def dashboard():
 @login_required
 def aws():
 
-    cloud_data = service.dashboard()
+    cloud_data = service.aws_dashboard()
 
     return render_template("cloud/aws/dashboard.html", cloud=cloud_data)
+
+
+@cloud.route("/aws/scan", methods=["GET", "POST"])
+@login_required
+def aws_scan():
+    if request.method == "GET":
+        result = service.aws_dashboard()
+        return render_template("cloud/aws/dashboard.html", cloud=result, scan_result=result)
+    region = (request.form.get("region") or "").strip() or None
+    try:
+        result = service.aws_security_scan(region=region, user_id=current_user.id)
+        return render_template("cloud/aws/dashboard.html", cloud=result, scan_result=result)
+    except Exception:
+        flash("AWS scan failed. Check the configured read-only permissions and region.", "danger")
+        return redirect(url_for("cloud.aws"))
 
 
 @cloud.route("/ec2")

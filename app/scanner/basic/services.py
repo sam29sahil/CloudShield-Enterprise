@@ -57,12 +57,35 @@ class BasicScanService:
             print("Website Scan Failed")
             print(website)
 
+            completed = datetime.utcnow()
+
+            duration = (
+                completed - started
+            ).total_seconds()
+
+            failed_scan = SecurityScan(
+                user_id=user_id,
+                asset_id=asset_id,
+                category=category,
+                tool="quick_scan",
+                target=target,
+                arguments=" ".join(arguments) if arguments else "",
+                status="Failed",
+                score=0,
+                risk="Unknown",
+                raw_output=json.dumps(website, indent=4, default=str),
+                parsed_output=json.dumps(website, indent=4, default=str),
+                started_at=started,
+                completed_at=completed,
+                duration=duration
+            )
+
+            db.session.add(failed_scan)
+            db.session.commit()
+
             return {
-
-                "scan": None,
-
+                "scan": failed_scan,
                 "result": website
-
             }
 
         report["website"] = website

@@ -3,9 +3,15 @@ CloudShield Enterprise
 Cloud Services
 """
 
+import json
+from datetime import datetime
+
 from app.models.asset import Asset
 from app.models.finding import Finding
 from app.models.security_scan import SecurityScan
+from app.models.project import Project
+from app.models.report import Report
+from app.extensions import db
 
 from app.cloud.aws.services import AWSScanner
 from app.cloud.azure.services import AzureService
@@ -14,6 +20,7 @@ from app.cloud.azure.analyzer import AzureAnalyzer
 from app.cloud.azure.risk import AzureRiskEngine
 from app.cloud.azure.recommendations import RecommendationEngine
 from app.cloud.azure.client import AzureConfigurationError
+from app.cloud.aws.scanner import AWSReadOnlyScanner
 
 
 # ==================================================
@@ -95,13 +102,15 @@ class CloudService:
         # AWS Services
         # ------------------------------
 
-        ec2 = aws.scan_ec2()
-        s3 = aws.scan_s3()
-        iam = aws.scan_iam()
-        security_groups = aws.scan_security_groups()
-        cloudtrail = aws.scan_cloudtrail()
-        guardduty = aws.scan_guardduty()
-        inspector = aws.scan_inspector()
+        aws_result = AWSReadOnlyScanner().scan()
+        services = aws_result.get("services", {})
+        ec2 = services.get("ec2", {})
+        s3 = services.get("s3", {})
+        iam = services.get("iam", {})
+        security_groups = services.get("security_groups", {})
+        cloudtrail = {}
+        guardduty = {}
+        inspector = {}
 
         # ------------------------------
         # Azure Summary
@@ -123,15 +132,15 @@ class CloudService:
             "inspector": inspector,
         }
 
-        score = self.calculate_score(results)
+        score = aws_result.get("security_score", self.calculate_score(results))
 
         findings_engine = CloudFindingsEngine()
 
         cloud_findings = findings_engine.generate(results)
 
         dashboard = {
-            "provider": "Azure",
-            "region": "Central India",
+            "provider": "AWS",
+            "region": aws_result.get("region", "ap-south-1"),
             "score": score,
             "resources": Asset.query.count(),
             "assets": Asset.query.count(),
@@ -139,6 +148,13 @@ class CloudService:
             "scans": SecurityScan.query.count(),
             "cloud_findings": cloud_findings,
             "aws": {
+                "connected": aws_result.get("connection", {}).get("connected", False),
+                "status": aws_result.get("connection", {}).get("status"),
+                "account_id": aws_result.get("account_id"),
+                "region": aws_result.get("region"),
+                "scan_status": aws_result.get("scan_status"),
+                "permission_limited_services": aws_result.get("permission_limited_services", []),
+                "result": aws_result,
                 "ec2": ec2.get("total_instances", 0),
                 "s3": s3.get("total_buckets", 0),
                 "iam": iam.get("total_users", 0),
@@ -181,12 +197,76 @@ class CloudService:
                     guardduty
                 ),
                 "inspector": self.service_status(
-                    inspector
+                    {}
                 ),
             },
         }
 
         return dashboard
+
+    def aws_dashboard(self, region=None):
+        return AWSReadOnlyScanner(region=region).dashboard()
+
+    def aws_security_scan(self, region=None, user_id=None):
+        result = self.aws_dashboard(region=region)
+        if user_id is not None:
+            result["scan_id"] = self._persist_aws_scan(result, user_id)
+        return result
+
+    def _persist_aws_scan(self, result, user_id):
+        project = Project.query.order_by(Project.id.asc()).first()
+        if project is None:
+            project = Project(name="AWS Cloud Security", description="Read-only AWS assessments", owner="CloudShield")
+            db.session.add(project)
+            db.session.flush()
+        account_id = result.get("account_id") or "unavailable"
+        asset = Asset.query.filter_by(project_id=project.id, name="AWS Account").first()
+        if asset is None:
+            asset = Asset(project_id=project.id, name="AWS Account", target=f"aws:{account_id}", asset_type="cloud")
+            db.session.add(asset)
+            db.session.flush()
+        scan = SecurityScan(
+            user_id=user_id,
+            asset_id=asset.id,
+            category="AWS",
+            tool="AWS Cloud Scanner",
+            target=f"aws:{account_id}",
+            status=result.get("scan_status", "SCAN_FAILED"),
+            score=result.get("security_score", 0),
+            risk=self._risk_for_score(result.get("security_score", 0)),
+            raw_output=json.dumps(result, default=str),
+            parsed_output=json.dumps(result, default=str),
+            completed_at=datetime.utcnow(),
+        )
+        db.session.add(scan)
+        db.session.flush()
+        for item in result.get("findings", []):
+            db.session.add(Finding(
+                project_id=project.id,
+                asset_id=asset.id,
+                scan_id=scan.id,
+                title=item.get("title", "AWS security finding"),
+                description=item.get("description"),
+                severity=item.get("severity", "Info"),
+                category=item.get("category", item.get("service", "AWS")),
+                recommendation=item.get("recommendation"),
+                remediation=item.get("recommendation"),
+                affected_component=item.get("resource"),
+                evidence=json.dumps(item.get("evidence", {}), default=str),
+            ))
+        db.session.add(Report(scan_id=scan.id, report_type="AWS", file_name=f"aws_scan_{scan.id}"))
+        db.session.commit()
+        return scan.id
+
+    @staticmethod
+    def _risk_for_score(score):
+        if score >= 85:
+            return "Low"
+        if score >= 65:
+            return "Medium"
+        if score >= 40:
+            return "High"
+        return "Critical"
 
     # ==================================================
     # AWS Services

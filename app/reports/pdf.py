@@ -800,6 +800,42 @@ class PDFReport:
         if not isinstance(cloud, dict):
             cloud = {}
 
+        if str(cloud.get("provider", "")).upper() == "AWS":
+            self.heading_block(story, "AWS Security Assessment")
+            connection = cloud.get("connection", {})
+            rows = [
+                ["Property", "Value"],
+                ["AWS Account", self.clean(cloud.get("account_id"))],
+                ["AWS Region", self.clean(cloud.get("region"))],
+                ["AWS Connection", self.clean(connection.get("status"))],
+                ["Scan Status", self.clean(cloud.get("scan_status"))],
+                ["Security Score", f"{report.get('summary', {}).get('score', 0)}/100"],
+            ]
+            story.append(self.table(rows))
+            story.append(Spacer(1, 20))
+            self.heading_block(story, "AWS Services")
+            service_rows = [["Service", "Status", "Resources", "Findings"]]
+            for name, service in cloud.get("services", {}).items():
+                resource_count = next((value for key, value in service.items() if key.startswith("total_")), 0)
+                service_rows.append([name.replace("_", " ").title(), service.get("status", "FAILED"), self.clean(resource_count), self.clean(len(service.get("findings", [])))])
+            story.append(self.table(service_rows, widths=[1.8 * inch, 1.7 * inch, 1.2 * inch, 1.2 * inch]))
+            story.append(Spacer(1, 20))
+            self.heading_block(story, "AWS Findings")
+            for finding in report.get("findings", []):
+                story.append(self.table([
+                    ["Property", "Value"],
+                    ["Title", self.clean(finding.get("title"))],
+                    ["Severity", self.clean(finding.get("severity"))],
+                    ["Service", self.clean(finding.get("service"))],
+                    ["Resource", self.clean(finding.get("affected_component"))],
+                    ["Region", self.clean(cloud.get("region"))],
+                    ["Description", self.clean(finding.get("description"))],
+                    ["Evidence", self.clean(finding.get("evidence"))],
+                    ["Recommendation", self.clean(finding.get("recommendation"))],
+                ]))
+                story.append(Spacer(1, 12))
+            return
+
         # If ReportBuilder did not create a dedicated cloud/azure block,
         # collect the Azure Basic ReportGenerator fields from the report.
         if not cloud:

@@ -9,9 +9,14 @@ from app.api import api
 from app.api.responses import success_response, error_response
 
 from app.cloud.aws.services import AWSScanner
+from app.cloud.aws.scanner import AWSReadOnlyScanner
 from app.cloud.azure.services import AzureService
 
 aws = AWSScanner()
+
+
+def aws_result():
+    return AWSReadOnlyScanner().scan()
 
 class LazyAzureService:
 
@@ -43,7 +48,7 @@ def cloud_dashboard():
     """
 
     return success_response(
-        data={"aws": aws.scan(), "azure": azure.summary()},
+        data={"aws": aws_result(), "azure": azure.summary()},
         message="Cloud summary retrieved successfully",
     )
 
@@ -57,28 +62,40 @@ def cloud_dashboard():
 @login_required
 def aws_dashboard():
 
-    return success_response(data=aws.scan(), message="AWS security scan completed")
+    return success_response(data=aws_result(), message="AWS security scan completed")
+
+
+@api.route("/aws/status", methods=["GET"])
+@login_required
+def aws_status():
+    return success_response(data=AWSReadOnlyScanner().connection_status(), message="AWS connection status retrieved")
+
+
+@api.route("/aws/scan", methods=["GET"])
+@login_required
+def aws_full_scan():
+    return success_response(data=aws_result(), message="AWS scan completed")
 
 
 @api.route("/cloud/aws/iam", methods=["GET"])
 @login_required
 def iam_scan():
 
-    return success_response(data=aws.iam.scan(), message="IAM scan completed")
+    return success_response(data=aws_result().get("services", {}).get("iam", {}), message="IAM scan completed")
 
 
 @api.route("/cloud/aws/s3", methods=["GET"])
 @login_required
 def s3_scan():
 
-    return success_response(data=aws.s3.scan(), message="S3 scan completed")
+    return success_response(data=aws_result().get("services", {}).get("s3", {}), message="S3 scan completed")
 
 
 @api.route("/cloud/aws/ec2", methods=["GET"])
 @login_required
 def ec2_scan():
 
-    return success_response(data=aws.ec2.scan(), message="EC2 scan completed")
+    return success_response(data=aws_result().get("services", {}).get("ec2", {}), message="EC2 scan completed")
 
 
 @api.route("/cloud/aws/security-groups", methods=["GET"])
@@ -86,8 +103,20 @@ def ec2_scan():
 def security_groups_scan():
 
     return success_response(
-        data=aws.security_groups.scan(), message="Security Groups scan completed"
+        data=aws_result().get("services", {}).get("security_groups", {}), message="Security Groups scan completed"
     )
+
+
+@api.route("/aws/ebs", methods=["GET"])
+@login_required
+def ebs_scan():
+    return success_response(data=aws_result().get("services", {}).get("ebs", {}), message="EBS scan completed")
+
+
+@api.route("/aws/elastic-ips", methods=["GET"])
+@login_required
+def elastic_ips_scan():
+    return success_response(data=aws_result().get("services", {}).get("elastic_ips", {}), message="Elastic IP scan completed")
 
 
 @api.route("/cloud/aws/guardduty", methods=["GET"])

@@ -3,15 +3,22 @@ CloudShield Enterprise
 AWS GuardDuty Scanner
 """
 
-import boto3
 from botocore.exceptions import NoCredentialsError, ClientError, NoRegionError
+from app.cloud.aws.client import AWSClient, aws_region
 
 
 class GuardDutyScanner:
 
-    def __init__(self):
+    def __init__(self, region=None, client_factory=None):
+        self.region = aws_region(region)
+        self._client_factory = client_factory or AWSClient(self.region)
+        self._client = None
 
-        self.client = boto3.client("guardduty", region_name="ap-south-1")
+    @property
+    def client(self):
+        if self._client is None:
+            self._client = self._client_factory.client("guardduty")
+        return self._client
 
     def scan(self):
 

@@ -277,6 +277,23 @@ class ReportBuilder:
                         "scan_id",
                         "",
                     ),
+
+                        "service": getattr(
+                            finding,
+                            "category",
+                            "AWS",
+                        ),
+
+                        "resource": getattr(
+                            finding,
+                            "affected_component",
+                            "",
+                        ),
+
+                        "region": self.data.get(
+                            "region",
+                            "",
+                        ),
                 }
             )
 
@@ -371,6 +388,8 @@ class ReportBuilder:
 
         is_cloud = (
             category == "cloud"
+            or category == "aws"
+            or "aws" in tool
             or "azure" in tool
             or "azure" in str(
                 self.data.get(
@@ -388,6 +407,17 @@ class ReportBuilder:
 
         if not is_cloud:
             return {}
+
+        if category == "aws" or "aws" in tool:
+            return {
+                "provider": "AWS",
+                "connection": self.data.get("connection", {}),
+                "account_id": self.data.get("account_id"),
+                "region": self.data.get("region"),
+                "scan_status": self.data.get("scan_status", getattr(self.scan, "status", "")),
+                "services": self.data.get("services", {}),
+                "summary": self.data.get("summary", {}),
+            }
 
         # -----------------------------------------------
         # Score
