@@ -35,8 +35,8 @@ class BasicScanService:
         if asset_id == "":
             asset_id = None
             
-            else:
-                asset_id = int(asset_id)
+        else:
+            asset_id = int(asset_id)
 
         print("\n========== BasicScanService Started ==========\n")
 
