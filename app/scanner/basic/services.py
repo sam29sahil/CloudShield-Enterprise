@@ -31,6 +31,12 @@ class BasicScanService:
         target,
         arguments=None
     ):
+        # Normalize optional asset_id from HTML form
+        if asset_id == "":
+            asset_id = None
+            
+            else:
+                asset_id = int(asset_id)
 
         print("\n========== BasicScanService Started ==========\n")
 
